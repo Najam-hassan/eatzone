@@ -37,7 +37,13 @@ class RestaurantsScreen extends Component {
                     title={'Restaurants Nearby'}
                 />
                 <NearByRestaurant
-                    navigateTo={() => this.props.navigation.navigate('RestaurantDetailScreen')}
+                    navigateTo={(item) => {
+                        this.props.navigation.navigate(
+                            'RestaurantDetailScreen', {
+                                restaurant: item
+                            }
+                        )
+                    }}
                 />
             </View>
         )

@@ -12,7 +12,7 @@ class SignInScreen extends Component {
 
     render () {
         return (
-            <View style={StyleSheet.container}>
+            <View style={{ flex: 1 }}>
                 <ImageBackground
                     source={require('../assets/images/image-1.jpg')}
                     style={styles.backgroundImage}
@@ -36,12 +36,6 @@ class SignInScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        backgroundColor: 'red',
-        justifyContent: 'center',
-    },
     backgroundImage: {
         width: '100%',
         height: height - 20,

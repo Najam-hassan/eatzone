@@ -58,11 +58,13 @@ class HomeContainer extends Component {
     }
 
     _renderItem = ({ item }) => (
-        <View style={{ flex: 1, flexDirection: 'row', marginTop: 15, marginHorizontal: 15, borderRadius: 10, backgroundColor: '#fff', alignItems: 'center', padding: 10, shadowColor: '#000', shadowOpacity: 0.1, shadowOffset: { height: 10, width: 0 }, shadowRadius: 20, }}>
+        <View style={styles.itemStyling}>
             <Image source={item.image} style={{ width: 70, height: 70, borderRadius: 10 }} />
             <View style={{ flex: 1, flexDirection: 'column', marginLeft: 20, }}>
-                <Text style={{ fontSize: 16, fontWeight: '500', color: '#000000' }}>{item.name}</Text>
-                <Text numberOfLines={2} style={{ fontSize: 13, fontWeight: '300', color: '#cccccc' }}>{item.description}</Text>
+                <Text style={styles.title}>{item.name}</Text>
+                <Text numberOfLines={2} style={styles.description}>
+                    {item.description}
+                </Text>
             </View>
         </View>
     );
@@ -90,7 +92,7 @@ class HomeContainer extends Component {
                 <Drawer
                     initialDrawerSize={0.15}
                     renderContainerView={() => (null)}
-                    finalDrawerHeight={height / 2}
+                    finalDrawerHeight={(height / 2) - 100}
                     renderDrawerView={() => (
                         <View style={{ marginBottom: 15, backgroundColor: '#f7f8fa' }}>
                             <FlatList
@@ -146,6 +148,30 @@ const styles = StyleSheet.create({
         borderColor: '#cccccc',
         backgroundColor: '#f7f8fa',
         borderBottomWidth: 0
+    },
+    itemStyling: {
+        flex: 1,
+        padding: 10,
+        marginTop: 15,
+        borderRadius: 10,
+        shadowRadius: 20,
+        shadowOpacity: 0.1,
+        shadowColor: '#000',
+        marginHorizontal: 15,
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        shadowOffset: { height: 10, width: 0 },
+    },
+    title: {
+        fontSize: 16,
+        fontWeight: '500',
+        color: '#000000'
+    },
+    description: {
+        fontSize: 13,
+        fontWeight: '300',
+        color: '#cccccc'
     }
 });
 

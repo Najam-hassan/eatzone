@@ -11,12 +11,12 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 class Restaurents extends Component {
 
     _renderItem = ({ item }) => (
-        <TouchableOpacity activeOpacity={1} onPress={() => this.props.navigateTo()}>
+        <TouchableOpacity activeOpacity={1} onPress={() => this.props.navigateTo(item)}>
             <View style={{ flex: 1, margin: 10, borderRadius: 30, position: 'relative' }}>
                 <View style={{ flex: 0.3, justifyContent: 'center' }}>
                     <Image
                         source={item.image}
-                        style={{ width: width - 20, height: 200, borderRadius: 10 }}
+                        style={styles.bannerStyle}
                     />
                     <View style={styles.overlay}>
                         <View style={[styles.locationStyle]}>
@@ -42,7 +42,6 @@ class Restaurents extends Component {
     );
 
     render () {
-        console.log(this.props.list);
         return (
             <View style={styles.container}>
                 <FlatList
@@ -77,6 +76,11 @@ const styles = StyleSheet.create({
         ...StyleSheet.absoluteFillObject,
         backgroundColor: 'rgba(0,0,0,0.4)',
         borderRadius: 10,
+    },
+    bannerStyle: {
+        height: 200,
+        borderRadius: 10,
+        width: width - 20,
     }
 });
 

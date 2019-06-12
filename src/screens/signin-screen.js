@@ -37,7 +37,7 @@ class SignInScreen extends Component {
 
 	render () {
 		return (
-			<View style={StyleSheet.container}>
+			<View style={{ flex: 1 }}>
 				<ImageBackground
 					source={require('../assets/images/image-1.jpg')}
 					style={styles.backgroundImage}
