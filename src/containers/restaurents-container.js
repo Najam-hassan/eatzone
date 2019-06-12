@@ -6,31 +6,34 @@ import { Text, View, StyleSheet, FlatList, Image, Dimensions } from 'react-nativ
 const { width, height } = Dimensions.get('screen');
 
 import * as selectors from '../selectors/restaurents-selectors';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 class Restaurents extends Component {
 
     _renderItem = ({ item }) => (
-        <View style={{ flex: 1, margin: 10, borderRadius: 30, position: 'relative' }}>
-            <View style={{ flex: 0.3, justifyContent: 'center' }}>
-                <Image source={item.image} style={{ width: width - 25, height: 200, borderRadius: 10 }} />
-                <View style={styles.locationStyle}>
-                    <Text>
-                        <Icon
-                            name="map-marker"
-                            size={20} color="#000"
-                        /> {item.distance} miles away</Text>
+        <TouchableOpacity activeOpacity={1}>
+            <View style={{ flex: 1, margin: 10, borderRadius: 30, position: 'relative' }}>
+                <View style={{ flex: 0.3, justifyContent: 'center' }}>
+                    <Image source={item.image} style={{ width: width - 25, height: 200, borderRadius: 10 }} />
+                    <View style={styles.locationStyle}>
+                        <Text>
+                            <Icon
+                                name="map-marker"
+                                size={20} color="#000"
+                            /> {item.distance} miles away</Text>
+                    </View>
+                </View>
+                <View style={{ flex: 1, marginLeft: 0 }}>
+                    <View style={styles.titleStyle}>
+                        <Text style={{ fontSize: 20, fontWeight: '500' }}>{item.name}</Text>
+                        <Text style={{ color: '#1BA2FC' }}>
+                            {`Service Charges: ${item.charges}`}
+                        </Text>
+                    </View>
+                    <Text style={{ fontSize: 16, fontWeight: '300' }}>{item.description}</Text>
                 </View>
             </View>
-            <View style={{ flex: 1, marginLeft: 0 }}>
-                <View style={styles.titleStyle}>
-                    <Text style={{ fontSize: 20, fontWeight: '500' }}>{item.name}</Text>
-                    <Text style={{ color: '#1BA2FC' }}>
-                        {`Service Charges: ${item.charges}`}
-                    </Text>
-                </View>
-                <Text style={{ fontSize: 16, fontWeight: '300' }}>{item.description}</Text>
-            </View>
-        </View>
+        </TouchableOpacity>
     );
 
     render () {
