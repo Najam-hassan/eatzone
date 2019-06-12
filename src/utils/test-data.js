@@ -30,7 +30,7 @@ export const resturants = [
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
         image: require('../assets/images/subway.jpg'),
         menu: {
-            pizza: [
+            pizzas: [
                 {
                     "name": "Test Name",
                     "image": require('../assets/images/item3.jpg'),
@@ -127,7 +127,7 @@ export const resturants = [
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
         image: require('../assets/images/subway.jpg'),
         menu: {
-            pizza: [
+            pizzas: [
                 {
                     "name": "Test Name",
                     "image": require('../assets/images/item3.jpg'),

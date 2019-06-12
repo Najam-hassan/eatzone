@@ -54,7 +54,7 @@ class RestaurantDetailScreen extends Component {
                     </ImageBackground>
                 </View>
                 <View style={[styles.itemContainer, { marginTop: -15 }]}>
-                    <RestaurantDetail />
+                    <RestaurantDetail list={params.restaurant.menu} />
                 </View>
             </View>
         )
