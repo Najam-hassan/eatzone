@@ -54,7 +54,12 @@ class RestaurantDetailScreen extends Component {
                     </ImageBackground>
                 </View>
                 <View style={[styles.itemContainer, { marginTop: -15 }]}>
-                    <RestaurantDetail list={params.restaurant.menu} />
+                    {Object.keys(params.restaurant.menu).map(key => (
+                        <RestaurantDetail
+                            categoryName={key}
+                            list={params.restaurant.menu[key]}
+                        />
+                    ))}
                 </View>
             </View>
         )

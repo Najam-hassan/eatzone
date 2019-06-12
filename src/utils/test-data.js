@@ -5,6 +5,32 @@ export const resturants = [
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
         image: require('../assets/images/mcdonal.jpg'),
         menu: {
+            pizzas: [
+                {
+                    "name": "Test Name",
+                    "image": require('../assets/images/item3.jpg'),
+                    "description": "test name description",
+                    "price": 25
+                },
+                {
+                    "name": "Test Meal",
+                    "image": require('../assets/images/item4.jpg'),
+                    "description": "test meal description",
+                    "price": 20
+                },
+                {
+                    "name": "veg Mac",
+                    "image": require('../assets/images/item1.jpg'),
+                    "description": "veg mac description",
+                    "price": 25
+                },
+                {
+                    "name": "Super Meal",
+                    "image": require('../assets/images/item2.jpg'),
+                    "description": "super meal description",
+                    "price": 20
+                },
+            ],
             burgers: [
                 {
                     "name": "veg Mac",
@@ -67,7 +93,34 @@ export const resturants = [
                     "description": "super meal description",
                     "price": 20
                 },
+            ],
+            burgers: [
+                {
+                    "name": "veg Mac",
+                    "image": require('../assets/images/item1.jpg'),
+                    "description": "veg mac description",
+                    "price": 25
+                },
+                {
+                    "name": "Test Name",
+                    "image": require('../assets/images/item3.jpg'),
+                    "description": "test name description",
+                    "price": 25
+                },
+                {
+                    "name": "Test Meal",
+                    "image": require('../assets/images/item4.jpg'),
+                    "description": "test meal description",
+                    "price": 20
+                },
+                {
+                    "name": "Super Meal",
+                    "image": require('../assets/images/item2.jpg'),
+                    "description": "super meal description",
+                    "price": 20
+                },
             ]
+
         },
         distance: 0.5,
         charges: '20$',
@@ -79,6 +132,32 @@ export const resturants = [
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
         image: require('../assets/images/mcdonal.jpg'),
         menu: {
+            pizzas: [
+                {
+                    "name": "Test Name",
+                    "image": require('../assets/images/item3.jpg'),
+                    "description": "test name description",
+                    "price": 25
+                },
+                {
+                    "name": "Test Meal",
+                    "image": require('../assets/images/item4.jpg'),
+                    "description": "test meal description",
+                    "price": 20
+                },
+                {
+                    "name": "veg Mac",
+                    "image": require('../assets/images/item1.jpg'),
+                    "description": "veg mac description",
+                    "price": 25
+                },
+                {
+                    "name": "Super Meal",
+                    "image": require('../assets/images/item2.jpg'),
+                    "description": "super meal description",
+                    "price": 20
+                },
+            ],
             burgers: [
                 {
                     "name": "veg Mac",
@@ -115,6 +194,32 @@ export const resturants = [
         name: "Subway",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
         image: require('../assets/images/subway.jpg'), menu: {
+            pizzas: [
+                {
+                    "name": "Test Name",
+                    "image": require('../assets/images/item3.jpg'),
+                    "description": "test name description",
+                    "price": 25
+                },
+                {
+                    "name": "Test Meal",
+                    "image": require('../assets/images/item4.jpg'),
+                    "description": "test meal description",
+                    "price": 20
+                },
+                {
+                    "name": "veg Mac",
+                    "image": require('../assets/images/item1.jpg'),
+                    "description": "veg mac description",
+                    "price": 25
+                },
+                {
+                    "name": "Super Meal",
+                    "image": require('../assets/images/item2.jpg'),
+                    "description": "super meal description",
+                    "price": 20
+                },
+            ],
             burgers: [
                 {
                     "name": "Test Name",
@@ -139,6 +244,32 @@ export const resturants = [
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
         image: require('../assets/images/mcdonal.jpg'),
         menu: {
+            pizzas: [
+                {
+                    "name": "Test Name",
+                    "image": require('../assets/images/item3.jpg'),
+                    "description": "test name description",
+                    "price": 25
+                },
+                {
+                    "name": "Test Meal",
+                    "image": require('../assets/images/item4.jpg'),
+                    "description": "test meal description",
+                    "price": 20
+                },
+                {
+                    "name": "veg Mac",
+                    "image": require('../assets/images/item1.jpg'),
+                    "description": "veg mac description",
+                    "price": 25
+                },
+                {
+                    "name": "Super Meal",
+                    "image": require('../assets/images/item2.jpg'),
+                    "description": "super meal description",
+                    "price": 20
+                },
+            ],
             burgers: [
                 {
                     "name": "veg Mac",
@@ -200,7 +331,34 @@ export const resturants = [
                     "description": "super meal description",
                     "price": 20
                 },
+            ],
+            burgers: [
+                {
+                    "name": "veg Mac",
+                    "image": require('../assets/images/item1.jpg'),
+                    "description": "veg mac description",
+                    "price": 25
+                },
+                {
+                    "name": "Test Name",
+                    "image": require('../assets/images/item3.jpg'),
+                    "description": "test name description",
+                    "price": 25
+                },
+                {
+                    "name": "Test Meal",
+                    "image": require('../assets/images/item4.jpg'),
+                    "description": "test meal description",
+                    "price": 20
+                },
+                {
+                    "name": "Super Meal",
+                    "image": require('../assets/images/item2.jpg'),
+                    "description": "super meal description",
+                    "price": 20
+                },
             ]
+
         },
         distance: 0.7,
         charges: '25$',
@@ -211,6 +369,32 @@ export const resturants = [
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
         image: require('../assets/images/mcdonal.jpg'),
         menu: {
+            pizzas: [
+                {
+                    "name": "Test Name",
+                    "image": require('../assets/images/item3.jpg'),
+                    "description": "test name description",
+                    "price": 25
+                },
+                {
+                    "name": "Test Meal",
+                    "image": require('../assets/images/item4.jpg'),
+                    "description": "test meal description",
+                    "price": 20
+                },
+                {
+                    "name": "veg Mac",
+                    "image": require('../assets/images/item1.jpg'),
+                    "description": "veg mac description",
+                    "price": 25
+                },
+                {
+                    "name": "Super Meal",
+                    "image": require('../assets/images/item2.jpg'),
+                    "description": "super meal description",
+                    "price": 20
+                },
+            ],
             burgers: [
                 {
                     "name": "veg Mac",
@@ -247,6 +431,32 @@ export const resturants = [
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
         image: require('../assets/images/subway.jpg'),
         menu: {
+            pizzas: [
+                {
+                    "name": "Test Name",
+                    "image": require('../assets/images/item3.jpg'),
+                    "description": "test name description",
+                    "price": 25
+                },
+                {
+                    "name": "Test Meal",
+                    "image": require('../assets/images/item4.jpg'),
+                    "description": "test meal description",
+                    "price": 20
+                },
+                {
+                    "name": "veg Mac",
+                    "image": require('../assets/images/item1.jpg'),
+                    "description": "veg mac description",
+                    "price": 25
+                },
+                {
+                    "name": "Super Meal",
+                    "image": require('../assets/images/item2.jpg'),
+                    "description": "super meal description",
+                    "price": 20
+                },
+            ],
             burgers: [
                 {
                     "name": "Test Name",

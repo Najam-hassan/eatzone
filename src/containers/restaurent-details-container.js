@@ -39,9 +39,9 @@ class RestaurantDetail extends Component {
         const { list } = this.props;
         return (
             <View style={{ flex: 1, marginVertical: 15 }}>
-                <Text style={[styles.title, { paddingHorizontal: 15, fontWeight: '700', marginBottom: 15 }]}>{list.pizzas ? 'Pizzas' : 'Burgers'}</Text>
+                <Text style={[styles.title, styles.category]}>{this.props.categoryName}</Text>
                 <FlatList
-                    data={list.pizzas ? list.pizzas : list.burgers}
+                    data={list}
                     extraData={this.state}
                     keyExtractor={this._keyExtractor}
                     renderItem={this._renderItem}
@@ -88,6 +88,11 @@ const styles = StyleSheet.create({
         fontSize: 13,
         fontWeight: '300',
         color: '#cccccc'
+    },
+    category: {
+        marginBottom: 15,
+        fontWeight: '700',
+        paddingHorizontal: 15,
     }
 })
 
