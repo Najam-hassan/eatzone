@@ -17,6 +17,7 @@ import HomeScreen from './screens/home-screen';
 import OrderScreen from './screens/orders-screen';
 import ProfileScreen from './screens/profile-screen';
 import RestaurantsScreen from './screens/near-by-restaurants';
+import RestaurantDetailScreen from './screens/restaurant-detsils-screen';
 
 import SidebarMenu from './components/common/sidebar-menu';
 
@@ -26,6 +27,7 @@ const AuthStack = createStackNavigator({
     OrderScreen: OrderScreen,
     ProfileScreen: ProfileScreen,
     RestaurantsScreen: RestaurantsScreen,
+    RestaurantDetailScreen: RestaurantDetailScreen,
 }, {
         headerMode: 'none',
         initialRouteName: 'RestaurantsScreen',

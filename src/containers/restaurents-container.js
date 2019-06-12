@@ -11,7 +11,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 class Restaurents extends Component {
 
     _renderItem = ({ item }) => (
-        <TouchableOpacity activeOpacity={1}>
+        <TouchableOpacity activeOpacity={1} onPress={() => this.props.navigateTo()}>
             <View style={{ flex: 1, margin: 10, borderRadius: 30, position: 'relative' }}>
                 <View style={{ flex: 0.3, justifyContent: 'center' }}>
                     <Image source={item.image} style={{ width: width - 25, height: 200, borderRadius: 10 }} />
