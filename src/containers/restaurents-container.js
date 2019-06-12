@@ -14,13 +14,18 @@ class Restaurents extends Component {
         <TouchableOpacity activeOpacity={1} onPress={() => this.props.navigateTo()}>
             <View style={{ flex: 1, margin: 10, borderRadius: 30, position: 'relative' }}>
                 <View style={{ flex: 0.3, justifyContent: 'center' }}>
-                    <Image source={item.image} style={{ width: width - 25, height: 200, borderRadius: 10 }} />
-                    <View style={styles.locationStyle}>
-                        <Text>
-                            <Icon
-                                name="map-marker"
-                                size={20} color="#000"
-                            /> {item.distance} miles away</Text>
+                    <Image
+                        source={item.image}
+                        style={{ width: width - 20, height: 200, borderRadius: 10 }}
+                    />
+                    <View style={styles.overlay}>
+                        <View style={[styles.locationStyle]}>
+                            <Text style={{ color: "#fff" }}>
+                                <Icon
+                                    name="map-marker"
+                                    size={16} color="#fff"
+                                /> {item.distance} miles away</Text>
+                        </View>
                     </View>
                 </View>
                 <View style={{ flex: 1, marginLeft: 0 }}>
@@ -65,8 +70,13 @@ const styles = StyleSheet.create({
     locationStyle: {
         right: 0,
         bottom: 10,
-        left: width - 130,
+        left: width - 135,
         position: 'absolute',
+    },
+    overlay: {
+        ...StyleSheet.absoluteFillObject,
+        backgroundColor: 'rgba(0,0,0,0.4)',
+        borderRadius: 10,
     }
 });
 
