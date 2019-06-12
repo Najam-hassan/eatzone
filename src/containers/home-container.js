@@ -58,11 +58,11 @@ class HomeContainer extends Component {
     }
 
     _renderItem = ({ item }) => (
-        <View style={{ flex: 1, flexDirection: 'row', margin: 10, borderRadius: 30 }}>
-            <Image source={item.image} style={{ width: 60, height: 70, borderRadius: 10 }} />
+        <View style={{ flex: 1, flexDirection: 'row', marginTop: 15, marginHorizontal: 15, borderRadius: 10, backgroundColor: '#fff', alignItems: 'center', padding: 10, shadowColor: '#000', shadowOpacity: 0.1, shadowOffset: { height: 10, width: 0 }, shadowRadius: 20, }}>
+            <Image source={item.image} style={{ width: 70, height: 70, borderRadius: 10 }} />
             <View style={{ flex: 1, flexDirection: 'column', marginLeft: 20, }}>
-                <Text style={{ fontSize: 20, fontWeight: '500' }}>{item.name}</Text>
-                <Text style={{ fontSize: 16, fontWeight: '300' }}>{item.description}</Text>
+                <Text style={{ fontSize: 16, fontWeight: '500', color: '#000000' }}>{item.name}</Text>
+                <Text numberOfLines={2} style={{ fontSize: 13, fontWeight: '300', color: '#cccccc' }}>{item.description}</Text>
             </View>
         </View>
     );
@@ -77,7 +77,6 @@ class HomeContainer extends Component {
                     region={this.state.region}
                     showsUserLocation={true}
                     showsMyLocationButton={true}
-                    zoomControlEnabled={true}
                 >
                     {this.state.markers.map(item => (
                         <Marker
@@ -91,9 +90,9 @@ class HomeContainer extends Component {
                 <Drawer
                     initialDrawerSize={0.15}
                     renderContainerView={() => (null)}
-                    finalDrawerHeight={height / 2 - 50}
+                    finalDrawerHeight={height / 2}
                     renderDrawerView={() => (
-                        <View style={{ marginBottom: 15 }}>
+                        <View style={{ marginBottom: 15, backgroundColor: '#f7f8fa' }}>
                             <FlatList
                                 data={this.props.list}
                                 extraData={this.state}
@@ -143,7 +142,10 @@ const styles = StyleSheet.create({
     dragView: {
         borderTopLeftRadius: 60,
         borderTopRightRadius: 60,
-        backgroundColor: '#808080',
+        borderWidth: 1,
+        borderColor: '#cccccc',
+        backgroundColor: '#f7f8fa',
+        borderBottomWidth: 0
     }
 });
 

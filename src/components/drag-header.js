@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { StyleSheet, View, Dimensions, Image } from 'react-native';
 
 import iconClaw from '../assets/images/icon_claw.png'
@@ -7,18 +7,15 @@ const Screen = {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height
 }
-export default class DragHeader extends Component {
-    render () {
-        return (
-            <View style={styles.cart_layout}>
-                <View style={styles.overlayView} />
-                <View style={styles.cart_detail}>
-                    <Image style={styles.icon_claw} source={iconClaw} />
-                </View>
-            </View>
-        )
-    }
-}
+const DragHeader = () => (
+    <View style={styles.cart_layout}>
+        <View style={styles.overlayView} />
+        <View style={styles.cart_detail}>
+            <Image style={styles.icon_claw} source={iconClaw} />
+        </View>
+    </View>
+)
+
 const styles = StyleSheet.create({
     cart_layout: {
         justifyContent: 'space-between',
@@ -35,12 +32,12 @@ const styles = StyleSheet.create({
     },
     icon_claw: {
         position: 'absolute',
-        top: 2,
+        top: 7,
         bottom: 0,
         left: (Screen.width / 2) - 16,
         right: (Screen.width / 2) - 16,
-        width: 32,
-        height: 12,
+        width: 30,
+        height: 10,
     },
     overlayView: {
         height: 4,
@@ -48,3 +45,5 @@ const styles = StyleSheet.create({
         // backgroundColor: '#FD792E'
     }
 })
+
+export default DragHeader
