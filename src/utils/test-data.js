@@ -13,6 +13,18 @@ export const resturants = [
                     "price": 25
                 },
                 {
+                    "name": "Test Name",
+                    "image": require('../assets/images/item3.jpg'),
+                    "description": "test name description",
+                    "price": 25
+                },
+                {
+                    "name": "Test Meal",
+                    "image": require('../assets/images/item4.jpg'),
+                    "description": "test meal description",
+                    "price": 20
+                },
+                {
                     "name": "Super Meal",
                     "image": require('../assets/images/item2.jpg'),
                     "description": "super meal description",
@@ -43,6 +55,18 @@ export const resturants = [
                     "description": "test meal description",
                     "price": 20
                 },
+                {
+                    "name": "veg Mac",
+                    "image": require('../assets/images/item1.jpg'),
+                    "description": "veg mac description",
+                    "price": 25
+                },
+                {
+                    "name": "Super Meal",
+                    "image": require('../assets/images/item2.jpg'),
+                    "description": "super meal description",
+                    "price": 20
+                },
             ]
         },
         distance: 0.5,
@@ -61,6 +85,18 @@ export const resturants = [
                     "image": require('../assets/images/item1.jpg'),
                     "description": "veg mac description",
                     "price": 25
+                },
+                {
+                    "name": "Test Name",
+                    "image": require('../assets/images/item3.jpg'),
+                    "description": "test name description",
+                    "price": 25
+                },
+                {
+                    "name": "Test Meal",
+                    "image": require('../assets/images/item4.jpg'),
+                    "description": "test meal description",
+                    "price": 20
                 },
                 {
                     "name": "Super Meal",
@@ -111,6 +147,18 @@ export const resturants = [
                     "price": 25
                 },
                 {
+                    "name": "Test Name",
+                    "image": require('../assets/images/item3.jpg'),
+                    "description": "test name description",
+                    "price": 25
+                },
+                {
+                    "name": "Test Meal",
+                    "image": require('../assets/images/item4.jpg'),
+                    "description": "test meal description",
+                    "price": 20
+                },
+                {
                     "name": "Super Meal",
                     "image": require('../assets/images/item2.jpg'),
                     "description": "super meal description",
@@ -140,6 +188,18 @@ export const resturants = [
                     "description": "test meal description",
                     "price": 20
                 },
+                {
+                    "name": "veg Mac",
+                    "image": require('../assets/images/item1.jpg'),
+                    "description": "veg mac description",
+                    "price": 25
+                },
+                {
+                    "name": "Super Meal",
+                    "image": require('../assets/images/item2.jpg'),
+                    "description": "super meal description",
+                    "price": 20
+                },
             ]
         },
         distance: 0.7,
@@ -157,6 +217,18 @@ export const resturants = [
                     "image": require('../assets/images/item1.jpg'),
                     "description": "veg mac description",
                     "price": 25
+                },
+                {
+                    "name": "Test Name",
+                    "image": require('../assets/images/item3.jpg'),
+                    "description": "test name description",
+                    "price": 25
+                },
+                {
+                    "name": "Test Meal",
+                    "image": require('../assets/images/item4.jpg'),
+                    "description": "test meal description",
+                    "price": 20
                 },
                 {
                     "name": "Super Meal",

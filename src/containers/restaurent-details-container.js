@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import { Text, View, Image, StyleSheet, FlatList } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { Text, View, Image, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 
 class RestaurantDetail extends Component {
 
@@ -12,10 +13,23 @@ class RestaurantDetail extends Component {
                     <Text style={styles.title}>{item.name}</Text>
                     <Text style={styles.price}>${item.price}</Text>
                 </View>
-                <View>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                     <Text numberOfLines={2} style={styles.description}>
                         {item.description}
                     </Text>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <TouchableOpacity>
+                            <Text>
+                                <Icon name="plus-circle" size={28} color="#1BA2FC" />
+                            </Text>
+                        </TouchableOpacity>
+                        <Text style={{ marginHorizontal: 15 }}>2</Text>
+                        <TouchableOpacity>
+                            <Text>
+                                <Icon name="minus-circle" size={28} color="#1BA2FC" />
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
         </View>
@@ -24,7 +38,8 @@ class RestaurantDetail extends Component {
     render () {
         const { list } = this.props;
         return (
-            <View style={{ flex: 1, marginBottom: 15 }}>
+            <View style={{ flex: 1, marginVertical: 15 }}>
+                <Text style={[styles.title, { paddingHorizontal: 15, fontWeight: '700', marginBottom: 15 }]}>{list.pizzas ? 'Pizzas' : 'Burgers'}</Text>
                 <FlatList
                     data={list.pizzas ? list.pizzas : list.burgers}
                     extraData={this.state}
