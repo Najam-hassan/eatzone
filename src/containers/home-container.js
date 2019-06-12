@@ -74,7 +74,7 @@ class HomeContainer extends Component {
             <View style={styles.container}>
                 <MapView
                     followsUserLocation
-                    provider={PROVIDER_GOOGLE}
+                    // provider={PROVIDER_GOOGLE}
                     style={styles.map}
                     region={this.state.region}
                     showsUserLocation={true}
