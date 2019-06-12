@@ -5,33 +5,39 @@ import { Text, View, Image, StyleSheet, FlatList, TouchableOpacity } from 'react
 
 class RestaurantDetail extends Component {
 
-    _renderItem = ({ item }) => (
-        <View style={styles.itemStyling}>
-            <Image source={item.image} style={{ width: 70, height: 70, borderRadius: 10 }} />
-            <View style={{ flex: 1, flexDirection: 'column', marginLeft: 20, }}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <Text style={styles.title}>{item.name}</Text>
-                    <Text style={styles.price}>${item.price}</Text>
-                </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <Text numberOfLines={2} style={styles.description}>
-                        {item.description}
-                    </Text>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <TouchableOpacity>
-                            <Text>
-                                <Icon name="plus-circle" size={28} color="#1BA2FC" />
+    _renderItem = ({ item, index }) => (
+        <View>
+            {console.log(index, '......')}
+            <Text style={[styles.title, styles.category, index > 0 ? { marginTop: 15 } : {}]}>{item}</Text>
+            {this.props.data[item].map(row => (
+                <View style={styles.itemStyling}>
+                    <Image source={row.image} style={{ width: 70, height: 70, borderRadius: 10 }} />
+                    <View style={{ flex: 1, flexDirection: 'column', marginLeft: 20, }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <Text style={styles.title}>{row.name}</Text>
+                            <Text style={styles.price}>${row.price}</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <Text numberOfLines={2} style={styles.description}>
+                                {row.description}
                             </Text>
-                        </TouchableOpacity>
-                        <Text style={{ marginHorizontal: 15 }}>2</Text>
-                        <TouchableOpacity>
-                            <Text>
-                                <Icon name="minus-circle" size={28} color="#1BA2FC" />
-                            </Text>
-                        </TouchableOpacity>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                <TouchableOpacity>
+                                    <Text>
+                                        <Icon name="plus-circle" size={28} color="#1BA2FC" />
+                                    </Text>
+                                </TouchableOpacity>
+                                <Text style={{ marginHorizontal: 15 }}>2</Text>
+                                <TouchableOpacity>
+                                    <Text>
+                                        <Icon name="minus-circle" size={28} color="#1BA2FC" />
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
                     </View>
                 </View>
-            </View>
+            ))}
         </View>
     );
 
@@ -39,7 +45,7 @@ class RestaurantDetail extends Component {
         const { list } = this.props;
         return (
             <View style={{ flex: 1, marginVertical: 15 }}>
-                <Text style={[styles.title, styles.category]}>{this.props.categoryName}</Text>
+                {/* <Text style={[styles.title, styles.category]}>{this.props.categoryName}</Text> */}
                 <FlatList
                     data={list}
                     extraData={this.state}
@@ -90,7 +96,7 @@ const styles = StyleSheet.create({
         color: '#cccccc'
     },
     category: {
-        marginBottom: 15,
+        // marginVertical: 15,
         fontWeight: '700',
         paddingHorizontal: 15,
     }
