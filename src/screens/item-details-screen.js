@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StatusBar, StyleSheet, Image } from 'react-native';
 
-import { Header } from '../components/common/header';
+import { PageHeader } from '../components/common/header';
 import ItemDetailContainer from '../containers/item-details-container'
 
 class ItemDetailScreen extends Component {
@@ -11,11 +11,10 @@ class ItemDetailScreen extends Component {
 
     render () {
         const { params } = this.props.navigation.state;
-        console.log(params, '..........');
         return (
             <View style={{ flex: 1 }}>
                 <StatusBar hidden={false} />
-                <Header
+                <PageHeader
                     navigation={this.props.navigation}
                     title={'Item Details'}
                 />
@@ -23,7 +22,7 @@ class ItemDetailScreen extends Component {
                     <Image source={params.item.image} style={styles.bannerStyle} />
                 </View>
                 <View style={styles.dataContainer}>
-                    <ItemDetailContainer />
+                    <ItemDetailContainer detail />
                 </View>
             </View>
         )

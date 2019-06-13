@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { View, Text, StatusBar, ImageBackground, StyleSheet, Dimensions } from 'react-native';
 
-import { Header } from '../components/common/header'
+import { PageHeader } from '../components/common/header'
 import RestaurantDetail from '../containers/restaurent-details-container'
 
 const { width, height } = Dimensions.get('screen');
@@ -17,7 +17,7 @@ class RestaurantDetailScreen extends Component {
         return (
             <View style={{ flex: 1 }}>
                 <StatusBar hidden={false} />
-                <Header
+                <PageHeader
                     navigation={this.props.navigation}
                     title={'Restaurant Detail'}
                 />
@@ -26,10 +26,8 @@ class RestaurantDetailScreen extends Component {
                         source={params.restaurant.image}
                         style={styles.backgroundImage}
                     >
-                        <View style={[styles.overlay, {}]}>
-                            <View style={{
-                                flex: 1
-                            }} />
+                        <View style={[styles.overlay]}>
+                            <View style={{ flex: 1 }} />
                             <View style={styles.detailStyle}>
                                 <View>
                                     <Text style={styles.titleStyle}>

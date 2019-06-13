@@ -1,16 +1,17 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { Text, View, Image, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { guid } from '../utils/misc';
 
 class RestaurantDetail extends Component {
 
     _renderItem = ({ item, index }) => (
-        <View style={{ paddingHorizontal: 15, paddingVertical: 10 }}>
-            {console.log(index, '......')}
+        <View key={index} style={{ paddingHorizontal: 15, paddingVertical: 10 }}>
             <Text style={[styles.title, styles.category, { marginVertical: 5 }]}>{item}</Text>
             {this.props.data[item].map(row => (
                 <TouchableOpacity
-                    activeOpacity={.7}
+                    key={guid()}
+                    activeOpacity={0.7}
                     onPress={() => {
                         this.props.navigation.navigate(
                             'ItemDetailScreen', {
@@ -29,7 +30,7 @@ class RestaurantDetail extends Component {
                                 <Text numberOfLines={2} style={styles.description}>
                                     {row.description}
                                 </Text>
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#f7f8fa', borderRadius: 20 }}>
+                                <View style={styles.stockStyle}>
                                     <TouchableOpacity>
                                         <Text style={styles.blueBtn}>
                                             +
@@ -57,7 +58,7 @@ class RestaurantDetail extends Component {
                 <FlatList
                     data={list}
                     extraData={this.state}
-                    keyExtractor={this._keyExtractor}
+                    keyExtractor={(item, index) => index.toString()}
                     renderItem={this._renderItem}
                 />
             </View >
@@ -99,6 +100,13 @@ const styles = StyleSheet.create({
     category: {
         fontWeight: '700'
     },
+    stockStyle: {
+        borderRadius: 20,
+        alignItems: 'center',
+        flexDirection: 'row',
+        backgroundColor: '#f7f8fa',
+        justifyContent: 'space-between',
+    },
     blueBtn: {
         backgroundColor: '#00a0ff',
         height: 24,
@@ -108,7 +116,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 20,
         lineHeight: 24
-    }
+    },
 })
 
 export default connect(

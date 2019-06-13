@@ -47,7 +47,8 @@ class Restaurents extends Component {
                 <FlatList
                     data={this.props.list}
                     extraData={this.state}
-                    keyExtractor={this._keyExtractor}
+                    // keyExtractor={this._keyExtractor}
+                    keyExtractor={(item, index) => index.toString()}
                     renderItem={this._renderItem}
                 />
             </View>
