@@ -1,17 +1,16 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import RadioForm, {
-    RadioButton, RadioButtonInput, RadioButtonLabel
-} from 'react-native-simple-radio-button';
 
+import RadioButton from '../components/radio-button-component'
 
 var radio_props = [
-    { label: 'Pepsi', value: 0 },
-    { label: 'Mountain Dew', value: 1 }
+    { label: 'Pepsi', value: 0, price: 1 },
+    { label: 'Mountain Dew', value: 1, price: 2 }
 ];
 
 class ItemDetailsContainer extends Component {
+    state = { value: null }
     render () {
         const { detail } = this.props;
         return (
@@ -35,16 +34,17 @@ class ItemDetailsContainer extends Component {
                         }]}>OPTIONAL</Text>
                     </View>
                     <Text>Select one</Text>
-                    <View>
-                        <RadioForm
-                            radio_props={radio_props}
-                            initial={0}
-                            onPress={(value) => {
-                                this.setState({
-                                    value: value
-                                })
-                            }}
-                        />
+                    <View style={{ marginVertical: 15 }}>
+                        {radio_props.map(item => (
+                            <RadioButton
+                                item={item}
+                                value={this.state.value}
+                                onChange={(value) => {
+                                    console.log(value, '........')
+                                    this.setState({ value: value })
+                                }}
+                            />
+                        ))}
                     </View>
                 </View>
             </View>
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: '600',
         color: '#000'
-    }
+    },
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ItemDetailsContainer)

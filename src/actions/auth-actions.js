@@ -23,7 +23,7 @@ export function loginFailure () {
 export function loginAction (user) {
     return dispatch => {
         dispatch(loginRequest())
-        return axios.post(`/user/authenticate`, user)
+        return axios.post(`/user/sign-in`, user)
             .then(response => {
                 axios.defaults.headers.token = response.data.token;
                 dispatch(loginSuccess(response.data));
@@ -31,13 +31,18 @@ export function loginAction (user) {
             .catch(error => {
                 dispatch(loginFailure(error));
             });
+        // if (user) {
+        //     dispatch(loginSuccess(user))
+        // } else {
+        //     dispatch(loginFailure())
+        // }
     }
 }
 
 export function signUpAction (user) {
     return dispatch => {
         dispatch(loginRequest())
-        return axios.post(`/user`, user)
+        return axios.post(`/user/sign-up`, user)
             .then(response => {
                 dispatch(loginSuccess(response.data));
             })
