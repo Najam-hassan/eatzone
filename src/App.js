@@ -1,9 +1,11 @@
 import { Provider } from 'react-redux'
 import React, { Component } from 'react';
-import { StyleSheet, Dimensions, SafeAreaView } from 'react-native';
+import { StyleSheet, SafeAreaView } from 'react-native';
 
 import AppContainer from './navigators';
 import configureStore from './store';
+
+import { axiosClient } from './utils/config'
 
 const store = configureStore();
 

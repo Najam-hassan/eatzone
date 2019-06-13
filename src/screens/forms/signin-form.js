@@ -1,9 +1,9 @@
 import { connect } from "react-redux";
 import React, { Component } from 'react';
 import { Text, AsyncStorage } from 'react-native';
-import { Field, reduxForm } from 'redux-form/immutable'
+import { Field, reduxForm, initialize } from 'redux-form/immutable'
 
-import { View, StyleSheet, Dimensions, ScrollView } from 'react-native'
+import { View, StyleSheet, Dimensions, ActivityIndicator } from 'react-native'
 
 const { width, height } = Dimensions.get('screen');
 
@@ -14,6 +14,10 @@ import * as actions from '../../actions/auth-actions'
 import * as selectors from '../../selectors/auth-selectors'
 
 class SignInForm extends Component {
+
+    componentDidMount () {
+        this.props.initializeForm()
+    }
 
     // componentWillReceiveProps (nextProps) {
     //     if (nextProps.user !== null) {
@@ -32,7 +36,7 @@ class SignInForm extends Component {
     // }
 
     render () {
-        const { handleSubmit, onSubmit } = this.props;
+        const { handleSubmit, onSubmit, submitting, loading } = this.props;
         return (
             <View style={styles.container}>
                 <View>
@@ -56,12 +60,14 @@ class SignInForm extends Component {
                         customContainerStyle={styles.input}
                         customInputStyle={{ color: "#000" }}
                     />
-                    <Button
-                        title="Sign In"
-                        onPress={handleSubmit(onSubmit)}
-                        style={styles.button}
-                        textStyle={{ /* styles for button title */ }}
-                    />
+                    {submitting || loading ?
+                        <ActivityIndicator size="large" color="#1BA2FC" /> :
+                        <Button
+                            title="Sign In"
+                            onPress={handleSubmit(onSubmit)}
+                            style={styles.button}
+                            textStyle={{ /* styles for button title */ }}
+                        />}
                     <View style={{ marginTop: 10 }}>
                         <Text style={[styles.textStyle, {}]}>Forgot Password?</Text>
                     </View>
@@ -98,14 +104,17 @@ const validate = values => {
 
 const mapStateToProps = state => ({
     user: selectors.makeSelectData()(state),
+    loading: selectors.makeSelectLoading()(state)
 });
 
 const mapDispatchToProps = dispatch => {
     return {
+        initializeForm: () => dispatch(initialize('SigninForm', {
+            email: 'test@gmail.com', password: '12345678'
+        })),
         onSubmit: values => {
             const { email, password } = values && values.toJS();
-            dispatch(actions.loginAction({ email, password }))
-            console.log(values, '......')
+            dispatch(actions.loginAction({ email: email, password: password }));
         }
     }
 };
@@ -127,7 +136,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     input: {
-        // borderWidth: 1,
         borderRadius: 50,
         width: width - 50,
         backgroundColor: '#F0F1F3'

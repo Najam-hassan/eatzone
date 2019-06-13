@@ -1,3 +1,4 @@
+import axios from 'axios';
 import * as constants from './constants';
 
 export function loginRequest () {
@@ -22,9 +23,13 @@ export function loginFailure () {
 export function loginAction (user) {
     return dispatch => {
         dispatch(loginRequest())
-        if (user.email && user.password)
-            dispatch(loginSuccess(user));
-        else
-            dispatch(loginFailure())
+        return axios.post(`/user/authenticate`, user)
+            .then(response => {
+                axios.defaults.headers.token = response.data.token;
+                dispatch(loginSuccess(response.data));
+            })
+            .catch(error => {
+                dispatch(loginFailure(error));
+            });
     }
 }
