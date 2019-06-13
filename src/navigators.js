@@ -16,6 +16,7 @@ import TestScreen from './screens/test-screen';
 import HomeScreen from './screens/home-screen';
 import OrderScreen from './screens/orders-screen';
 import ProfileScreen from './screens/profile-screen';
+import ItemDetailScreen from './screens/item-details-screen';
 import RestaurantsScreen from './screens/near-by-restaurants';
 import RestaurantDetailScreen from './screens/restaurant-detsils-screen';
 
@@ -26,6 +27,7 @@ const AuthStack = createStackNavigator({
     TestScreen: TestScreen,
     OrderScreen: OrderScreen,
     ProfileScreen: ProfileScreen,
+    ItemDetailScreen: ItemDetailScreen,
     RestaurantsScreen: RestaurantsScreen,
     RestaurantDetailScreen: RestaurantDetailScreen,
 }, {
