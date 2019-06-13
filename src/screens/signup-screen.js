@@ -1,13 +1,22 @@
+import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { View, StyleSheet, ImageBackground, Dimensions, Text } from 'react-native';
 
 import SignUpForm from './forms/signup-form';
+
+import * as selectors from '../selectors/auth-selectors';
 
 const { height } = Dimensions.get('screen');
 
 class SignInScreen extends Component {
     constructor(props) {
         super(props);
+    }
+
+    componentWillReceiveProps (nextProps) {
+        if (nextProps.user !== null) {
+            console.log(nextProps.user, 'sign up screen');
+        }
     }
 
     render () {
@@ -35,6 +44,16 @@ class SignInScreen extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+    user: selectors.makeSelectData()(state)
+});
+
+const mapDispatchToProps = dispatch => {
+    return {
+        dispatch,
+    }
+}
+
 const styles = StyleSheet.create({
     backgroundImage: {
         width: '100%',
@@ -59,4 +78,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default SignInScreen 
+export default connect(mapStateToProps, mapDispatchToProps)(SignInScreen)

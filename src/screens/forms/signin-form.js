@@ -19,21 +19,21 @@ class SignInForm extends Component {
         this.props.initializeForm()
     }
 
-    // componentWillReceiveProps (nextProps) {
-    //     if (nextProps.user !== null) {
-    //         try {
-    //             AsyncStorage.setItem(
-    //                 'user',
-    //                 JSON.stringify(nextProps.user),
-    //                 () => {
-    //                     this.props.navigateTo('HomeScreen');
-    //                     this.forceUpdate();
-    //                 }
-    //             );
-    //         } catch (error) {
-    //         }
-    //     }
-    // }
+    componentWillReceiveProps (nextProps) {
+        if (nextProps.user !== null) {
+            try {
+                AsyncStorage.setItem(
+                    'user',
+                    JSON.stringify(nextProps.user),
+                    () => {
+                        this.props.navigateTo('HomeScreen');
+                        this.forceUpdate();
+                    }
+                );
+            } catch (error) {
+            }
+        }
+    }
 
     render () {
         const { handleSubmit, onSubmit, submitting, loading } = this.props;
@@ -67,7 +67,8 @@ class SignInForm extends Component {
                             onPress={handleSubmit(onSubmit)}
                             style={styles.button}
                             textStyle={{ /* styles for button title */ }}
-                        />}
+                        />
+                    }
                     <View style={{ marginTop: 10 }}>
                         <Text style={[styles.textStyle, {}]}>Forgot Password?</Text>
                     </View>

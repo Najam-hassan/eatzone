@@ -3,16 +3,18 @@ import React, { Component } from 'react';
 import { Text } from 'react-native';
 import { Field, reduxForm } from 'redux-form/immutable'
 
-import { View, StyleSheet, Dimensions } from 'react-native'
+import { View, StyleSheet, Dimensions, ActivityIndicator } from 'react-native'
 
 const { width, height } = Dimensions.get('screen');
 
-import InputField from '../../components/common/input';
 import Button from '../../components/common/button';
+import * as actions from '../../actions/auth-actions';
+import InputField from '../../components/common/input';
+import * as selectors from '../../selectors/auth-selectors';
 
 class SignUpForm extends Component {
     render () {
-        const { handleSubmit, onSubmit } = this.props;
+        const { handleSubmit, onSubmit, submitting, loading } = this.props;
         return (
             <View style={styles.container}>
                 <View>
@@ -45,12 +47,15 @@ class SignUpForm extends Component {
                         customContainerStyle={styles.input}
                         customInputStyle={{ color: "#000" }}
                     />
-                    <Button
-                        title="Sign Up"
-                        onPress={handleSubmit(onSubmit)}
-                        style={styles.button}
-                        textStyle={{ /* styles for button title */ }}
-                    />
+                    {submitting || loading ?
+                        <ActivityIndicator size="large" color="#1BA2FC" /> :
+                        <Button
+                            title="Sign Up"
+                            onPress={handleSubmit(onSubmit)}
+                            style={styles.button}
+                            textStyle={{ /* styles for button title */ }}
+                        />
+                    }
                     <View style={{ flex: 1, justifyContent: 'space-around', marginTop: -20 }}>
                         <View style={styles.textView}>
                             <Text style={styles.textStyle}>
@@ -89,12 +94,14 @@ const validate = values => {
     return errors;
 };
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+    loading: selectors.makeSelectLoading()(state),
+});
 
 const mapDispatchToProps = dispatch => {
     return {
         onSubmit: values => {
-            console.log(values, '......')
+            dispatch(actions.signUpAction(values.toJS()))
         }
     }
 };

@@ -33,3 +33,16 @@ export function loginAction (user) {
             });
     }
 }
+
+export function signUpAction (user) {
+    return dispatch => {
+        dispatch(loginRequest())
+        return axios.post(`/user`, user)
+            .then(response => {
+                dispatch(loginSuccess(response.data));
+            })
+            .catch(error => {
+                dispatch(loginFailure(error));
+            });
+    }
+}
