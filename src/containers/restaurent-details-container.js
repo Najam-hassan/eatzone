@@ -1,42 +1,51 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { Text, View, Image, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 
 class RestaurantDetail extends Component {
 
     _renderItem = ({ item, index }) => (
-        <View>
+        <View style={{ paddingHorizontal: 15, paddingVertical: 10 }}>
             {console.log(index, '......')}
-            <Text style={[styles.title, styles.category, index > 0 ? { marginTop: 15 } : {}]}>{item}</Text>
+            <Text style={[styles.title, styles.category, { marginVertical: 5 }]}>{item}</Text>
             {this.props.data[item].map(row => (
-                <View style={styles.itemStyling}>
-                    <Image source={row.image} style={{ width: 70, height: 70, borderRadius: 10 }} />
-                    <View style={{ flex: 1, flexDirection: 'column', marginLeft: 20, }}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <Text style={styles.title}>{row.name}</Text>
-                            <Text style={styles.price}>${row.price}</Text>
-                        </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <Text numberOfLines={2} style={styles.description}>
-                                {row.description}
-                            </Text>
+                <TouchableOpacity
+                    activeOpacity={.7}
+                    onPress={() => {
+                        this.props.navigation.navigate(
+                            'ItemDetailScreen', {
+                                item: row
+                            })
+                    }}
+                >
+                    <View style={styles.itemStyling}>
+                        <Image source={row.image} style={{ width: 70, height: 70, borderRadius: 10 }} />
+                        <View style={{ flex: 1, flexDirection: 'column', marginLeft: 15, }}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 }}>
+                                <Text style={styles.title}>{row.name}</Text>
+                                <Text style={styles.price}>${row.price}</Text>
+                            </View>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <TouchableOpacity>
-                                    <Text>
-                                        <Icon name="plus-circle" size={28} color="#1BA2FC" />
+                                <Text numberOfLines={2} style={styles.description}>
+                                    {row.description}
+                                </Text>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#f7f8fa', borderRadius: 20 }}>
+                                    <TouchableOpacity>
+                                        <Text style={styles.blueBtn}>
+                                            +
                                     </Text>
-                                </TouchableOpacity>
-                                <Text style={{ marginHorizontal: 15 }}>2</Text>
-                                <TouchableOpacity>
-                                    <Text>
-                                        <Icon name="minus-circle" size={28} color="#1BA2FC" />
+                                    </TouchableOpacity>
+                                    <Text style={{ marginHorizontal: 10 }}>2</Text>
+                                    <TouchableOpacity>
+                                        <Text style={styles.blueBtn}>
+                                            -
                                     </Text>
-                                </TouchableOpacity>
+                                    </TouchableOpacity>
+                                </View>
                             </View>
                         </View>
                     </View>
-                </View>
+                </TouchableOpacity>
             ))}
         </View>
     );
@@ -44,8 +53,7 @@ class RestaurantDetail extends Component {
     render () {
         const { list } = this.props;
         return (
-            <View style={{ flex: 1, marginVertical: 15 }}>
-                {/* <Text style={[styles.title, styles.category]}>{this.props.categoryName}</Text> */}
+            <View style={{ flex: 1 }}>
                 <FlatList
                     data={list}
                     extraData={this.state}
@@ -68,26 +76,19 @@ const mapDispatchToProps = dispatch => {
 const styles = StyleSheet.create({
     itemStyling: {
         flex: 1,
-        padding: 10,
-        marginTop: 15,
-        borderRadius: 10,
-        shadowRadius: 20,
-        shadowOpacity: 0.1,
-        shadowColor: '#000',
-        marginHorizontal: 15,
+        marginVertical: 7.5,
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#fff',
-        shadowOffset: { height: 10, width: 0 },
+        backgroundColor: '#fff'
     },
     title: {
-        fontSize: 16,
+        fontSize: 15,
         fontWeight: '500',
         color: '#000000'
     },
     price: {
-        fontSize: 16,
-        fontWeight: '300',
+        fontSize: 15,
+        fontWeight: '500',
         color: '#000000'
     },
     description: {
@@ -96,9 +97,17 @@ const styles = StyleSheet.create({
         color: '#cccccc'
     },
     category: {
-        // marginVertical: 15,
-        fontWeight: '700',
-        paddingHorizontal: 15,
+        fontWeight: '700'
+    },
+    blueBtn: {
+        backgroundColor: '#00a0ff',
+        height: 24,
+        width: 24,
+        borderRadius: 24,
+        color: '#fff',
+        textAlign: 'center',
+        fontSize: 20,
+        lineHeight: 24
     }
 })
 

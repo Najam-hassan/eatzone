@@ -21,16 +21,14 @@ class RestaurantDetailScreen extends Component {
                     navigation={this.props.navigation}
                     title={'Restaurant Detail'}
                 />
-                <View style={{ flex: 0.35 }}>
+                <View style={{ flex: 0.4 }}>
                     <ImageBackground
                         source={params.restaurant.image}
                         style={styles.backgroundImage}
                     >
-                        <View style={[styles.overlay, { bottom: -40 }]}>
+                        <View style={[styles.overlay, {}]}>
                             <View style={{
-                                flex: 1,
-                                alignItems: 'center',
-                                justifyContent: 'center',
+                                flex: 1
                             }} />
                             <View style={styles.detailStyle}>
                                 <View>
@@ -38,11 +36,11 @@ class RestaurantDetailScreen extends Component {
                                         {params.restaurant.name}
                                     </Text>
                                 </View>
-                                <View style={{ flexDirection: 'column' }}>
+                                <View style={{ flexDirection: 'column', alignItems: 'flex-end' }}>
                                     <Text style={styles.serviceChargeText}>
                                         Service Charges: {params.restaurant.charges}
                                     </Text>
-                                    <Text style={{ color: "#fff", marginTop: 10 }}>
+                                    <Text style={{ color: "#fff", marginTop: 5 }}>
                                         <Icon
                                             name="map-marker"
                                             size={16} color="#fff"
@@ -54,14 +52,9 @@ class RestaurantDetailScreen extends Component {
                     </ImageBackground>
                 </View>
                 <View style={[styles.itemContainer, { marginTop: -15 }]}>
-                    {/* {Object.keys(params.restaurant.menu).map(key => (
-                        <RestaurantDetail
-                            categoryName={key}
-                            list={params.restaurant.menu[key]}
-                        />
-                    ))} */}
                     <RestaurantDetail
                         data={params.restaurant.menu}
+                        navigation={this.props.navigation}
                         list={Object.keys(params.restaurant.menu)}
                     />
                 </View>
@@ -77,19 +70,18 @@ const styles = StyleSheet.create({
 
     },
     detailStyle: {
-        flex: 1,
         flexDirection: 'row',
         marginHorizontal: 15,
         justifyContent: 'space-between',
+        marginBottom: 25
     },
     itemContainer: {
-        flex: 0.65,
+        flex: 0.6,
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
         backgroundColor: '#FEFFFF',
     },
     serviceChargeText: {
-        fontSize: 16,
         color: '#fff',
         fontWeight: '300'
     },

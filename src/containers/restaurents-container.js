@@ -28,14 +28,14 @@ class Restaurents extends Component {
                         </View>
                     </View>
                 </View>
-                <View style={{ flex: 1, marginLeft: 0 }}>
+                <View style={{ flex: 1 }}>
                     <View style={styles.titleStyle}>
-                        <Text style={{ fontSize: 20, fontWeight: '500' }}>{item.name}</Text>
-                        <Text style={{ color: '#1BA2FC' }}>
+                        <Text style={{ fontSize: 20, fontWeight: '500', color: '#000' }}>{item.name}</Text>
+                        <Text style={{ color: '#00a0ff' }}>
                             {`Service Charges: ${item.charges}`}
                         </Text>
                     </View>
-                    <Text style={{ fontSize: 16, fontWeight: '300' }}>{item.description}</Text>
+                    <Text style={{ fontSize: 16, fontWeight: '300', color: '#5e5a5a' }}>{item.description}</Text>
                 </View>
             </View>
         </TouchableOpacity>
@@ -58,13 +58,15 @@ class Restaurents extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginBottom: 20,
+        paddingBottom: 10
     },
     titleStyle: {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginVertical: 10
+        alignItems: 'center',
+        marginTop: 15,
+        marginBottom: 0
     },
     locationStyle: {
         right: 0,
