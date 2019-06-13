@@ -18,12 +18,17 @@ class ItemDetailScreen extends Component {
                     navigation={this.props.navigation}
                     title={'Item Details'}
                 />
-                <View style={styles.imageContainer}>
-                    <Image source={params.item.image} style={styles.bannerStyle} />
-                </View>
-                <View style={styles.dataContainer}>
-                    <ItemDetailContainer detail />
-                </View>
+                {params.item ? <View style={{ flex: 1 }}>
+                    <View style={styles.imageContainer}>
+                        <Image source={params.item.image} style={styles.bannerStyle} />
+                    </View>
+                    <View style={styles.dataContainer}>
+                        <ItemDetailContainer detail={params.item} />
+                    </View>
+                </View> :
+                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                        <Text>Details not available</Text>
+                    </View>}
             </View>
         )
     }
@@ -40,7 +45,6 @@ const styles = StyleSheet.create({
     },
     dataContainer: {
         flex: 0.6,
-        backgroundColor: 'red',
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
     }
