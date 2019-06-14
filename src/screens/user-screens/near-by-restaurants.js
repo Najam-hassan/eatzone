@@ -2,9 +2,9 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { View, StatusBar } from 'react-native';
 
-import { Header } from '../components/common/header';
-import * as actions from '../actions/restaurants-actions';
-import NearByRestaurant from '../containers/restaurents-container'
+import { Header } from '../../components/common/header';
+import * as actions from '../../actions/restaurants-actions';
+import NearByRestaurant from '../../containers/restaurents-container'
 
 class RestaurantsScreen extends Component {
     constructor(props) {
@@ -61,4 +61,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(RestaurantsScreen) 
+)(RestaurantsScreen)

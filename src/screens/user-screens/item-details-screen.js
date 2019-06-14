@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, StatusBar, StyleSheet, Image } from 'react-native';
 
-import { PageHeader } from '../components/common/header';
-import ItemDetailContainer from '../containers/item-details-container'
+import { PageHeader } from '../../components/common/header';
+import ItemDetailContainer from '../../containers/item-details-container'
 
 class ItemDetailScreen extends Component {
     constructor(props) {
@@ -50,4 +50,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default ItemDetailScreen 
+export default ItemDetailScreen

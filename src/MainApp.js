@@ -22,7 +22,6 @@ class MainApp extends Component {
             </View>
         );
     }
-
 }
 
 export default MainApp;

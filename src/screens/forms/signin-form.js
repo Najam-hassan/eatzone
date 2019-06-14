@@ -1,9 +1,7 @@
 import { connect } from "react-redux";
 import React, { Component } from 'react';
-import { Text, AsyncStorage } from 'react-native';
 import { Field, reduxForm, initialize } from 'redux-form/immutable'
-
-import { View, StyleSheet, Dimensions, ActivityIndicator } from 'react-native'
+import { View, StyleSheet, Dimensions, ActivityIndicator, Text, AsyncStorage, Alert } from 'react-native'
 
 const { width, height } = Dimensions.get('screen');
 
@@ -32,6 +30,15 @@ class SignInForm extends Component {
                 );
             } catch (error) {
             }
+        }
+    }
+
+    onSubmit = (values) => {
+        if (values) {
+            // if (this.props.userType === 'admin')
+            //     return Alert.alert('In progress !!!!!!');
+            // else this.props.onSubmit(values);
+            this.props.onSubmit(values);
         }
     }
 
@@ -64,7 +71,7 @@ class SignInForm extends Component {
                         <ActivityIndicator size="large" color="#1BA2FC" /> :
                         <Button
                             title="Sign In"
-                            onPress={handleSubmit(onSubmit)}
+                            onPress={handleSubmit(this.onSubmit)}
                             style={styles.button}
                             textStyle={{ /* styles for button title */ }}
                         />
@@ -111,7 +118,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => {
     return {
         initializeForm: () => dispatch(initialize('SigninForm', {
-            email: 'test@gmail.com', password: '12345678'
+            email: 'test@gmail.com', password: '123456789'
         })),
         onSubmit: values => {
             const { email, password } = values && values.toJS();

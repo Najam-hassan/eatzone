@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { View, Text, StatusBar, ImageBackground, StyleSheet, Dimensions } from 'react-native';
 
-import { PageHeader } from '../components/common/header'
-import RestaurantDetail from '../containers/restaurent-details-container'
+import { PageHeader } from '../../components/common/header'
+import RestaurantDetail from '../../containers/restaurent-details-container'
 
 const { width, height } = Dimensions.get('screen');
 
@@ -94,4 +94,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default RestaurantDetailScreen 
+export default RestaurantDetailScreen

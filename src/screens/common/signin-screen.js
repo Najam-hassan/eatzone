@@ -2,9 +2,9 @@ import { connect } from "react-redux";
 import React, { Component } from 'react';
 import { View, StyleSheet, ImageBackground, Dimensions, Text, AsyncStorage } from 'react-native';
 
-import * as selectors from '../selectors/auth-selectors'
+import * as selectors from '../../selectors/auth-selectors'
 
-import SignInForm from './forms/signin-form';
+import SignInForm from '../forms/signin-form';
 
 const { height } = Dimensions.get('screen');
 
@@ -30,16 +30,24 @@ class SignInScreen extends Component {
 	}
 
 	navigateTo = screen => {
+		const { state } = this.props.navigation;
 		if (screen) {
-			this.props.navigation.navigate(screen);
+			if (state.params && state.params.type)
+				this.props.navigation.navigate(screen, {
+					type: state.params.type
+				})
+			else
+				this.props.navigation.navigate(screen);
 		}
 	}
 
 	render () {
+		const { state } = this.props.navigation;
+		console.log(state.params, 'sign in screen');
 		return (
 			<View style={{ flex: 1 }}>
 				<ImageBackground
-					source={require('../assets/images/image-1.jpg')}
+					source={require('../../assets/images/image-1.jpg')}
 					style={styles.backgroundImage}
 				>
 					<View style={styles.overlay}>
@@ -49,7 +57,10 @@ class SignInScreen extends Component {
 							flex: 0.4,
 						}}><Text style={styles.textStyle}>Sign In</Text></View>
 						<View style={styles.formContainer}>
-							<SignInForm navigateTo={this.navigateTo} />
+							<SignInForm
+								navigateTo={this.navigateTo}
+								userType={state.params.type}
+							/>
 						</View>
 					</View>
 				</ImageBackground>

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text, StatusBar } from 'react-native';
 
-import { Header } from '../components/common/header';
+import { Header } from '../../components/common/header';
 
-class ProfileScreen extends Component {
+class ResturentMenuScreen extends Component {
     constructor(props) {
         super(props);
     }
@@ -14,12 +14,12 @@ class ProfileScreen extends Component {
                 <StatusBar hidden={false} />
                 <Header
                     navigation={this.props.navigation}
-                    title={'Profile'}
+                    title={'Menu'}
                 />
-                <Text>User Profile details will be here!!!!</Text>
+                <Text>Resturents menu will go here!!!!</Text>
             </View>
         )
     }
 }
 
-export default ProfileScreen 
+export default ResturentMenuScreen 

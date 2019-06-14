@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground, Dimensions, StyleSheet } from 'react-native';
+import { View, Text, ImageBackground, Dimensions, StyleSheet, AsyncStorage } from 'react-native';
 
 import Button from '../components/common/button';
 
@@ -36,13 +36,23 @@ class WelcomeScreen extends Component {
                             <View style={{ marginBottom: 50 }}>
                                 <Button
                                     title="Restaurant Owner"
-                                    onPress={() => this.props.navigation.navigate('SignInScreen')}
+                                    onPress={() => {
+                                        AsyncStorage.setItem('user_type', 'admin');
+                                        this.props.navigation.navigate('SignInScreen', {
+                                            type: 'admin'
+                                        });
+                                    }}
                                     style={{ /* some styles for button */ }}
                                     textStyle={{ /* styles for button title */ }}
                                 />
                                 <Button
                                     title="Restaurant Nearby"
-                                    onPress={() => this.props.navigation.navigate('SignInScreen')}
+                                    onPress={() => {
+                                        AsyncStorage.setItem('user_type', 'user');
+                                        this.props.navigation.navigate('SignInScreen', {
+                                            type: 'user'
+                                        });
+                                    }}
                                     style={{ /* some styles for button */ }}
                                     textStyle={{ /* styles for button title */ }}
                                 />

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text, StatusBar } from 'react-native';
 
-import { Header } from '../components/common/header';
+import { Header } from '../../components/common/header';
 
-class OrderScreen extends Component {
+class ProfileScreen extends Component {
     constructor(props) {
         super(props);
     }
@@ -14,12 +14,12 @@ class OrderScreen extends Component {
                 <StatusBar hidden={false} />
                 <Header
                     navigation={this.props.navigation}
-                    title={'My Orders'}
+                    title={'Profile'}
                 />
-                <Text>Recent orders will dispaly here!!!!</Text>
+                <Text>User Profile details will be here!!!!</Text>
             </View>
         )
     }
 }
 
-export default OrderScreen 
+export default ProfileScreen

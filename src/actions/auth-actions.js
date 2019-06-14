@@ -20,6 +20,12 @@ export function loginFailure () {
     }
 }
 
+export function resetState () {
+    return {
+        type: constants.RESET_LOGIN_STATE,
+    }
+}
+
 export function loginAction (user) {
     return dispatch => {
         dispatch(loginRequest())

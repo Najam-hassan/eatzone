@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, AsyncStorage } from 'react-native';
 
-import { Header } from '../components/common/header';
-import HomeContainer from '../containers/home-container'
+import { Header } from '../../components/common/header';
+import HomeContainer from '../../containers/home-container'
 
 class HomeScreen extends Component {
     constructor(props) {
@@ -13,10 +13,18 @@ class HomeScreen extends Component {
             latitude: null,
             longitude: null,
         }
+        this.checkUserType();
     }
 
+    checkUserType = async () => {
+        const type = await AsyncStorage.getItem('user_type');
+        console.log(type, 'login user type');
+        if (type === 'admin') {
+            this.props.navigation.navigate('RestaurantProfile');
+        }
+    };
+
     componentDidMount () {
-        setTimeout(() => this.forceUpdate(), 500);
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 const { latitude, longitude } = position.coords
@@ -50,4 +58,4 @@ const mapDispatchToProps = dispatch => {
     return {}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);  
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

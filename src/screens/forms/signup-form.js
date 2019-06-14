@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Text } from 'react-native';
 import { Field, reduxForm } from 'redux-form/immutable'
 
-import { View, StyleSheet, Dimensions, ActivityIndicator } from 'react-native'
+import { View, StyleSheet, Dimensions, ActivityIndicator, Alert } from 'react-native'
 
 const { width, height } = Dimensions.get('screen');
 
@@ -13,8 +13,18 @@ import InputField from '../../components/common/input';
 import * as selectors from '../../selectors/auth-selectors';
 
 class SignUpForm extends Component {
+
+    onSubmit = (values) => {
+        if (values) {
+            // if (this.props.userType === 'admin')
+            //     return Alert.alert('In progress !!!!!!');
+            // else this.props.onSubmit(values);
+            this.props.onSubmit(values);
+        }
+    }
+
     render () {
-        const { handleSubmit, onSubmit, submitting, loading } = this.props;
+        const { handleSubmit, submitting, loading, userType } = this.props;
         return (
             <View style={styles.container}>
                 <View>
@@ -51,7 +61,7 @@ class SignUpForm extends Component {
                         <ActivityIndicator size="large" color="#1BA2FC" /> :
                         <Button
                             title="Sign Up"
-                            onPress={handleSubmit(onSubmit)}
+                            onPress={handleSubmit(this.onSubmit)}
                             style={styles.button}
                             textStyle={{ /* styles for button title */ }}
                         />
@@ -62,7 +72,7 @@ class SignUpForm extends Component {
                                 Already have an account?
                             <Text
                                     style={styles.signUpTextStyle}
-                                    onPress={() => this.props.navigateTo()}
+                                    onPress={() => this.props.navigateTo('SignInScreen')}
                                 > Sign In</Text>
                             </Text>
                         </View>
