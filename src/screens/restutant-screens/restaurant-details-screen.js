@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StatusBar } from 'react-native';
 
 import { Header } from '../../components/common/header';
+import ProfileForm from '../forms/restaurant-profile-form';
 
 class ResturantDetails extends Component {
     constructor(props) {
@@ -16,7 +17,7 @@ class ResturantDetails extends Component {
                     navigation={this.props.navigation}
                     title={'Restaurant Detail'}
                 />
-                <Text>Restaurent Detail will go here!!!!</Text>
+                <ProfileForm />
             </View>
         )
     }

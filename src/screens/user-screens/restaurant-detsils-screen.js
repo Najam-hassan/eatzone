@@ -3,7 +3,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { View, Text, StatusBar, ImageBackground, StyleSheet, Dimensions } from 'react-native';
 
 import { PageHeader } from '../../components/common/header'
-import RestaurantDetail from '../../containers/restaurent-details-container'
+import RestaurantDetail from '../../containers/user-containers/restaurent-details-container'
 
 const { width, height } = Dimensions.get('screen');
 

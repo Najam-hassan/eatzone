@@ -1,22 +1,14 @@
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import React, { Component } from 'react';
-import { View, StyleSheet, ImageBackground, Dimensions, Text, ScrollView } from 'react-native';
+import { View, StyleSheet, ImageBackground, Dimensions, Text, AsyncStorage, ScrollView } from 'react-native';
 
-import SignUpForm from '../forms/signup-form';
-
-import * as selectors from '../../selectors/auth-selectors';
+import ForgetPasswordForm from '../forms/forgot-password-form';
 
 const { height } = Dimensions.get('screen');
 
-class SignInScreen extends Component {
+class ForgetPasswordScreen extends Component {
     constructor(props) {
         super(props);
-    }
-
-    componentWillReceiveProps (nextProps) {
-        if (nextProps.user !== null) {
-            console.log(nextProps.user, 'sign up screen');
-        }
     }
 
     navigateTo = screen => {
@@ -33,7 +25,7 @@ class SignInScreen extends Component {
 
     render () {
         const { state } = this.props.navigation;
-        console.log(state.params, 'sign up screen');
+        console.log(state.params, 'sign in screen');
         return (
             <View style={{ flex: 1 }}>
                 <ImageBackground
@@ -41,19 +33,15 @@ class SignInScreen extends Component {
                     style={styles.backgroundImage}
                 >
                     <View style={styles.overlay}>
-                        <View style={{
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            flex: 0.4,
-                        }}>
-                            <Text style={styles.textStyle}>Sign Up</Text>
+                        <View style={styles.imageHeader}>
+                            <Text style={styles.textStyle}>Forgot Password</Text>
                         </View>
                         <View style={styles.formContainer}>
                             <ScrollView
                                 showsVerticalScrollIndicator={false}
                                 keyboardShouldPersistTaps="handled"
                             >
-                                <SignUpForm
+                                <ForgetPasswordForm
                                     navigateTo={this.navigateTo}
                                     userType={state.params.type}
                                 />
@@ -66,20 +54,17 @@ class SignInScreen extends Component {
     }
 }
 
-const mapStateToProps = state => ({
-    user: selectors.makeSelectData()(state)
-});
-
-const mapDispatchToProps = dispatch => {
-    return {
-        dispatch,
-    }
-}
+const mapStateToProps = state => ({});
 
 const styles = StyleSheet.create({
     backgroundImage: {
         width: '100%',
         height: height - 20,
+    },
+    imageHeader: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 0.4,
     },
     formContainer: {
         flex: 1,
@@ -100,4 +85,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignInScreen)
+export default connect(mapStateToProps, null)(ForgetPasswordScreen)

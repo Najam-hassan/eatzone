@@ -16,7 +16,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  [GMSServices provideAPIKey:@"AIzaSyBBOxjGr2MKPe1mFpZ51RP_YZG0qBonI6A"];
+  [GMSServices provideAPIKey:@"AIzaSyBcnMFdYtSXJVhPyxqaxKfE3nbvAoRZD_A"];
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"food_all_in_one"

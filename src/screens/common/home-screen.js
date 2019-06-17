@@ -1,30 +1,38 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import { View, AsyncStorage } from 'react-native';
+import { View, AsyncStorage, ActivityIndicator } from 'react-native';
 
 import { Header } from '../../components/common/header';
-import HomeContainer from '../../containers/home-container'
+import UserDashboard from '../../containers/user-containers/home-container'
+import OwnerDashboard from '../../containers/restaurant-containers/home-container'
 
 class HomeScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
             error: null,
+            type: 'user',
+            loading: true,
             latitude: null,
             longitude: null,
         }
-        this.checkUserType();
+        // this.checkUserType();
     }
 
     checkUserType = async () => {
+        this.setState({ loading: true });
         const type = await AsyncStorage.getItem('user_type');
-        console.log(type, 'login user type');
         if (type === 'admin') {
-            this.props.navigation.navigate('RestaurantProfile');
+            this.setState({ type: 'admin' });
+            this.setState({ loading: false });
+        } else {
+            this.setState({ type: 'user' });
+            this.setState({ loading: false });
         }
     };
 
     componentDidMount () {
+        this.checkUserType();
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 const { latitude, longitude } = position.coords
@@ -40,13 +48,19 @@ class HomeScreen extends Component {
     }
 
     render () {
+        const { loading, type } = this.state;
         return (
             <View style={{ flex: 1 }}>
                 <Header
                     navigation={this.props.navigation}
                     title={'Home'}
                 />
-                <HomeContainer />
+                {loading ?
+                    <ActivityIndicator size={'large'} color={'1BA2FC'} />
+                    : null
+                }
+                {type === 'admin' ? <OwnerDashboard /> : null}
+                {type === 'user' ? <UserDashboard /> : null}
             </View>
         )
     }

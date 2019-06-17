@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StatusBar, StyleSheet, Image } from 'react-native';
 
 import { PageHeader } from '../../components/common/header';
-import ItemDetailContainer from '../../containers/item-details-container'
+import ItemDetailContainer from '../../containers/user-containers/item-details-container'
 
 class ItemDetailScreen extends Component {
     constructor(props) {

@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-import RadioButton from '../components/radio-button-component'
+import RadioButton from '../../components/radio-button-component'
 
 var radio_props = [
     { label: 'Pepsi', value: 0, price: 1 },

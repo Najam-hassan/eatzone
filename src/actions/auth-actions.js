@@ -26,29 +26,24 @@ export function resetState () {
     }
 }
 
-export function loginAction (user) {
+export function loginAction (url, user) {
     return dispatch => {
         dispatch(loginRequest())
-        return axios.post(`/user/sign-in`, user)
+        return axios.post(url, user)
             .then(response => {
-                axios.defaults.headers.token = response.data.token;
+                axios.defaults.headers.Authorization = `Bearer ${response.data.token}`;
                 dispatch(loginSuccess(response.data));
             })
             .catch(error => {
                 dispatch(loginFailure(error));
             });
-        // if (user) {
-        //     dispatch(loginSuccess(user))
-        // } else {
-        //     dispatch(loginFailure())
-        // }
     }
 }
 
-export function signUpAction (user) {
+export function registerAction (url, user) {
     return dispatch => {
         dispatch(loginRequest())
-        return axios.post(`/user/sign-up`, user)
+        return axios.post(url, user)
             .then(response => {
                 dispatch(loginSuccess(response.data));
             })

@@ -13,10 +13,10 @@ const LONGITUDE = 144.962338;
 const LATITUDE_DELTA = 0.0222;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-import DragHeader from '../components/drag-header';
+import DragHeader from '../../components/drag-header';
 
-import * as actions from '../actions/home-actions.js'
-import * as selectors from '../selectors/home-selectors.js'
+import * as actions from '../../actions/home-actions'
+import * as selectors from '../../selectors/home-selectors'
 
 class HomeContainer extends Component {
     constructor(props) {

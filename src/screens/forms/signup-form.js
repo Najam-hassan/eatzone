@@ -1,6 +1,6 @@
+import { Text } from 'react-native';
 import { connect } from "react-redux";
 import React, { Component } from 'react';
-import { Text } from 'react-native';
 import { Field, reduxForm } from 'redux-form/immutable'
 
 import { View, StyleSheet, Dimensions, ActivityIndicator, Alert } from 'react-native'
@@ -16,10 +16,11 @@ class SignUpForm extends Component {
 
     onSubmit = (values) => {
         if (values) {
-            // if (this.props.userType === 'admin')
-            //     return Alert.alert('In progress !!!!!!');
-            // else this.props.onSubmit(values);
-            this.props.onSubmit(values);
+            if (this.props.userType === 'admin') {
+                this.props.onSubmit('/owner/sign-up', values)
+            } else {
+                this.props.onSubmit('/user/sign-up', values);
+            }
         }
     }
 
@@ -110,8 +111,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
     return {
-        onSubmit: values => {
-            dispatch(actions.signUpAction(values.toJS()))
+        onSubmit: (url, values) => {
+            const { email, password, name } = values && values.toJS();
+            dispatch(actions.registerAction(url, { email, password, name }))
         }
     }
 };

@@ -13,7 +13,7 @@ import Button from '../../components/common/button';
 import * as actions from '../../actions/auth-actions'
 import * as selectors from '../../selectors/auth-selectors'
 
-class SignInForm extends Component {
+class ForgetPasswordForm extends Component {
 
     componentWillReceiveProps (nextProps) {
         if (nextProps.user !== null) {
@@ -55,43 +55,18 @@ class SignInForm extends Component {
                         customContainerStyle={styles.input}
                         customInputStyle={{ color: "#000" }}
                     />
-                    <Field
-                        name='password'
-                        errorTextColor="red"
-                        style={styles.input}
-                        placeholder='Password'
-                        keyboardType='default'
-                        component={InputField}
-                        secureTextEntry={true}
-                        customContainerStyle={styles.input}
-                        customInputStyle={{ color: "#000" }}
-                    />
                     {submitting || loading ?
                         <ActivityIndicator size="large" color="#1BA2FC" /> :
                         <Button
-                            title="Sign In"
+                            title="Reset Password"
                             onPress={handleSubmit(this.onSubmit)}
                             style={styles.button}
                             textStyle={{ /* styles for button title */ }}
                         />
                     }
-                    <View style={{ marginTop: 10 }}>
-                        <Text
-                            style={[styles.textStyle, {}]}
-                            onPress={() => this.props.navigateTo('ForgotPasswordScreen')}
-                        >
-                            Forgot Password?
-                        </Text>
-                    </View>
-                </View>
-                <View style={{ marginTop: 80 }}>
-                    <Text style={styles.textStyle}>
-                        Doesn't have an account yet?
-                            <Text
-                            style={styles.signUpTextStyle}
-                            onPress={() => this.props.navigateTo('SignUpScreen')}
-                        > Sign Up</Text>
-                    </Text>
+                    {/* <View style={{ marginTop: 10 }}>
+                        <Text style={[styles.textStyle, {}]}>Forgot Password?</Text>
+                    </View> */}
                 </View>
             </View >
         )
@@ -105,12 +80,6 @@ const validate = values => {
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.get('email'))) {
         errors.email = 'not valid email!'
     }
-    if (!values.get('password')) {
-        errors.password = '*Required';
-    } else if (values.get('password').length < 6) {
-        errors.password = "must be at least 6 characters long"
-    }
-
     return errors;
 };
 
@@ -164,7 +133,7 @@ export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(reduxForm({
-    form: 'SigninForm',
+    form: 'ForgetPasswordFrom',
     enableReinitialize: true,
     validate,
-})(SignInForm))
+})(ForgetPasswordForm))

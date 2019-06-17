@@ -5,11 +5,16 @@ import authReducer from './auth-reducer';
 import homeReducer from './home-reducer';
 import restaurantsReducer from './restaurents-reducer';
 
+// Resturant Profile Owner 
+import profileReducer from './restaurant-reducers/profile-reducer'
+
 export default function index () {
     return combineReducers({
         form: formReducer,
         auth: authReducer,
         home: homeReducer,
-        restaurants: restaurantsReducer
+        restaurants: restaurantsReducer,
+
+        resturantProfile: profileReducer
     });
 }

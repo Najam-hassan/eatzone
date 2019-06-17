@@ -1,6 +1,9 @@
 import { connect } from "react-redux";
 import React, { Component } from 'react';
-import { View, StyleSheet, ImageBackground, Dimensions, Text, AsyncStorage } from 'react-native';
+import Toast, { DURATION } from 'react-native-easy-toast'
+import {
+	View, StyleSheet, ImageBackground, Dimensions, Text, AsyncStorage, ScrollView
+} from 'react-native';
 
 import * as selectors from '../../selectors/auth-selectors'
 
@@ -15,6 +18,7 @@ class SignInScreen extends Component {
 
 	componentWillReceiveProps (nextProps) {
 		if (nextProps.user !== null) {
+			this.refs.toast.show('Successfully logged In');
 			try {
 				AsyncStorage.setItem(
 					'user',
@@ -26,6 +30,9 @@ class SignInScreen extends Component {
 				);
 			} catch (error) {
 			}
+		}
+		if (nextProps.isAuthenticated) {
+			this.refs.toast.show('Failed to login, check email and password combination!');
 		}
 	}
 
@@ -57,12 +64,19 @@ class SignInScreen extends Component {
 							flex: 0.4,
 						}}><Text style={styles.textStyle}>Sign In</Text></View>
 						<View style={styles.formContainer}>
-							<SignInForm
-								navigateTo={this.navigateTo}
-								userType={state.params.type}
-							/>
+
+							<ScrollView
+								showsVerticalScrollIndicator={false}
+								keyboardShouldPersistTaps="handled"
+							>
+								<SignInForm
+									navigateTo={this.navigateTo}
+									userType={state.params.type}
+								/>
+							</ScrollView>
 						</View>
 					</View>
+					<Toast ref="toast" />
 				</ImageBackground>
 			</View>
 		)
@@ -71,6 +85,7 @@ class SignInScreen extends Component {
 
 const mapStateToProps = state => ({
 	user: selectors.makeSelectData()(state),
+	isAuthenticated: selectors.makeSelectAuthStatue()(state),
 });
 
 const styles = StyleSheet.create({

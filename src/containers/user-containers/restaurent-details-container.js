@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { Text, View, Image, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
-import { guid } from '../utils/misc';
+import { guid } from '../../utils/misc';
 
 class RestaurantDetail extends Component {
 

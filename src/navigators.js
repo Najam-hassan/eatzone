@@ -8,9 +8,10 @@ import {
 import MainApp from './MainApp';
 // App Screens (Commons Screens)
 import WelcomeScreen from './screens/welcome-screen';
+import HomeScreen from './screens/common/home-screen';
 import SignInScreen from './screens/common/signin-screen';
 import SignUpScreen from './screens/common/signup-screen';
-import HomeScreen from './screens/common/home-screen';
+import ForgotPasswordScreen from './screens/common/forget-password-screen';
 
 // Auth Screens (Users Screens)
 import TestScreen from './screens/test-screen';
@@ -69,6 +70,7 @@ const LoginStack = createStackNavigator({
     WelcomeScreen: WelcomeScreen,
     SignInScreen: SignInScreen,
     SignUpScreen: SignUpScreen,
+    ForgotPasswordScreen: ForgotPasswordScreen,
 }, { headerMode: 'none' });
 
 // export default AppContainer = createAppContainer(Drawerstack);
