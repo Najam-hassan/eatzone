@@ -12,8 +12,8 @@ export default function MyTextInput (props) {
         onChangeText,
         keyboardType,
         blurOnSubmit,
-        errorTextColor,
         returnKeyType,
+        errorTextColor,
         onSubmitEditing,
         secureTextEntry,
         customInputStyle,
@@ -36,19 +36,19 @@ export default function MyTextInput (props) {
         <View style={{}}>
             <View style={[styles.containerStyle, customContainerStyle]}>
                 <TextInput
-                    style={[styles.inputStyle, customInputStyle]}
-                    placeholder={placeholder}
-                    underlineColorAndroid='transparent'
                     placeholderTextColor={placeholderTextColor ? placeholderTextColor : '#000'}
+                    style={[styles.inputStyle, customInputStyle]}
+                    selectTextOnFocus={selectTextOnFocus}
+                    underlineColorAndroid={'transparent'}
+                    onSubmitEditing={onSubmitEditing}
+                    secureTextEntry={secureTextEntry}
+                    returnKeyType={returnKeyType}
                     keyboardType={keyboardType}
                     blurOnSubmit={blurOnSubmit}
-                    maxLength={maxLength}
-                    onSubmitEditing={onSubmitEditing}
-                    returnKeyType={returnKeyType}
-                    secureTextEntry={secureTextEntry}
                     onChangeText={onChangeText}
+                    placeholder={placeholder}
+                    maxLength={maxLength}
                     editable={editable}
-                    selectTextOnFocus={selectTextOnFocus}
                     value={value}
                     {...input}
                 />
@@ -62,7 +62,6 @@ export default function MyTextInput (props) {
 
 const styles = {
     containerStyle: {
-        // backgroundColor: '#f5f5f5',
         paddingVertical: 0,
         paddingHorizontal: 5,
         marginBottom: 18,
@@ -71,7 +70,6 @@ const styles = {
     },
     inputStyle: {
         fontSize: 14,
-        // fontFamily: (Platform.OS === 'ios') ? 'SFCompactDisplay-Regular' : 'SF-Regular',
         paddingHorizontal: 15,
         flex: 1,
         position: 'relative',
@@ -84,7 +82,6 @@ const styles = {
         // flex: 1,
     },
     errorTextStyle: {
-        // fontFamily: (Platform.OS === 'ios') ? 'SFCompactDisplay-Regular' : 'SF-Regular',
         position: 'absolute',
         top: 0,
         right: 20,

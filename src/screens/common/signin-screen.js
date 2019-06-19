@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import React, { Component } from 'react';
-import Toast, { DURATION } from 'react-native-easy-toast'
+import Toast, { DURATION } from 'react-native-easy-toast';
 import {
 	View, StyleSheet, ImageBackground, Dimensions, Text, AsyncStorage, ScrollView
 } from 'react-native';
@@ -64,7 +64,6 @@ class SignInScreen extends Component {
 							flex: 0.4,
 						}}><Text style={styles.textStyle}>Sign In</Text></View>
 						<View style={styles.formContainer}>
-
 							<ScrollView
 								showsVerticalScrollIndicator={false}
 								keyboardShouldPersistTaps="handled"

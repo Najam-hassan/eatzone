@@ -476,3 +476,246 @@ export const resturants = [
         charges: '15$',
     }
 ]
+
+export const categories = [
+    {
+        name: 'Burger',
+        bannerImg: require('../assets/images/item1.jpg'),
+        items: [
+            {
+                name: 'Test Item',
+                bannerImg: require('../assets/images/item1.jpg'),
+                description: 'details aabout the item',
+                price: 12
+            },
+            {
+                name: 'Test Item',
+                bannerImg: require('../assets/images/item2.jpg'),
+                description: 'details aabout the item',
+                price: 12
+            },
+            {
+                name: 'Test Item',
+                bannerImg: require('../assets/images/item3.jpg'),
+                description: 'details aabout the item',
+                price: 12
+            },
+            {
+                name: 'Test Item',
+                bannerImg: require('../assets/images/item4.jpg'),
+                description: 'details aabout the item',
+                price: 12
+            },
+        ],
+    },
+    {
+        name: 'Pizza',
+        bannerImg: require('../assets/images/item2.jpg'),
+        items: [
+            {
+                name: 'Test Item',
+                bannerImg: require('../assets/images/item1.jpg'),
+                description: 'details aabout the item',
+                price: 12
+            },
+            {
+                name: 'Test Item',
+                bannerImg: require('../assets/images/item2.jpg'),
+                description: 'details aabout the item',
+                price: 12
+            },
+            {
+                name: 'Test Item',
+                bannerImg: require('../assets/images/item3.jpg'),
+                description: 'details aabout the item',
+                price: 12
+            },
+            {
+                name: 'Test Item',
+                bannerImg: require('../assets/images/item4.jpg'),
+                description: 'details aabout the item',
+                price: 12
+            },
+        ],
+    },
+    {
+        name: 'Burger',
+        bannerImg: require('../assets/images/item3.jpg'),
+        items: [
+            {
+                name: 'Test Item',
+                bannerImg: require('../assets/images/item1.jpg'),
+                description: 'details aabout the item',
+                price: 12
+            },
+            {
+                name: 'Test Item',
+                bannerImg: require('../assets/images/item2.jpg'),
+                description: 'details aabout the item',
+                price: 12
+            },
+            {
+                name: 'Test Item',
+                bannerImg: require('../assets/images/item3.jpg'),
+                description: 'details aabout the item',
+                price: 12
+            },
+            {
+                name: 'Test Item',
+                bannerImg: require('../assets/images/item4.jpg'),
+                description: 'details aabout the item',
+                price: 12
+            },
+        ],
+    },
+    {
+        name: 'Shami',
+        bannerImg: require('../assets/images/item4.jpg'),
+        items: [
+            {
+                name: 'Test Item',
+                bannerImg: require('../assets/images/item1.jpg'),
+                description: 'details aabout the item',
+                price: 12
+            },
+            {
+                name: 'Test Item',
+                bannerImg: require('../assets/images/item2.jpg'),
+                description: 'details aabout the item',
+                price: 12
+            },
+            {
+                name: 'Test Item',
+                bannerImg: require('../assets/images/item3.jpg'),
+                description: 'details aabout the item',
+                price: 12
+            },
+            {
+                name: 'Test Item',
+                bannerImg: require('../assets/images/item4.jpg'),
+                description: 'details aabout the item',
+                price: 12
+            },
+        ],
+    },
+    {
+        name: 'Drinks',
+        bannerImg: require('../assets/images/item1.jpg'),
+        items: [
+            {
+                name: 'Test Item',
+                bannerImg: require('../assets/images/item1.jpg'),
+                description: 'details aabout the item',
+                price: 12
+            },
+            {
+                name: 'Test Item',
+                bannerImg: require('../assets/images/item2.jpg'),
+                description: 'details aabout the item',
+                price: 12
+            },
+            {
+                name: 'Test Item',
+                bannerImg: require('../assets/images/item3.jpg'),
+                description: 'details aabout the item',
+                price: 12
+            },
+            {
+                name: 'Test Item',
+                bannerImg: require('../assets/images/item4.jpg'),
+                description: 'details aabout the item',
+                price: 12
+            },
+        ],
+    },
+    {
+        name: 'Chines',
+        bannerImg: require('../assets/images/item2.jpg'),
+        items: [
+            {
+                name: 'Test Item',
+                bannerImg: require('../assets/images/item1.jpg'),
+                description: 'details aabout the item',
+                price: 12
+            },
+            {
+                name: 'Test Item',
+                bannerImg: require('../assets/images/item2.jpg'),
+                description: 'details aabout the item',
+                price: 12
+            },
+            {
+                name: 'Test Item',
+                bannerImg: require('../assets/images/item3.jpg'),
+                description: 'details aabout the item',
+                price: 12
+            },
+            {
+                name: 'Test Item',
+                bannerImg: require('../assets/images/item4.jpg'),
+                description: 'details aabout the item',
+                price: 12
+            },
+        ],
+    },
+    {
+        name: 'Italian',
+        bannerImg: require('../assets/images/item3.jpg'),
+        items: [
+            {
+                name: 'Test Item',
+                bannerImg: require('../assets/images/item1.jpg'),
+                description: 'details aabout the item',
+                price: 12
+            },
+            {
+                name: 'Test Item',
+                bannerImg: require('../assets/images/item2.jpg'),
+                description: 'details aabout the item',
+                price: 12
+            },
+            {
+                name: 'Test Item',
+                bannerImg: require('../assets/images/item3.jpg'),
+                description: 'details aabout the item',
+                price: 12
+            },
+            {
+                name: 'Test Item',
+                bannerImg: require('../assets/images/item4.jpg'),
+                description: 'details aabout the item',
+                price: 12
+            },
+        ],
+    },
+    {
+        name: 'Burger',
+        bannerImg: require('../assets/images/item3.jpg'),
+        items: [
+            {
+                name: 'Test Item',
+                bannerImg: require('../assets/images/item1.jpg'),
+                description: 'details aabout the item',
+                price: 12
+            },
+            {
+                name: 'Test Item',
+                bannerImg: require('../assets/images/item2.jpg'),
+                description: 'details aabout the item',
+                price: 12
+            },
+            {
+                name: 'Test Item',
+                bannerImg: require('../assets/images/item3.jpg'),
+                description: 'details aabout the item',
+                price: 12
+            },
+            {
+                name: 'Test Item',
+                bannerImg: require('../assets/images/item4.jpg'),
+                description: 'details aabout the item',
+                price: 12
+            },
+        ],
+    },
+]

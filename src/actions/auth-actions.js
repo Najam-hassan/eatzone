@@ -20,6 +20,25 @@ export function loginFailure () {
     }
 }
 
+export function registerRequest () {
+    return {
+        type: constants.USER_SIGNUP_REQUEST,
+    }
+}
+
+export function registerSuccess (user) {
+    return {
+        type: constants.USER_SIGNUP_SUCCESS,
+        user,
+    }
+}
+
+export function registerFailure () {
+    return {
+        type: constants.USER_SIGNUP_FAILURE,
+    }
+}
+
 export function resetState () {
     return {
         type: constants.RESET_LOGIN_STATE,
@@ -42,13 +61,13 @@ export function loginAction (url, user) {
 
 export function registerAction (url, user) {
     return dispatch => {
-        dispatch(loginRequest())
+        dispatch(registerRequest())
         return axios.post(url, user)
             .then(response => {
-                dispatch(loginSuccess(response.data));
+                dispatch(registerSuccess(response.data));
             })
             .catch(error => {
-                dispatch(loginFailure(error));
+                dispatch(registerFailure(error));
             });
     }
 }

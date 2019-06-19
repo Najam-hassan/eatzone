@@ -37,7 +37,7 @@ class SidebarMenu extends Component {
                 {type === 'admin' ?
                     <ScrollView style={{ flex: 1 }}>
                         <View style={styles.menu}>
-                            <TouchableOpacity
+                            {/* <TouchableOpacity
                                 style={styles.menuText}
                                 onPress={() => this.props.navigation.navigate('HomeScreen')}
                             >
@@ -45,12 +45,12 @@ class SidebarMenu extends Component {
                                     Home
                             </Text>
                                 <Text style={styles.borderBottom}></Text>
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
 
                             <View
                                 style={[styles.menuText, { flexDirection: 'row', justifyContent: 'space-between' }]}>
                                 <TouchableOpacity
-                                    onPress={() => this.props.navigation.navigate("ResturentMenuScreen")}>
+                                    onPress={() => this.props.navigation.navigate("HomeScreen")}>
                                     <Text style={{ color: '#333333', textTransform: 'uppercase' }}>
                                         Menu
                                  </Text>

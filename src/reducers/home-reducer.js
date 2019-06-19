@@ -15,7 +15,7 @@ export default function homeReducer (state = initialState, action) {
     switch (action.type) {
         case constants.FETCH_LIST_REQUEST:
             return state.setIn(['list', 'data'], [])
-                .setIn(['user', 'loading'], true);
+                .setIn(['list', 'loading'], true);
         case constants.FETCH_LIST_SUCCESS: {
             const payload = List(
                 action.data.map(item =>

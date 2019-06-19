@@ -87,5 +87,9 @@
 		<string>OpenSans-SemiBold.ttf</string>
 		<string>OpenSans-SemiBoldItalic.ttf</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Food all in one would like you user your camera</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Food all in one would like you user your camera</string>
 </dict>
 </plist>

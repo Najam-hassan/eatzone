@@ -17,7 +17,7 @@ class SignUpForm extends Component {
     onSubmit = (values) => {
         if (values) {
             if (this.props.userType === 'admin') {
-                this.props.onSubmit('/owner/sign-up', values)
+                this.props.onSubmit('/restaurant/sign-up', values)
             } else {
                 this.props.onSubmit('/user/sign-up', values);
             }
@@ -25,7 +25,7 @@ class SignUpForm extends Component {
     }
 
     render () {
-        const { handleSubmit, submitting, loading, userType } = this.props;
+        const { handleSubmit, submitting, loading } = this.props;
         return (
             <View style={styles.container}>
                 <View>
@@ -67,7 +67,7 @@ class SignUpForm extends Component {
                             textStyle={{ /* styles for button title */ }}
                         />
                     }
-                    <View style={{ flex: 1, justifyContent: 'space-around', marginTop: -20 }}>
+                    <View style={{ flex: 1, justifyContent: 'space-around', marginTop: 40 }}>
                         <View style={styles.textView}>
                             <Text style={styles.textStyle}>
                                 Already have an account?
@@ -107,6 +107,7 @@ const validate = values => {
 
 const mapStateToProps = state => ({
     loading: selectors.makeSelectLoading()(state),
+    user: selectors.makeSelectSignUpUser()(state),
 });
 
 const mapDispatchToProps = dispatch => {

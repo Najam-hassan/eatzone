@@ -56,11 +56,14 @@ class HomeScreen extends Component {
                     title={'Home'}
                 />
                 {loading ?
-                    <ActivityIndicator size={'large'} color={'1BA2FC'} />
-                    : null
+                    <ActivityIndicator size={'large'} color={'#1BA2FC'} />
+                    : type === 'admin' ? <OwnerDashboard
+                        navigation={this.props.navigation}
+                    /> :
+                        type === 'user' ? <UserDashboard
+                            navigation={this.props.navigation}
+                        /> : null
                 }
-                {type === 'admin' ? <OwnerDashboard /> : null}
-                {type === 'user' ? <UserDashboard /> : null}
             </View>
         )
     }

@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
+import Toast from 'react-native-easy-toast';
 import { View, StyleSheet, ImageBackground, Dimensions, Text, ScrollView } from 'react-native';
 
 import SignUpForm from '../forms/signup-form';
@@ -15,7 +16,11 @@ class SignInScreen extends Component {
 
     componentWillReceiveProps (nextProps) {
         if (nextProps.user !== null) {
-            console.log(nextProps.user, 'sign up screen');
+            this.refs.toast.show('Successfully sign up, please login', 800);
+            this.props.navigation.navigate('SignInScreen');
+        }
+        if (nextProps.isAuthenticated) {
+            this.refs.toast.show('Failed to register, please try again!', 800);
         }
     }
 
@@ -60,6 +65,7 @@ class SignInScreen extends Component {
                             </ScrollView>
                         </View>
                     </View>
+                    <Toast ref="toast" />
                 </ImageBackground>
             </View>
         )
@@ -67,7 +73,8 @@ class SignInScreen extends Component {
 }
 
 const mapStateToProps = state => ({
-    user: selectors.makeSelectData()(state)
+    user: selectors.makeSelectSignUpUser()(state),
+    isAuthenticated: selectors.makeSelectAuthStatue()(state),
 });
 
 const mapDispatchToProps = dispatch => {

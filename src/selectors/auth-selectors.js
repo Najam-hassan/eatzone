@@ -11,6 +11,10 @@ const makeSelectData = () => createSelector(
     selectLoginState, state => state.getIn(['user', 'data'])
 );
 
+const makeSelectSignUpUser = () => createSelector(
+    selectLoginState, state => state.getIn(['signUp', 'data'])
+);
+
 const makeSelectError = () => createSelector(
     selectLoginState, state => state.getIn(['user', 'error'])
 );
@@ -24,5 +28,6 @@ export {
     makeSelectError,
     selectLoginState,
     makeSelectLoading,
-    makeSelectAuthStatue
+    makeSelectAuthStatue,
+    makeSelectSignUpUser,
 };

@@ -40,7 +40,6 @@ class ItemDetailsContainer extends Component {
                                 item={item}
                                 value={this.state.value}
                                 onChange={(value) => {
-                                    console.log(value, '........')
                                     this.setState({ value: value })
                                 }}
                             />

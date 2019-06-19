@@ -6,7 +6,10 @@ import homeReducer from './home-reducer';
 import restaurantsReducer from './restaurents-reducer';
 
 // Resturant Profile Owner 
-import profileReducer from './restaurant-reducers/profile-reducer'
+import categoryList from './restaurant-reducers/home-reducer';
+import profileReducer from './restaurant-reducers/profile-reducer';
+import categoryReducer from './restaurant-reducers/category-reducer';
+import categoryItemReducer from './restaurant-reducers/category-item-reducer';
 
 export default function index () {
     return combineReducers({
@@ -15,6 +18,9 @@ export default function index () {
         home: homeReducer,
         restaurants: restaurantsReducer,
 
-        resturantProfile: profileReducer
+        resturantProfile: profileReducer,
+        resturantCategories: categoryList,
+        resturantCategory: categoryReducer,
+        categoryItemReducer: categoryItemReducer
     });
 }

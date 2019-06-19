@@ -22,10 +22,12 @@ import RestaurantsScreen from './screens/user-screens/near-by-restaurants';
 import RestaurantDetailScreen from './screens/user-screens/restaurant-detsils-screen';
 
 // Auth Screens (Restaurant Screens)
-import RestaurantProfile from './screens/restutant-screens/restaurant-details-screen'
-import ResturentMenuScreen from './screens/restutant-screens/restaurent-menu-screen';
-import CompletedOrdersScreen from './screens/restutant-screens/completed-orders-screen'
+import CategoryScreen from './screens/restutant-screens/category-screen';
+import MenuItemsScreen from './screens/restutant-screens/menu-items-screen';
+import CreateItemScreen from './screens/restutant-screens/add-menu-item-screen';
 import RecentOrdersScreen from './screens/restutant-screens/recent-orders-screen'
+import RestaurantProfile from './screens/restutant-screens/restaurant-details-screen';
+import CompletedOrdersScreen from './screens/restutant-screens/completed-orders-screen';
 
 // Side Drawer (Side Navigation component)
 import SidebarMenu from './components/common/sidebar-menu';
@@ -43,9 +45,11 @@ const AuthStack = createStackNavigator({
     RestaurantDetailScreen: RestaurantDetailScreen,
 
     //Restaurants screens will go here
+    CategoryScreen: CategoryScreen,
+    MenuItemsScreen: MenuItemsScreen,
+    CreateItemScreen: CreateItemScreen,
     RestaurantProfile: RestaurantProfile,
     RecentOrdersScreen: RecentOrdersScreen,
-    ResturentMenuScreen: ResturentMenuScreen,
     CompletedOrdersScreen: CompletedOrdersScreen,
 }, {
         headerMode: 'none',

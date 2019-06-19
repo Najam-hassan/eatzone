@@ -34,7 +34,7 @@ class SignInForm extends Component {
     onSubmit = (values) => {
         if (values) {
             if (this.props.userType === 'admin') {
-                this.props.onSubmit('/owner/sign-in', values);
+                this.props.onSubmit('/restaurant/sign-in', values);
             } else {
                 this.props.onSubmit('/user/sign-in', values);
             }

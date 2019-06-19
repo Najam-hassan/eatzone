@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import Drawer from 'react-native-draggable-view'
-import Icon from 'react-native-vector-icons/FontAwesome'
-import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
+import Drawer from 'react-native-draggable-view';
+import MapView, { Marker } from 'react-native-maps';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { View, Text, StyleSheet, Dimensions, StatusBar, FlatList, Image } from 'react-native';
 
 const { height, width } = Dimensions.get('screen');

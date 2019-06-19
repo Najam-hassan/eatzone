@@ -36,18 +36,30 @@ class ProfileForm extends Component {
         canDeliver: false,
     }
 
+    componentWillReceiveProps (nextProps) {
+        if (nextProps.profile && nextProps.profile.name) {
+            this.props.showToaster('Successfully Updated Profile');
+            this.props.navigation.navigate('HomeScreen');
+        }
+    }
+
     onSubmit = values => {
-        const { canCollect, canDeliver, collect, deliever } = this.state;
+        const {
+            canCollect, canDeliver, collect, deliever, sliderOneValue, region, location
+        } = this.state;
         if (values && values.toJS() !== {}) {
             if (canCollect && canDeliver) {
                 this.props.onSubmit({
                     ...values.toJS(),
                     canDeliver: canDeliver,
                     canCollect: canCollect,
+                    deliverRadius: sliderOneValue[0],
                     collectTimeEnd: collect.collectTimeEnd,
                     deliverTimeEnd: deliever.deliverTimeEnd,
                     collectTimeStart: collect.collectTimeStart,
                     deliverTimeStart: deliever.deliverTimeStart,
+                    location: `${region.latitude}, ${region.longitude}`,
+                    address: location
                 });
             }
         } else if (canCollect) {
@@ -113,9 +125,6 @@ class ProfileForm extends Component {
                             placeholderTextColor={"#000"}
                             fetchDetails={true}
                             onPress={(data, details = null) => {
-                                console.log(data, '-----map search------');
-                                console.log(JSON.stringify(details.geometry.location.lat), '-----lat search------');
-                                console.log(JSON.stringify(details.geometry.location.lat), '-----long search------');
                                 this.mapView && this.mapView.animateToRegion(details.geometry.location, 500)
                                 this.setState({
                                     location:
@@ -169,16 +178,6 @@ class ProfileForm extends Component {
                             }}
                             debounce={0}
                         />
-                        {/* <Field
-                            name='address'
-                            errorTextColor="red"
-                            style={styles.input}
-                            keyboardType='default'
-                            component={InputField}
-                            placeholder='Restaurant Address'
-                            customContainerStyle={styles.input}
-                            customInputStyle={{ color: "#000" }}
-                        /> */}
                         <Field
                             name='addressDetails'
                             errorTextColor="red"
@@ -308,7 +307,7 @@ class ProfileForm extends Component {
                                             this.sliderOneValuesChange(values)
                                         }}
                                         min={5}
-                                        max={100}
+                                        max={25}
                                         step={1}
                                         trackStyle={{
                                             backgroundColor: '#E6464D',
