@@ -6,6 +6,7 @@ import { View, StyleSheet, ImageBackground, Dimensions, Text, ScrollView } from 
 import SignUpForm from '../forms/signup-form';
 
 import * as selectors from '../../selectors/auth-selectors';
+import * as actions from '../../actions/auth-actions';
 
 const { height } = Dimensions.get('screen');
 
@@ -16,11 +17,15 @@ class SignInScreen extends Component {
 
     componentWillReceiveProps (nextProps) {
         if (nextProps.user !== null) {
-            this.refs.toast.show('Successfully sign up, please login', 800);
             this.props.navigation.navigate('SignInScreen');
+            this.props.resetState();
         }
         if (nextProps.isAuthenticated) {
-            this.refs.toast.show('Failed to register, please try again!', 800);
+            if (nextProps.error && nextProps.error.message) {
+                this.refs.toast.show('Email already registered', 1500);
+            } else {
+                this.refs.toast.show('Failed to registered, please try again ')
+            }
         }
     }
 
@@ -42,7 +47,7 @@ class SignInScreen extends Component {
         return (
             <View style={{ flex: 1 }}>
                 <ImageBackground
-                    source={require('../../assets/images/image-1.jpg')}
+                    source={require('../../assets/images/auth-bg.jpg')}
                     style={styles.backgroundImage}
                 >
                     <View style={styles.overlay}>
@@ -65,7 +70,7 @@ class SignInScreen extends Component {
                             </ScrollView>
                         </View>
                     </View>
-                    <Toast ref="toast" />
+                    <Toast ref="toast" position='top' />
                 </ImageBackground>
             </View>
         )
@@ -74,12 +79,13 @@ class SignInScreen extends Component {
 
 const mapStateToProps = state => ({
     user: selectors.makeSelectSignUpUser()(state),
+    error: selectors.makeSelectSignUpError()(state),
     isAuthenticated: selectors.makeSelectAuthStatue()(state),
 });
 
 const mapDispatchToProps = dispatch => {
     return {
-        dispatch,
+        resetState: () => dispatch(actions.resetState()),
     }
 }
 

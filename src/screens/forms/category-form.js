@@ -51,9 +51,6 @@ class CategoryForm extends Component {
                                 console.log('Image base64 string: ', avatar)
                             }
                         }}
-                        containerStyle={{
-                            marginBottom: 15,
-                        }}
                     >
                         <Image
                             style={{
@@ -68,9 +65,11 @@ class CategoryForm extends Component {
                         />
                     </PhotoUpload>
                     <View style={[styles.container, {
-                        paddingTop: 20,
+                        paddingTop: 35,
+                        top: -20,
                         borderTopLeftRadius: 15,
                         borderTopRightRadius: 15,
+                        backgroundColor: '#fff'
                     }]}>
                         <Field
                             name='name'

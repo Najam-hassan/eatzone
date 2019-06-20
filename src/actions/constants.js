@@ -7,13 +7,13 @@ export const USER_SIGNUP_SUCCESS = 'USER_SIGNUP_SUCCESS';
 export const USER_SIGNUP_FAILURE = 'USER_SIGNUP_FAILURE';
 export const RESET_LOGIN_STATE = 'RESET_LOGIN_STATE';
 
-// Fetch Resturant list
+// Fetch Restaurant list
 export const FETCH_LIST_REQUEST = 'FETCH_LIST_REQUEST';
 export const FETCH_LIST_SUCCESS = 'FETCH_LIST_SUCCESS';
 export const FETCH_LIST_FAILURE = 'FETCH_LIST_FAILURE';
 export const RESET_LIST_STATE = 'RESET_LIST_STATE';
 
-// Fetch Resturant list
+// Fetch Restaurant list
 export const FETCH_RESTAURENTS_REQUEST = 'FETCH_RESTAURENTS_REQUEST';
 export const FETCH_RESTAURENTS_SUCCESS = 'FETCH_RESTAURENTS_SUCCESS';
 export const FETCH_RESTAURENTS_FAILURE = 'FETCH_RESTAURENTS_FAILURE';
@@ -26,7 +26,7 @@ export const RESET_RESTAURENTS_STATE = 'RESET_RESTAURENTS_STATE';
 *****************************************************************
 */
 
-// Resturant Profile Constants
+// Restaurant Profile Constants
 export const UPDATE_RESATURANT_PROFILE_REQUEST = 'UPDATE_RESTAURANT_PROFILE_REQUEST';
 export const UPDATE_RESATURANT_PROFILE_SUCCESS = 'UPDATE_RESATURANT_PROFILE_SUCCESS';
 export const UPDATE_RESATURANT_PROFILE_FAILURE = 'UPDATE_RESATURANT_PROFILE_FAILURE';

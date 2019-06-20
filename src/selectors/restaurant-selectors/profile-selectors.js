@@ -4,15 +4,15 @@ import { initialState } from '../../reducers/restaurant-reducers/profile-reducer
 const selectRestaurantProfileState = state => state.get('resturantProfile', initialState);
 
 const makeSelectProfileLoading = () => createSelector(
-    selectRestaurantProfileState, state => state.getIn(['resturant', 'loading'])
+    selectRestaurantProfileState, state => state.getIn(['restaurant', 'loading'])
 );
 
 const makeSelectProflieData = () => createSelector(
-    selectRestaurantProfileState, state => state.getIn(['resturant', 'data']).toJS()
+    selectRestaurantProfileState, state => state.getIn(['restaurant', 'data']).toJS()
 );
 
 const makeSelectError = () => createSelector(
-    selectRestaurantProfileState, state => state.getIn(['resturant', 'error'])
+    selectRestaurantProfileState, state => state.getIn(['restaurant', 'error'])
 );
 
 export {

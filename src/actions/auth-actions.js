@@ -14,9 +14,10 @@ export function loginSuccess (user) {
     }
 }
 
-export function loginFailure () {
+export function loginFailure (error) {
     return {
         type: constants.USER_LOGIN_FAILURE,
+        error,
     }
 }
 
@@ -33,9 +34,10 @@ export function registerSuccess (user) {
     }
 }
 
-export function registerFailure () {
+export function registerFailure (error) {
     return {
         type: constants.USER_SIGNUP_FAILURE,
+        error,
     }
 }
 
@@ -54,7 +56,7 @@ export function loginAction (url, user) {
                 dispatch(loginSuccess(response.data));
             })
             .catch(error => {
-                dispatch(loginFailure(error));
+                dispatch(loginFailure(error.response ? error.response.data : null));
             });
     }
 }
@@ -67,7 +69,7 @@ export function registerAction (url, user) {
                 dispatch(registerSuccess(response.data));
             })
             .catch(error => {
-                dispatch(registerFailure(error));
+                dispatch(registerFailure(error.response ? error.response.data : null));
             });
     }
 }

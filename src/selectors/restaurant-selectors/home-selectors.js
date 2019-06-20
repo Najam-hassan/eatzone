@@ -11,6 +11,10 @@ const makeSelectCategoryList = () => createSelector(
     selectResturantHomeState, state => state.getIn(['categories', 'data']).toJS()
 );
 
+const makeSelectProfileDetails = () => createSelector(
+    selectResturantHomeState, state => state.getIn(['categories', 'details']).toJS()
+);
+
 const makeSelectSelectedList = () => createSelector(
     selectResturantHomeState, state => (
         state.getIn(['categories', 'data']).filter(row => (
@@ -34,4 +38,5 @@ export {
     makeSelectCategoryList,
     makeSelectSelectedList,
     selectResturantHomeState,
+    makeSelectProfileDetails,
 };

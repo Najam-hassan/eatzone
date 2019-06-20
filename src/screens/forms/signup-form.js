@@ -1,9 +1,9 @@
 import { Text } from 'react-native';
 import { connect } from "react-redux";
 import React, { Component } from 'react';
-import { Field, reduxForm } from 'redux-form/immutable'
+import { Field, reduxForm, initialize, destroy } from 'redux-form/immutable'
 
-import { View, StyleSheet, Dimensions, ActivityIndicator, Alert } from 'react-native'
+import { View, StyleSheet, Dimensions, ActivityIndicator } from 'react-native'
 
 const { width, height } = Dimensions.get('screen');
 
@@ -73,7 +73,10 @@ class SignUpForm extends Component {
                                 Already have an account?
                             <Text
                                     style={styles.signUpTextStyle}
-                                    onPress={() => this.props.navigateTo('SignInScreen')}
+                                    onPress={() => {
+                                        // this.props.initilizeForm();
+                                        this.props.navigateTo('SignInScreen');
+                                    }}
                                 > Sign In</Text>
                             </Text>
                         </View>
@@ -115,6 +118,10 @@ const mapDispatchToProps = dispatch => {
         onSubmit: (url, values) => {
             const { email, password, name } = values && values.toJS();
             dispatch(actions.registerAction(url, { email, password, name }))
+        },
+        initilizeForm: () => {
+            dispatch(destroy('SigninForm'));
+            dispatch(initialize('SigninForm', {}));
         }
     }
 };

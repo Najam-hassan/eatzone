@@ -10,26 +10,26 @@ const { width, height } = Dimensions.get('screen');
 import InputField from '../../components/common/input';
 import Button from '../../components/common/button';
 
-import * as actions from '../../actions/auth-actions'
-import * as selectors from '../../selectors/auth-selectors'
+import * as actions from '../../actions/auth-actions';
+import * as selectors from '../../selectors/auth-selectors';
 
 class SignInForm extends Component {
 
-    componentWillReceiveProps (nextProps) {
-        if (nextProps.user !== null) {
-            try {
-                AsyncStorage.setItem(
-                    'user',
-                    JSON.stringify(nextProps.user),
-                    () => {
-                        this.props.navigateTo('HomeScreen');
-                        this.forceUpdate();
-                    }
-                );
-            } catch (error) {
-            }
-        }
-    }
+    // componentWillReceiveProps (nextProps) {
+    //     if (nextProps.user !== null) {
+    //         try {
+    //             AsyncStorage.setItem(
+    //                 'user',
+    //                 JSON.stringify(nextProps.user),
+    //                 () => {
+    //                     this.props.navigateTo('HomeScreen');
+    //                     this.forceUpdate();
+    //                 }
+    //             );
+    //         } catch (error) {
+    //         }
+    //     }
+    // }
 
     onSubmit = (values) => {
         if (values) {
@@ -100,6 +100,7 @@ class SignInForm extends Component {
 
 const validate = values => {
     const errors = {};
+    console.log(values.toJS())
     if (!values.get('email')) {
         errors.email = '*Required';
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.get('email'))) {

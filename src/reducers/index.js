@@ -5,7 +5,7 @@ import authReducer from './auth-reducer';
 import homeReducer from './home-reducer';
 import restaurantsReducer from './restaurents-reducer';
 
-// Resturant Profile Owner 
+// Restaurant Profile Owner
 import categoryList from './restaurant-reducers/home-reducer';
 import profileReducer from './restaurant-reducers/profile-reducer';
 import categoryReducer from './restaurant-reducers/category-reducer';

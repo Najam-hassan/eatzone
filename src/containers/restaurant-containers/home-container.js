@@ -11,7 +11,7 @@ import * as selectors from '../../selectors/restaurant-selectors/home-selectors'
 
 class OwnerDashboard extends Component {
 
-    state = { isEnable: false, selectAll: false }
+    state = { isEnable: false, selectAll: false };
 
     componentDidMount () {
         this.props.fetchList();
@@ -22,13 +22,16 @@ class OwnerDashboard extends Component {
             this.props.resetState();
             this.props.fetchList();
         }
+        if(nextProps.profile && Object.keys(nextProps.profile).length && !nextProps.profile.phone) {
+            this.props.navigation.navigate('RestaurantProfile')
+        }
     }
 
     render () {
         const { isEnable, selectAll } = this.state;
         const { categories, loading, showOptions, selectedList, deleteCategory } = this.props;
-        const conut = categories.filter(row => row.selected).length;
-        if (conut <= 0 && isEnable === true) {
+        const count = categories.filter(row => row.selected).length;
+        if (count <= 0 && isEnable === true) {
             this.setState({
                 isEnable: false,
                 selectAll: false
@@ -183,6 +186,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => ({
     loading: selectors.makeSelectLoading()(state),
     isDeleted: selectors.makeSelectIsDeleted()(state),
+    profile: selectors.makeSelectProfileDetails()(state),
     categories: selectors.makeSelectCategoryList()(state),
     selectedList: selectors.makeSelectSelectedList()(state),
 });
@@ -195,7 +199,7 @@ const mapDispatchToProps = dispatch => {
         selectAll: selectAll => dispatch(actions.selectAllAction(selectAll)),
         deleteCategory: list => dispatch(actions.deleteCategoryAction(list)),
     }
-}
+};
 
 export default connect(
     mapStateToProps,

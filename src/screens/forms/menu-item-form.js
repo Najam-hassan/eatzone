@@ -58,9 +58,6 @@ class MenuItemForm extends Component {
                                 console.log('Image base64 string: ', avatar)
                             }
                         }}
-                        containerStyle={{
-                            marginBottom: 15,
-                        }}
                     >
                         <Image
                             style={{
@@ -75,7 +72,9 @@ class MenuItemForm extends Component {
                         />
                     </PhotoUpload>
                     <View style={[styles.container, {
+                        top: -20,
                         paddingTop: 20,
+                        backgroundColor: '#fff',
                         borderTopLeftRadius: 15,
                         borderTopRightRadius: 15,
                     }]}>
@@ -84,7 +83,7 @@ class MenuItemForm extends Component {
                             errorTextColor="red"
                             keyboardType='default'
                             component={InputField}
-                            placeholder='Enter Category Name'
+                            placeholder='Enter Item Name'
                             customContainerStyle={styles.input}
                             customInputStyle={{ color: "#000" }}
                         />

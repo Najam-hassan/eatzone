@@ -5,6 +5,7 @@ import {
 	View, StyleSheet, ImageBackground, Dimensions, Text, AsyncStorage, ScrollView
 } from 'react-native';
 
+import * as actions from '../../actions/auth-actions'
 import * as selectors from '../../selectors/auth-selectors'
 
 import SignInForm from '../forms/signin-form';
@@ -17,8 +18,13 @@ class SignInScreen extends Component {
 	}
 
 	componentWillReceiveProps (nextProps) {
+		if (nextProps.authUser !== null) {
+			this.refs.toast.show(
+				'Confirmation email has been sent to you. Please confirm to login',
+				2000
+			);
+		}
 		if (nextProps.user !== null) {
-			this.refs.toast.show('Successfully logged In');
 			try {
 				AsyncStorage.setItem(
 					'user',
@@ -32,7 +38,11 @@ class SignInScreen extends Component {
 			}
 		}
 		if (nextProps.isAuthenticated) {
-			this.refs.toast.show('Failed to login, check email and password combination!');
+			if (nextProps.error && nextProps.error.message) {
+				this.refs.toast.show(nextProps.error.message, 2000);
+			} else {
+				this.refs.toast.show('Failed to login, check email and password combination!');
+			}
 		}
 	}
 
@@ -54,7 +64,7 @@ class SignInScreen extends Component {
 		return (
 			<View style={{ flex: 1 }}>
 				<ImageBackground
-					source={require('../../assets/images/image-1.jpg')}
+					source={require('../../assets/images/auth-bg.jpg')}
 					style={styles.backgroundImage}
 				>
 					<View style={styles.overlay}>
@@ -84,8 +94,16 @@ class SignInScreen extends Component {
 
 const mapStateToProps = state => ({
 	user: selectors.makeSelectData()(state),
+	error: selectors.makeSelectSignInError()(state),
+	authUser: selectors.makeSelectSignUpUser()(state),
 	isAuthenticated: selectors.makeSelectAuthStatue()(state),
 });
+
+const mapDispatchToProps = dispatch => {
+	return {
+		resetState: () => dispatch(actions.resetState()),
+	}
+}
 
 const styles = StyleSheet.create({
 	backgroundImage: {
@@ -111,4 +129,7 @@ const styles = StyleSheet.create({
 	}
 })
 
-export default connect(mapStateToProps, null)(SignInScreen)
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(SignInScreen)

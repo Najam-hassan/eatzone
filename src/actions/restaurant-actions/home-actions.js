@@ -12,6 +12,7 @@ export function fetchCategoriesSuccess (data) {
     return {
         type: constants.FETCH_CATEGORY_LIST_SUCCESS,
         data: data.menu_categories,
+        details: data
     }
 }
 
@@ -60,7 +61,8 @@ export function deleteCategoryAction (list) {
         list.map(item => {
             return axios.delete(`/restaurant/menu-category/${item.id}`)
         });
-        dispatch(deleteCategorySuccess())
+        dispatch(deleteCategorySuccess());
+        dispatch(fetchCategoryListAction())
     }
 }
 

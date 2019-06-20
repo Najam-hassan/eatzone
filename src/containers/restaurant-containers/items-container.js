@@ -1,7 +1,6 @@
 import { connect } from 'react-redux'
 import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Toast, { DURATION } from 'react-native-easy-toast';
 import {
     View, StyleSheet, Text, FlatList, Image, TouchableOpacity, ActivityIndicator
 } from 'react-native';
@@ -14,14 +13,14 @@ import { makeSelectCategoryList } from '../../selectors/restaurant-selectors/hom
 
 class ItemContainer extends Component {
     componentWillReceiveProps (nextProps) {
-        console.log(this.refs, 'refs 1');
+        const { parent } = this.props;
         if (nextProps.success) {
-            console.log(this.refs, 'refs');
-            // this.refs.toast.show('Menu Item deleted successfully', 2000);
+            console.log(parent.refs, 'parent');
+            // parent.refs.toast.show('Menu Item deleted successfully', 2000);
             this.props.fetchList();
         }
         if (nextProps.failed) {
-            // this.refs.toast.show('Some thing wrong, failed to delete Item', 2000);
+            // parent.refs.toast.show('Some thing wrong, failed to delete Item', 2000);
         }
     }
 
@@ -55,7 +54,7 @@ class ItemContainer extends Component {
     );
 
     render () {
-        const { items, navigation, catId, deleteLoading, categories } = this.props;
+        const { navigation, catId, deleteLoading, categories } = this.props;
         const category = categories && categories.filter(row => row.id === catId);
         if (deleteLoading) {
             return <ActivityIndicator size={'large'} color={'#1BA2FC'} />
@@ -68,24 +67,19 @@ class ItemContainer extends Component {
                         extraData={category}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={this._renderItem}
-                    /> : <View>
-                        <Text style={[styles.title, { fontWeight: '300' }]}>
+                    /> : <View style={styles.message}>
+                        <Text style={[styles.title, { fontWeight: '400' }]}>
                             Menu Item not exsit, please create menu items.
                         </Text>
                     </View>
                 }
                 <ActionButton
                     onPress={() => {
+                        console.log(navigation, '......')
                         navigation.navigate('CreateItemScreen', {
                             catId: catId
                         })
                     }}
-                />
-                <Toast
-                    ref="toast"
-                    position='bottom'
-                    fadeOutDuration={3000}
-                    textStyle={{ color: '#fff' }}
                 />
             </View>
         )
@@ -120,6 +114,11 @@ const styles = StyleSheet.create({
         fontSize: 13,
         fontWeight: '300',
         color: '#cccccc'
+    },
+    message: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
     }
 });
 

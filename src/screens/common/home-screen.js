@@ -36,6 +36,7 @@ class HomeScreen extends Component {
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 const { latitude, longitude } = position.coords
+                this.props.testAction({ latitude, longitude });
                 console.log('lat: ', latitude, 'long: ', longitude)
                 this.setState({
                     latitude: position.coords.latitude,
@@ -72,7 +73,9 @@ class HomeScreen extends Component {
 const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => {
-    return {}
+    return {
+        testAction: data => console.log(data, '-==-=-=-=-=-'),
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

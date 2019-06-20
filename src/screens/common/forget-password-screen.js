@@ -29,7 +29,7 @@ class ForgetPasswordScreen extends Component {
         return (
             <View style={{ flex: 1 }}>
                 <ImageBackground
-                    source={require('../../assets/images/image-1.jpg')}
+                    source={require('../../assets/images/auth-bg.jpg')}
                     style={styles.backgroundImage}
                 >
                     <View style={styles.overlay}>

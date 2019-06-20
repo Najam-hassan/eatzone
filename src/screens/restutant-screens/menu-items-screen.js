@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, StatusBar } from 'react-native';
+import Toast from 'react-native-easy-toast';
 
 import { PageHeader } from '../../components/common/header';
 import ItemContainer from '../../containers/restaurant-containers/items-container';
@@ -20,9 +21,16 @@ class MenuItemsScreen extends Component {
                     title={'Menu Items'}
                 />
                 <ItemContainer
+                    parent={this}
                     navigation={this.props.navigation}
                     items={params && params.items ? params.items : []}
                     catId={params.catId}
+                />
+                <Toast
+                    ref="toast"
+                    position='bottom'
+                    fadeOutDuration={3000}
+                    textStyle={{ color: '#fff' }}
                 />
             </View>
         )

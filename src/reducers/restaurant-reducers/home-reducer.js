@@ -7,6 +7,7 @@ export const initialState = fromJS({
     categories: {
         data: [],
         error: null,
+        details: {},
         loading: false,
         isDeleted: false,
     },
@@ -31,18 +32,17 @@ export default function homeReducer (state = initialState, action) {
             );
             return state
                 .setIn(['categories', 'data'], payload)
+                .setIn(['categories', 'details'], Map(action.details))
                 .setIn(['categories', 'loading'], false);
         }
 
         case constants.DELETE_CATEGORY_REQUEST:
-            return state
-                .setIn(['categories', 'loading'], true)
-                .setIn(['']);
+            return state.setIn(['categories', 'loading'], true);
 
         case constants.DELETE_CATEGORY_SUCCESS: {
             const index = state.getIn(['categories', 'data']).findIndex(row => (
                 row.get('id') === action.id
-            ))
+            ));
             return state
                 .setIn(['categories', 'loading'], false)
                 .setIn(['categories', 'isDeleted'], true);

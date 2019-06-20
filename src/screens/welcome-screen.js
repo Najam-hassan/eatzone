@@ -14,7 +14,7 @@ class WelcomeScreen extends Component {
         return (
             <View style={styles.container}>
                 <ImageBackground
-                    source={require('../assets/images/image-1.jpg')}
+                    source={require('../assets/images/welcome-bg.jpg')}
                     style={styles.backgroundImage}
                 >
                     <View style={[styles.container, styles.overlay]}>
