@@ -2,8 +2,10 @@ import { combineReducers } from 'redux-immutable';
 import { reducer as formReducer } from 'redux-form/immutable'
 
 import authReducer from './auth-reducer';
-import homeReducer from './home-reducer';
-import restaurantsReducer from './restaurents-reducer';
+
+import homeReducer from './user-reducers/home-reducer';
+import restaurantsReducer from './user-reducers/restaurents-reducer';
+import restaurantDetailReducer from './user-reducers/resturant-detail-reducer';
 
 // Restaurant Profile Owner
 import categoryList from './restaurant-reducers/home-reducer';
@@ -15,12 +17,14 @@ export default function index () {
     return combineReducers({
         form: formReducer,
         auth: authReducer,
+
         home: homeReducer,
         restaurants: restaurantsReducer,
+        restaurantDetail: restaurantDetailReducer,
 
-        resturantProfile: profileReducer,
-        resturantCategories: categoryList,
-        resturantCategory: categoryReducer,
+        restaurantProfile: profileReducer,
+        restaurantCategories: categoryList,
+        restaurantCategory: categoryReducer,
         categoryItemReducer: categoryItemReducer
     });
 }

@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { initialState } from '../reducers/home-reducer';
+import { initialState } from '../../reducers/user-reducers/home-reducer';
 
 const selectHomeState = state => state.get('home', initialState);
 

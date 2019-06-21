@@ -10,8 +10,8 @@ class HomeScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            type: null,
             error: null,
-            type: 'user',
             loading: true,
             latitude: null,
             longitude: null,
@@ -33,19 +33,6 @@ class HomeScreen extends Component {
 
     componentDidMount () {
         this.checkUserType();
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                const { latitude, longitude } = position.coords
-                this.props.testAction({ latitude, longitude });
-                console.log('lat: ', latitude, 'long: ', longitude)
-                this.setState({
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
-                });
-            },
-            (error) => this.setState({ error: error.message }),
-            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-        );
     }
 
     render () {
@@ -63,6 +50,7 @@ class HomeScreen extends Component {
                     /> :
                         type === 'user' ? <UserDashboard
                             navigation={this.props.navigation}
+                            type={this.state.type}
                         /> : null
                 }
             </View>

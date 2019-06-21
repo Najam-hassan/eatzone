@@ -20,7 +20,9 @@ class ItemDetailsContainer extends Component {
                         <Text style={styles.headerText}>{detail.name ? detail.name : 'Some Name'}</Text>
                         <Text>${detail.price ? detail.price : 0}</Text>
                     </View>
-                    <Text>{detail.description}</Text>
+                    <Text>
+                        {detail.description ? detail.description : 'Some Description here'}
+                    </Text>
                 </View>
                 <View style={styles.divider} />
                 <View style={styles.softContainer}>

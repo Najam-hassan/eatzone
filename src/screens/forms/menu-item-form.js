@@ -4,7 +4,7 @@ import Toast from 'react-native-easy-toast';
 import PhotoUpload from 'react-native-photo-upload';
 import { Field, reduxForm } from 'redux-form/immutable';
 import {
-    View, ActivityIndicator, StyleSheet, Dimensions, Image
+    View, ActivityIndicator, StyleSheet, Dimensions, Image, Alert
 } from 'react-native';
 
 const { width, height } = Dimensions.get('screen');
@@ -19,13 +19,15 @@ import TextAreaFiled from '../../components/common/text-area';
 
 class MenuItemForm extends Component {
 
+    state = { imageData: null };
+
     componentWillReceiveProps (nextProps) {
         const { categoryId } = this.props;
         if (nextProps.categoryItem && nextProps.categoryItem.name) {
             this.refs.toast.show('Category created successfully', 1500);
             this.props.navigation.navigate('MenuItemsScreen', {
                 catId: categoryId
-            })
+            });
             this.props.fetchList();
             this.props.resetState();
         }
@@ -33,13 +35,25 @@ class MenuItemForm extends Component {
 
     onSubmit = values => {
         const { categoryId } = this.props;
+        const { imageData } = this.state;
         if (values && values.toJS()) {
-            this.props.onSubmit(categoryId, {
-                ...values.toJS(),
-                imageUrl: 'https://pune365.com/wp-content/uploads/2017/02/30287438_l.jpg'
-            });
+            if (imageData) {
+                this.props.onSubmit(categoryId, {
+                    ...values.toJS(),
+                    imageData: `data:image/jpeg;base64,${imageData}`
+                });
+            } else {
+                return Alert.alert(
+                  "Required",
+                  'Please select image!!',
+                  [
+                      {text: 'OK', onPress: () => console.log('OK Pressed')},
+                  ],
+                  {cancelable: false},
+                )
+            }
         }
-    }
+    };
 
     render () {
         const { handleSubmit, submitting, loading } = this.props;
@@ -55,7 +69,8 @@ class MenuItemForm extends Component {
                     <PhotoUpload
                         onPhotoSelect={avatar => {
                             if (avatar) {
-                                console.log('Image base64 string: ', avatar)
+                                console.log('Image base64 string: ', avatar);
+                                this.setState({ imageData: avatar });
                             }
                         }}
                     >
@@ -101,7 +116,7 @@ class MenuItemForm extends Component {
                             errorTextColor="red"
                             keyboardType='default'
                             component={TextAreaFiled}
-                            placeholder='Enter Category Name'
+                            placeholder='Enter Category Description'
                             customContainerStyle={[styles.input, {
                                 height: 100,
                                 borderRadius: 10

@@ -1,9 +1,13 @@
+import { connect } from 'react-redux'
 import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { View, Text, StatusBar, ImageBackground, StyleSheet, Dimensions } from 'react-native';
 
-import { PageHeader } from '../../components/common/header'
-import RestaurantDetail from '../../containers/user-containers/restaurent-details-container'
+import { PageHeader } from '../../components/common/header';
+import RestaurantDetail from '../../containers/user-containers/restaurent-details-container';
+
+import * as actions from '../../actions/user-actions/resturant-detail-actions';
+import  * as selectors from '../../selectors/user-selectors/restaurent-detail-selectors';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -12,8 +16,16 @@ class RestaurantDetailScreen extends Component {
         super(props);
     }
 
+    componentDidMount () {
+        // const { params } = this.props.navigation.state;
+        // if (params.restaurantId) {
+            // this.props.fetchDetails(params.restaurantId)
+        // }
+    }
+
     render () {
-        const { params } = this.props.navigation.state;
+        const { list } = this.props;
+        console.log(list, '-=-=-=-=-=-');
         return (
             <View style={{ flex: 1 }}>
                 <StatusBar hidden={false} />
@@ -23,7 +35,7 @@ class RestaurantDetailScreen extends Component {
                 />
                 <View style={{ flex: 0.4 }}>
                     <ImageBackground
-                        source={params.restaurant.image}
+                        source={require('../../assets/images/mcdonal.jpg')}
                         style={styles.backgroundImage}
                     >
                         <View style={[styles.overlay]}>
@@ -31,18 +43,22 @@ class RestaurantDetailScreen extends Component {
                             <View style={styles.detailStyle}>
                                 <View>
                                     <Text style={styles.titleStyle}>
-                                        {params.restaurant.name}
+                                        {/* {params.restaurant.name} */}
+                                        {'Some Name Here'}
                                     </Text>
                                 </View>
                                 <View style={{ flexDirection: 'column', alignItems: 'flex-end' }}>
                                     <Text style={styles.serviceChargeText}>
-                                        Service Charges: {params.restaurant.charges}
+                                        {/* Service Charges: {params.restaurant.charges} */}
+                                        Service Charges: 10 %
                                     </Text>
                                     <Text style={{ color: "#fff", marginTop: 5 }}>
                                         <Icon
                                             name="map-marker"
                                             size={16} color="#fff"
-                                        /> {params.restaurant.distance} miles away
+                                        />
+                                        {/* {params.restaurant.distance} miles away */}
+                                        10 miles away
                                     </Text>
                                 </View>
                             </View>
@@ -50,16 +66,28 @@ class RestaurantDetailScreen extends Component {
                     </ImageBackground>
                 </View>
                 <View style={[styles.itemContainer, { marginTop: -15 }]}>
-                    <RestaurantDetail
-                        data={params.restaurant.menu}
+                    {list && Object.keys(list).length && list.menu_categories.length ?
+                      <RestaurantDetail
+                        data={list.menu_categories}
                         navigation={this.props.navigation}
-                        list={Object.keys(params.restaurant.menu)}
-                    />
+                        list={list.menu_categories.map(item => item.name)}
+                      /> : null
+                    }
                 </View>
             </View>
         )
     }
 }
+
+const mapStateToProps = state => ({
+    list: selectors.makeSelectRestaurantDetail()(state)
+});
+
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchDetails: id => dispatch(actions.fetchDetailAction(id))
+    }
+};
 
 const styles = StyleSheet.create({
     backgroundImage: {
@@ -94,4 +122,7 @@ const styles = StyleSheet.create({
     }
 })
 
-export default RestaurantDetailScreen
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(RestaurantDetailScreen)

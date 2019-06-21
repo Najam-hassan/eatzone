@@ -3,7 +3,7 @@ import { initialState } from '../../reducers/restaurant-reducers/category-item-r
 import { initialState as listInitialState } from '../../reducers/restaurant-reducers/home-reducer';
 
 const selectCategoryItemState = state => state.get('categoryItemReducer', initialState);
-const selectCategoryListState = state => state.get('resturantCategories', listInitialState);
+const selectCategoryListState = state => state.get('restaurantCategories', listInitialState);
 
 const makeSelectLoading = () => createSelector(
     selectCategoryItemState, state => state.getIn(['categoryItem', 'loading'])

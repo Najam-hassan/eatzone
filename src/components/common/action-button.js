@@ -1,13 +1,23 @@
 import React from 'react';
+import { Text, StyleSheet } from 'react-native';
 import ActionButton from 'react-native-action-button';
 
 const FloatingButton = ({ onPress }) => (
     <ActionButton
-        buttonColor={'#1BA2FC'}
+        size={64}
+        offsetX={8}
+        offsetY={28}
+        buttonColor={'#00a0ff'}
         onPress={() => onPress()}
-        offsetX={10}
-        offsetY={10}
+        renderIcon={() => <Text style={styles.testStyle}>+</Text>}
     />
 );
+
+const styles = StyleSheet.create({
+    testStyle: {
+        color: '#fff',
+        fontSize: 40,
+    },
+})
 
 export default FloatingButton;

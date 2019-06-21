@@ -11,6 +11,7 @@ class ItemDetailScreen extends Component {
 
     render () {
         const { params } = this.props.navigation.state;
+        console.log(params, '-=-=-=-=-=-=-');
         return (
             <View style={{ flex: 1 }}>
                 <StatusBar hidden={false} />
@@ -20,7 +21,7 @@ class ItemDetailScreen extends Component {
                 />
                 {params.item ? <View style={{ flex: 1 }}>
                     <View style={styles.imageContainer}>
-                        <Image source={params.item.image} style={styles.bannerStyle} />
+                        <Image source={{ uri: params.item.imageUrl }} style={styles.bannerStyle} />
                     </View>
                     <View style={styles.dataContainer}>
                         <ItemDetailContainer detail={params.item} />

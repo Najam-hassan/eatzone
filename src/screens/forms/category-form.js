@@ -4,7 +4,7 @@ import PhotoUpload from 'react-native-photo-upload';
 import { Field, reduxForm } from 'redux-form/immutable';
 import Toast from 'react-native-easy-toast';
 import {
-    View, ActivityIndicator, StyleSheet, Dimensions, Image
+    View, ActivityIndicator, StyleSheet, Dimensions, Image, Alert
 } from 'react-native';
 
 const { width, height } = Dimensions.get('screen');
@@ -17,22 +17,39 @@ import Button from '../../components/common/button';
 
 class CategoryForm extends Component {
 
+    state = { imageData: null };
+
     componentWillReceiveProps (nextProps) {
         if (nextProps.category && nextProps.category.name) {
-            this.refs.toast.show('Category created successfully', 1500);
             this.props.navigation.navigate('HomeScreen');
             this.props.resetState();
+        }
+        if(nextProps.error) {
+           console.log(nextProps.error);
+            this.refs.toast.show(nextProps.error.message, 2000);
         }
     }
 
     onSubmit = values => {
+        const { imageData } = this.state;
         if (values && values.toJS()) {
-            this.props.addCategory({
-                ...values.toJS(),
-                imageUrl: 'https://smppharmacy.com/wp-content/uploads/2019/02/food-post.jpg'
-            });
+            if(imageData) {
+                this.props.addCategory({
+                    ...values.toJS(),
+                  imageData: `data:image/jpeg;base64,${imageData}`
+                });
+            } else {
+                return Alert.alert(
+                  "Required",
+                  'Please select image!!',
+                  [
+                      { text: 'OK', onPress: () => console.log('OK Pressed') },
+                  ],
+                  { cancelable: false },
+                )
+            }
         }
-    }
+    };
 
     render () {
         const { handleSubmit, submitting, loading } = this.props;
@@ -48,6 +65,7 @@ class CategoryForm extends Component {
                     <PhotoUpload
                         onPhotoSelect={avatar => {
                             if (avatar) {
+                                this.setState({imageData: avatar})
                                 console.log('Image base64 string: ', avatar)
                             }
                         }}
@@ -108,6 +126,7 @@ const validate = values => {
 };
 
 const mapStateToProps = state => ({
+    error: selectors.makeSelectError()(state),
     loading: selectors.makeSelectLoading()(state),
     category: selectors.makeSelectCategory()(state),
 });

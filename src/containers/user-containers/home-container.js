@@ -3,107 +3,181 @@ import React, { Component } from 'react';
 import Drawer from 'react-native-draggable-view';
 import MapView, { Marker } from 'react-native-maps';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { View, Text, StyleSheet, Dimensions, StatusBar, FlatList, Image } from 'react-native';
+import {
+    View, Text, StyleSheet, Dimensions, StatusBar, FlatList,
+    Image, ActivityIndicator, TouchableOpacity
+} from 'react-native';
 
 const { height, width } = Dimensions.get('screen');
 
-const ASPECT_RATIO = width / height;
-const LATITUDE = -37.812365;
-const LONGITUDE = 144.962338;
-const LATITUDE_DELTA = 0.0222;
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-
 import DragHeader from '../../components/drag-header';
 
-import * as actions from '../../actions/home-actions'
-import * as selectors from '../../selectors/home-selectors'
+import * as actions from '../../actions/user-actions/home-actions'
+import * as selectors from '../../selectors/user-selectors/home-selectors'
+import { fetchDetailAction } from '../../actions/user-actions/resturant-detail-actions';
 
 class HomeContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            markers: [{
-                latitude: 31.47427313,
-                longitude: 74.24994869,
-                latitudeDelta: 0.015,
-                longitudeDelta: 0.0121,
-            }, {
-                latitude: LATITUDE,
-                longitude: LONGITUDE,
-                latitudeDelta: LATITUDE_DELTA,
-                longitudeDelta: LONGITUDE_DELTA
-            }, {
-                latitude: 33.47427313,
-                longitude: 72.24994869,
-                latitudeDelta: 0.015,
-                longitudeDelta: 0.0121,
-            }, {
-                latitude: 30.47427313,
-                longitude: 72.24994869,
-                latitudeDelta: 0.015,
-                longitudeDelta: 0.0121,
-            }],
+            firstClick: true,
+            isLoading: false,
             region: {
                 latitude: 31.47427313,
-                longitude: 74.24994869,
-                latitudeDelta: 0.018,
-                longitudeDelta: LONGITUDE_DELTA
+                longitude: 73.24994869,
+                latitudeDelta: 1,
+                longitudeDelta: 1
             }
         }
     }
 
     componentDidMount () {
+        console.log('user type', this.props.type)
+        this.setState({ isLoading: true })
         const { fetchList } = this.props;
-        fetchList();
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                this.setState({ isLoading: false })
+                const { latitude, longitude } = position.coords
+                console.log('lat: ', latitude, 'long: ', longitude)
+                this.setState({
+                    region: {
+                        ...this.state.region,
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
+                    }
+                });
+                fetchList(`/user/nearby-restaurants/${latitude},${longitude}`);
+            },
+            (error) => this.setState({ error: error.message, isLoading: false }),
+            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+        );
     }
 
-    _renderItem = ({ item }) => (
-        <View style={styles.itemStyling}>
-            <Image source={item.image} style={{ width: 70, height: 70, borderRadius: 10 }} />
-            <View style={{ flex: 1, flexDirection: 'column', marginLeft: 20, }}>
-                <Text style={styles.title}>{item.name}</Text>
-                <Text numberOfLines={2} style={styles.description}>
-                    {item.description}
-                </Text>
+    _renderItem = ({ item, index }) => (
+        <TouchableOpacity
+            key={item.id}
+            activeOpacity={0.7}
+            onPress={() => {
+                const { firstClick } = this.state;
+                const { location } = item;
+                if (firstClick) {
+                    if (location) {
+                        this.setState({
+                            firstClick: false,
+                            region: {
+                                ...this.state.region,
+                                latitude: location.coordinates[1],
+                                longitude: location.coordinates[0]
+                            }
+                        });
+                    }
+                    this.props.fetchList(`/user/eligible-restaurants/${item.id}`);
+                } else {
+                    console.log('will impleent the listing shortly!!!!')
+                }
+            }}
+        >
+            <View style={styles.itemStyling}>
+                <Image
+                    source={index % 2 === 0 ?
+                        require('../../assets/images/mcdonal.jpg') :
+                        require('../../assets/images/subway.jpg')}
+                    style={{ width: 70, height: 70, borderRadius: 10 }}
+                />
+                <View style={{ flex: 1, flexDirection: 'column', marginLeft: 20, }}>
+                    <Text style={styles.title}>{item.name}</Text>
+                    <Text numberOfLines={2} style={styles.description}>
+                        {item.addressDetails}
+                    </Text>
+                </View>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 
     render () {
+        const { list, loading, navigation } = this.props;
+        const { isLoading, firstClick } = this.state;
+        if (isLoading) {
+            return <ActivityIndicator size={'large'} color={'#1BA2FC'} />
+        }
         return (
             <View style={styles.container}>
                 <MapView
-                    followsUserLocation
-                    // provider={PROVIDER_GOOGLE}
+                    maxZoomLevel={8}
                     style={styles.map}
-                    region={this.state.region}
+                    pitchEnabled={true}
+                    followsUserLocation
+                    rotateEnabled={true}
+                    scrollEnabled={true}
                     showsUserLocation={true}
+                    region={this.state.region}
                     showsMyLocationButton={true}
                 >
-                    {this.state.markers.map(item => (
+                    <View>
                         <Marker
-                            coordinate={item}
-                            title={'Title Here'}
+                            title={`User's Loaction`}
+                            coordinate={this.state.region}
                             description={'local description'}>
-                            <Icon name="map-marker" size={40} color="#E6464D" />
+                            <Icon name="map-marker" size={45} color="#1BA2FC" />
                         </Marker>
-                    ))}
+                        {!firstClick && list && list.length ? list.map((item, index) => (
+                            <Marker
+                                onPress={() => {
+                                    this.props.fetchDetails(item.id);
+                                    navigation.navigate('RestaurantDetailScreen', {
+                                        restaurantId: item.id
+                                    })
+                                }}
+                                id={index}
+                                coordinate={{
+                                    latitude: item.location.coordinates[1],
+                                    longitude: item.location.coordinates[0],
+                                    latitudeDelta: 1,
+                                    longitudeDelta: 1
+                                }}
+                                title={'Title Here'}
+                                description={'local description'}>
+                                <Icon name="map-marker" size={40} color="#E6464D" />
+                            </Marker>
+                        )) : null}
+                    </View>
                 </MapView>
                 <Drawer
                     initialDrawerSize={0.15}
                     renderContainerView={() => (null)}
                     finalDrawerHeight={(height / 2) - 100}
-                    renderDrawerView={() => (
-                        <View style={{ marginBottom: 15, backgroundColor: '#f7f8fa' }}>
-                            <FlatList
-                                data={this.props.list}
-                                extraData={this.state}
-                                // keyExtractor={this._keyExtractor}
-                                keyExtractor={(item, index) => index.toString()}
-                                renderItem={this._renderItem}
-                            />
-                        </View>
-                    )}
+                    renderDrawerView={() => {
+                        if (loading) {
+                            return <ActivityIndicator size={'large'} color={'#1BA2FC'} />
+                        } else {
+                            return (
+                                <View style={{
+                                    marginBottom: 15, backgroundColor: '#f7f8fa', flex: 1
+                                }}>
+                                    {list && list.length ?
+                                        <FlatList
+                                            data={list}
+                                            extraData={this.state}
+                                            keyExtractor={(item) => item.id}
+                                            renderItem={this._renderItem}
+                                        /> :
+                                        <View style={{
+                                            flex: .5,
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                        }}>
+                                            <Text style={[styles.title, {
+                                                fontWeight: '400', color: '#999'
+                                            }]}>
+                                                No Restaurant found in your location
+                                            </Text>
+                                        </View>
+                                    }
+                                </View>
+                            )
+                        }
+                    }}
                     renderInitDrawerView={() => (
                         <View style={styles.dragView}>
                             <StatusBar hidden={true} />
@@ -111,6 +185,11 @@ class HomeContainer extends Component {
                         </View>
                     )}
                 />
+                <View style={styles.overlayMessage}>
+                    <Text style={{ color: '#fff' }}>{firstClick ?
+                        `Please select restaurant (To)` : `Select your delivery restaurent (From)`}
+                    </Text>
+                </View>
             </View>
         )
     }
@@ -123,9 +202,12 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchList: () => dispatch(actions.fetchListAction())
+        fetchList: (lat, long) => {
+            dispatch(actions.fetchListAction(lat, long));
+        },
+        fetchDetails: id => dispatch(fetchDetailAction(id)),
     }
-}
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -173,6 +255,17 @@ const styles = StyleSheet.create({
         fontSize: 13,
         fontWeight: '300',
         color: '#cccccc'
+    },
+    overlayMessage: {
+        top: 0,
+        left: 0,
+        flex: 1,
+        right: 0,
+        padding: 4,
+        alignItems: 'center',
+        position: 'absolute',
+        justifyContent: 'center',
+        backgroundColor: 'rgba(0,0,0,0.5)',
     }
 });
 

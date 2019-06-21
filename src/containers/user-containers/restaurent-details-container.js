@@ -8,46 +8,48 @@ class RestaurantDetail extends Component {
     _renderItem = ({ item, index }) => (
         <View key={index} style={{ paddingHorizontal: 15, paddingVertical: 10 }}>
             <Text style={[styles.title, styles.category, { marginVertical: 5 }]}>{item}</Text>
-            {this.props.data[item].map(row => (
-                <TouchableOpacity
-                    key={guid()}
-                    activeOpacity={0.7}
-                    onPress={() => {
-                        this.props.navigation.navigate(
-                            'ItemDetailScreen', {
-                                item: row
-                            })
-                    }}
-                >
-                    <View style={styles.itemStyling}>
-                        <Image source={row.image} style={{ width: 70, height: 70, borderRadius: 10 }} />
-                        <View style={{ flex: 1, flexDirection: 'column', marginLeft: 15, }}>
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 }}>
-                                <Text style={styles.title}>{row.name}</Text>
-                                <Text style={styles.price}>${row.price}</Text>
-                            </View>
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <Text numberOfLines={2} style={styles.description}>
-                                    {row.description}
-                                </Text>
-                                <View style={styles.stockStyle}>
-                                    <TouchableOpacity>
-                                        <Text style={styles.blueBtn}>
-                                            +
+            {this.props.data.map(row => {
+                return row.menu_items.map(item => (
+                    <TouchableOpacity
+                        key={guid()}
+                        activeOpacity={0.7}
+                        onPress={() => {
+                            this.props.navigation.navigate(
+                                'ItemDetailScreen', {
+                                    item: item
+                                })
+                        }}
+                    >
+                        <View style={styles.itemStyling}>
+                            <Image source={{ uri: item.imageUrl }} style={{ width: 70, height: 70, borderRadius: 10 }} />
+                            <View style={{ flex: 1, flexDirection: 'column', marginLeft: 15, }}>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 }}>
+                                    <Text style={styles.title}>{item.name}</Text>
+                                    <Text style={styles.price}>${item.price}</Text>
+                                </View>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                    <Text numberOfLines={2} style={styles.description}>
+                                        {item.description}
                                     </Text>
-                                    </TouchableOpacity>
-                                    <Text style={{ marginHorizontal: 10 }}>2</Text>
-                                    <TouchableOpacity>
-                                        <Text style={styles.blueBtn}>
-                                            -
+                                    <View style={styles.stockStyle}>
+                                        <TouchableOpacity>
+                                            <Text style={styles.blueBtn}>
+                                                +
                                     </Text>
-                                    </TouchableOpacity>
+                                        </TouchableOpacity>
+                                        <Text style={{ marginHorizontal: 10 }}>2</Text>
+                                        <TouchableOpacity>
+                                            <Text style={styles.blueBtn}>
+                                                -
+                                    </Text>
+                                        </TouchableOpacity>
+                                    </View>
                                 </View>
                             </View>
                         </View>
-                    </View>
-                </TouchableOpacity>
-            ))}
+                    </TouchableOpacity>
+                ))
+            })}
         </View>
     );
 
@@ -55,12 +57,20 @@ class RestaurantDetail extends Component {
         const { list } = this.props;
         return (
             <View style={{ flex: 1 }}>
-                <FlatList
-                    data={list}
-                    extraData={this.state}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={this._renderItem}
-                />
+                {list && list.length ?
+                    <FlatList
+                        data={list}
+                        extraData={this.state}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={this._renderItem}
+                    /> : <View style={{
+                        flex: .5,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}>
+                        <Text>No data Found</Text>
+                    </View>
+                }
             </View >
         )
     }
@@ -117,7 +127,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         lineHeight: 24
     },
-})
+});
 
 export default connect(
     mapStateToProps,

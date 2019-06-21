@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { initialState } from '../../reducers/restaurant-reducers/profile-reducer';
 
-const selectRestaurantProfileState = state => state.get('resturantProfile', initialState);
+const selectRestaurantProfileState = state => state.get('restaurantProfile', initialState);
 
 const makeSelectProfileLoading = () => createSelector(
     selectRestaurantProfileState, state => state.getIn(['restaurant', 'loading'])

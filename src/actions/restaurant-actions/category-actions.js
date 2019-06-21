@@ -37,7 +37,7 @@ export function resetState () {
 
 export function addCategoryAction (data) {
     return dispatch => {
-        dispatch(addCategoryRequest())
+        dispatch(addCategoryRequest());
         return axios.post(`/restaurant/menu-category`, data)
             .then(response => {
                 dispatch(addCategorySuccess(response.data));
@@ -45,7 +45,7 @@ export function addCategoryAction (data) {
                 dispatch(fetchCategoryListAction());
             })
             .catch(error => {
-                dispatch(addCategoryFailure(error));
+                dispatch(addCategoryFailure(error.response.data));
             });
     }
 }

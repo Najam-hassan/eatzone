@@ -5,7 +5,7 @@ import { Text, View, StyleSheet, FlatList, Image, Dimensions } from 'react-nativ
 
 const { width, height } = Dimensions.get('screen');
 
-import * as selectors from '../../selectors/restaurents-selectors';
+import * as selectors from '../../selectors/user-selectors/restaurents-selectors';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 class Restaurents extends Component {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, ImageBackground, Dimensions, StyleSheet, AsyncStorage } from 'react-native';
 
-import Button from '../components/common/button';
+import Button from '../../components/common/button';
 
 const { height } = Dimensions.get('screen');
 
@@ -14,7 +14,7 @@ class WelcomeScreen extends Component {
         return (
             <View style={styles.container}>
                 <ImageBackground
-                    source={require('../assets/images/welcome-bg.jpg')}
+                    source={require('../../assets/images/welcome-bg.jpg')}
                     style={styles.backgroundImage}
                 >
                     <View style={[styles.container, styles.overlay]}>

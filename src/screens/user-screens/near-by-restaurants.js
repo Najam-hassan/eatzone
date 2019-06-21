@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import { View, StatusBar } from 'react-native';
 
 import { Header } from '../../components/common/header';
-import * as actions from '../../actions/restaurants-actions';
-import NearByRestaurant from '../../containers/user-containers/restaurents-container'
+import * as actions from '../../actions/user-actions/nearby-restaurants-actions';
+import NearByRestaurant from '../../containers/user-containers/nearby-restaurents-container'
 
 class RestaurantsScreen extends Component {
     constructor(props) {

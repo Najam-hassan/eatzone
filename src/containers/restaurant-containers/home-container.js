@@ -22,7 +22,9 @@ class OwnerDashboard extends Component {
             this.props.resetState();
             this.props.fetchList();
         }
-        if(nextProps.profile && Object.keys(nextProps.profile).length && !nextProps.profile.phone) {
+        if (nextProps.profile &&
+            Object.keys(nextProps.profile).length &&
+            !nextProps.profile.phone) {
             this.props.navigation.navigate('RestaurantProfile')
         }
     }
@@ -96,26 +98,28 @@ class OwnerDashboard extends Component {
                         You haven't created category yet!
                         </Text>}
                 {isEnable ? <View style={styles.overlayOptions}>
-                    <View style={styles.deleteIcon}>
+                    <View style={styles.overlayDel}>
                         <Icon
-                            size={26}
+                            size={24}
                             name={'delete'}
-                            color={'green'}
+                            color={'#00a0ff'}
                             onPress={() => deleteCategory(selectedList)}
                         />
-                        <Text>Delete</Text>
+                        <Text style={styles.overlayText}>Delete</Text>
                     </View>
-                    <View style={styles.deleteIcon}>
+                    <View style={styles.overlayCheck}>
                         <CheckBox
-                            size={24}
+                            size={22}
                             checked={selectAll}
+                            color={'#00a0ff'}
+                            containerStyle={styles.checkBoxSet}
                             onPress={() => {
                                 const { selectAll } = this.state;
                                 this.setState({ selectAll: !selectAll });
                                 this.props.selectAll(!selectAll);
                             }}
                         />
-                        <Text>Select All</Text>
+                        <Text style={styles.overlayText}>Select All</Text>
                     </View>
                 </View> : null}
                 <ActionButton
@@ -131,56 +135,77 @@ class OwnerDashboard extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginVertical: 10,
-        marginHorizontal: 10,
-        justifyContent: 'space-between'
+        paddingVertical: 8,
+        paddingHorizontal: 8,
+        justifyContent: 'space-between',
     },
     listView: {
         flex: 1,
-        padding: 6,
+        padding: 7,
         justifyContent: 'space-between',
     },
     titleView: {
         justifyContent: 'center',
         position: 'absolute',
-        top: 120,
         left: 0,
         right: 0,
-        bottom: 0,
+        bottom: 18,
     },
     title: {
-        fontSize: 20,
+        fontSize: 16,
         color: '#fff',
-        fontWeight: '600',
+        fontWeight: '400',
         textAlign: 'center'
     },
     image: {
         width: '100%',
-        height: 150,
+        height: 160,
         borderRadius: 10,
     },
     overlay: {
         ...StyleSheet.absoluteFillObject,
-        backgroundColor: 'rgba(0,0,0,0.4)',
+        backgroundColor: 'rgba(0,0,0,0.2)',
         borderRadius: 10,
     },
     overlayOptions: {
         height: 60,
-        top: '85%',
-        left: '25%',
-        width: '50%',
-        right: '25%',
-        bottom: '8%',
+        left: '20%',
+        width: '60%',
+        right: '20%',
+        bottom: '6%',
+        paddingHorizontal: 8,
         borderRadius: 60,
         alignSelf: 'center',
         position: 'absolute',
         flexDirection: 'row',
-        backgroundColor: '#E8E9EB',
+        backgroundColor: '#eeeeee',
         justifyContent: 'space-around',
+        alignItems: 'center',
     },
-    deleteIcon: {
-        flexDirection: 'column'
-    }
+    overlayDel: {
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    overlayCheck: {
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    checkBoxSet: {
+        color: '#00a0ff',
+        marginTop: 2,
+        paddingTop: 0,
+        marginLeft: 0,
+        borderWidth: 0,
+        paddingLeft: 14,
+        marginRight: 0,
+        marginBottom: 0,
+        paddingBottom: 0,
+        borderWidth: 0,
+    },
+    overlayText: {
+        fontSize: 13,
+        color: '#7d7d7f',
+    },
 });
 
 const mapStateToProps = state => ({

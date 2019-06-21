@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { initialState } from '../../reducers/restaurant-reducers/category-reducer';
 
-const selectCategoryState = state => state.get('resturantCategory', initialState);
+const selectCategoryState = state => state.get('restaurantCategory', initialState);
 
 const makeSelectLoading = () => createSelector(
     selectCategoryState, state => state.getIn(['category', 'loading'])
