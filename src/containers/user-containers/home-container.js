@@ -74,7 +74,11 @@ class HomeContainer extends Component {
                     }
                     this.props.fetchList(`/user/eligible-restaurants/${item.id}`);
                 } else {
-                    console.log('will impleent the listing shortly!!!!')
+                    console.log('will impleent the listing shortly!!!!');
+                    this.props.fetchDetails(item.id);
+                    this.props.navigation.navigate('RestaurantDetailScreen', {
+                        restaurantId: item.id
+                    });
                 }
             }}
         >

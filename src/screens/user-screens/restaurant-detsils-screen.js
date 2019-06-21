@@ -25,7 +25,6 @@ class RestaurantDetailScreen extends Component {
 
     render () {
         const { list } = this.props;
-        console.log(list, '-=-=-=-=-=-');
         return (
             <View style={{ flex: 1 }}>
                 <StatusBar hidden={false} />
