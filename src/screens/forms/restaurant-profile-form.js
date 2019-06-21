@@ -25,7 +25,7 @@ class ProfileForm extends Component {
         deliver: { deliverTimeStart: '00:00', deliverTimeEnd: '00:00' },
         multiSliderValue: [5, 30],
         sliderOneValue: [1],
-        location: null,
+        location: 'Restaurant Address',
         region: {
             latitude: 31.47427313,
             longitude: 74.24994869,
@@ -149,15 +149,17 @@ class ProfileForm extends Component {
                             customInputStyle={[styles.inputField]}
                         />
                         <GooglePlacesAutocomplete
-                            placeholder='Restaurant Address'
                             minLength={2}
                             autoFocus={false}
+                            fetchDetails={true}
                             returnKeyType={'default'}
                             listViewDisplayed={false}
-                            enablePoweredByContainer={false}
                             placeholderTextColor={"#000"}
-                            fetchDetails={true}
+                            enablePoweredByContainer={false}
+                            placeholder={this.state.location}
                             onPress={(data, details = null) => {
+                                console.log(data, '-=-=-=-=-=-');
+                                console.log(data, '-=-=-=-=-=-');
                                 this.mapView && this.mapView.animateToRegion(details.geometry.location, 500)
                                 this.setState({
                                     location:
@@ -175,9 +177,10 @@ class ProfileForm extends Component {
                                 });
                             }}
                             query={{
-                                key: 'AIzaSyBcnMFdYtSXJVhPyxqaxKfE3nbvAoRZD_A',
+                                // key: 'AIzaSyBcnMFdYtSXJVhPyxqaxKfE3nbvAoRZD_A',
+                                key: 'AIzaSyBJX4U1PDcgBCoR6gL4mCVedWFApQ8MWTs',
                                 language: 'en',
-                                components: 'country:us'
+                                components: 'country:pk'
                             }}
                             styles={{
                                 textInputContainer: {
