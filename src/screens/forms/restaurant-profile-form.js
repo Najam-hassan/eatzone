@@ -87,7 +87,6 @@ class ProfileForm extends Component {
                     { cancelable: false },
                 );
             } else if (canDeliver) {
-                console.log(values.toJS(), '...........');
                 if (values.get('deliveryServiceCharges')) {
                     this.props.onSubmit({
                         ...values.toJS(),

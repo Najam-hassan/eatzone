@@ -25,7 +25,6 @@ class ForgetPasswordScreen extends Component {
 
     render () {
         const { state } = this.props.navigation;
-        console.log(state.params, 'sign in screen');
         return (
             <View style={{ flex: 1 }}>
                 <ImageBackground

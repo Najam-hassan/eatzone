@@ -61,9 +61,7 @@ class HomeScreen extends Component {
 const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => {
-    return {
-        testAction: data => console.log(data, '-==-=-=-=-=-'),
-    }
+    return {}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

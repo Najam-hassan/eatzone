@@ -39,7 +39,6 @@ class HomeContainer extends Component {
     }
 
     componentDidMount () {
-        console.log('user type', this.props.type)
         // this.setState({ isLoading: true })
         const { fetchList } = this.props;
         navigator.geolocation.getCurrentPosition(
@@ -81,7 +80,6 @@ class HomeContainer extends Component {
                     }
                     this.props.fetchList(`/user/eligible-restaurants/${item.id}`);
                 } else {
-                    console.log('will impleent the listing shortly!!!!');
                     this.props.fetchDetails(item.id);
                     this.props.navigation.navigate('RestaurantDetailScreen', {
                         restaurantId: item.id
