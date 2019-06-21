@@ -16,6 +16,13 @@ import * as actions from '../../actions/user-actions/home-actions'
 import * as selectors from '../../selectors/user-selectors/home-selectors'
 import { fetchDetailAction } from '../../actions/user-actions/resturant-detail-actions';
 
+const initialValues = {
+    latitude: 37.78825,
+    longitude: -122.4324,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+}
+
 class HomeContainer extends Component {
     constructor(props) {
         super(props);
@@ -23,8 +30,8 @@ class HomeContainer extends Component {
             firstClick: true,
             isLoading: false,
             region: {
-                latitude: 0.000000,
-                longitude: 0.000000,
+                latitude: null,
+                longitude: null,
                 latitudeDelta: 1,
                 longitudeDelta: 1
             }
@@ -33,7 +40,7 @@ class HomeContainer extends Component {
 
     componentDidMount () {
         console.log('user type', this.props.type)
-        this.setState({ isLoading: true })
+        // this.setState({ isLoading: true })
         const { fetchList } = this.props;
         navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -101,7 +108,7 @@ class HomeContainer extends Component {
 
     render () {
         const { list, loading, navigation } = this.props;
-        const { isLoading, firstClick } = this.state;
+        const { isLoading, firstClick, region } = this.state;
         if (isLoading) {
             return <ActivityIndicator size={'large'} color={'#1BA2FC'} />
         }
@@ -115,16 +122,18 @@ class HomeContainer extends Component {
                     rotateEnabled={true}
                     scrollEnabled={true}
                     showsUserLocation={true}
-                    region={this.state.region}
+                    region={region.latitude !== null ? this.state.region : initialValues}
                     showsMyLocationButton={true}
                 >
                     <View>
-                        <Marker
-                            title={`User's Loaction`}
-                            coordinate={this.state.region}
-                            description={'local description'}>
-                            <Icon name="map-marker" size={45} color="#1BA2FC" />
-                        </Marker>
+                        {region.latitude !== null && region.longitude !== null ?
+                            <Marker
+                                title={`User's Loaction`}
+                                coordinate={this.state.region}
+                                description={'local description'}>
+                                <Icon name="map-marker" size={45} color="#1BA2FC" />
+                            </Marker> : null
+                        }
                         {!firstClick && list && list.length ? list.map((item, index) => (
                             <Marker
                                 onPress={() => {
@@ -209,7 +218,10 @@ const mapDispatchToProps = dispatch => {
         fetchList: (lat, long) => {
             dispatch(actions.fetchListAction(lat, long));
         },
-        fetchDetails: id => dispatch(fetchDetailAction(id)),
+        fetchDetails: id => {
+            dispatch(fetchDetailAction(id));
+            // dispatch(setSetUser)
+        },
     }
 };
 
