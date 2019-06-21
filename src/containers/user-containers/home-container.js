@@ -39,13 +39,13 @@ class HomeContainer extends Component {
     }
 
     componentDidMount () {
-        // this.setState({ isLoading: true })
+        this.setState({ isLoading: true });
         const { fetchList } = this.props;
         navigator.geolocation.getCurrentPosition(
             (position) => {
-                this.setState({ isLoading: false })
-                const { latitude, longitude } = position.coords
-                console.log('lat: ', latitude, 'long: ', longitude)
+                this.setState({ isLoading: false });
+                const { latitude, longitude } = position.coords;
+                console.log('lat: ', latitude, 'long: ', longitude);
                 this.setState({
                     region: {
                         ...this.state.region,

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, StatusBar } from 'react-native';
+import { View, ScrollView, StatusBar } from 'react-native';
 
 import { Header } from '../../components/common/header';
+import UserProfileForm from '../forms/user-profile-form';
 
 class ProfileScreen extends Component {
     constructor(props) {
@@ -16,7 +17,12 @@ class ProfileScreen extends Component {
                     navigation={this.props.navigation}
                     title={'Profile'}
                 />
-                <Text>User Profile details will be here!!!!</Text>
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    keyboardShouldPersistTaps="handled"
+                >
+                    <UserProfileForm navigation={this.props.navigation} />
+                </ScrollView>
             </View>
         )
     }
