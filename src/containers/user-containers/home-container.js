@@ -23,8 +23,8 @@ class HomeContainer extends Component {
             firstClick: true,
             isLoading: false,
             region: {
-                latitude: 31.47427313,
-                longitude: 73.24994869,
+                latitude: 0.000000,
+                longitude: 0.000000,
                 latitudeDelta: 1,
                 longitudeDelta: 1
             }
@@ -159,8 +159,8 @@ class HomeContainer extends Component {
                                         <FlatList
                                             data={list}
                                             extraData={this.state}
-                                            keyExtractor={(item) => item.id}
                                             renderItem={this._renderItem}
+                                            keyExtractor={(item, index) => index.toString()}
                                         /> :
                                         <View style={{
                                             flex: .5,
