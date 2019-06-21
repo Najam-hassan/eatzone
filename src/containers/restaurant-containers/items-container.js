@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import React, { Component } from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/EvilIcons';
 import {
     View, StyleSheet, Text, FlatList, Image, TouchableOpacity, ActivityIndicator
 } from 'react-native';
@@ -44,9 +44,9 @@ class ItemContainer extends Component {
                     }}
                 >
                     <Icon
-                        size={18}
+                        size={20}
                         name={'close'}
-                        color={'#000'}
+                        color={'#b2b2b2'}
                     />
                 </TouchableOpacity>
             </View>
@@ -95,14 +95,15 @@ const styles = StyleSheet.create({
     itemStyling: {
         flex: 1,
         marginTop: 10,
-        borderRadius: 10,
+        paddingBottom: 10,
         shadowRadius: 20,
         shadowOpacity: 0.1,
         shadowColor: '#000',
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: '#fff',
-        shadowOffset: { height: 10, width: 0 },
+        borderBottomColor:'#e5e5e5',
+        borderBottomWidth: 1
     },
     title: {
         fontSize: 16,

@@ -100,7 +100,7 @@ class OwnerDashboard extends Component {
                 {isEnable ? <View style={styles.overlayOptions}>
                     <View style={styles.overlayDel}>
                         <Icon
-                            size={24}
+                            size={20}
                             name={'delete'}
                             color={'#00a0ff'}
                             onPress={() => deleteCategory(selectedList)}
@@ -109,7 +109,7 @@ class OwnerDashboard extends Component {
                     </View>
                     <View style={styles.overlayCheck}>
                         <CheckBox
-                            size={22}
+                            size={18}
                             checked={selectAll}
                             color={'#00a0ff'}
                             containerStyle={styles.checkBoxSet}
@@ -168,17 +168,16 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     overlayOptions: {
-        height: 60,
-        left: '20%',
-        width: '60%',
-        right: '20%',
+        height: 40,
+        left: '30%',
+        right: '30%',
         bottom: '6%',
         paddingHorizontal: 8,
         borderRadius: 60,
         alignSelf: 'center',
         position: 'absolute',
         flexDirection: 'row',
-        backgroundColor: '#eeeeee',
+        backgroundColor: 'rgba(238, 238, 236, 0.7)',
         justifyContent: 'space-around',
         alignItems: 'center',
     },
@@ -203,7 +202,7 @@ const styles = StyleSheet.create({
         borderWidth: 0,
     },
     overlayText: {
-        fontSize: 13,
+        fontSize: 12,
         color: '#7d7d7f',
     },
 });
