@@ -25,6 +25,12 @@ export const FETCH_RESTAURENTS_SUCCESS = 'FETCH_RESTAURENTS_SUCCESS';
 export const FETCH_RESTAURENTS_FAILURE = 'FETCH_RESTAURENTS_FAILURE';
 export const RESET_RESTAURENTS_STATE = 'RESET_RESTAURENTS_STATE';
 
+// User Profile constants
+export const PROFILE_DATEILS_REQUEST = 'PROFILE_DATEILS_REQUEST';
+export const PROFILE_DATEILS_SUCCESS = 'PROFILE_DATEILS_SUCCESS';
+export const PROFILE_DATEILS_FAILURE = 'PROFILE_DATEILS_FAILURE';
+export const RESET_USER_PROFILE = 'RESET_USER_PROFILE';
+
 /*
 *****************************************************************
                     Restutant Owner, Actions
