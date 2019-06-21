@@ -39,7 +39,7 @@ class ProfileForm extends Component {
 
     componentWillReceiveProps (nextProps) {
         if (nextProps.profile && nextProps.profile.name) {
-            this.props.resetState();
+            // this.props.resetState();
             this.props.navigation.navigate('HomeScreen');
         }
     }
@@ -159,8 +159,6 @@ class ProfileForm extends Component {
                             enablePoweredByContainer={false}
                             placeholder={this.state.location}
                             onPress={(data, details = null) => {
-                                console.log(data, '-=-=-=-=-=-');
-                                console.log(data, '-=-=-=-=-=-');
                                 this.mapView && this.mapView.animateToRegion(details.geometry.location, 500)
                                 this.setState({
                                     location:
