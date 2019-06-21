@@ -7,7 +7,7 @@ import { PageHeader } from '../../components/common/header';
 import RestaurantDetail from '../../containers/user-containers/restaurent-details-container';
 
 import * as actions from '../../actions/user-actions/resturant-detail-actions';
-import  * as selectors from '../../selectors/user-selectors/restaurent-detail-selectors';
+import * as selectors from '../../selectors/user-selectors/restaurent-detail-selectors';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -19,13 +19,12 @@ class RestaurantDetailScreen extends Component {
     componentDidMount () {
         // const { params } = this.props.navigation.state;
         // if (params.restaurantId) {
-            // this.props.fetchDetails(params.restaurantId)
+        // this.props.fetchDetails(params.restaurantId)
         // }
     }
 
     render () {
         const { list } = this.props;
-        console.log(list, '-=-=-=-=-=-');
         return (
             <View style={{ flex: 1 }}>
                 <StatusBar hidden={false} />
@@ -67,11 +66,13 @@ class RestaurantDetailScreen extends Component {
                 </View>
                 <View style={[styles.itemContainer, { marginTop: -15 }]}>
                     {list && Object.keys(list).length && list.menu_categories.length ?
-                      <RestaurantDetail
-                        data={list.menu_categories}
-                        navigation={this.props.navigation}
-                        list={list.menu_categories.map(item => item.name)}
-                      /> : null
+                        <RestaurantDetail
+                            data={list.menu_categories}
+                            navigation={this.props.navigation}
+                            list={list.menu_categories.map(item => (
+                                item.menu_items && item.menu_items.length && item.name
+                            ))}
+                        /> : null
                     }
                 </View>
             </View>

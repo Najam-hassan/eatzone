@@ -44,12 +44,12 @@ class MenuItemForm extends Component {
                 });
             } else {
                 return Alert.alert(
-                  "Required",
-                  'Please select image!!',
-                  [
-                      {text: 'OK', onPress: () => console.log('OK Pressed')},
-                  ],
-                  {cancelable: false},
+                    "Required",
+                    'Please select image!!',
+                    [
+                        { text: 'OK', onPress: () => console.log('OK Pressed') },
+                    ],
+                    { cancelable: false },
                 )
             }
         }
@@ -69,7 +69,6 @@ class MenuItemForm extends Component {
                     <PhotoUpload
                         onPhotoSelect={avatar => {
                             if (avatar) {
-                                console.log('Image base64 string: ', avatar);
                                 this.setState({ imageData: avatar });
                             }
                         }}

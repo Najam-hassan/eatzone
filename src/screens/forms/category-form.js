@@ -24,8 +24,7 @@ class CategoryForm extends Component {
             this.props.navigation.navigate('HomeScreen');
             this.props.resetState();
         }
-        if(nextProps.error) {
-           console.log(nextProps.error);
+        if (nextProps.error) {
             this.refs.toast.show(nextProps.error.message, 2000);
         }
     }
@@ -33,19 +32,19 @@ class CategoryForm extends Component {
     onSubmit = values => {
         const { imageData } = this.state;
         if (values && values.toJS()) {
-            if(imageData) {
+            if (imageData) {
                 this.props.addCategory({
                     ...values.toJS(),
-                  imageData: `data:image/jpeg;base64,${imageData}`
+                    imageData: `data:image/jpeg;base64,${imageData}`
                 });
             } else {
                 return Alert.alert(
-                  "Required",
-                  'Please select image!!',
-                  [
-                      { text: 'OK', onPress: () => console.log('OK Pressed') },
-                  ],
-                  { cancelable: false },
+                    "Required",
+                    'Please select image!!',
+                    [
+                        { text: 'OK', onPress: () => console.log('OK Pressed') },
+                    ],
+                    { cancelable: false },
                 )
             }
         }
@@ -65,8 +64,7 @@ class CategoryForm extends Component {
                     <PhotoUpload
                         onPhotoSelect={avatar => {
                             if (avatar) {
-                                this.setState({imageData: avatar})
-                                console.log('Image base64 string: ', avatar)
+                                this.setState({ imageData: avatar });
                             }
                         }}
                     >

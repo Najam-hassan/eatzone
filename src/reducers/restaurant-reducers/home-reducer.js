@@ -75,7 +75,6 @@ export default function homeReducer (state = initialState, action) {
             const payload = state.getIn(['categories', 'data']).map(item => (
                 item.set('selected', action.selectAll)
             ));
-            console.log(payload.toJS())
             return state.setIn(['categories', 'data'], payload)
         }
 

@@ -75,7 +75,6 @@ class ItemContainer extends Component {
                 }
                 <ActionButton
                     onPress={() => {
-                        console.log(navigation, '......')
                         navigation.navigate('CreateItemScreen', {
                             catId: catId
                         })

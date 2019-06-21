@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import { Text, View, Image, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { guid } from '../../utils/misc';
+import { Text, View, Image, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 
 class RestaurantDetail extends Component {
 
@@ -9,46 +9,48 @@ class RestaurantDetail extends Component {
         <View key={index} style={{ paddingHorizontal: 15, paddingVertical: 10 }}>
             <Text style={[styles.title, styles.category, { marginVertical: 5 }]}>{item}</Text>
             {this.props.data.map(row => {
-                return row.menu_items.map(item => (
-                    <TouchableOpacity
-                        key={guid()}
-                        activeOpacity={0.7}
-                        onPress={() => {
-                            this.props.navigation.navigate(
-                                'ItemDetailScreen', {
-                                    item: item
-                                })
-                        }}
-                    >
-                        <View style={styles.itemStyling}>
-                            <Image source={{ uri: item.imageUrl }} style={{ width: 70, height: 70, borderRadius: 10 }} />
-                            <View style={{ flex: 1, flexDirection: 'column', marginLeft: 15, }}>
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 }}>
-                                    <Text style={styles.title}>{item.name}</Text>
-                                    <Text style={styles.price}>${item.price}</Text>
-                                </View>
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <Text numberOfLines={2} style={styles.description}>
-                                        {item.description}
+                if (item === row.name) {
+                    return row.menu_items.map(item => (
+                        <TouchableOpacity
+                            key={guid()}
+                            activeOpacity={0.7}
+                            onPress={() => {
+                                this.props.navigation.navigate(
+                                    'ItemDetailScreen', {
+                                        item: item
+                                    })
+                            }}
+                        >
+                            <View style={styles.itemStyling}>
+                                <Image source={{ uri: item.imageUrl }} style={{ width: 70, height: 70, borderRadius: 10 }} />
+                                <View style={{ flex: 1, flexDirection: 'column', marginLeft: 15, }}>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 }}>
+                                        <Text style={styles.title}>{item.name}</Text>
+                                        <Text style={styles.price}>${item.price}</Text>
+                                    </View>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                        <Text numberOfLines={2} style={styles.description}>
+                                            {item.description}
+                                        </Text>
+                                        <View style={styles.stockStyle}>
+                                            <TouchableOpacity>
+                                                <Text style={styles.blueBtn}>
+                                                    +
                                     </Text>
-                                    <View style={styles.stockStyle}>
-                                        <TouchableOpacity>
-                                            <Text style={styles.blueBtn}>
-                                                +
+                                            </TouchableOpacity>
+                                            <Text style={{ marginHorizontal: 10 }}>2</Text>
+                                            <TouchableOpacity>
+                                                <Text style={styles.blueBtn}>
+                                                    -
                                     </Text>
-                                        </TouchableOpacity>
-                                        <Text style={{ marginHorizontal: 10 }}>2</Text>
-                                        <TouchableOpacity>
-                                            <Text style={styles.blueBtn}>
-                                                -
-                                    </Text>
-                                        </TouchableOpacity>
+                                            </TouchableOpacity>
+                                        </View>
                                     </View>
                                 </View>
                             </View>
-                        </View>
-                    </TouchableOpacity>
-                ))
+                        </TouchableOpacity>
+                    ))
+                }
             })}
         </View>
     );

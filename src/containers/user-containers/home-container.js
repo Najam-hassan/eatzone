@@ -16,6 +16,13 @@ import * as actions from '../../actions/user-actions/home-actions'
 import * as selectors from '../../selectors/user-selectors/home-selectors'
 import { fetchDetailAction } from '../../actions/user-actions/resturant-detail-actions';
 
+const initialValues = {
+    latitude: 37.78825,
+    longitude: -122.4324,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+}
+
 class HomeContainer extends Component {
     constructor(props) {
         super(props);
@@ -23,8 +30,8 @@ class HomeContainer extends Component {
             firstClick: true,
             isLoading: false,
             region: {
-                latitude: 31.47427313,
-                longitude: 73.24994869,
+                latitude: null,
+                longitude: null,
                 latitudeDelta: 1,
                 longitudeDelta: 1
             }
@@ -32,8 +39,7 @@ class HomeContainer extends Component {
     }
 
     componentDidMount () {
-        console.log('user type', this.props.type)
-        this.setState({ isLoading: true })
+        // this.setState({ isLoading: true })
         const { fetchList } = this.props;
         navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -74,7 +80,10 @@ class HomeContainer extends Component {
                     }
                     this.props.fetchList(`/user/eligible-restaurants/${item.id}`);
                 } else {
-                    console.log('will impleent the listing shortly!!!!')
+                    this.props.fetchDetails(item.id);
+                    this.props.navigation.navigate('RestaurantDetailScreen', {
+                        restaurantId: item.id
+                    });
                 }
             }}
         >
@@ -97,7 +106,7 @@ class HomeContainer extends Component {
 
     render () {
         const { list, loading, navigation } = this.props;
-        const { isLoading, firstClick } = this.state;
+        const { isLoading, firstClick, region } = this.state;
         if (isLoading) {
             return <ActivityIndicator size={'large'} color={'#1BA2FC'} />
         }
@@ -111,16 +120,18 @@ class HomeContainer extends Component {
                     rotateEnabled={true}
                     scrollEnabled={true}
                     showsUserLocation={true}
-                    region={this.state.region}
+                    region={region.latitude !== null ? this.state.region : initialValues}
                     showsMyLocationButton={true}
                 >
                     <View>
-                        <Marker
-                            title={`User's Loaction`}
-                            coordinate={this.state.region}
-                            description={'local description'}>
-                            <Icon name="map-marker" size={45} color="#1BA2FC" />
-                        </Marker>
+                        {region.latitude !== null && region.longitude !== null ?
+                            <Marker
+                                title={`User's Loaction`}
+                                coordinate={this.state.region}
+                                description={'local description'}>
+                                <Icon name="map-marker" size={45} color="#1BA2FC" />
+                            </Marker> : null
+                        }
                         {!firstClick && list && list.length ? list.map((item, index) => (
                             <Marker
                                 onPress={() => {
@@ -159,8 +170,8 @@ class HomeContainer extends Component {
                                         <FlatList
                                             data={list}
                                             extraData={this.state}
-                                            keyExtractor={(item) => item.id}
                                             renderItem={this._renderItem}
+                                            keyExtractor={(item, index) => index.toString()}
                                         /> :
                                         <View style={{
                                             flex: .5,
@@ -205,7 +216,10 @@ const mapDispatchToProps = dispatch => {
         fetchList: (lat, long) => {
             dispatch(actions.fetchListAction(lat, long));
         },
-        fetchDetails: id => dispatch(fetchDetailAction(id)),
+        fetchDetails: id => {
+            dispatch(fetchDetailAction(id));
+            // dispatch(setSetUser)
+        },
     }
 };
 

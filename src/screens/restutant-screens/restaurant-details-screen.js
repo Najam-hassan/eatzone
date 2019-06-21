@@ -11,7 +11,6 @@ class ResturantDetails extends Component {
     }
 
     showToaster = message => {
-        console.log(message)
         this.refs.toast.show(message, 2000);
     }
 
