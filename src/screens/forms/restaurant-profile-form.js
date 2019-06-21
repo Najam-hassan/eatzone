@@ -14,7 +14,8 @@ import {
 const { width, height } = Dimensions.get('screen');
 
 import Button from '../../components/common/button';
-import InputField from '../../components/common/input';
+// import InputField from '../../components/common/input';
+import InputField from '../../components/common/materialInput';
 
 import * as actions from '../../actions/restaurant-actions/profile-actions';
 import * as selectors from '../../selectors/restaurant-selectors/profile-selectors';
@@ -572,8 +573,6 @@ const styles = StyleSheet.create({
         paddingRight: 0,
         paddingTop: 0,
         paddingBottom: 0,
-        borderBottomWidth: 1,
-        borderBottomColor: '#d9d9d9',
     },
     timeInput: {
     },
