@@ -10,6 +10,7 @@ class CategoryScreen extends Component {
     }
 
     render () {
+        const { params } = this.props.navigation.state;
         return (
             <View style={styles.container}>
                 <StatusBar hidden={false} />
@@ -21,7 +22,11 @@ class CategoryScreen extends Component {
                     showsVerticalScrollIndicator={false}
                     keyboardShouldPersistTaps="handled"
                 >
-                    <CategoryForm navigation={this.props.navigation} />
+                    <CategoryForm
+                        navigation={this.props.navigation}
+                        imageUrl={params ? params.imageUrl : null}
+                        catId={params ? params.catId : null}
+                    />
                 </ScrollView>
             </View>
         )

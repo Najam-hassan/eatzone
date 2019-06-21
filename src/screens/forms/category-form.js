@@ -31,8 +31,18 @@ class CategoryForm extends Component {
 
     onSubmit = values => {
         const { imageData } = this.state;
+        const { catId } = this.props;
         if (values && values.toJS()) {
-            if (imageData) {
+            if (catId) {
+                if (imageData) {
+                    this.props.updateCategory({
+                        ...values.toJS(),
+                        imageData: `data:image/jpeg;base64,${imageData}`
+                    }, catId);
+                } else {
+                    this.props.updateCategory(values.toJS(), catId);
+                }
+            } else if (imageData) {
                 this.props.addCategory({
                     ...values.toJS(),
                     imageData: `data:image/jpeg;base64,${imageData}`
@@ -51,7 +61,7 @@ class CategoryForm extends Component {
     };
 
     render () {
-        const { handleSubmit, submitting, loading } = this.props;
+        const { handleSubmit, submitting, loading, imageUrl } = this.props;
         return (
             <View style={styles.container}>
                 <Toast
@@ -67,7 +77,15 @@ class CategoryForm extends Component {
                                 this.setState({ imageData: avatar });
                             }
                         }}
-                    >
+                    >{imageUrl ?
+                        <Image
+                            style={{
+                                width: width,
+                                height: 200,
+                            }}
+                            source={{ uri: this.props.imageUrl }}
+                            resizeMode='stretch'
+                        /> :
                         <Image
                             style={{
                                 width: width,
@@ -76,9 +94,8 @@ class CategoryForm extends Component {
                             source={{
                                 uri: 'https://smppharmacy.com/wp-content/uploads/2019/02/food-post.jpg'
                             }}
-                            // source={require('../../assets/images/itemi.jpg')}
                             resizeMode='stretch'
-                        />
+                        />}
                     </PhotoUpload>
                     <View style={[styles.container, {
                         paddingTop: 35,
@@ -99,7 +116,7 @@ class CategoryForm extends Component {
                         {submitting || loading ?
                             <ActivityIndicator size="large" color="#1BA2FC" /> :
                             <Button
-                                title="Save"
+                                title={imageUrl ? "Update" : "Save"}
                                 onPress={handleSubmit(this.onSubmit)}
                                 style={styles.button}
                                 textStyle={{ /* styles for button title */ }}
@@ -133,6 +150,7 @@ const mapDispatchToProps = dispatch => {
     return {
         resetState: () => dispatch(actions.resetState()),
         addCategory: category => dispatch(actions.addCategoryAction(category)),
+        updateCategory: (data, id) => dispatch(actions.updateCategoryAction(data, id)),
     }
 }
 
