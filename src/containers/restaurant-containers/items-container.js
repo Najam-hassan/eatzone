@@ -38,6 +38,7 @@ class ItemContainer extends Component {
                 const { navigation } = this.props;
                 navigation.navigate('CreateItemScreen', {
                     itemId: item.id,
+                    catId: this.props.catId,
                     imageUrl: item.imageUrl
                 });
 

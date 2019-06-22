@@ -42,6 +42,20 @@ export function addCategoryItemAction (catId, data) {
     }
 }
 
+export function updateCategoryItemAction (data, catId, itemId) {
+    return dispatch => {
+        dispatch(addCategoryItemRequest())
+        return axios.put(`/restaurant/menu-item/${catId}/${itemId}`, data)
+            .then(response => {
+                dispatch(fetchCategoryListAction());
+                dispatch(addCategoryItemSuccess(response.data));
+            })
+            .catch(error => {
+                dispatch(addCategoryItemFailure(error));
+            });
+    }
+}
+
 export function removeItemRequest () {
     return {
         type: constants.REMOVE_ITEM_REQUEST,

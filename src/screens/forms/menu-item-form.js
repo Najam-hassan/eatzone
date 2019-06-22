@@ -34,10 +34,19 @@ class MenuItemForm extends Component {
     }
 
     onSubmit = values => {
-        const { categoryId } = this.props;
+        const { categoryId, itemId } = this.props;
         const { imageData } = this.state;
         if (values && values.toJS()) {
-            if (imageData) {
+            if (itemId) {
+                if (imageData) {
+                    this.props.updateItem({
+                        ...values.toJS(),
+                        imageData: `data:image/jpeg;base64,${imageData}`
+                    }, categoryId, itemId);
+                } else {
+                    this.props.updateItem(values.toJS(), categoryId, itemId);
+                }
+            } else if (imageData) {
                 this.props.onSubmit(categoryId, {
                     ...values.toJS(),
                     imageData: `data:image/jpeg;base64,${imageData}`
@@ -56,7 +65,7 @@ class MenuItemForm extends Component {
     };
 
     render () {
-        const { handleSubmit, submitting, loading } = this.props;
+        const { handleSubmit, submitting, loading, itemId, imageUrl } = this.props;
         return (
             <View style={styles.container}>
                 <Toast
@@ -72,7 +81,15 @@ class MenuItemForm extends Component {
                                 this.setState({ imageData: avatar });
                             }
                         }}
-                    >
+                    >{imageUrl ?
+                        <Image
+                            style={{
+                                width: width,
+                                height: 200,
+                            }}
+                            source={{ uri: imageUrl }}
+                            resizeMode='stretch'
+                        /> :
                         <Image
                             style={{
                                 width: width,
@@ -81,9 +98,8 @@ class MenuItemForm extends Component {
                             source={{
                                 uri: 'https://smppharmacy.com/wp-content/uploads/2019/02/food-post.jpg'
                             }}
-                            // source={require('../../assets/images/itemi.jpg')}
-                            resizeMode='cover'
-                        />
+                            resizeMode='stretch'
+                        />}
                     </PhotoUpload>
                     <View style={[styles.container, {
                         top: -20,
@@ -126,7 +142,7 @@ class MenuItemForm extends Component {
                         {submitting || loading ?
                             <ActivityIndicator size="large" color="#1BA2FC" /> :
                             <Button
-                                title="Save"
+                                title={itemId ? "Update" : "Save"}
                                 onPress={handleSubmit(this.onSubmit)}
                                 style={styles.button}
                                 textStyle={{ /* styles for button title */ }}
@@ -168,11 +184,14 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
     return {
+        resetState: () => dispatch(actions.resetState()),
         onSubmit: (catId, values) => {
             dispatch(actions.addCategoryItemAction(catId, values))
         },
         fetchList: () => dispatch(fetchCategoryListAction()),
-        resetState: () => dispatch(actions.resetState()),
+        updateItem: (data, catId, itemId) => {
+            dispatch(actions.updateCategoryItemAction(data, catId, itemId))
+        },
     }
 }
 
