@@ -22,9 +22,9 @@ class MenuItemsScreen extends Component {
                 />
                 <ItemContainer
                     parent={this}
+                    catId={params.catId}
                     navigation={this.props.navigation}
                     items={params && params.items ? params.items : []}
-                    catId={params.catId}
                 />
                 <Toast
                     ref="toast"

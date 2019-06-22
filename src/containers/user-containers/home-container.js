@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import Drawer from 'react-native-draggable-view';
+import { PermissionsAndroid } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
@@ -12,8 +13,8 @@ const { height, width } = Dimensions.get('screen');
 
 import DragHeader from '../../components/drag-header';
 
-import * as actions from '../../actions/user-actions/home-actions'
-import * as selectors from '../../selectors/user-selectors/home-selectors'
+import * as actions from '../../actions/user-actions/home-actions';
+import * as selectors from '../../selectors/user-selectors/home-selectors';
 import { fetchDetailAction } from '../../actions/user-actions/resturant-detail-actions';
 
 const initialValues = {
@@ -56,7 +57,7 @@ class HomeContainer extends Component {
                 fetchList(`/user/nearby-restaurants/${latitude},${longitude}`);
             },
             (error) => this.setState({ error: error.message, isLoading: false }),
-            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+            { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
         );
     }
 
@@ -79,6 +80,7 @@ class HomeContainer extends Component {
                         });
                     }
                     this.props.fetchList(`/user/eligible-restaurants/${item.id}`);
+                    this.props.collectingResturant(item.id);
                 } else {
                     this.props.fetchDetails(item.id);
                     this.props.navigation.navigate('RestaurantDetailScreen', {
@@ -213,8 +215,11 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchList: (lat, long) => {
-            dispatch(actions.fetchListAction(lat, long));
+        fetchList: (url) => {
+            dispatch(actions.fetchListAction(url));
+        },
+        collectingResturant: id => {
+            dispatch(actions.setCollectingResturant(id));
         },
         fetchDetails: id => {
             dispatch(fetchDetailAction(id));

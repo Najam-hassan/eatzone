@@ -1,6 +1,8 @@
 import { connect } from 'react-redux'
 import React, { Component } from 'react';
+import { change } from 'redux-form/immutable';
 import { CheckBox, Icon } from 'react-native-elements';
+import EditIcon from 'react-native-vector-icons/Feather';
 import {
     View, StyleSheet, FlatList, TouchableOpacity, Text, Image, ActivityIndicator
 } from 'react-native';
@@ -91,6 +93,22 @@ class OwnerDashboard extends Component {
                                             </View> : null
                                         }
                                     </TouchableOpacity>
+                                    <View style={[styles.titleView, {
+                                        top: -105, left: 15
+                                    }]}>
+                                        <EditIcon
+                                            size={26}
+                                            color={'#fff'}
+                                            name={'edit-3'}
+                                            onPress={() => {
+                                                this.props.change('name', item.name);
+                                                this.props.navigation.navigate('CategoryScreen', {
+                                                    imageUrl: item.imageUrl,
+                                                    catId: item.id
+                                                });
+                                            }}
+                                        />
+                                    </View>
                                 </View>
                             )
                         }
@@ -110,8 +128,8 @@ class OwnerDashboard extends Component {
                     <View style={styles.overlayCheck}>
                         <CheckBox
                             size={18}
-                            checked={selectAll}
                             color={'#00a0ff'}
+                            checked={selectAll}
                             containerStyle={styles.checkBoxSet}
                             onPress={() => {
                                 const { selectAll } = this.state;
@@ -222,6 +240,9 @@ const mapDispatchToProps = dispatch => {
         fetchList: () => dispatch(actions.fetchCategoryListAction()),
         selectAll: selectAll => dispatch(actions.selectAllAction(selectAll)),
         deleteCategory: list => dispatch(actions.deleteCategoryAction(list)),
+        change: (fieldName, value) => {
+            dispatch(change('CategoryForm', fieldName, value));
+        },
     }
 };
 

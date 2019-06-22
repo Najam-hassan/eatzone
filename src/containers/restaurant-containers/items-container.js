@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import React, { Component } from 'react';
+import { change } from 'redux-form/immutable';
 import Icon from 'react-native-vector-icons/EvilIcons';
 import {
     View, StyleSheet, Text, FlatList, Image, TouchableOpacity, ActivityIndicator
@@ -24,33 +25,52 @@ class ItemContainer extends Component {
         }
     }
 
+    initializeValues = item => {
+        this.props.change('name', item.name);
+        this.props.change('price', item.price.toString());
+        this.props.change('description', item.description);
+    }
+
     _renderItem = ({ item }) => (
-        <View style={styles.itemStyling}>
-            <Image
-                source={{ uri: item.imageUrl }}
-                style={{ width: 70, height: 70, borderRadius: 10 }}
-            />
-            <View style={{ flex: 1, flexDirection: 'column', marginLeft: 20, }}>
-                <Text style={styles.title}>{item.name}</Text>
-                <Text numberOfLines={2} style={styles.description}>
-                    {item.description ? item.description : 'Some thing about the category'}
-                </Text>
+        <TouchableOpacity
+            onPress={() => {
+                this.initializeValues(item);
+                const { navigation } = this.props;
+                navigation.navigate('CreateItemScreen', {
+                    itemId: item.id,
+                    catId: this.props.catId,
+                    imageUrl: item.imageUrl
+                });
+
+            }}
+        >
+            <View style={styles.itemStyling}>
+                <Image
+                    source={{ uri: item.imageUrl }}
+                    style={{ width: 70, height: 70, borderRadius: 10 }}
+                />
+                <View style={{ flex: 1, flexDirection: 'column', marginLeft: 20, }}>
+                    <Text style={styles.title}>{item.name}</Text>
+                    <Text numberOfLines={2} style={styles.description}>
+                        {item.description ? item.description : 'Some thing about the category'}
+                    </Text>
+                </View>
+                <View style={{ padding: 8 }}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            const { catId } = this.props;
+                            this.props.removeItem(catId, item.id)
+                        }}
+                    >
+                        <Icon
+                            size={20}
+                            name={'close'}
+                            color={'#b2b2b2'}
+                        />
+                    </TouchableOpacity>
+                </View>
             </View>
-            <View style={{ padding: 8 }}>
-                <TouchableOpacity
-                    onPress={() => {
-                        const { catId } = this.props;
-                        this.props.removeItem(catId, item.id)
-                    }}
-                >
-                    <Icon
-                        size={20}
-                        name={'close'}
-                        color={'#b2b2b2'}
-                    />
-                </TouchableOpacity>
-            </View>
-        </View>
+        </TouchableOpacity>
     );
 
     render () {
@@ -102,7 +122,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: '#fff',
-        borderBottomColor:'#e5e5e5',
+        borderBottomColor: '#e5e5e5',
         borderBottomWidth: 1
     },
     title: {
@@ -135,6 +155,7 @@ const mapDispatchToProps = dispatch => {
             dispatch(actions.removeItemAction(catId, id));
         },
         fetchList: () => dispatch(fetchCategoryListAction()),
+        change: (fieldName, value) => dispatch(change('MenuItemForm', fieldName, value)),
     }
 }
 

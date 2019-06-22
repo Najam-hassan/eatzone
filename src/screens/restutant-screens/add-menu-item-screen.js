@@ -4,7 +4,7 @@ import { View, ScrollView, StatusBar } from 'react-native';
 import MenuItemForm from '../forms/menu-item-form';
 import { PageHeader } from '../../components/common/header';
 
-class TestScreen extends Component {
+class AddMenuItemScreen extends Component {
     constructor(props) {
         super(props);
     }
@@ -23,8 +23,10 @@ class TestScreen extends Component {
                     keyboardShouldPersistTaps="handled"
                 >
                     <MenuItemForm
-                        navigation={this.props.navigation}
                         categoryId={params.catId}
+                        navigation={this.props.navigation}
+                        itemId={params ? params.itemId : null}
+                        imageUrl={params ? params.imageUrl : null}
                     />
                 </ScrollView>
             </View>
@@ -32,4 +34,4 @@ class TestScreen extends Component {
     }
 }
 
-export default TestScreen 
+export default AddMenuItemScreen 

@@ -49,3 +49,17 @@ export function addCategoryAction (data) {
             });
     }
 }
+
+export function updateCategoryAction (data, id) {
+    return dispatch => {
+        dispatch(addCategoryRequest());
+        return axios.put(`/restaurant/menu-category/${id}`, data)
+            .then(response => {
+                dispatch(addCategorySuccess(response.data));
+                dispatch(fetchCategoryListAction());
+            })
+            .catch(error => {
+                dispatch(addCategoryFailure(error.response.data));
+            });
+    }
+}

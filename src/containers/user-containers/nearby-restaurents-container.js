@@ -6,18 +6,29 @@ import { Text, View, StyleSheet, FlatList, Image, Dimensions } from 'react-nativ
 const { width, height } = Dimensions.get('screen');
 
 import * as selectors from '../../selectors/user-selectors/restaurents-selectors';
+import { fetchDetailAction } from '../../actions/user-actions/resturant-detail-actions';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 class Restaurents extends Component {
 
-    _renderItem = ({ item }) => (
-        <TouchableOpacity activeOpacity={1} onPress={() => this.props.navigateTo(item)}>
+    _renderItem = ({ item, index }) => (
+        <TouchableOpacity
+            activeOpacity={1}
+            onPress={() => {
+                this.props.fetchDetails(item.id);
+                this.props.navigateTo(item);
+            }}
+        >
             <View style={{ flex: 1, margin: 10, borderRadius: 30, position: 'relative' }}>
                 <View style={{ flex: 0.3, justifyContent: 'center' }}>
-                    <Image
-                        source={item.image}
+                    {index % 2 === 0 ? <Image
+                        source={require('../../assets/images/mcdonal.jpg')}
                         style={styles.bannerStyle}
-                    />
+                    /> : <Image
+                            source={require('../../assets/images/subway.jpg')}
+                            style={styles.bannerStyle}
+                        />
+                    }
                     <View style={styles.overlay}>
                         <View style={[styles.locationStyle]}>
                             <Text style={{ color: "#fff" }}>
@@ -32,7 +43,7 @@ class Restaurents extends Component {
                     <View style={styles.titleStyle}>
                         <Text style={{ fontSize: 20, fontWeight: '500', color: '#000' }}>{item.name}</Text>
                         <Text style={{ color: '#00a0ff' }}>
-                            {`Service Charges: ${item.charges}`}
+                            {`Service Charges: ${item.deliveryServiceCharges}`}
                         </Text>
                     </View>
                     <Text style={{ fontSize: 16, fontWeight: '300', color: '#5e5a5a' }}>{item.description}</Text>
@@ -93,7 +104,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
     return {
-        dispatch,
+        fetchDetails: id => dispatch(fetchDetailAction(id))
     }
 }
 

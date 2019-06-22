@@ -4,6 +4,7 @@ import { View, StatusBar } from 'react-native';
 
 import { Header } from '../../components/common/header';
 import * as actions from '../../actions/user-actions/nearby-restaurants-actions';
+import { makeSelectSelectedId } from '../../selectors/user-selectors/home-selectors';
 import NearByRestaurant from '../../containers/user-containers/nearby-restaurents-container'
 
 class RestaurantsScreen extends Component {
@@ -12,20 +13,8 @@ class RestaurantsScreen extends Component {
     }
 
     componentDidMount () {
-        this.props.fetchList();
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                const { latitude, longitude } = position.coords
-                console.log('lat: ', latitude, 'long: ', longitude)
-                this.props.fetchList();
-                this.setState({
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
-                });
-            },
-            (error) => this.setState({ error: error.message }),
-            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-        );
+        const { selectedId, fetchNearByList } = this.props;
+        fetchNearByList(selectedId);
     }
 
     render () {
@@ -38,9 +27,10 @@ class RestaurantsScreen extends Component {
                 />
                 <NearByRestaurant
                     navigateTo={(item) => {
+                        console.log(item, '[][][][][][]')
                         this.props.navigation.navigate(
                             'RestaurantDetailScreen', {
-                                restaurant: item
+                                restaurantId: item.id
                             }
                         )
                     }}
@@ -50,11 +40,13 @@ class RestaurantsScreen extends Component {
     }
 }
 
-const mapStateToProps = state => ({})
+const mapStateToProps = state => ({
+    selectedId: makeSelectSelectedId()(state),
+})
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchList: () => dispatch(actions.fetchListAction()),
+        fetchNearByList: (id) => dispatch(actions.fetchNearByListAction(id)),
     }
 }
 
