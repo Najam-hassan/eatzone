@@ -110,8 +110,48 @@ class ProfileForm extends Component {
         });
     };
 
+    componentWillReceiveProps () {
+        const { profile, isEdit } = this.props;
+        if (isEdit && profile && profile.name) {
+            let newValues = [0];
+            newValues[0] = profile.deliverRadius ? profile.deliverRadius : 1
+            this.props.change("name", profile.name);
+            this.props.change("phone", profile.phone);
+            this.props.change("websiteUrl", profile.websiteUrl);
+            this.props.change("addressDetails", profile.addressDetails);
+            this.props.change(
+                "collectionServiceCharges", profile.collectionServiceCharges.toString()
+            );
+            this.props.change(
+                "deliveryServiceCharges", profile.deliveryServiceCharges.toString()
+            );
+            this.setState({
+                canDeliver: profile.canDeliver,
+                canCollect: profile.canCollect,
+                location: profile.address,
+                collect: {
+                    collectTimeEnd: profile.collectTimeEnd,
+                    collectTimeStart: profile.collectTimeStart,
+                },
+                deliver: {
+                    deliverTimeStart: profile.deliverTimeStart,
+                    deliverTimeEnd: profile.deliverTimeEnd.slice,
+                }
+            });
+            if (profile.location) {
+                this.setState({
+                    region: {
+                        ...this.state.region,
+                        latitude: profile.location.coordinates[1],
+                        longitude: profile.location.coordinates[0],
+                    }
+                });
+            }
+        }
+    }
+
     render () {
-        const { handleSubmit, submitting, loading } = this.props;
+        const { handleSubmit, submitting, loading, isEdit } = this.props;
         return (
             <View style={styles.container}>
                 <ScrollView
@@ -373,7 +413,7 @@ class ProfileForm extends Component {
                                             bottom: 0,
                                             position: 'absolute',
                                         }}
-                                        maxZoomLevel={8}
+                                        // maxZoomLevel={8}
                                         zoomEnabled={false}
                                         pitchEnabled={true}
                                         rotateEnabled={true}
@@ -480,7 +520,7 @@ class ProfileForm extends Component {
                         {submitting || loading ?
                             <ActivityIndicator size="large" color="#1BA2FC" /> :
                             <Button
-                                title="Continue"
+                                title={isEdit ? "Update" : "Continue"}
                                 onPress={handleSubmit(this.onSubmit)}
                                 style={styles.button}
                                 textStyle={{ /* styles for button title */ }}
