@@ -38,7 +38,7 @@ class RestaurantDetail extends Component {
                                                 <Text style={styles.blueBtn}>+</Text>
                                             </TouchableOpacity>
                                             <Text style={{ marginHorizontal: 10 }}>{item.quantity}</Text>
-                                            <TouchableOpacity onPress={() => { this.subtractQuantity(row.id, item.id) }}>
+                                            <TouchableOpacity onPress={() => { this.subtractQuantity(row.id, item.id, item.quantity) }}>
                                                 <Text style={styles.blueBtn}>-</Text>
                                             </TouchableOpacity>
                                         </View>
@@ -58,14 +58,27 @@ class RestaurantDetail extends Component {
             let itemIndex = this.props.data[categoryIndex].menu_items.findIndex(e => e.id === itemId);
             if (itemIndex >= 0) {
                 this.props.data[categoryIndex].menu_items[itemIndex].quantity++;
-                console.log('indexxxx: ', this.props.data[categoryIndex].menu_items[itemIndex]);
             }
         }
         console.log('adddddd: ', this.props.data);
         this.props.addItemQuantity(this.props.data);
     }
-    subtractQuantity() {
+    subtractQuantity(categoryId, itemId, quantity) {
+        if (quantity > 0) {
+            let categoryIndex = this.props.data.findIndex(e => e.id === categoryId);
+            if (categoryIndex >= 0) {
+                let itemIndex = this.props.data[categoryIndex].menu_items.findIndex(e => e.id === itemId);
+                if (
+                    itemIndex >= 0 &&
+                    this.props.data[categoryIndex].menu_items[itemIndex].quantity > 0
+                ) {
 
+                    this.props.data[categoryIndex].menu_items[itemIndex].quantity--;
+                }
+            }
+            console.log('subtrat: ', this.props.data);
+            this.props.addItemQuantity(this.props.data);
+        }
     }
 
     render() {
