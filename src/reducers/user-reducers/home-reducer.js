@@ -9,6 +9,7 @@ export const initialState = fromJS({
         loading: false,
         error: null,
     },
+    restaurant: { selectedId: '' }
 });
 
 export default function homeReducer (state = initialState, action) {
@@ -32,6 +33,9 @@ export default function homeReducer (state = initialState, action) {
         case constants.FETCH_LIST_FAILURE:
             return state.setIn(['list', 'error'], action.error)
                 .setIn(['list', 'loading'], false);
+
+        case constants.SET_COLLECTING_RESTAURANT:
+            return state.setIn(['restaurant', 'selectedId'], action.selectedId);
 
         case constants.RESET_LIST_STATE:
             return initialState;

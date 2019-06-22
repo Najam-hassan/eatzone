@@ -22,6 +22,13 @@ export function fetchListFailure (error) {
     }
 }
 
+export function setCollectingResturant (selectedId) {
+    return {
+        type: constants.SET_COLLECTING_RESTAURANT,
+        selectedId
+    }
+}
+
 export function fetchListAction (url) {
     return dispatch => {
         dispatch(fetchListRequest());

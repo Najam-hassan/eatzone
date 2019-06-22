@@ -71,13 +71,15 @@ class SignUpForm extends Component {
                         <View style={styles.textView}>
                             <Text style={styles.textStyle}>
                                 Already have an account?
-                            <Text
+                                <Text
                                     style={styles.signUpTextStyle}
                                     onPress={() => {
-                                        // this.props.initilizeForm();
+                                        this.props.resetState();
                                         this.props.navigateTo('SignInScreen');
                                     }}
-                                > Sign In</Text>
+                                >
+                                    Sign In
+                                </Text>
                             </Text>
                         </View>
                     </View>
@@ -115,14 +117,14 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
     return {
+        resetState: () => dispatch(actions.resetState()),
+        change: (fieldName, value) => {
+            dispatch(change('SigninForm', fieldName, value));
+        },
         onSubmit: (url, values) => {
             const { email, password, name } = values && values.toJS();
             dispatch(actions.registerAction(url, { email, password, name }))
         },
-        initilizeForm: () => {
-            dispatch(destroy('SigninForm'));
-            dispatch(initialize('SigninForm', {}));
-        }
     }
 };
 

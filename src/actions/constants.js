@@ -31,6 +31,9 @@ export const PROFILE_DATEILS_SUCCESS = 'PROFILE_DATEILS_SUCCESS';
 export const PROFILE_DATEILS_FAILURE = 'PROFILE_DATEILS_FAILURE';
 export const RESET_USER_PROFILE = 'RESET_USER_PROFILE';
 
+//Set collecting resturant Action 
+export const SET_COLLECTING_RESTAURANT = 'SET_COLLECTING_RESTAURANT';
+
 /*
 *****************************************************************
                     Restutant Owner, Actions
