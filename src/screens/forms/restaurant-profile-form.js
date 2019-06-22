@@ -114,7 +114,12 @@ class ProfileForm extends Component {
         const { profile, isEdit } = this.props;
         if (isEdit && profile && profile.name) {
             let newValues = [0];
-            newValues[0] = profile.deliverRadius ? profile.deliverRadius : 1
+            if (profile.deliverRadius) {
+                newValues[0] = profile.deliverRadius / 1000;
+                this.setState({
+                    sliderOneValue: newValues
+                });
+            }
             this.props.change("name", profile.name);
             this.props.change("phone", profile.phone);
             this.props.change("websiteUrl", profile.websiteUrl);
