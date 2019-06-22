@@ -30,7 +30,7 @@ class SignInScreen extends Component {
 					'user',
 					JSON.stringify(nextProps.user),
 					() => {
-						this.props.navigation.navigate('HomeScreen');
+						this.props.navigation.navigate('CreateRestaurantProfile');
 						this.forceUpdate();
 					}
 				);

@@ -5,7 +5,7 @@ import { View, StatusBar } from 'react-native';
 import { Header } from '../../components/common/header';
 import ProfileForm from '../forms/restaurant-profile-form';
 
-class ResturantDetails extends Component {
+class EditProfileScreen extends Component {
     constructor(props) {
         super(props);
     }
@@ -32,4 +32,4 @@ class ResturantDetails extends Component {
     }
 }
 
-export default ResturantDetails 
+export default EditProfileScreen 

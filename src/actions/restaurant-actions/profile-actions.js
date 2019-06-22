@@ -29,7 +29,7 @@ export function resetState () {
 
 export function updateProfileAction (data) {
     return dispatch => {
-        dispatch(updateProfileRequest())
+        dispatch(updateProfileRequest());
         return axios.put(`/restaurant/edit-profile`, data)
             .then(response => {
                 dispatch(updateProfileSuccess(response.data));

@@ -26,7 +26,8 @@ import CategoryScreen from './screens/restutant-screens/category-screen';
 import MenuItemsScreen from './screens/restutant-screens/menu-items-screen';
 import CreateItemScreen from './screens/restutant-screens/add-menu-item-screen';
 import RecentOrdersScreen from './screens/restutant-screens/recent-orders-screen'
-import RestaurantProfile from './screens/restutant-screens/restaurant-details-screen';
+import EditRestaurantProfile from './screens/restutant-screens/edit-profile-screen';
+import CreateRestaurantProfile from './screens/restutant-screens/create-profile-screen';
 import CompletedOrdersScreen from './screens/restutant-screens/completed-orders-screen';
 
 // Side Drawer (Side Navigation component)
@@ -48,8 +49,8 @@ const AuthStack = createStackNavigator({
     CategoryScreen: CategoryScreen,
     MenuItemsScreen: MenuItemsScreen,
     CreateItemScreen: CreateItemScreen,
-    RestaurantProfile: RestaurantProfile,
     RecentOrdersScreen: RecentOrdersScreen,
+    EditRestaurantProfile: EditRestaurantProfile,
     CompletedOrdersScreen: CompletedOrdersScreen,
 }, {
         headerMode: 'none',
@@ -74,11 +75,16 @@ const Dashboard = createStackNavigator({
 }, { headerMode: 'none' });
 
 const LoginStack = createStackNavigator({
-    WelcomeScreen: WelcomeScreen,
-    SignInScreen: SignInScreen,
     SignUpScreen: SignUpScreen,
+    SignInScreen: SignInScreen,
+    WelcomeScreen: WelcomeScreen,
     ForgotPasswordScreen: ForgotPasswordScreen,
-}, { headerMode: 'none' });
+    CreateRestaurantProfile: CreateRestaurantProfile,
+}, {
+        headerMode: 'none',
+        initialRouteName: 'WelcomeScreen',
+    }
+);
 
 // export default AppContainer = createAppContainer(Drawerstack);
 export default AppContainer = createAppContainer(

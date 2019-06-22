@@ -80,7 +80,9 @@ class SidebarMenu extends Component {
 
                             <TouchableOpacity
                                 style={styles.menuText}
-                                onPress={() => this.props.navigation.navigate('RestaurantProfile')}
+                                onPress={() => {
+                                    this.props.navigation.navigate('EditRestaurantProfile');
+                                }}
                             >
                                 <Text style={{ color: '#333333', textTransform: 'uppercase' }}>
                                     Profile

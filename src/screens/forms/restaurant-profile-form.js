@@ -1,4 +1,3 @@
-import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { CheckBox } from 'react-native-elements';
 import MapView, { Marker } from 'react-native-maps';
@@ -17,9 +16,6 @@ import Button from '../../components/common/button';
 // import InputField from '../../components/common/input';
 import InputField from '../../components/common/materialInput';
 
-import * as actions from '../../actions/restaurant-actions/profile-actions';
-import * as selectors from '../../selectors/restaurant-selectors/profile-selectors';
-
 class ProfileForm extends Component {
     state = {
         collect: { collectTimeStart: '00:00', collectTimeEnd: '00:00' },
@@ -37,13 +33,6 @@ class ProfileForm extends Component {
         canDeliver: false,
     }
 
-    componentWillReceiveProps (nextProps) {
-        if (nextProps.profile && nextProps.profile.name) {
-            // this.props.resetState();
-            this.props.navigation.navigate('HomeScreen');
-        }
-    }
-
     onSubmit = values => {
         const {
             canCollect, canDeliver, collect, deliver, sliderOneValue, region, location
@@ -59,7 +48,7 @@ class ProfileForm extends Component {
                     { cancelable: false },
                 );
             } else if (canCollect && canDeliver) {
-                this.props.onSubmit({
+                this.props.onSubmitForm({
                     ...values.toJS(),
                     canDeliver: canDeliver,
                     canCollect: canCollect,
@@ -73,7 +62,7 @@ class ProfileForm extends Component {
                 });
             } else if (canCollect) {
                 if (values.get('collectionServiceCharges')) {
-                    this.props.onSubmit({
+                    this.props.onSubmitForm({
                         ...values.toJS(),
                         canCollect: canCollect,
                         collectTimeEnd: collect.collectTimeEnd,
@@ -89,7 +78,7 @@ class ProfileForm extends Component {
                 );
             } else if (canDeliver) {
                 if (values.get('deliveryServiceCharges')) {
-                    this.props.onSubmit({
+                    this.props.onSubmitForm({
                         ...values.toJS(),
                         canDeliver: canDeliver,
                         deliverTimeEnd: deliver.deliverTimeEnd,
@@ -104,7 +93,7 @@ class ProfileForm extends Component {
                     { cancelable: false },
                 );
             } else {
-                this.props.onSubmit({
+                this.props.onSubmitForm({
                     ...values.toJS(),
                     canDeliver: canDeliver,
                     canCollect: canCollect,
@@ -171,7 +160,6 @@ class ProfileForm extends Component {
                                 });
                             }}
                             query={{
-                                // key: 'AIzaSyBcnMFdYtSXJVhPyxqaxKfE3nbvAoRZD_A',
                                 key: 'AIzaSyBJX4U1PDcgBCoR6gL4mCVedWFApQ8MWTs',
                                 language: 'en',
                                 components: 'country:pk'
@@ -180,10 +168,11 @@ class ProfileForm extends Component {
                                 textInputContainer: {
                                     borderTopWidth: 0,
                                     borderBottomWidth: 0,
-                                    height: 60,
+                                    height: 50,
                                 },
                                 container: {
                                     // width: width - 50,
+                                    paddingTop: 20,
                                     borderColor: '#000',
                                     borderBottomWidth: 1,
                                     borderBottomColor: '#d9d9d9',
@@ -193,7 +182,7 @@ class ProfileForm extends Component {
                                     marginRight: 0,
                                     paddingLeft: 0,
                                     paddingRight: 0,
-                                    height: 60,
+                                    height: 50,
                                     color: "#2b2b2b",
                                     fontSize: 16,
                                     marginTop: 0,
@@ -530,19 +519,6 @@ const validate = values => {
     return errors;
 };
 
-
-const mapStateToProps = state => ({
-    loading: selectors.makeSelectProfileLoading()(state),
-    profile: selectors.makeSelectProflieData()(state),
-});
-
-const mapDispatchToProps = dispatch => {
-    return {
-        resetState: () => dispatch(actions.resetState()),
-        onSubmit: values => dispatch(actions.updateProfileAction(values)),
-    }
-}
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -637,11 +613,8 @@ const styles = StyleSheet.create({
     }
 });
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(reduxForm({
+export default reduxForm({
     form: 'RestaurantProfileForm',
     enableReinitialize: true,
     validate,
-})(ProfileForm))
+})(ProfileForm)
