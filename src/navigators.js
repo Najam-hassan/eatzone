@@ -69,6 +69,9 @@ const Drawerstack = createDrawerNavigator({
     }
 );
 
+const Dashboard = createStackNavigator({
+    Drawerstack: Drawerstack,
+}, { headerMode: 'none' });
 
 const LoginStack = createStackNavigator({
     WelcomeScreen: WelcomeScreen,
@@ -82,7 +85,7 @@ export default AppContainer = createAppContainer(
     createSwitchNavigator(
         {
             AuthLoading: MainApp,
-            App: Drawerstack,
+            App: Dashboard,
             Auth: LoginStack,
         },
         {

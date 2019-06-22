@@ -3,33 +3,40 @@ import axios from 'axios';
 import * as constants from '../constants';
 import { resturants } from '../../utils/test-data'
 
-export function fetchDetailsRrquest () {
+export function addQuantityToItem(categoryData) {
+    return {
+        type: constants.ADD_ITEM_QUANTITY,
+        data: categoryData
+    }
+}
+
+export function fetchDetailsRrquest() {
     return {
         type: constants.FETCH_DETAIL_REQUEST,
     }
 }
 
-export function fetchDetailsSuccess (resturant) {
+export function fetchDetailsSuccess(resturant) {
     return {
         type: constants.FETCH_DETAIL_SUCCESS,
         data: resturant,
     }
 }
 
-export function fetchDetailsFailure (error) {
+export function fetchDetailsFailure(error) {
     return {
         type: constants.FETCH_DETAIL_FAILURE,
         error
     }
 }
 
-export function resetState () {
+export function resetState() {
     return {
         type: constants.RESET_DETAIL_STATE,
     }
 }
 
-export function fetchDetailAction (id) {
+export function fetchDetailAction(id) {
     return dispatch => {
         dispatch(fetchDetailsRrquest());
         return axios.get(`/user/restaurant-menu/${id}`)

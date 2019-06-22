@@ -11,12 +11,17 @@ export const initialState = fromJS({
     },
 });
 
-export default function detailReducer (state = initialState, action) {
+export default function detailReducer(state = initialState, action) {
     switch (action.type) {
         case constants.FETCH_DETAIL_REQUEST:
             return state.setIn(['user', 'loading'], true);
 
         case constants.FETCH_DETAIL_SUCCESS: {
+            action.data.menu_categories.forEach(category => {
+                category.menu_items.forEach(item => {
+                    item['quantity'] = 0;
+                });
+            });
             const payload = Map({
                 ...action.data,
                 key: guid(),
@@ -29,6 +34,15 @@ export default function detailReducer (state = initialState, action) {
         case constants.FETCH_DETAIL_FAILURE:
             return state
                 .setIn(['list', 'error'], action.error)
+                .setIn(['list', 'loading'], false);
+
+        case constants.ADD_ITEM_QUANTITY:
+            const payload = Map({
+                ...state.getIn(['list', 'data']),
+                menu_categories: action.data,
+            });
+            return state
+                .setIn(['list', 'data'], payload)
                 .setIn(['list', 'loading'], false);
 
         case constants.RESET_DETAIL_STATE:

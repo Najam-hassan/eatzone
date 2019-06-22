@@ -8,6 +8,7 @@ const Header = ({ navigation, title }) => {
         <View style={{ backgroundColor: '#1BA2FB' }}>
             <View style={[iconsViewStyle, { backgroundColor: '#1BA2FB' }]}>
                 <TouchableOpacity
+                    hitSlop={{ top: 5, bottom: 5, right: 5, left: 5 }}
                     onPress={() => { navigation.openDrawer() }}
                 >
                     <Image source={require('../../assets/images/menuIcon.png')} />

@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { guid } from '../../utils/misc';
 import { Text, View, Image, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import * as actions from '../../actions/user-actions/resturant-detail-actions';
 
 class RestaurantDetail extends Component {
 
@@ -33,16 +34,12 @@ class RestaurantDetail extends Component {
                                             {item.description}
                                         </Text>
                                         <View style={styles.stockStyle}>
-                                            <TouchableOpacity>
-                                                <Text style={styles.blueBtn}>
-                                                    +
-                                    </Text>
+                                            <TouchableOpacity onPress={() => { this.addQuantity(row.id, item.id) }}>
+                                                <Text style={styles.blueBtn}>+</Text>
                                             </TouchableOpacity>
-                                            <Text style={{ marginHorizontal: 10 }}>2</Text>
-                                            <TouchableOpacity>
-                                                <Text style={styles.blueBtn}>
-                                                    -
-                                    </Text>
+                                            <Text style={{ marginHorizontal: 10 }}>{item.quantity}</Text>
+                                            <TouchableOpacity onPress={() => { this.subtractQuantity(row.id, item.id) }}>
+                                                <Text style={styles.blueBtn}>-</Text>
                                             </TouchableOpacity>
                                         </View>
                                     </View>
@@ -55,7 +52,23 @@ class RestaurantDetail extends Component {
         </View>
     );
 
-    render () {
+    addQuantity(categoryId, itemId) {
+        let categoryIndex = this.props.data.findIndex(e => e.id === categoryId);
+        if (categoryIndex >= 0) {
+            let itemIndex = this.props.data[categoryIndex].menu_items.findIndex(e => e.id === itemId);
+            if (itemIndex >= 0) {
+                this.props.data[categoryIndex].menu_items[itemIndex].quantity++;
+                console.log('indexxxx: ', this.props.data[categoryIndex].menu_items[itemIndex]);
+            }
+        }
+        console.log('adddddd: ', this.props.data);
+        this.props.addItemQuantity(this.props.data);
+    }
+    subtractQuantity() {
+
+    }
+
+    render() {
         const { list } = this.props;
         return (
             <View style={{ flex: 1 }}>
@@ -83,6 +96,7 @@ const mapStateToProps = state => ({});
 const mapDispatchToProps = dispatch => {
     return {
         dispatch,
+        addItemQuantity: data => dispatch(actions.addQuantityToItem(data)),
     }
 }
 
