@@ -62,7 +62,7 @@ class ProfileForm extends Component {
                     ...values.toJS(),
                     canDeliver: canDeliver,
                     canCollect: canCollect,
-                    deliverRadius: sliderOneValue[0],
+                    deliverRadius: sliderOneValue[0] * 1000,
                     collectTimeEnd: collect.collectTimeEnd,
                     deliverTimeEnd: deliver.deliverTimeEnd,
                     collectTimeStart: collect.collectTimeStart,
@@ -163,14 +163,9 @@ class ProfileForm extends Component {
                                     location:
                                         details.name,
                                     region: {
-                                        latitude: parseFloat(
-                                            JSON.stringify(details.geometry.location.lat)
-                                        ),
-                                        longitude: parseFloat(
-                                            JSON.stringify(details.geometry.location.lng)
-                                        ),
-                                        latitudeDelta: 1,
-                                        longitudeDelta: 1
+                                        ...this.state.region,
+                                        latitude: details.geometry.location.lat,
+                                        longitude: details.geometry.location.lng,
                                     }
                                 });
                             }}
