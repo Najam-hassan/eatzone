@@ -38,7 +38,7 @@ class RestaurantDetailScreen extends Component {
       list.menu_categories.map(item => (
         item.menu_items.filter(row => (
           row.quantity > 0))
-      ));
+      )).reduce((a, b) => a.concat(b));
 
     return (
       <View style={{ flex: 1 }}>

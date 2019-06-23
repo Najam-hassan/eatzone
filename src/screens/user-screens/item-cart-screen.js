@@ -21,9 +21,10 @@ class CartScreen extends Component {
     let total = 0;
     cartItems && cartItems.length &&
       cartItems.map(category => (
-        category.menu_items.map(item => (
-          total = total + item.price
-        ))
+        category.menu_items.forEach(item => {
+          if (item.quantity > 0)
+            total = total + item.price;
+        })
       ));
     console.log(total, 'total price');
     this.setState({ subTotal: total })
@@ -32,64 +33,68 @@ class CartScreen extends Component {
   _renderItem = ({ item }) => {
     return (
       <View>
-        {item && item.menu_items.length ? item.menu_items.map(row => (
-          <View style={styles.itemContainer}>
-            <View style={{ flex: 1, }}>
-              <TouchableOpacity style={styles.radioBtnContainer}>
-                {
-                  true ?
-                    <View style={styles.radioBtn} />
-                    : null
-                }
-              </TouchableOpacity>
-            </View>
-            <View style={{ flex: 9, }}>
-              <View style={{
-                flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
-              }}>
-                <Text numberOfLines={1} style={{
-                  flex: 8, color: '#000', fontSize: 16, fontWeight: '700',
-                }}>{row.name}</Text>
-                <View style={{
-                  flex: 2, alignItems: 'flex-end', justifyContent: 'flex-end'
-                }}>
-                  <Text style={{ color: '#000', fontWeight: '700', }}>${row.price}</Text>
-                </View>
-              </View>
-
-              <View style={{
-                flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
-              }}>
-                <Text style={{ color: 'grey', marginTop: 2 }}>Meal (L)</Text>
-              </View>
-
-              <View style={{
-                flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
-              }}>
-                <Text numberOfLines={1} style={{
-                  flex: 7, color: 'grey',
-                }}>{row.description}</Text>
-                <View style={{
-                  flex: 3, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end'
-                }}>
-                  <TouchableOpacity
-                    onPress={() => { this.addQuantity(item.id, row.id, row.price) }}
-                  >
-                    <Text style={styles.blueBtn}> + </Text>
-                  </TouchableOpacity>
-                  <Text style={{ marginHorizontal: 10 }}>{row.quantity}</Text>
-                  <TouchableOpacity
-                    onPress={() => {
-                      this.subtractQuantity(item.id, row.id, row.quantity, row.price)
-                    }}
-                  >
-                    <Text style={styles.blueBtn}> - </Text>
+        {item && item.menu_items.length ? item.menu_items.map(row => {
+          if (row.quantity > 0) {
+            return (
+              <View style={styles.itemContainer}>
+                <View style={{ flex: 1, }}>
+                  <TouchableOpacity style={styles.radioBtnContainer}>
+                    {
+                      true ?
+                        <View style={styles.radioBtn} />
+                        : null
+                    }
                   </TouchableOpacity>
                 </View>
+                <View style={{ flex: 9, }}>
+                  <View style={{
+                    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
+                  }}>
+                    <Text numberOfLines={1} style={{
+                      flex: 8, color: '#000', fontSize: 16, fontWeight: '700',
+                    }}>{row.name}</Text>
+                    <View style={{
+                      flex: 2, alignItems: 'flex-end', justifyContent: 'flex-end'
+                    }}>
+                      <Text style={{ color: '#000', fontWeight: '700', }}>${row.price}</Text>
+                    </View>
+                  </View>
+
+                  <View style={{
+                    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
+                  }}>
+                    <Text style={{ color: 'grey', marginTop: 2 }}>Meal (L)</Text>
+                  </View>
+
+                  <View style={{
+                    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
+                  }}>
+                    <Text numberOfLines={1} style={{
+                      flex: 7, color: 'grey',
+                    }}>{row.description}</Text>
+                    <View style={{
+                      flex: 3, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end'
+                    }}>
+                      <TouchableOpacity
+                        onPress={() => { this.addQuantity(item.id, row.id, row.price) }}
+                      >
+                        <Text style={styles.blueBtn}> + </Text>
+                      </TouchableOpacity>
+                      <Text style={{ marginHorizontal: 10 }}>{row.quantity}</Text>
+                      <TouchableOpacity
+                        onPress={() => {
+                          this.subtractQuantity(item.id, row.id, row.quantity, row.price)
+                        }}
+                      >
+                        <Text style={styles.blueBtn}> - </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>
               </View>
-            </View>
-          </View>
-        )) : null}
+            )
+          }
+        }) : null}
       </View>
     )
   }
@@ -219,7 +224,7 @@ class CartScreen extends Component {
 }
 
 const mapStateToProps = state => ({
-  cartItems: selectors.makeSelectCartItem()(state)
+  cartItems: selectors.makeSelectCartItem()(state),
 });
 
 const mapDispatchToProps = dispatch => {
