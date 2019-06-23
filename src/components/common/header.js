@@ -2,17 +2,18 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/EvilIcons';
 import { View, StyleSheet, TouchableOpacity, Image, Text } from 'react-native';
 
-const Header = ({ navigation, title }) => {
+const Header = ({ navigation, title, profile }) => {
     const { iconsViewStyle, titleStyle } = styles;
     return (
         <View style={{ backgroundColor: '#1BA2FB' }}>
             <View style={[iconsViewStyle, { backgroundColor: '#1BA2FB' }]}>
-                <TouchableOpacity
-                    hitSlop={{ top: 5, bottom: 5, right: 5, left: 5 }}
-                    onPress={() => { navigation.openDrawer() }}
-                >
-                    <Image source={require('../../assets/images/menuIcon.png')} />
-                </TouchableOpacity>
+                {!profile ?
+                    <TouchableOpacity
+                        hitSlop={{ top: 5, bottom: 5, right: 5, left: 5 }}
+                        onPress={() => { navigation.openDrawer() }}
+                    >
+                        <Image source={require('../../assets/images/menuIcon.png')} />
+                    </TouchableOpacity> : null}
                 <View style={titleStyle}>
                     <Text style={{ color: '#fff', fontSize: 18, fontWeight: '500' }}>{title}</Text>
                 </View>

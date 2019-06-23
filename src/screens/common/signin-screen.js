@@ -18,6 +18,7 @@ class SignInScreen extends Component {
 	}
 
 	componentWillReceiveProps (nextProps) {
+		const { params } = this.props.navigation.state;
 		if (nextProps.authUser !== null) {
 			this.refs.toast.show(
 				'Confirmation email has been sent to you. Please confirm to login',
@@ -30,7 +31,11 @@ class SignInScreen extends Component {
 					'user',
 					JSON.stringify(nextProps.user),
 					() => {
-						this.props.navigation.navigate('CreateRestaurantProfile');
+						if (params && params.type === 'user') {
+							this.props.navigation.navigate('HomeScreen');
+						} else {
+							this.props.navigation.navigate('CreateRestaurantProfile');
+						}
 						this.forceUpdate();
 					}
 				);

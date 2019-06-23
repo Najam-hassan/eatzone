@@ -140,7 +140,7 @@ class ProfileForm extends Component {
                 },
                 deliver: {
                     deliverTimeStart: profile.deliverTimeStart,
-                    deliverTimeEnd: profile.deliverTimeEnd.slice,
+                    deliverTimeEnd: profile.deliverTimeEnd,
                 }
             });
             if (profile.location) {

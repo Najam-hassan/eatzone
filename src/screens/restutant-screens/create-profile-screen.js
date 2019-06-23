@@ -40,6 +40,7 @@ class CreateProfileScreen extends Component {
                 <Header
                     navigation={this.props.navigation}
                     title={'Restaurant Detail'}
+                    profile={true}
                 />
                 {loading ?
                     <ActivityIndicator
