@@ -19,7 +19,9 @@ class RestaurantDetail extends Component {
               onPress={() => {
                 this.props.navigation.navigate(
                   'ItemDetailScreen', {
-                    item: item
+                    list: this.props.data,
+                    catId: row.id,
+                    item: item,
                   })
               }}
             >
