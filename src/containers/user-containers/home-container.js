@@ -80,7 +80,7 @@ class HomeContainer extends Component {
                         });
                     }
                     this.props.fetchList(`/user/eligible-restaurants/${item.id}`);
-                    this.props.collectingResturant(item.id);
+                    this.props.collectingResturant(item);
                 } else {
                     this.props.fetchDetails(item.id);
                     this.props.navigation.navigate('RestaurantDetailScreen', {
@@ -173,7 +173,9 @@ class HomeContainer extends Component {
                                             data={list}
                                             extraData={this.state}
                                             renderItem={this._renderItem}
-                                            keyExtractor={(item, index) => index.toString()}
+                                            keyExtractor={(item, index) => (
+                                                Date.now() + index.toString()
+                                            )}
                                         /> :
                                         <View style={{
                                             flex: .5,
@@ -218,8 +220,8 @@ const mapDispatchToProps = dispatch => {
         fetchList: (url) => {
             dispatch(actions.fetchListAction(url));
         },
-        collectingResturant: id => {
-            dispatch(actions.setCollectingResturant(id));
+        collectingResturant: resturant => {
+            dispatch(actions.setCollectingResturant(resturant));
         },
         fetchDetails: id => {
             dispatch(fetchDetailAction(id));

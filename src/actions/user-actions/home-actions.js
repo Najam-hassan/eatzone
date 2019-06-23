@@ -22,10 +22,10 @@ export function fetchListFailure (error) {
     }
 }
 
-export function setCollectingResturant (selectedId) {
+export function setCollectingResturant (restaurant) {
     return {
         type: constants.SET_COLLECTING_RESTAURANT,
-        selectedId
+        restaurant
     }
 }
 

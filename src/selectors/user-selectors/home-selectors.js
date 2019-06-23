@@ -15,8 +15,8 @@ const makeSelectError = () => createSelector(
     selectHomeState, state => state.getIn(['list', 'error'])
 );
 
-const makeSelectSelectedId = () => createSelector(
-    selectHomeState, state => state.getIn(['restaurant', 'selectedId'])
+const makeSelectCollectingResturant = () => createSelector(
+    selectHomeState, state => state.getIn(['restaurant', 'collectingResturant']).toJS()
 );
 
 export {
@@ -24,5 +24,5 @@ export {
     selectHomeState,
     makeSelectError,
     makeSelectLoading,
-    makeSelectSelectedId,
+    makeSelectCollectingResturant,
 };

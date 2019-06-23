@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { View, Text, StatusBar, ImageBackground, StyleSheet, Dimensions, ActivityIndicator } from 'react-native';
 
+import Button from '../../components/common/button';
 import { PageHeader } from '../../components/common/header';
 import RestaurantDetail from '../../containers/user-containers/restaurent-details-container';
 
@@ -16,7 +17,7 @@ class RestaurantDetailScreen extends Component {
     super(props);
   }
 
-  componentDidMount() {
+  componentDidMount () {
 
     // const { params } = this.props.navigation.state;
     // if (params.restaurantId) {
@@ -24,15 +25,21 @@ class RestaurantDetailScreen extends Component {
     // }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps (nextProps) {
     if (nextProps.list) {
       // console.log('props: ', nextProps.list);
       // this.initilizeItems(nextProps.list)
     }
   }
 
-  render() {
-    const { list } = this.props;
+  render () {
+    const { list, navigation } = this.props;
+    const cardItems = list && Object.keys(list).length &&
+      list.menu_categories.map(item => (
+        item.menu_items.filter(row => (
+          row.quantity > 0))
+      ));
+
     return (
       <View style={{ flex: 1 }}>
         <StatusBar hidden={false} />
@@ -86,6 +93,23 @@ class RestaurantDetailScreen extends Component {
             </View>
           }
         </View>
+        {cardItems && cardItems.length &&
+          Object.keys(cardItems[0]).length ?
+          <View style={styles.itemCardStyle}>
+            <View style={styles.cardBodyStyle}>
+              <Text style={{ fontSize: 14, color: '#fff' }}>
+                1 Items | 30$
+            </Text>
+              <Button
+                title="View Card"
+                onPress={() => {
+                  navigation.navigate('ItemCartScreen');
+                }}
+                style={styles.button}
+                textStyle={{ /* styles for button title */ }}
+              />
+            </View>
+          </View> : null}
       </View>
     )
   }
@@ -132,7 +156,32 @@ const styles = StyleSheet.create({
   overlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(0,0,0,0.4)',
-  }
+  },
+  itemCardStyle: {
+    left: 0,
+    right: 0,
+    bottom: 0,
+    height: 60,
+    position: 'absolute',
+    backgroundColor: '#1BA2FC',
+  },
+  cardBodyStyle: {
+    marginVertical: 20,
+    flexDirection: "row",
+    marginHorizontal: 20,
+    justifyContent: 'space-between',
+  },
+  button: {
+    height: 30,
+    width: '50%',
+    color: '#fff',
+    borderWidth: 1,
+    borderRadius: 50,
+    marginVertical: -5,
+    textAlign: 'center',
+    borderColor: '#fff',
+    backgroundColor: '#1BA2FC',
+  },
 })
 
 export default connect(

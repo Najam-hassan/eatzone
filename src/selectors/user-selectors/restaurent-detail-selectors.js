@@ -4,17 +4,25 @@ import { initialState } from '../../reducers/user-reducers/resturant-detail-redu
 const selectRestaurantDetailState = state => state.get('restaurantDetail', initialState);
 
 const makeSelectRestaurantLoading = () => createSelector(
-    selectRestaurantDetailState, state => state.getIn(['list', 'loading']));
+  selectRestaurantDetailState, state => state.getIn(['list', 'loading'])
+);
 
 const makeSelectRestaurantDetail = () => createSelector(
-    selectRestaurantDetailState, state => state.getIn(['list', 'data']).toJS());
+  selectRestaurantDetailState, state => state.getIn(['list', 'data']).toJS()
+);
 
 const makeSelectRestaurantError = () => createSelector(
-    selectRestaurantDetailState, state => state.getIn(['list', 'error']));
+  selectRestaurantDetailState, state => state.getIn(['list', 'error'])
+);
+
+const makeSelectCartItem = () => createSelector(
+  selectRestaurantDetailState, state => state.getIn(['cart', 'items']).toJS()
+);
 
 export {
-    makeSelectRestaurantError,
-    makeSelectRestaurantDetail,
-    selectRestaurantDetailState,
-    makeSelectRestaurantLoading,
+  makeSelectCartItem,
+  makeSelectRestaurantError,
+  makeSelectRestaurantDetail,
+  selectRestaurantDetailState,
+  makeSelectRestaurantLoading,
 };

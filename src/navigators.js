@@ -17,6 +17,7 @@ import ForgotPasswordScreen from './screens/common/forget-password-screen';
 import TestScreen from './screens/test-screen';
 import OrderScreen from './screens/user-screens/orders-screen';
 import ProfileScreen from './screens/user-screens/profile-screen';
+import ItemCartScreen from './screens/user-screens/item-cart-screen';
 import ItemDetailScreen from './screens/user-screens/item-details-screen';
 import RestaurantsScreen from './screens/user-screens/near-by-restaurants';
 import RestaurantDetailScreen from './screens/user-screens/restaurant-detsils-screen';
@@ -41,6 +42,7 @@ const AuthStack = createStackNavigator({
     // User Screens will go here
     OrderScreen: OrderScreen,
     ProfileScreen: ProfileScreen,
+    ItemCartScreen: ItemCartScreen,
     ItemDetailScreen: ItemDetailScreen,
     RestaurantsScreen: RestaurantsScreen,
     RestaurantDetailScreen: RestaurantDetailScreen,

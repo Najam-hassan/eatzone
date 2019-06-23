@@ -4,7 +4,7 @@ import { View, StatusBar } from 'react-native';
 
 import { Header } from '../../components/common/header';
 import * as actions from '../../actions/user-actions/nearby-restaurants-actions';
-import { makeSelectSelectedId } from '../../selectors/user-selectors/home-selectors';
+import { makeSelectCollectingResturant } from '../../selectors/user-selectors/home-selectors';
 import NearByRestaurant from '../../containers/user-containers/nearby-restaurents-container'
 
 class RestaurantsScreen extends Component {
@@ -13,8 +13,10 @@ class RestaurantsScreen extends Component {
     }
 
     componentDidMount () {
-        const { selectedId, fetchNearByList } = this.props;
-        fetchNearByList(selectedId);
+        const { resturant, fetchNearByList } = this.props;
+        if (resturant) {
+            fetchNearByList(resturant.id);
+        }
     }
 
     render () {
@@ -27,7 +29,6 @@ class RestaurantsScreen extends Component {
                 />
                 <NearByRestaurant
                     navigateTo={(item) => {
-                        console.log(item, '[][][][][][]')
                         this.props.navigation.navigate(
                             'RestaurantDetailScreen', {
                                 restaurantId: item.id
@@ -41,7 +42,7 @@ class RestaurantsScreen extends Component {
 }
 
 const mapStateToProps = state => ({
-    selectedId: makeSelectSelectedId()(state),
+    resturant: makeSelectCollectingResturant()(state),
 })
 
 const mapDispatchToProps = dispatch => {

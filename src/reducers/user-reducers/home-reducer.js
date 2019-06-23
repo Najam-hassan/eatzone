@@ -9,7 +9,7 @@ export const initialState = fromJS({
         loading: false,
         error: null,
     },
-    restaurant: { selectedId: '' }
+    restaurant: { collectingResturant: {}, deliveryResturant: {} }
 });
 
 export default function homeReducer (state = initialState, action) {
@@ -35,7 +35,10 @@ export default function homeReducer (state = initialState, action) {
                 .setIn(['list', 'loading'], false);
 
         case constants.SET_COLLECTING_RESTAURANT:
-            return state.setIn(['restaurant', 'selectedId'], action.selectedId);
+            return state.setIn(['restaurant', 'collectingResturant'], Map({
+                ...action.restaurant,
+                key: action.restaurant.id
+            }));
 
         case constants.RESET_LIST_STATE:
             return initialState;

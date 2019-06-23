@@ -35,6 +35,9 @@ export const PROFILE_DATEILS_SUCCESS = 'PROFILE_DATEILS_SUCCESS';
 export const PROFILE_DATEILS_FAILURE = 'PROFILE_DATEILS_FAILURE';
 export const RESET_USER_PROFILE = 'RESET_USER_PROFILE';
 
+//Add Item to Card Action
+export const ADD_ITEM_TO_CART = 'ADD_ITEM_TO_CART';
+
 //Set collecting resturant Action 
 export const SET_COLLECTING_RESTAURANT = 'SET_COLLECTING_RESTAURANT';
 
