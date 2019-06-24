@@ -3,15 +3,15 @@ import { initialState } from '../../reducers/user-reducers/place-order-reducer';
 
 const selectPlaceOrderState = state => state.get('placeOrderReducer', initialState);
 
-const makeSelectProfileLoading = () => createSelector(
+const makeSelectPlaceOrderLoading = () => createSelector(
     selectPlaceOrderState, state => state.getIn(['list', 'loading'])
 );
 
-const makeSelectProfileData = () => createSelector(
+const makeSelectPlaceOrderData = () => createSelector(
     selectPlaceOrderState, state => state.getIn(['list', 'data']).toJS()
 );
 
-const makeSelectProfileError = () => createSelector(
+const makeSelectPlaceOrderError = () => createSelector(
     selectPlaceOrderState, state => state.getIn(['list', 'error'])
 );
 
@@ -21,8 +21,8 @@ const makeSelectUpdateStatue = () => createSelector(
 
 export {
     selectPlaceOrderState,
-    makeSelectProfileData,
     makeSelectUpdateStatue,
-    makeSelectProfileError,
-    makeSelectProfileLoading,
+    makeSelectPlaceOrderData,
+    makeSelectPlaceOrderError,
+    makeSelectPlaceOrderLoading,
 };

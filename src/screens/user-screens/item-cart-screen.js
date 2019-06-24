@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import {
-  View, Text, StatusBar, TouchableOpacity, StyleSheet, FlatList, Dimensions
+  View, Text, StatusBar, TouchableOpacity, StyleSheet, FlatList, Dimensions, ActivityIndicator
 } from 'react-native';
 
 const { width, height } = Dimensions.get('screen');
@@ -13,6 +13,7 @@ import Button from '../../components/common/button';
 import * as retaurant from '../../selectors/user-selectors/home-selectors';
 import * as orderActions from '../../actions/user-actions/place-order-actions';
 import * as actions from '../../actions/user-actions/resturant-detail-actions';
+import * as orderSelectors from '../../selectors/user-selectors/place-order-selectors';
 import * as selectors from '../../selectors/user-selectors/restaurent-detail-selectors';
 
 class CartScreen extends Component {
@@ -213,7 +214,7 @@ class CartScreen extends Component {
   };
 
   render () {
-    const { cartItems, collectingResturant, deliveryResturant } = this.props;
+    const { cartItems, collectingResturant, deliveryResturant, loadding } = this.props;
     const serviceCharges =
       collectingResturant.collectionServiceCharges + deliveryResturant.deliveryServiceCharges;
     return (
@@ -251,14 +252,20 @@ class CartScreen extends Component {
           </View>
         </View>
         <View style={{ position: 'absolute', left: 0, right: 0, bottom: 5 }}>
-          <Button
-            title={'Place Order'}
-            onPress={() => {
-              this.onSubmit();
-            }}
-            style={styles.button}
-            textStyle={{ /* styles for button title */ }}
-          />
+          {loadding ?
+            <ActivityIndicator
+              size={'large'}
+              color={'#1BA2FC'}
+            /> :
+            <Button
+              title={'Place Order'}
+              onPress={() => {
+                this.onSubmit();
+              }}
+              style={styles.button}
+              textStyle={{ /* styles for button title */ }}
+            />
+          }
         </View>
       </View >
     )
@@ -267,6 +274,7 @@ class CartScreen extends Component {
 
 const mapStateToProps = state => ({
   cartItems: selectors.makeSelectCartItem()(state),
+  loadding: orderSelectors.makeSelectPlaceOrderLoading()(state),
   deliveryResturant: retaurant.makeSelectdeliveryResturant()(state),
   collectingResturant: retaurant.makeSelectCollectingResturant()(state),
 });
