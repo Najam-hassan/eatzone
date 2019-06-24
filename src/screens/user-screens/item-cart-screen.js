@@ -37,12 +37,12 @@ class CartScreen extends Component {
 
   _renderItem = ({ item }) => {
     return (
-      <View>
+      <View style={styles.mainOrder}>
         {item && item.menu_items.length ? item.menu_items.map(row => {
           if (row.quantity > 0) {
             return (
               <View style={styles.itemContainer}>
-                <View style={{ flex: 1, }}>
+                <View style={{ flex: 1 }}>
                   <TouchableOpacity style={styles.radioBtnContainer}>
                     {
                       true ?
@@ -53,46 +53,50 @@ class CartScreen extends Component {
                 </View>
                 <View style={{ flex: 9, }}>
                   <View style={{
-                    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
+                    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
                   }}>
                     <Text numberOfLines={1} style={{
-                      flex: 8, color: '#000', fontSize: 16, fontWeight: '700',
+                      flex: 8, color: '#000', fontSize: 16, fontWeight: '400',
                     }}>{row.name}</Text>
                     <View style={{
                       flex: 2, alignItems: 'flex-end', justifyContent: 'flex-end'
                     }}>
-                      <Text style={{ color: '#000', fontWeight: '700', }}>${row.price}</Text>
+                      <Text style={{ color: '#000', fontSize: 16, fontWeight: '400', }}>${row.price}</Text>
                     </View>
                   </View>
 
                   <View style={{
                     flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
                   }}>
-                    <Text style={{ color: 'grey', marginTop: 2 }}>Meal (L)</Text>
+                    <Text style={{ color: '#cccccc', fontSize: 14, marginTop: 4 }}>Meal (L)</Text>
                   </View>
 
                   <View style={{
                     flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
                   }}>
                     <Text numberOfLines={1} style={{
-                      flex: 7, color: 'grey',
+                      flex: 7, color: '#cccccc', fontSize: 14, marginTop: 3,
                     }}>{row.description}</Text>
                     <View style={{
-                      flex: 3, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end'
+                      flex: 3, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end',
                     }}>
-                      <TouchableOpacity
-                        onPress={() => { this.addQuantity(item.id, row.id, row.price) }}
-                      >
-                        <Text style={styles.blueBtn}> + </Text>
-                      </TouchableOpacity>
-                      <Text style={{ marginHorizontal: 10 }}>{row.quantity}</Text>
-                      <TouchableOpacity
-                        onPress={() => {
-                          this.subtractQuantity(item.id, row.id, row.quantity, row.price)
-                        }}
-                      >
-                        <Text style={styles.blueBtn}> - </Text>
-                      </TouchableOpacity>
+                      <View style={{
+                        flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', backgroundColor: '#f7f8fa',
+                      }}>
+                        <TouchableOpacity
+                          onPress={() => { this.addQuantity(item.id, row.id, row.price) }}
+                        >
+                          <Text style={styles.blueBtn}> + </Text>
+                        </TouchableOpacity>
+                        <Text style={{ marginHorizontal: 10, fontSize: 14, }}>{row.quantity}</Text>
+                        <TouchableOpacity
+                          onPress={() => {
+                            this.subtractQuantity(item.id, row.id, row.quantity, row.price)
+                          }}
+                        >
+                          <Text style={styles.blueBtn}> - </Text>
+                        </TouchableOpacity>
+                      </View>
                     </View>
                   </View>
                 </View>
@@ -107,47 +111,47 @@ class CartScreen extends Component {
   renderTaxes = () => {
     const { collectingResturant, deliveryResturant } = this.props;
     return (
-      <View style={styles.taxContainer}>
+      <View style={styles.subTotalOrder}>
         <View style={{
-          flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
+          flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 3,
         }}>
           <Text numberOfLines={1} style={{
-            flex: 8, color: 'grey', fontWeight: '400',
-          }}>Sub Total</Text>
+            flex: 8, color: '#cccccc', fontWeight: '400',
+          }}>SubTotal</Text>
           <View style={{
             flex: 2, alignItems: 'flex-end', justifyContent: 'flex-end'
           }}>
-            <Text style={{ color: 'grey', fontWeight: '700', }}>
+            <Text style={{ color: '#cccccc', fontWeight: '400', }}>
               {parseFloat(this.state.subTotal).toFixed(2)}
             </Text>
           </View>
         </View>
 
         <View style={{
-          flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
+          flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 3,
         }}>
           <Text numberOfLines={1} style={{
-            flex: 8, color: 'grey', fontWeight: '400',
+            flex: 8, color: '#cccccc', fontWeight: '400',
           }}>Delivery Fee</Text>
           <View style={{
             flex: 2, alignItems: 'flex-end', justifyContent: 'flex-end'
           }}>
-            <Text style={{ color: 'grey', fontWeight: '700' }}>
+            <Text style={{ color: '#cccccc', fontWeight: '400' }}>
               ${deliveryResturant.deliveryServiceCharges}
             </Text>
           </View>
         </View>
 
         <View style={{
-          flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
+          flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 3,
         }}>
           <Text numberOfLines={1} style={{
-            flex: 8, color: 'grey', fontWeight: '400',
+            flex: 8, color: '#cccccc', fontWeight: '400',
           }}>Dine in Fee</Text>
           <View style={{
             flex: 2, alignItems: 'flex-end', justifyContent: 'flex-end'
           }}>
-            <Text style={{ color: 'grey', fontWeight: '700', }}>
+            <Text style={{ color: '#cccccc', fontWeight: '400', }}>
               ${collectingResturant.collectionServiceCharges}
             </Text>
           </View>
@@ -213,14 +217,14 @@ class CartScreen extends Component {
     const serviceCharges =
       collectingResturant.collectionServiceCharges + deliveryResturant.deliveryServiceCharges;
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: '#ebebeb' }}>
         <StatusBar hidden={false} />
         <Header
           navigation={this.props.navigation}
           title={'My Orders'}
         />
-        <View style={{ backgroundColor: 'grey', padding: 10 }}>
-          <View style={{ borderRadius: 5, backgroundColor: '#fff' }}>
+        <View style={{ padding: 10, }}>
+          <View style={styles.TotalOrder}>
             <FlatList
               data={cartItems}
               extraData={this.state}
@@ -230,15 +234,15 @@ class CartScreen extends Component {
               )}
             />
             {this.renderTaxes()}
-            <View style={{ paddingHorizontal: 10, paddingVertical: 20, }}>
+            <View style={{ paddingTop: 12, paddingBottom: 22, paddingHorizontal: 15, }}>
               <View style={{
                 flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
               }}>
                 <Text numberOfLines={1} style={{
-                  flex: 8, color: '#000', fontSize: 16, fontWeight: '700',
+                  flex: 8, color: '#000', fontSize: 16, fontWeight: '400',
                 }}>Total</Text>
                 <View style={{ flex: 2, alignItems: 'flex-end', justifyContent: 'flex-end' }}>
-                  <Text style={{ color: '#000', fontWeight: '700', }}>
+                  <Text style={{ color: '#000', fontWeight: '400', fontSize: 16, }}>
                     {this.state.subTotal + serviceCharges}
                   </Text>
                 </View>
@@ -278,14 +282,28 @@ const mapDispatchToProps = dispatch => {
 }
 
 const styles = StyleSheet.create({
-  itemContainer: {
-    paddingBottom: 20,
-    paddingVertical: 20,
+  mainOrder: {
+    backgroundColor: '#fff',
+    borderRadius: 8,
+  },
+  subTotalOrder: {
+    paddingVertical: 15,
+    paddingHorizontal: 15,
     borderBottomWidth: 1,
+    borderBottomColor: '#e2e1e7',
+    backgroundColor: '#fff',
+  },
+  TotalOrder: {
+    borderRadius: 8,
+    backgroundColor: '#fff',
+  },
+  itemContainer: {
+    paddingVertical: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e2e1e7',
     flexDirection: 'row',
-    paddingHorizontal: 10,
+    paddingHorizontal: 15,
     alignItems: 'flex-start',
-    borderBottomColor: 'grey',
     justifyContent: 'flex-start',
   },
   blueBtn: {
@@ -296,7 +314,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     textAlign: 'center',
     fontSize: 20,
-    lineHeight: 24
+    lineHeight: 24,
   },
   radioBtn: {
     height: 12,
@@ -308,22 +326,18 @@ const styles = StyleSheet.create({
     height: 24,
     width: 24,
     borderRadius: 12,
-    borderWidth: 2,
-    borderColor: 'grey',
+    borderWidth: 1,
+    borderColor: '#c7c4d1',
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#fff',
   },
   taxContainer: {
     paddingVertical: 20,
     borderBottomWidth: 1,
     paddingHorizontal: 10,
     borderBottomColor: 'grey',
-  }, button: {
-    height: 50,
-    width: width - 50,
-    marginVertical: 24,
-    marginHorizontal: 20,
-  },
+  }
 });
 
 export default connect(
