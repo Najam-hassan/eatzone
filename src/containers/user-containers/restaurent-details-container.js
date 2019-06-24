@@ -42,7 +42,9 @@ class RestaurantDetail extends Component {
                       </TouchableOpacity>
                       <Text style={{ marginHorizontal: 10 }}>{item.quantity}</Text>
                       <TouchableOpacity
-                        onPress={() => { this.subtractQuantity(row.id, item.id, item.quantity) }}
+                        onPress={() => {
+                          this.subtractQuantity(row.id, item.id, item.quantity)
+                        }}
                       >
                         <Text style={styles.blueBtn}>-</Text>
                       </TouchableOpacity>

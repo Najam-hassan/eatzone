@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Text, View, StyleSheet, FlatList, Image, Dimensions } from 'react-native';
 
+import { conversion } from '../../utils/misc';
 const { width, height } = Dimensions.get('screen');
 
 import * as selectors from '../../selectors/user-selectors/restaurents-selectors';
@@ -35,7 +36,7 @@ class Restaurents extends Component {
                 <Icon
                   name="map-marker"
                   size={16} color="#fff"
-                /> {item.distance} miles away</Text>
+                /> {conversion(item.distance)} miles away</Text>
             </View>
           </View>
         </View>

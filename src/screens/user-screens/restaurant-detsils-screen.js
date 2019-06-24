@@ -1,7 +1,9 @@
 import { connect } from 'react-redux'
 import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { View, Text, StatusBar, ImageBackground, StyleSheet, Dimensions, ActivityIndicator } from 'react-native';
+import {
+  View, Text, StatusBar, ImageBackground, StyleSheet, Dimensions, ActivityIndicator
+} from 'react-native';
 
 import Button from '../../components/common/button';
 import { PageHeader } from '../../components/common/header';
@@ -9,6 +11,8 @@ import RestaurantDetail from '../../containers/user-containers/restaurent-detail
 
 import * as actions from '../../actions/user-actions/resturant-detail-actions';
 import * as selectors from '../../selectors/user-selectors/restaurent-detail-selectors';
+
+import { conversion } from '../../utils/misc';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -33,12 +37,36 @@ class RestaurantDetailScreen extends Component {
   }
 
   render () {
-    const { list, navigation } = this.props;
-    const cardItems = list && Object.keys(list).length &&
+    const { list, navigation, loading } = this.props;
+    const listItems = list && Object.keys(list).length &&
       list.menu_categories.map(item => (
         item.menu_items.filter(row => (
           row.quantity > 0))
-      )).reduce((a, b) => a.concat(b));
+      ));
+
+    let cardItems = listItems;
+    console.log(cardItems, 'before');
+    if (cardItems.length > 1) {
+      cardItems = listItems && listItems.length > 1 && listItems.reduce((a, b) => a.concat(b));
+    }
+    console.log(cardItems, 'after');
+    if (loading) {
+      return (
+        <View style={{ flex: 1 }}>
+          <StatusBar hidden={false} />
+          <PageHeader
+            navigation={this.props.navigation}
+            title={'Restaurant Detail'}
+          />
+          <View style={{
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}>
+            <ActivityIndicator size="large" color="#1BA2FC" />
+          </View>
+        </View>
+      )
+    }
 
     return (
       <View style={{ flex: 1 }}>
@@ -57,23 +85,21 @@ class RestaurantDetailScreen extends Component {
               <View style={styles.detailStyle}>
                 <View>
                   <Text style={styles.titleStyle}>
-                    {/* {params.restaurant.name} */}
-                    {'Some Name Here'}
+                    {list.name}
                   </Text>
                 </View>
                 <View style={{ flexDirection: 'column', alignItems: 'flex-end' }}>
                   <Text style={styles.serviceChargeText}>
-                    {/* Service Charges: {params.restaurant.charges} */}
-                    Service Charges: 10 %
-                                    </Text>
+                    Service Charges: {list.deliveryServiceCharges}
+                    {/* Service Charges: 10 % */}
+                  </Text>
                   <Text style={{ color: "#fff", marginTop: 5 }}>
                     <Icon
                       name="map-marker"
                       size={16} color="#fff"
                     />
-                    {/* {params.restaurant.distance} miles away */}
-                    10 miles away
-                                    </Text>
+                    {conversion(list.distance)} miles away
+                  </Text>
                 </View>
               </View>
             </View>
@@ -89,7 +115,8 @@ class RestaurantDetailScreen extends Component {
               ))}
             /> :
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-              <ActivityIndicator size="large" color="#1BA2FC" />
+              {/* <ActivityIndicator size="large" color="#1BA2FC" /> */}
+              <Text>No Items Exist</Text>
             </View>
           }
         </View>
@@ -114,17 +141,6 @@ class RestaurantDetailScreen extends Component {
     )
   }
 }
-
-const mapStateToProps = state => ({
-  list: selectors.makeSelectRestaurantDetail()(state)
-});
-
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchDetails: id => dispatch(actions.fetchDetailAction(id)),
-    updatedList: data => dispatch(actions.fetchDetailsSuccess(data))
-  }
-};
 
 const styles = StyleSheet.create({
   backgroundImage: {
@@ -183,6 +199,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#1BA2FC',
   },
 })
+
+const mapStateToProps = state => ({
+  list: selectors.makeSelectRestaurantDetail()(state),
+  loading: selectors.makeSelectRestaurantLoading()(state),
+});
+
+const mapDispatchToProps = dispatch => {
+  return {
+    // fetchDetails: id => dispatch(actions.fetchDetailAction(id)),
+    updatedList: data => dispatch(actions.fetchDetailsSuccess(data))
+  }
+};
 
 export default connect(
   mapStateToProps,

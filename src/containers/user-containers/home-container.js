@@ -1,12 +1,11 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import Drawer from 'react-native-draggable-view';
-import { PermissionsAndroid } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
     View, Text, StyleSheet, Dimensions, StatusBar, FlatList,
-    Image, ActivityIndicator, TouchableOpacity
+    Image, ActivityIndicator, TouchableOpacity, ScrollView
 } from 'react-native';
 
 const { height, width } = Dimensions.get('screen');
@@ -116,12 +115,13 @@ class HomeContainer extends Component {
         return (
             <View style={styles.container}>
                 <MapView
-                    maxZoomLevel={8}
+                    // maxZoomLevel={8}
                     style={styles.map}
                     pitchEnabled={true}
                     followsUserLocation
                     rotateEnabled={true}
                     scrollEnabled={true}
+                    zoomTapEnabled={true}
                     showsUserLocation={true}
                     region={region.latitude !== null ? this.state.region : initialValues}
                     showsMyLocationButton={true}
@@ -167,29 +167,32 @@ class HomeContainer extends Component {
                         } else {
                             return (
                                 <View style={{
-                                    marginBottom: 15, backgroundColor: '#f7f8fa', flex: 1
+                                    marginBottom: 15, backgroundColor: '#f7f8fa', flex: .5
                                 }}>
-                                    {list && list.length ?
-                                        <FlatList
-                                            data={list}
-                                            extraData={this.state}
-                                            renderItem={this._renderItem}
-                                            keyExtractor={(item, index) => (
-                                                Date.now() + index.toString()
-                                            )}
-                                        /> :
-                                        <View style={{
-                                            flex: .5,
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                        }}>
-                                            <Text style={[styles.title, {
-                                                fontWeight: '400', color: '#999'
-                                            }]}>
-                                                No Restaurant found in your location
+                                    <ScrollView>
+                                        {list && list.length ?
+                                            <FlatList
+                                                data={list}
+                                                scrollEnabled={true}
+                                                extraData={this.state}
+                                                renderItem={this._renderItem}
+                                                keyExtractor={(item, index) => (
+                                                    Date.now() + index.toString()
+                                                )}
+                                            /> :
+                                            <View style={{
+                                                flex: .5,
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                            }}>
+                                                <Text style={[styles.title, {
+                                                    fontWeight: '400', color: '#999'
+                                                }]}>
+                                                    No Restaurant found in your location
                                             </Text>
-                                        </View>
-                                    }
+                                            </View>
+                                        }
+                                    </ScrollView>
                                 </View>
                             )
                         }

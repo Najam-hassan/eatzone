@@ -7,3 +7,7 @@ export function guid () {
     return `${s4() +
         s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}_${Date.now()}`;
 }
+
+export function conversion (value) {
+    return Number.parseFloat(value / 1000).toFixed(2)
+}
