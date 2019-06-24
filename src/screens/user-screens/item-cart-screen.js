@@ -337,7 +337,13 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     paddingHorizontal: 10,
     borderBottomColor: 'grey',
-  }
+  },
+  button: {
+    height: 50,
+    width: width - 50,
+    marginVertical: 24,
+    marginHorizontal: 20,
+  },
 });
 
 export default connect(
