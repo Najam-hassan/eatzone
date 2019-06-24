@@ -36,10 +36,10 @@ export function resetState () {
 	}
 }
 
-export function fetchDetailAction (id) {
+export function fetchDetailAction (id, collectingId) {
 	return dispatch => {
 		dispatch(fetchDetailsRrquest());
-		return axios.get(`/user/restaurant-menu/${id}`)
+		return axios.get(`/user/restaurant-menu/${id}/${collectingId}`)
 			.then(response => {
 				dispatch(fetchDetailsSuccess(response.data));
 			})

@@ -82,7 +82,8 @@ class HomeContainer extends Component {
                     this.props.fetchList(`/user/eligible-restaurants/${item.id}`);
                     this.props.collectingResturant(item);
                 } else {
-                    this.props.fetchDetails(item.id);
+                    const { resturant } = this.props;
+                    this.props.fetchDetails(item.id, resturant.id);
                     this.props.navigation.navigate('RestaurantDetailScreen', {
                         restaurantId: item.id
                     });
@@ -138,7 +139,8 @@ class HomeContainer extends Component {
                         {!firstClick && list && list.length ? list.map((item, index) => (
                             <Marker
                                 onPress={() => {
-                                    this.props.fetchDetails(item.id);
+                                    const { resturant } = this.props;
+                                    this.props.fetchDetails(item.id, resturant.id);
                                     navigation.navigate('RestaurantDetailScreen', {
                                         restaurantId: item.id
                                     })
@@ -217,6 +219,7 @@ class HomeContainer extends Component {
 const mapStateToProps = state => ({
     list: selectors.makeSelectData()(state),
     loading: selectors.makeSelectLoading()(state),
+    resturant: selectors.makeSelectCollectingResturant()(state),
 });
 
 const mapDispatchToProps = dispatch => {
@@ -227,8 +230,8 @@ const mapDispatchToProps = dispatch => {
         collectingResturant: resturant => {
             dispatch(actions.setCollectingResturant(resturant));
         },
-        fetchDetails: id => {
-            dispatch(fetchDetailAction(id));
+        fetchDetails: (id, collectingId) => {
+            dispatch(fetchDetailAction(id, collectingId));
             // dispatch(setSetUser)
         },
     }

@@ -1,14 +1,16 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Text, View, StyleSheet, FlatList, Image, Dimensions } from 'react-native';
+import {
+  Text, View, StyleSheet, FlatList, Image, Dimensions, TouchableOpacity
+} from 'react-native';
 
 import { conversion } from '../../utils/misc';
 const { width, height } = Dimensions.get('screen');
 
 import * as selectors from '../../selectors/user-selectors/restaurents-selectors';
 import { fetchDetailAction } from '../../actions/user-actions/resturant-detail-actions';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { makeSelectCollectingResturant } from '../../selectors/user-selectors/home-selectors';
 
 class Restaurents extends Component {
 
@@ -16,7 +18,8 @@ class Restaurents extends Component {
     <TouchableOpacity
       activeOpacity={1}
       onPress={() => {
-        this.props.fetchDetails(item.id);
+        const { resturant } = this.props;
+        this.props.fetchDetails(item.id, resturant.id);
         this.props.navigateTo(item);
       }}
     >
@@ -101,11 +104,12 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   list: selectors.makeSelectData()(state),
+  resturant: makeSelectCollectingResturant()(state),
 });
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchDetails: id => dispatch(fetchDetailAction(id))
+    fetchDetails: (id, collectingId) => dispatch(fetchDetailAction(id, collectingId))
   }
 }
 
