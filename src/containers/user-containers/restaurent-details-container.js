@@ -67,7 +67,6 @@ class RestaurantDetail extends Component {
         this.props.data[categoryIndex].menu_items[itemIndex].quantity++;
       }
     }
-    console.log('adddddd: ', this.props.data);
     this.props.addItemQuantity(this.props.data);
   }
   subtractQuantity (categoryId, itemId, quantity) {
@@ -83,7 +82,6 @@ class RestaurantDetail extends Component {
           this.props.data[categoryIndex].menu_items[itemIndex].quantity--;
         }
       }
-      console.log('subtrat: ', this.props.data);
       this.props.addItemQuantity(this.props.data);
     }
   }

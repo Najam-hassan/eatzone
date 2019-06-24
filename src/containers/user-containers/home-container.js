@@ -5,7 +5,7 @@ import MapView, { Marker } from 'react-native-maps';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
     View, Text, StyleSheet, Dimensions, StatusBar, FlatList,
-    Image, ActivityIndicator, TouchableOpacity, ScrollView
+    Image, ActivityIndicator, TouchableOpacity, ScrollView, AsyncStorage
 } from 'react-native';
 
 const { height, width } = Dimensions.get('screen');
@@ -46,6 +46,7 @@ class HomeContainer extends Component {
                 this.setState({ isLoading: false });
                 const { latitude, longitude } = position.coords;
                 console.log('lat: ', latitude, 'long: ', longitude);
+                AsyncStorage.setItem('location', { latitude, longitude });
                 this.setState({
                     region: {
                         ...this.state.region,
@@ -56,7 +57,11 @@ class HomeContainer extends Component {
                 fetchList(`/user/nearby-restaurants/${latitude},${longitude}`);
                 // fetchList(`/user/nearby-restaurants/31.474241414107382, 74.24986490048468`);
             },
-            (error) => this.setState({ error: error.message, isLoading: false }),
+            (error) => {
+                this.setState({ error: error.message, isLoading: false });
+                // const location = AsyncStorage.getItem('location');
+                // console.log(location, '..........');
+            },
             { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
         );
     }

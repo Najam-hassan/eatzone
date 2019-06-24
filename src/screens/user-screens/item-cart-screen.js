@@ -1,11 +1,15 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import {
-  View, Text, StatusBar, TouchableOpacity, StyleSheet, FlatList
+  View, Text, StatusBar, TouchableOpacity, StyleSheet, FlatList, Dimensions
 } from 'react-native';
+
+const { width, height } = Dimensions.get('screen');
 
 import { Header } from '../../components/common/header';
 
+import Button from '../../components/common/button';
+import * as retaurant from '../../selectors/user-selectors/home-selectors';
 import * as actions from '../../actions/user-actions/resturant-detail-actions';
 import * as selectors from '../../selectors/user-selectors/restaurent-detail-selectors';
 
@@ -26,7 +30,6 @@ class CartScreen extends Component {
             total = total + item.price;
         })
       ));
-    console.log(total, 'total price');
     this.setState({ subTotal: total })
   }
 
@@ -100,6 +103,7 @@ class CartScreen extends Component {
   }
 
   renderTaxes = () => {
+    const { collectingResturant, deliveryResturant } = this.props;
     return (
       <View style={styles.taxContainer}>
         <View style={{
@@ -120,13 +124,13 @@ class CartScreen extends Component {
         }}>
           <Text numberOfLines={1} style={{
             flex: 8, color: 'grey', fontWeight: '400',
-          }}>SubTotal</Text>
+          }}>Delivery Fee</Text>
           <View style={{
             flex: 2, alignItems: 'flex-end', justifyContent: 'flex-end'
           }}>
-            <Text style={{
-              color: 'grey', fontWeight: '700',
-            }}>$10</Text>
+            <Text style={{ color: 'grey', fontWeight: '700' }}>
+              ${deliveryResturant.deliveryServiceCharges}
+            </Text>
           </View>
         </View>
 
@@ -135,11 +139,13 @@ class CartScreen extends Component {
         }}>
           <Text numberOfLines={1} style={{
             flex: 8, color: 'grey', fontWeight: '400',
-          }}>SubTotal</Text>
+          }}>Dine in Fee</Text>
           <View style={{
             flex: 2, alignItems: 'flex-end', justifyContent: 'flex-end'
           }}>
-            <Text style={{ color: 'grey', fontWeight: '700', }}>$10</Text>
+            <Text style={{ color: 'grey', fontWeight: '700', }}>
+              ${collectingResturant.collectionServiceCharges}
+            </Text>
           </View>
         </View>
       </View>
@@ -182,6 +188,10 @@ class CartScreen extends Component {
     }
   }
 
+  onSubmit = () => {
+    console.log('on submit fired');
+  };
+
   render () {
     const { cartItems } = this.props;
     return (
@@ -201,8 +211,6 @@ class CartScreen extends Component {
                 Date.now() + index.toString()
               )}
             />
-            {/* {this.renderItem()} */}
-            {/* {this.renderItem()} */}
             {this.renderTaxes()}
             <View style={{ paddingHorizontal: 10, paddingVertical: 20, }}>
               <View style={{
@@ -218,6 +226,16 @@ class CartScreen extends Component {
             </View>
           </View>
         </View>
+        <View style={{ position: 'absolute', left: 0, right: 0, bottom: 5 }}>
+          <Button
+            title={'Place Order'}
+            onPress={() => {
+              this.onSubmit();
+            }}
+            style={styles.button}
+            textStyle={{ /* styles for button title */ }}
+          />
+        </View>
       </View >
     )
   }
@@ -225,6 +243,8 @@ class CartScreen extends Component {
 
 const mapStateToProps = state => ({
   cartItems: selectors.makeSelectCartItem()(state),
+  deliveryResturant: retaurant.makeSelectdeliveryResturant()(state),
+  collectingResturant: retaurant.makeSelectCollectingResturant()(state),
 });
 
 const mapDispatchToProps = dispatch => {
@@ -277,7 +297,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     paddingHorizontal: 10,
     borderBottomColor: 'grey',
-  }
+  }, button: {
+    height: 50,
+    width: width - 50,
+    marginVertical: 24,
+    marginHorizontal: 20,
+  },
 });
 
 export default connect(

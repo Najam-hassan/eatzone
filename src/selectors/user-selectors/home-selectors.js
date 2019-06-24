@@ -19,10 +19,15 @@ const makeSelectCollectingResturant = () => createSelector(
     selectHomeState, state => state.getIn(['restaurant', 'collectingResturant']).toJS()
 );
 
+const makeSelectdeliveryResturant = () => createSelector(
+    selectHomeState, state => state.getIn(['restaurant', 'deliveryResturant']).toJS()
+);
+
 export {
     makeSelectData,
     selectHomeState,
     makeSelectError,
     makeSelectLoading,
+    makeSelectdeliveryResturant,
     makeSelectCollectingResturant,
 };
