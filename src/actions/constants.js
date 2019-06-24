@@ -40,6 +40,7 @@ export const ADD_ITEM_TO_CART = 'ADD_ITEM_TO_CART';
 
 //Set collecting resturant Action 
 export const SET_COLLECTING_RESTAURANT = 'SET_COLLECTING_RESTAURANT';
+export const SET_DELIVERY_RESTAURANT = 'SET_DELIVERY_RESTAURANT';
 
 /*
 *****************************************************************

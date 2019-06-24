@@ -40,6 +40,12 @@ export default function homeReducer (state = initialState, action) {
                 key: action.restaurant.id
             }));
 
+        case constants.SET_DELIVERY_RESTAURANT:
+            return state.setIn(['restaurant', 'deliveryResturant'], Map({
+                ...action.restaurant,
+                key: action.restaurant.id
+            }));
+
         case constants.RESET_LIST_STATE:
             return initialState;
         default:

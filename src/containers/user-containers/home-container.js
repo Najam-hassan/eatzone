@@ -83,6 +83,7 @@ class HomeContainer extends Component {
                     this.props.collectingResturant(item);
                 } else {
                     const { resturant } = this.props;
+                    this.props.delivertRestaurant(item);
                     this.props.fetchDetails(item.id, resturant.id);
                     this.props.navigation.navigate('RestaurantDetailScreen', {
                         restaurantId: item.id
@@ -141,6 +142,7 @@ class HomeContainer extends Component {
                                 onPress={() => {
                                     const { resturant } = this.props;
                                     this.props.fetchDetails(item.id, resturant.id);
+                                    this.props.delivertRestaurant(item);
                                     navigation.navigate('RestaurantDetailScreen', {
                                         restaurantId: item.id
                                     })
@@ -229,6 +231,9 @@ const mapDispatchToProps = dispatch => {
         },
         collectingResturant: resturant => {
             dispatch(actions.setCollectingResturant(resturant));
+        },
+        delivertRestaurant: resturant => {
+            dispatch(actions.setDeliveryRestaurant(resturant));
         },
         fetchDetails: (id, collectingId) => {
             dispatch(fetchDetailAction(id, collectingId));

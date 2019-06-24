@@ -29,6 +29,13 @@ export function setCollectingResturant (restaurant) {
     }
 }
 
+export function setDeliveryRestaurant (restaurant) {
+    return {
+        type: constants.SET_DELIVERY_RESTAURANT,
+        restaurant
+    }
+}
+
 export function fetchListAction (url) {
     return dispatch => {
         dispatch(fetchListRequest());
