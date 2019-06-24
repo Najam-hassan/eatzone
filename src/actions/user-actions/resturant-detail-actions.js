@@ -49,7 +49,6 @@ export function fetchDetailAction (id, collectingId) {
 	}
 }
 
-
 export function addItemToCard (items) {
 	return {
 		type: constants.ADD_ITEM_TO_CART,

@@ -6,6 +6,7 @@ import authReducer from './auth-reducer';
 //User 
 import homeReducer from './user-reducers/home-reducer';
 import userProfileReducer from './user-reducers/profile-reducer';
+import placeOrderReducer from './user-reducers/place-order-reducer';
 import restaurantsReducer from './user-reducers/restaurents-reducer';
 import restaurantDetailReducer from './user-reducers/resturant-detail-reducer';
 
@@ -23,6 +24,7 @@ export default function index () {
         home: homeReducer,
         restaurants: restaurantsReducer,
         userProfile: userProfileReducer,
+        placeOrderReducer: placeOrderReducer,
         restaurantDetail: restaurantDetailReducer,
 
         restaurantProfile: profileReducer,

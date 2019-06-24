@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import {
@@ -10,6 +11,7 @@ import { Header } from '../../components/common/header';
 
 import Button from '../../components/common/button';
 import * as retaurant from '../../selectors/user-selectors/home-selectors';
+import * as orderActions from '../../actions/user-actions/place-order-actions';
 import * as actions from '../../actions/user-actions/resturant-detail-actions';
 import * as selectors from '../../selectors/user-selectors/restaurent-detail-selectors';
 
@@ -111,11 +113,13 @@ class CartScreen extends Component {
         }}>
           <Text numberOfLines={1} style={{
             flex: 8, color: 'grey', fontWeight: '400',
-          }}>SubTotal</Text>
+          }}>Sub Total</Text>
           <View style={{
             flex: 2, alignItems: 'flex-end', justifyContent: 'flex-end'
           }}>
-            <Text style={{ color: 'grey', fontWeight: '700', }}>{this.state.subTotal}</Text>
+            <Text style={{ color: 'grey', fontWeight: '700', }}>
+              {parseFloat(this.state.subTotal).toFixed(2)}
+            </Text>
           </View>
         </View>
 
@@ -189,11 +193,25 @@ class CartScreen extends Component {
   }
 
   onSubmit = () => {
-    console.log('on submit fired');
+    const { cartItems, deliveryResturant, collectingResturant } = this.props;
+    const orderArr = _.flatMap(cartItems, category =>
+      _(category.menu_items)
+        .map(menuItem => ({ menuCategoryId: category.id, itemQuantity: menuItem.quantity, menuItemId: menuItem.id }))
+        .value()
+    );
+
+    const resultObj = {
+      orderArr,
+      collectingRestaurantId: collectingResturant.id,
+      deliveringRestaurantId: deliveryResturant.id,
+    }
+    this.props.placeOrder(resultObj);
   };
 
   render () {
-    const { cartItems } = this.props;
+    const { cartItems, collectingResturant, deliveryResturant } = this.props;
+    const serviceCharges =
+      collectingResturant.collectionServiceCharges + deliveryResturant.deliveryServiceCharges;
     return (
       <View style={{ flex: 1 }}>
         <StatusBar hidden={false} />
@@ -220,7 +238,9 @@ class CartScreen extends Component {
                   flex: 8, color: '#000', fontSize: 16, fontWeight: '700',
                 }}>Total</Text>
                 <View style={{ flex: 2, alignItems: 'flex-end', justifyContent: 'flex-end' }}>
-                  <Text style={{ color: '#000', fontWeight: '700', }}>$50</Text>
+                  <Text style={{ color: '#000', fontWeight: '700', }}>
+                    {this.state.subTotal + serviceCharges}
+                  </Text>
                 </View>
               </View>
             </View>
@@ -249,6 +269,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
+    placeOrder: data => dispatch(orderActions.placeOrderAction(data)),
     addItemQuantity: data => {
       dispatch(actions.addQuantityToItem(data));
       dispatch(actions.addItemToCard(data));

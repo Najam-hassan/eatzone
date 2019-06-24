@@ -15,7 +15,6 @@ class SidebarMenu extends Component {
                 this.setState({ type: value });
             }
         })
-        this.forceUpdate();
     }
 
     render () {
@@ -104,6 +103,7 @@ class SidebarMenu extends Component {
                             </TouchableOpacity>
                         </View>
                     </ScrollView> :
+                    // null :
                     <ScrollView style={{ flex: 1 }}>
                         <View style={styles.menu}>
                             <TouchableOpacity
