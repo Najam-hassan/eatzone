@@ -11,7 +11,6 @@ class ItemDetailScreen extends Component {
 
     render () {
         const { params } = this.props.navigation.state;
-        console.log(params.list, '---------');
         return (
             <View style={{ flex: 1 }}>
                 <StatusBar hidden={false} />
@@ -28,6 +27,7 @@ class ItemDetailScreen extends Component {
                             data={params.list}
                             catId={params.catId}
                             detail={params.item}
+                            navigation={this.props.navigation}
                         />
                     </View>
                 </View> :

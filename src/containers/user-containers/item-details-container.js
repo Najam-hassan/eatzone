@@ -2,13 +2,8 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-import RadioButton from '../../components/radio-button-component'
+import Button from '../../components/common/button';
 import * as actions from '../../actions/user-actions/resturant-detail-actions';
-
-var radio_props = [
-  { label: 'Pepsi', value: 0, price: 1 },
-  { label: 'Mountain Dew', value: 1, price: 2 }
-];
 
 class ItemDetailsContainer extends Component {
   state = { value: null, quantity: 0 }
@@ -30,7 +25,6 @@ class ItemDetailsContainer extends Component {
         this.setState({ quantity: this.state.quantity + 1 });
       }
     }
-    console.log('adddddd: ', this.props.data);
     this.props.addItemQuantity(this.props.data);
   }
 
@@ -48,26 +42,30 @@ class ItemDetailsContainer extends Component {
           this.setState({ quantity: this.state.quantity - 1 });
         }
       }
-      console.log('subtrat: ', this.props.data);
       this.props.addItemQuantity(this.props.data);
     }
   }
 
   render () {
-    const { detail } = this.props;
+    const { detail, navigation } = this.props;
     const { quantity } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.itemContainer}>
           <View style={styles.itemHeader}>
             <Text style={styles.headerText}>{detail.name ? detail.name : 'Some Name'}</Text>
-            <Text>${detail.price ? detail.price : 0}</Text>
+            <Text style={styles.headerPrice}>${detail.price ? detail.price : 0}</Text>
           </View>
 
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text>
+            <Text style={styles.headerDescrip}>
               {detail.description ? detail.description : 'Some Description here'}
             </Text>
+          </View>
+        </View>
+        <View style={styles.divider} />
+        <View style={styles.fixedBottom}>
+          <View style={styles.fixedLeft}>
             <View style={styles.stockStyle}>
               <TouchableOpacity
                 onPress={() => {
@@ -82,35 +80,21 @@ class ItemDetailsContainer extends Component {
                   this.subtractQuantity(detail.id, detail.quantity)
                 }}
               >
-                <Text style={styles.blueBtn}>-</Text>
+                <Text style={[styles.blueBtn]}>-</Text>
               </TouchableOpacity>
             </View>
           </View>
+          <View style={styles.fixedRight}>
+            <Button
+              title="View Card"
+              onPress={() => {
+                navigation.navigate('ItemCartScreen');
+              }}
+              style={styles.button}
+              textStyle={{ /* styles for button title */ }}
+            />
+          </View>
         </View>
-        <View style={styles.divider} />
-        {/* <View style={styles.softContainer}>
-          <View style={[styles.itemHeader, {
-            marginBottom: 15
-          }]} >
-            <Text style={styles.selectionText}>Select Your Soft Drink</Text>
-            <Text style={[styles.selectionText, {
-              backgroundColor: '#808080',
-              borderRadius: 50
-            }]}>OPTIONAL</Text>
-          </View>
-          <Text>Select one</Text>
-          <View style={{ marginVertical: 15 }}>
-            {radio_props.map(item => (
-              <RadioButton
-                item={item}
-                value={this.state.value}
-                onChange={(value) => {
-                  this.setState({ value: value })
-                }}
-              />
-            ))}
-          </View>
-        </View> */}
       </View>
     )
   }
@@ -135,21 +119,34 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     flexDirection: 'column',
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
   },
   itemHeader: {
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
   },
   headerText: {
-    fontSize: 22,
-    fontWeight: '500',
-    color: '#000'
+    fontSize: 16,
+    fontWeight: '400',
+    color: '#000',
+  },
+  headerPrice: {
+    fontSize: 16,
+    fontWeight: '400',
+    color: '#000',
+  },
+  headerDescrip: {
+    fontSize: 14,
+    fontWeight: '400',
+    color: '#ccc',
+    marginBottom: 2,
   },
   divider: {
     marginVertical: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#000',
+    borderBottomColor: '#c6c3d0',
   },
   softContainer: {
   },
@@ -159,10 +156,11 @@ const styles = StyleSheet.create({
     color: '#000'
   },
   stockStyle: {
+    width: 60,
     borderRadius: 20,
     alignItems: 'center',
     flexDirection: 'row',
-    backgroundColor: '#f7f8fa',
+    backgroundColor: '#ffffff',
     justifyContent: 'space-between',
   },
   blueBtn: {
@@ -174,6 +172,36 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
     lineHeight: 24
+  },
+  fixedBottom: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: -20,
+    paddingVertical: 15,
+    paddingHorizontal: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#f7f8fa',
+  },
+  fixedLeft: {
+    flex: 0.5,
+  },
+  fixedRight: {
+    flex: 0.5,
+    textAlign: 'center',
+  },
+  button: {
+    height: 30,
+    width: 150,
+    color: '#fff',
+    borderWidth: 1,
+    borderRadius: 50,
+    marginVertical: -5,
+    textAlign: 'center',
+    borderColor: '#fff',
+    backgroundColor: '#1BA2FC',
   },
 })
 
