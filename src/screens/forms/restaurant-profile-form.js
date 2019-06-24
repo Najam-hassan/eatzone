@@ -382,6 +382,15 @@ class ProfileForm extends Component {
                         {this.state.canDeliver ?
                             <View style={styles.multiSlider}>
                                 <View style={styles.multiSliderRow}>
+                                    <View style={{
+                                        flexDirection: 'row', justifyContent: 'space-between'
+                                    }}>
+                                        <Text style={styles.radiusText}>1Km</Text>
+                                        <Text style={styles.radiusText}>
+                                            {this.state.sliderOneValue[0]}Km
+                                        </Text>
+                                        <Text style={styles.radiusText}>100Km</Text>
+                                    </View>
                                     <MultiSlider
                                         values={this.state.sliderOneValue}
                                         sliderLength={width - 55}
@@ -655,6 +664,11 @@ const styles = StyleSheet.create({
         borderWidth: 4,
         borderColor: '#fff',
         backgroundColor: '#00a0ff',
+    },
+    radiusText: {
+        fontSize: 16,
+        color: '#000',
+        fontWeight: '400'
     }
 });
 
