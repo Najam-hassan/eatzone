@@ -31,6 +31,7 @@ class ProfileForm extends Component {
         },
         canCollect: false,
         canDeliver: false,
+        editing: true,
     }
 
     onSubmit = values => {
@@ -112,7 +113,8 @@ class ProfileForm extends Component {
 
     componentWillReceiveProps () {
         const { profile, isEdit } = this.props;
-        if (isEdit && profile && profile.name) {
+        if (isEdit && profile && profile.name && this.state.editing) {
+            this.setState({ editing: false });
             let newValues = [0];
             if (profile.deliverRadius) {
                 newValues[0] = profile.deliverRadius / 1000;
@@ -531,7 +533,7 @@ class ProfileForm extends Component {
                                 />
                             </View> : null
                         }
-                        {submitting || loading ?
+                        {submitting || (!this.state.editing && loading) ?
                             <ActivityIndicator size="large" color="#1BA2FC" /> :
                             <Button
                                 title={isEdit ? "Update" : "Continue"}

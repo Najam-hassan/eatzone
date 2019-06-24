@@ -21,6 +21,7 @@ class EditProfileScreen extends Component {
     componentWillReceiveProps (nextProps) {
         if (nextProps.profile && nextProps.profile.name) {
             this.setState({ profile: nextProps.profile });
+            this.props.resetState();
         }
     }
 
@@ -30,6 +31,7 @@ class EditProfileScreen extends Component {
 
     render () {
         const { loading } = this.props;
+        const { profile } = this.state;
         return (
             <View style={{ flex: 1 }}>
                 <StatusBar hidden={false} />
@@ -37,12 +39,13 @@ class EditProfileScreen extends Component {
                     navigation={this.props.navigation}
                     title={'Restaurant Detail'}
                 />
-                {loading ?
+                {loading && profile === '' ?
                     <ActivityIndicator
                         size={'large'}
                         color={'#1BA2FC'}
                     /> : <ProfileForm
                         isEdit={true}
+                        loading={loading}
                         change={this.props.change}
                         profile={this.state.profile}
                         showToaster={this.showToaster}
@@ -63,6 +66,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
     return {
+        resetState: () => dispatch(actions.resetState()),
         fetchDetails: () => dispatch(actions.updateProfileAction()),
         change: (fieldName, value) => {
             dispatch(change("RestaurantProfileForm", fieldName, value))
