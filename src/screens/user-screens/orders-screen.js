@@ -10,34 +10,6 @@ class OrderScreen extends Component {
         super(props);
     }
 
-    renderTaxes = () => {
-        return (
-            <View style={{ borderBottomColor: 'grey', borderBottomWidth: 1, paddingHorizontal: 10, paddingVertical: 20, }}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Text numberOfLines={1} style={{ flex: 8, color: 'grey', fontWeight: '400', }}>SubTotal</Text>
-                    <View style={{ flex: 2, alignItems: 'flex-end', justifyContent: 'flex-end' }}>
-                        <Text style={{ color: 'grey', fontWeight: '700', }}>$10</Text>
-                    </View>
-                </View>
-
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Text numberOfLines={1} style={{ flex: 8, color: 'grey', fontWeight: '400', }}>SubTotal</Text>
-                    <View style={{ flex: 2, alignItems: 'flex-end', justifyContent: 'flex-end' }}>
-                        <Text style={{ color: 'grey', fontWeight: '700', }}>$10</Text>
-                    </View>
-                </View>
-
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Text numberOfLines={1} style={{ flex: 8, color: 'grey', fontWeight: '400', }}>SubTotal</Text>
-                    <View style={{ flex: 2, alignItems: 'flex-end', justifyContent: 'flex-end' }}>
-                        <Text style={{ color: 'grey', fontWeight: '700', }}>$10</Text>
-                    </View>
-                </View>
-
-            </View>
-        )
-    }
-
     renderOrderCard = () => {
         return (
             <TouchableOpacity onPress={() => {
@@ -49,26 +21,28 @@ class OrderScreen extends Component {
 
             }}>
                 <View style={styles.cardContainer}>
-                    <View style={styles.cardBodyStyle}>
-                        <View style={styles.itemContents}>
-                            <Text style={{ fontSize: 14, fontWeight: '400', color: '#000' }}>
-                                McDonald's
+                    <View style={styles.itemContentsHead}>
+                        <Text style={styles.hotelName}>
+                            McDonald's
                         </Text>
-                            <Text>Cheese Burger</Text>
-                            <Text>Order Date: 19 June 2019</Text>
-                        </View>
                         <View style={styles.orderStatus}>
-                            <View style={{ flexDirection: 'row', marginBottom: 5 }}>
-                                <Text>Order Status: </Text>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', }}>
+                                <Text style={{ color: '#222222', fontSize: 13, fontWeight: '400', }}>Order Status: </Text>
                                 <View style={styles.statueText}>
-                                    <Text style={{ color: '#fff' }}>
+                                    <Text style={{ color: '#fff', fontSize: 12, }}>
                                         Approved
                                 </Text>
                                 </View>
                             </View>
+                        </View>
+                    </View>
+                    <Text style={{ color: '#cccccc', fontSize: 14, fontWeight: '400', }}>Cheese Burger</Text>
+                    <View style={styles.contentMain}>
+                        <Text style={{ color: '#000000', fontSize: 14, fontWeight: '400', }}>Order Date: 19 June 2019</Text>
+                        <View style={styles.orderFind}>
                             <Image
                                 source={require('../../assets/images/call-icon.png')}
-                                style={{ width: 30, height: 30, borderRadius: 15 }}
+                                style={{ width: 20, height: 20, borderRadius: 15 }}
                             />
                         </View>
                     </View>
@@ -79,7 +53,7 @@ class OrderScreen extends Component {
 
     render () {
         return (
-            <View style={{ flex: 1, backgroundColor: '#EBEBEB', }}>
+            <View style={{ flex: 1, backgroundColor: '#e4e4e4', }}>
                 <StatusBar hidden={false} />
                 <Header
                     navigation={this.props.navigation}
@@ -96,36 +70,44 @@ class OrderScreen extends Component {
 
 const styles = StyleSheet.create({
     cardContainer: {
-        padding: 5,
+        padding: 12,
         borderRadius: 10,
-        marginVertical: 10,
+        marginTop: 15,
         marginHorizontal: 15,
         backgroundColor: '#fff',
     },
-    cardBodyStyle: {
-        marginVertical: 10,
+    itemContentsHead: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+        flexWrap: 'wrap',
+        marginBottom: 4,
     },
-    itemContents: {
-        flex: .5,
-        paddingHorizontal: 5,
-        flexDirection: 'column',
-        justifyContent: 'flex-start'
+    hotelName: {
+        flex: 0.5,
+        fontSize: 16,
+        color: '#000',
+        lineHeight: 22,
+        fontWeight: '400',
     },
     orderStatus: {
         flex: .5,
         paddingHorizontal: 5,
-        alignItems: 'flex-end',
-        flexDirection: 'column',
+        flexDirection: 'row',
         justifyContent: 'flex-end',
     },
     statueText: {
+        marginLeft: 6,
         borderRadius: 20,
-        paddingVertical: 2,
-        paddingHorizontal: 5,
-        backgroundColor: '#169B50',
-    }
+        paddingVertical: 3,
+        paddingHorizontal: 7,
+        lineHeight: 18,
+        backgroundColor: '#00a651',
+    },
+    contentMain: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
 });
 
 export default OrderScreen

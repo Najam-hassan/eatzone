@@ -43,37 +43,37 @@ class OrderDetailScreen extends Component {
 
     render () {
         return (
-            <View style={{ flex: 1, backgroundColor: '#EBEBEB' }}>
+            <View style={{ flex: 1, backgroundColor: '#ebebeb', }}>
                 <StatusBar hidden={false} />
                 <PageHeader
                     navigation={this.props.navigation}
                     title={'Order Details'}
                 />
                 <View style={styles.container}>
-                    <View style={styles.orderContainer}>
-                        <View>
+                    <View style={styles.orderContent}>
+                        <View style={styles.orderNo}>
                             <Text style={styles.titleText}>Order No: A234</Text>
-                            <Text>Order Date: June 19 2019, 12:00:00 AM</Text>
+                            <Text style={styles.descripText}>Order Date: June 19 2019, 12:00:00 AM</Text>
                         </View>
-                        <View style={{ borderBottomWidth: 1 }} />
-                        <View>
+                        <View style={styles.orderDetail}>
                             <Text style={styles.titleText}>Order Details</Text>
                             <View styles={{ flexDirection: 'column' }}>
                                 <View style={styles.itemDetailsStyle}>
-                                    <Text>Cheese Burger</Text>
-                                    <Text>Qty: 2</Text>
+                                    <Text style={styles.descripText}>Cheese Burger</Text>
+                                    <Text style={styles.descripText}>Qty: 2</Text>
                                 </View>
                                 <View style={styles.itemDetailsStyle}>
-                                    <Text>Fish Burger</Text>
-                                    <Text>Qty: 2</Text>
+                                    <Text style={styles.descripText}>Fish Burger</Text>
+                                    <Text style={styles.descripText}>Qty: 2</Text>
                                 </View>
                             </View>
                         </View>
-                        <View style={{ borderBottomWidth: 1 }} />
+                        {this.renderSubTotals()}
+                        <View style={styles.orderTotal}>
+                            <Text>Order Details Will be here</Text>
+                        </View>
                     </View>
-                    {this.renderSubTotals()}
                 </View>
-                <Text>Order Details Will be here</Text>
             </View>
         )
     }
@@ -81,19 +81,40 @@ class OrderDetailScreen extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#fff',
     },
-    orderContainer: {
+    orderContent: {
         marginVertical: 15,
         marginHorizontal: 15,
-        flexDirection: 'column',
         backgroundColor: '#fff',
-        alignItems: 'flex-start',
-        justifyContent: 'flex-start',
+        borderBottomWidth: 1,
+        borderBottomColor: '#e2e1e7',
+        borderRadius: 8,
+    },
+    orderNo: {
+        borderBottomWidth: 1,
+        borderBottomColor: '#e2e1e7',
+        paddingHorizontal: 15,
+        paddingVertical: 15,
+    },
+    orderDetail: {
+        borderBottomWidth: 1,
+        borderBottomColor: '#e2e1e7',
+        paddingHorizontal: 15,
+        paddingVertical: 15,
+    },
+    orderTotal: {
+        paddingHorizontal: 15,
+        paddingVertical: 15,
     },
     titleText: {
         fontSize: 16,
         color: '#000',
+        fontWeight: '400',
+        marginBottom: 2,
+    },
+    descripText: {
+        fontSize: 14,
+        color: '#cccccc',
         fontWeight: '400'
     },
     itemDetailsStyle: {
@@ -121,4 +142,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default OrderDetailScreen 
+export default OrderDetailScreen
