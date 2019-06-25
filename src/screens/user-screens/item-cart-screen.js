@@ -43,7 +43,7 @@ class CartScreen extends Component {
           if (row.quantity > 0) {
             return (
               <View style={styles.itemContainer}>
-                <View style={{ flex: 1 }}>
+                {/* <View style={{ flex: 1 }}>
                   <TouchableOpacity style={styles.radioBtnContainer}>
                     {
                       true ?
@@ -51,7 +51,7 @@ class CartScreen extends Component {
                         : null
                     }
                   </TouchableOpacity>
-                </View>
+                </View> */}
                 <View style={{ flex: 9, }}>
                   <View style={{
                     flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center',
