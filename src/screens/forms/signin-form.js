@@ -14,29 +14,14 @@ import * as actions from '../../actions/auth-actions';
 import * as selectors from '../../selectors/auth-selectors';
 
 class SignInForm extends Component {
-
-    // componentWillReceiveProps (nextProps) {
-    //     if (nextProps.user !== null) {
-    //         try {
-    //             AsyncStorage.setItem(
-    //                 'user',
-    //                 JSON.stringify(nextProps.user),
-    //                 () => {
-    //                     this.props.navigateTo('HomeScreen');
-    //                     this.forceUpdate();
-    //                 }
-    //             );
-    //         } catch (error) {
-    //         }
-    //     }
-    // }
-
     onSubmit = (values) => {
+        const { playerId } = this.props;
+        console.log(values, '-=-=-=-=-')
         if (values) {
             if (this.props.userType === 'admin') {
-                this.props.onSubmit('/restaurant/sign-in', values);
+                this.props.onSubmit('/restaurant/sign-in', { ...values.toJS(), playerId });
             } else {
-                this.props.onSubmit('/user/sign-in', values);
+                this.props.onSubmit('/user/sign-in', { ...values.toJS(), playerId });
             }
         }
     }
@@ -122,8 +107,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => {
     return {
         onSubmit: (url, values) => {
-            const { email, password } = values && values.toJS();
-            dispatch(actions.loginAction(url, { email, password }));
+            dispatch(actions.loginAction(url, values));
         }
     }
 };

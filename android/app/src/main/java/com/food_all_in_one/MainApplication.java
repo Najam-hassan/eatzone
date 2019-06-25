@@ -3,6 +3,7 @@ package com.food_all_in_one;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
 import com.rnfs.RNFSPackage;
 import fr.bamlab.rnimageresizer.ImageResizerPackage;
 import com.imagepicker.ImagePickerPackage;
@@ -28,6 +29,7 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(new MainReactPackage(),
+            new ReactNativeOneSignalPackage(),
             new RNFSPackage(),
             new ImageResizerPackage(),
             new ImagePickerPackage(), new VectorIconsPackage(), new MapsPackage(),

@@ -1,21 +1,30 @@
+import moment from 'moment';
 import React, { Component } from 'react';
 import { View, Text, StatusBar, StyleSheet } from 'react-native';
 
 import { PageHeader } from '../../components/common/header';
 
 class OrderDetailScreen extends Component {
-    constructor(props) {
-        super(props);
+
+    state = { subTotal: 0 }
+
+    componentDidMount () {
+        const { params } = this.props.navigation.state;
+        const subTotal = params.details.order_items.reduce((sum, item) => (
+            sum + (item.itemQuantity * item.menu_item.price)
+        ), 0);
+        this.setState({ subTotal: subTotal })
     }
 
     renderSubTotals = () => {
+        const { details } = this.props.navigation.state.params;
         return (
             <View style={styles.subTotalOrder}>
                 <View style={styles.innerViewStyle}>
                     <Text style={{ color: '#cccccc', fontWeight: '400' }}>SubTotal</Text>
                     <View style={styles.priceStyle}>
                         <Text style={{ color: '#cccccc', fontWeight: '400', }}>
-                            $20
+                            ${this.state.subTotal}
                         </Text>
                     </View>
                 </View>
@@ -24,24 +33,26 @@ class OrderDetailScreen extends Component {
                     <Text style={{ color: '#cccccc', fontWeight: '400' }}>Delivery Fee</Text>
                     <View style={styles.priceStyle}>
                         <Text style={{ color: '#cccccc', fontWeight: '400' }}>
-                            $13
+                            ${details.deliveringRestaurant.deliveryServiceCharges}
                         </Text>
                     </View>
                 </View>
 
-                <View style={styles.innerViewStyle}>
+                {/* <View style={styles.innerViewStyle}>
                     <Text style={{ color: '#cccccc', fontWeight: '400' }}>Dine in Fee</Text>
                     <View style={styles.priceStyle}>
                         <Text style={{ color: '#cccccc', fontWeight: '400', }}>
                             $10
                         </Text>
                     </View>
-                </View>
+                </View> */}
             </View>
         )
     }
 
     render () {
+        const { params } = this.props.navigation.state;
+        const { subTotal } = this.state;
         return (
             <View style={{ flex: 1, backgroundColor: '#ebebeb', }}>
                 <StatusBar hidden={false} />
@@ -52,25 +63,34 @@ class OrderDetailScreen extends Component {
                 <View style={styles.container}>
                     <View style={styles.orderContent}>
                         <View style={styles.orderNo}>
-                            <Text style={styles.titleText}>Order No: A234</Text>
-                            <Text style={styles.descripText}>Order Date: June 19 2019, 12:00:00 AM</Text>
+                            <Text style={styles.titleText}>Order No: {params.details.id}</Text>
+                            <Text style={styles.descripText}>
+                                Order Date: {moment(params.details.createdAt)
+                                    .format(("dddd, MMMM, YYYY, h:mm:ss a"))}
+                            </Text>
                         </View>
                         <View style={styles.orderDetail}>
                             <Text style={styles.titleText}>Order Details</Text>
                             <View styles={{ flexDirection: 'column' }}>
-                                <View style={styles.itemDetailsStyle}>
-                                    <Text style={styles.descripText}>Cheese Burger</Text>
-                                    <Text style={styles.descripText}>Qty: 2</Text>
-                                </View>
-                                <View style={styles.itemDetailsStyle}>
-                                    <Text style={styles.descripText}>Fish Burger</Text>
-                                    <Text style={styles.descripText}>Qty: 2</Text>
-                                </View>
+                                {params && params.details.order_items.map(item => (
+                                    <View style={styles.itemDetailsStyle}>
+                                        <Text style={styles.descripText}>
+                                            {item.menu_item.name}
+                                        </Text>
+                                        <Text style={styles.descripText}>
+                                            Qty: {item.itemQuantity}
+                                        </Text>
+                                    </View>
+                                ))}
                             </View>
                         </View>
                         {this.renderSubTotals()}
                         <View style={styles.orderTotal}>
-                            <Text>Order Details Will be here</Text>
+                            <Text style={styles.titleText}>Total</Text>
+                            <Text style={styles.titleText}>
+                                ${subTotal +
+                                    params.details.deliveringRestaurant.deliveryServiceCharges}
+                            </Text>
                         </View>
                     </View>
                 </View>
@@ -103,8 +123,10 @@ const styles = StyleSheet.create({
         paddingVertical: 15,
     },
     orderTotal: {
-        paddingHorizontal: 15,
         paddingVertical: 15,
+        flexDirection: 'row',
+        paddingHorizontal: 15,
+        justifyContent: 'space-between',
     },
     titleText: {
         fontSize: 16,

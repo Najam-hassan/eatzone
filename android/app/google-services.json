@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "571785180074",
+    "firebase_url": "https://allin1food.firebaseio.com",
+    "project_id": "allin1food",
+    "storage_bucket": "allin1food.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:571785180074:android:109893b28d7d65c4",
+        "android_client_info": {
+          "package_name": "com.food_all_in_one"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "571785180074-vqu2d7vgcevp747b2g706hm8kmf2bpdv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQ-Q2cwYqz7PJFpzlgwDmUgnOfkyw00Mc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "571785180074-vqu2d7vgcevp747b2g706hm8kmf2bpdv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

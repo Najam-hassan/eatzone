@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
 import React, { Component } from 'react';
-import Toast, { DURATION } from 'react-native-easy-toast';
+import Toast from 'react-native-easy-toast';
+import OneSignal from 'react-native-onesignal';
 import {
 	View, StyleSheet, ImageBackground, Dimensions, Text, AsyncStorage, ScrollView
 } from 'react-native';
@@ -15,6 +16,37 @@ const { height } = Dimensions.get('screen');
 class SignInScreen extends Component {
 	constructor(props) {
 		super(props);
+		this.state = { playerId: '' }
+	}
+
+	async componentDidMount () {
+		OneSignal.init("f63350e4-f498-494f-9a3d-6d691518b83c", { kOSSettingsKeyAutoPrompt: true });
+		await OneSignal.userProvidedPrivacyConsent();
+		OneSignal.provideUserConsent(true);
+		OneSignal.addEventListener("ids", this.onIds);
+		OneSignal.inFocusDisplaying(2);
+		OneSignal.configure();
+	}
+
+	componentWillUnmount () {
+		OneSignal.removeEventListener("opened", this.onOpened);
+		OneSignal.removeEventListener("ids", this.onIds);
+	}
+
+	onOpened (openResult) {
+		console.log('Message: ', openResult.notification.payload.body);
+		console.log('Data: ', openResult.notification.payload.additionalData);
+		console.log('isActive: ', openResult.notification.isAppInFocus);
+		console.log('openResult: ', openResult);
+	}
+
+	onReceived (notification) {
+		console.log("Notification received: ", notification);
+	}
+
+	onIds (device) {
+		console.log('Device info: ', device);
+		this.setState({ playerId: device.userId })
 	}
 
 	componentWillReceiveProps (nextProps) {
@@ -86,6 +118,7 @@ class SignInScreen extends Component {
 								<SignInForm
 									navigateTo={this.navigateTo}
 									userType={state.params.type}
+									playerId={this.state.playerId}
 								/>
 							</ScrollView>
 						</View>
