@@ -54,13 +54,13 @@ class CartScreen extends Component {
                 </View>
                 <View style={{ flex: 9, }}>
                   <View style={{
-                    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
+                    flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center',
                   }}>
-                    <Text numberOfLines={1} style={{
-                      flex: 8, color: '#000', fontSize: 16, fontWeight: '400',
+                    <Text numberOfLines={2} style={{
+                      flex: 8, color: '#000', flexWrap: 'wrap', fontSize: 16, fontWeight: '400',
                     }}>{row.name}</Text>
                     <View style={{
-                      flex: 2, alignItems: 'flex-end', justifyContent: 'flex-end'
+                      flex: 2, alignItems: 'flex-end', justifyContent: 'flex-end',
                     }}>
                       <Text style={{ color: '#000', fontSize: 16, fontWeight: '400', }}>${row.price}</Text>
                     </View>
@@ -73,9 +73,9 @@ class CartScreen extends Component {
                   </View>
 
                   <View style={{
-                    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
+                    flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center'
                   }}>
-                    <Text numberOfLines={1} style={{
+                    <Text numberOfLines={3} style={{
                       flex: 7, color: '#cccccc', fontSize: 14, marginTop: 3,
                     }}>{row.description}</Text>
                     <View style={{
@@ -222,9 +222,9 @@ class CartScreen extends Component {
         <StatusBar hidden={false} />
         <Header
           navigation={this.props.navigation}
-          title={'My Orders'}
+          title={'View Cart'}
         />
-        <View style={{ padding: 10, }}>
+        <View style={{ padding: 10 }}>
           <View style={styles.TotalOrder}>
             <FlatList
               data={cartItems}
@@ -292,7 +292,8 @@ const mapDispatchToProps = dispatch => {
 const styles = StyleSheet.create({
   mainOrder: {
     backgroundColor: '#fff',
-    borderRadius: 8,
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
   },
   subTotalOrder: {
     paddingVertical: 15,
@@ -302,7 +303,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   TotalOrder: {
-    borderRadius: 8,
+    borderBottomLeftRadius: 8,
+    borderBottomRightRadius: 8,
     backgroundColor: '#fff',
   },
   itemContainer: {
@@ -349,7 +351,7 @@ const styles = StyleSheet.create({
   button: {
     height: 50,
     width: width - 50,
-    marginVertical: 24,
+    marginVertical: 20,
     marginHorizontal: 20,
   },
 });

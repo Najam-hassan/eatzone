@@ -91,7 +91,7 @@ class ItemDetailsContainer extends Component {
                 navigation.navigate('ItemCartScreen');
               }}
               style={styles.button}
-              textStyle={{ /* styles for button title */ }}
+              textStyle={{ fontSize: 12 }}
             />
           </View>
         </View>
@@ -125,17 +125,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    flexWrap: 'wrap',
     marginBottom: 10,
   },
   headerText: {
     fontSize: 16,
     fontWeight: '400',
     color: '#000',
+    flex: 0.8,
   },
   headerPrice: {
     fontSize: 16,
     fontWeight: '400',
     color: '#000',
+    flex: 0.2,
+    textAlign: 'right',
   },
   headerDescrip: {
     fontSize: 14,
@@ -156,7 +160,7 @@ const styles = StyleSheet.create({
     color: '#000'
   },
   stockStyle: {
-    width: 60,
+    width: 80,
     borderRadius: 20,
     alignItems: 'center',
     flexDirection: 'row',
@@ -190,15 +194,16 @@ const styles = StyleSheet.create({
   },
   fixedRight: {
     flex: 0.5,
-    textAlign: 'center',
+    textAlign: 'right',
   },
   button: {
-    height: 30,
-    width: 150,
+    height: 36,
+    width: '100%',
     color: '#fff',
     borderWidth: 1,
     borderRadius: 50,
     marginVertical: -5,
+    fontSize: 12,
     textAlign: 'center',
     borderColor: '#fff',
     backgroundColor: '#1BA2FC',
