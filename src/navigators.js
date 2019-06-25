@@ -19,6 +19,7 @@ import OrderScreen from './screens/user-screens/orders-screen';
 import ProfileScreen from './screens/user-screens/profile-screen';
 import ItemCartScreen from './screens/user-screens/item-cart-screen';
 import ItemDetailScreen from './screens/user-screens/item-details-screen';
+import OrderDetailScreen from './screens/user-screens/order-detail-screen';
 import RestaurantsScreen from './screens/user-screens/near-by-restaurants';
 import RestaurantDetailScreen from './screens/user-screens/restaurant-detsils-screen';
 
@@ -45,6 +46,7 @@ const AuthStack = createStackNavigator({
     ItemCartScreen: ItemCartScreen,
     ItemDetailScreen: ItemDetailScreen,
     RestaurantsScreen: RestaurantsScreen,
+    OrderDetailScreen: OrderDetailScreen,
     RestaurantDetailScreen: RestaurantDetailScreen,
 
     //Restaurants screens will go here
@@ -57,6 +59,7 @@ const AuthStack = createStackNavigator({
 }, {
         headerMode: 'none',
         initialRouteName: 'HomeScreen',
+        initialRouteName: 'OrderScreen',
         defaultNavigationOptions: {
             headerStyle: {
                 backgroundColor: '#edebed',
