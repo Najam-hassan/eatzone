@@ -5,7 +5,6 @@ target 'food_all_in_one' do
   pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
     pod 'React', path: '../node_modules/react-native', :subspecs => [
     'Core',
-    'DevSupport',
     'RCTActionSheet',
     'RCTAnimation',
     'RCTGeolocation',
@@ -16,6 +15,7 @@ target 'food_all_in_one' do
     'RCTText',
     'RCTVibration',
     'RCTWebSocket',
+    'DevSupport',
   ]
 
   # Pods for food_all_in_one
