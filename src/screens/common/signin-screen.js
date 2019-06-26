@@ -18,32 +18,12 @@ class SignInScreen extends Component {
 		super(props);
 		this.state = { playerId: '' }
 
-		OneSignal.setLogLevel(7, 0);
-		OneSignal.setRequiresUserPrivacyConsent(false);
-		OneSignal.init("f63350e4-f498-494f-9a3d-6d691518b83c", { kOSSettingsKeyAutoPrompt: true });
 		OneSignal.configure()
 	}
 
-	async componentDidMount () {
-		await OneSignal.userProvidedPrivacyConsent();
-		OneSignal.provideUserConsent(true);
-		OneSignal.addEventListener("opened", this.onOpened.bind(this));
+	componentDidMount () {
 		OneSignal.addEventListener("ids", this.onIds.bind(this));
-		OneSignal.inFocusDisplaying(2);
 	}
-
-	componentWillUnmount () {
-		OneSignal.removeEventListener("opened", this.onOpened);
-		OneSignal.removeEventListener("ids", this.onIds);
-	}
-
-	onOpened (openResult) {
-		console.log('Message: ', openResult.notification.payload.body);
-		console.log('Data: ', openResult.notification.payload.additionalData);
-		console.log('isActive: ', openResult.notification.isAppInFocus);
-		console.log('openResult: ', openResult);
-	}
-
 	onIds (device) {
 		console.log('Device info: ', device);
 		this.setState({ playerId: device.userId })
