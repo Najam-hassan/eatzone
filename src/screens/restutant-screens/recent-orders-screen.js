@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
+import { NavigationEvents } from 'react-navigation';
 import {
     View, Text, StatusBar, StyleSheet, Image, ActivityIndicator, FlatList
 } from 'react-native';
@@ -76,9 +77,6 @@ class RecentOrdersScreen extends Component {
 
     render () {
         const { loading, collections, deliveries } = this.props;
-        console.log(loading, '///////');
-        console.log(collections, 'collection');
-        console.log(deliveries, 'delivery');
         if (loading) {
             return (
                 <View style={{ flex: 1, backgroundColor: '#e4e4e4' }}>
@@ -97,6 +95,12 @@ class RecentOrdersScreen extends Component {
                 <Header
                     navigation={this.props.navigation}
                     title={'Recent Orders'}
+                />
+                <NavigationEvents
+                    onWillFocus={payload => {
+                        console.log('will focus', payload)
+                        this.props.fetchList();
+                    }}
                 />
                 {collections && collections.length ?
                     <FlatList

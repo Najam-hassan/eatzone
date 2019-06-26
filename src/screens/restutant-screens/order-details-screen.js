@@ -100,7 +100,7 @@ class RecentOrdersScreen extends Component {
                 <StatusBar hidden={false} />
                 <PageHeader
                     navigation={this.props.navigation}
-                    title={'Recent Orders'}
+                    title={'Order Details'}
                 />
                 {this.renderOrderCard()}
             </View>
