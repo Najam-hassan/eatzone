@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { NavigationEvents } from 'react-navigation';
-import { TabView, SceneMap } from 'react-native-tab-view';
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import {
   View, StatusBar, StyleSheet, ActivityIndicator, Dimensions
 } from 'react-native';
@@ -55,6 +55,15 @@ class RecentOrdersScreen extends Component {
           }}
         />
         <TabView
+          renderTabBar={props =>
+            <TabBar
+              {...props}
+              indicatorStyle={{ backgroundColor: '#1BA2FC' }}
+              style={{ backgroundColor: '#fff' }}
+              labelStyle={{ color: '#000' }}
+              pressColor={{ color: '#000' }}
+            />
+          }
           navigationState={this.state}
           renderScene={SceneMap({
             first: () => (
