@@ -1,6 +1,7 @@
 import moment from 'moment';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
+import { NavigationEvents } from 'react-navigation';
 import {
     View, Text, StatusBar, TouchableOpacity, StyleSheet,
     Image, ActivityIndicator, FlatList
@@ -71,11 +72,17 @@ class OrderScreen extends Component {
         const { loading, list } = this.props;
 
         return (
-            <View style={{ flex: 1, backgroundColor: '#e4e4e4', }}>
+            <View style={{ flex: 1, backgroundColor: '#e4e4e4' }}>
                 <StatusBar hidden={false} />
                 <Header
                     navigation={this.props.navigation}
                     title={'My Orders'}
+                />
+                <NavigationEvents
+                    onWillFocus={payload => {
+                        console.log('will focus', payload)
+                        this.props.fetchList();
+                    }}
                 />
                 {loading ?
                     <ActivityIndicator

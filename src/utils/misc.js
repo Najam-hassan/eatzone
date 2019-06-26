@@ -11,3 +11,11 @@ export function guid () {
 export function conversion (value) {
     return Number.parseFloat(value / 1000).toFixed(2)
 }
+
+export const calculateCost = items => {
+    let total = 0;
+    items.forEach(item => {
+        total = total + item.itemQuantity * item.menu_item.price;
+    });
+    return total.toFixed(0);
+}
