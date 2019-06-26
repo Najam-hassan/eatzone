@@ -5,18 +5,7 @@ import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
 import { calculateCost } from '../../utils/misc';
 import Button from '../../components/common/button';
 
-import * as selectors from '../../selectors/restaurant-selectors/order-list-selectors';
-
 class OrdersContainer extends Component {
-
-    componentDidMount () {
-        console.log('did mount fired!!!')
-    }
-
-    componentWillUnmount () {
-        console.log('um mount fired!!!')
-    }
-
     renderOrderCard = ({ item, index }) => {
         return (
             <View style={styles.container}>

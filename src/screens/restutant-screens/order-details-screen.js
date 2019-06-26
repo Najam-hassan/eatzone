@@ -17,10 +17,13 @@ class RecentOrdersScreen extends Component {
 
     renderOrderItems = item => {
         return (
-            <View style={styles.orderItemContainer}>
-                <Text>{item.menu_item.name}</Text>
-                <Text>Qty: {item.itemQuantity}</Text>
-                <Text>$ {item.menu_item.price}</Text>
+            <View
+                key={item.id}
+                style={styles.orderItemContainer}
+            >
+                <Text>{item && item.menu_item.name || ''}</Text>
+                <Text>Qty: {item && item.itemQuantity || ''}</Text>
+                <Text>$ {item && item.menu_item.price || ''}</Text>
             </View>
         )
     }
@@ -33,7 +36,7 @@ class RecentOrdersScreen extends Component {
                     <View style={styles.detailsContainer}>
                         {params && params.details.user.avatarUrl ?
                             <Image
-                                source={{ uri: item.user.avatarUrl }}
+                                source={{ uri: params.details.user.avatarUrl }}
                                 style={{ height: 60, width: 60, borderRadius: 25 }}
                             /> :
                             <Image
