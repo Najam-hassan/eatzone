@@ -7,6 +7,8 @@ import {
 import Button from '../../components/common/button';
 import { Header } from '../../components/common/header';
 
+import { calculateCost } from '../../utils/misc';
+
 import * as actions from '../../actions/restaurant-actions/order-listing-actions';
 import * as selectors from '../../selectors/restaurant-selectors/order-list-selectors';
 
@@ -17,14 +19,6 @@ class RecentOrdersScreen extends Component {
 
     componentDidMount () {
         this.props.fetchList();
-    }
-
-    calculateCost = items => {
-        let total = 0;
-        items.forEach(item => {
-            total = item.itemQuantity * item.menu_item.price;
-        });
-        return total.toFixed(0);
     }
 
     renderOrderCard = ({ item, index }) => {
@@ -48,7 +42,7 @@ class RecentOrdersScreen extends Component {
                     </View>
                     <View style={styles.orderDetails}>
                         <Text>Order Id: {item.id}</Text>
-                        <Text>Total: {this.calculateCost(item.order_items)}</Text>
+                        <Text>Total: {calculateCost(item.order_items)}</Text>
                     </View>
                 </View>
                 <View style={styles.actionContainer}>

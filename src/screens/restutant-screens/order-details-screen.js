@@ -1,9 +1,14 @@
 import moment from 'moment';
+import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { View, Text, StatusBar, StyleSheet, Image } from 'react-native';
 
 import Button from '../../components/common/button';
-import { Header } from '../../components/common/header';
+import { PageHeader } from '../../components/common/header';
+
+import { calculateCost } from '../../utils/misc';
+
+import * as actions from '../../actions/restaurant-actions/order-listing-actions';
 
 class RecentOrdersScreen extends Component {
     constructor(props) {
@@ -42,8 +47,8 @@ class RecentOrdersScreen extends Component {
                         </View>
                     </View>
                     <View style={styles.orderDetails}>
-                        <Text>Order Id: #35201</Text>
-                        <Text>Total: $352</Text>
+                        <Text>Order Id: {params.details.id}</Text>
+                        <Text>Total: {calculateCost(params.details.order_items)}</Text>
                     </View>
                 </View>
                 {params.details.order_items.map(item => (
@@ -73,7 +78,8 @@ class RecentOrdersScreen extends Component {
                     <Button
                         title={'Accept Order'}
                         onPress={() => {
-                            console.log('button pressed')
+                            const { details } = params;
+                            this.props.updateOrder(`/restaurant/cancel-order/${details.id}`);
                         }}
                         style={[styles.button, {
                             borderWidth: 1,
@@ -91,7 +97,7 @@ class RecentOrdersScreen extends Component {
         return (
             <View style={{ flex: 1, backgroundColor: '#e4e4e4' }}>
                 <StatusBar hidden={false} />
-                <Header
+                <PageHeader
                     navigation={this.props.navigation}
                     title={'Recent Orders'}
                 />
@@ -166,4 +172,15 @@ const styles = StyleSheet.create({
     }
 });
 
-export default RecentOrdersScreen 
+const mapStateToProps = state => ({});
+
+const mapDispatchToProps = dispatch => {
+    return {
+        updateOrder: url => dispatch(actions.updateOrderStatusAction(url)),
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(RecentOrdersScreen); 

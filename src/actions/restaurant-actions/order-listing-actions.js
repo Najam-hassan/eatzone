@@ -33,3 +33,38 @@ export function fetchOrdersAction () {
             })
     }
 }
+
+function updateOrderRequest () {
+    return {
+        type: constants.UPDATE_RESTAURANT_ORDERS_REQUEST,
+    }
+}
+
+function updateOrderSuccess (data) {
+    return {
+        type: constants.UPDATE_RESTAURANT_ORDERS_SUCCESS,
+        data,
+    }
+}
+
+function updateOrderFailure (error) {
+    return {
+        type: constants.UPDATE_RESTAURANT_ORDERS_FAILURE,
+        error,
+    }
+}
+
+export function updateOrderStatusAction (url) {
+    return dispatch => {
+        dispatch(updateOrderRequest());
+        axios.put(url)
+            .then(response => {
+                console.log(response.data, 'response');
+                dispatch(updateOrderSuccess(response.data));
+            })
+            .catch(error => {
+                console.log(error, 'error');
+                dispatch(updateOrderFailure(error));
+            })
+    }
+}
