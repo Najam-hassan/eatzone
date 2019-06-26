@@ -19,7 +19,22 @@ const makeSelectOrderListError = () => createSelector(
     selectOrderListState, state => state.getIn(['orders', 'error'])
 );
 
+const makeSelectConfirmed = () => createSelector(
+    selectOrderListState, state => state.getIn(['orders', 'accepted'])
+);
+
+const makeSelectCompleted = () => createSelector(
+    selectOrderListState, state => state.getIn(['orders', 'completed'])
+);
+
+const makeSelectCanceled = () => createSelector(
+    selectOrderListState, state => state.getIn(['orders', 'canceled'])
+);
+
 export {
+    makeSelectCanceled,
+    makeSelectCompleted,
+    makeSelectConfirmed,
     selectOrderListState,
     makeSelectOrderListError,
     makeSelectOrderListLoading,

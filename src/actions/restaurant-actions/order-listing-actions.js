@@ -54,6 +54,13 @@ function updateOrderFailure (error) {
     }
 }
 
+export function updateLocally (type) {
+    return {
+        type: constants.UPDATE_STATUS_LOCALLY,
+        type,
+    }
+}
+
 export function updateOrderStatusAction (url) {
     return dispatch => {
         dispatch(updateOrderRequest());

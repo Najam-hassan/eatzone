@@ -7,6 +7,9 @@ export const initialState = fromJS({
     orders: {
         deliveries: [],
         collections: [],
+        canceled: false,
+        accepted: false,
+        completed: false,
         error: null,
         loading: false,
     },
@@ -44,6 +47,9 @@ export default function orderListReducer (state = initialState, action) {
             return state
                 .setIn(['orders', 'error'], action.error)
                 .setIn(['orders', 'loading'], false);
+
+        case constants.UPDATE_STATUS_LOCALLY:
+            return state.setIn(['orders', action.type], true);
 
         case constants.RESET_RESTAURANT_ORDERS_STATE:
             return initialState;

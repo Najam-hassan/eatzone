@@ -9,10 +9,22 @@ import { PageHeader } from '../../components/common/header';
 import { calculateCost } from '../../utils/misc';
 
 import * as actions from '../../actions/restaurant-actions/order-listing-actions';
+import * as selectors from '../../selectors/restaurant-selectors/order-list-selectors';
 
 class RecentOrdersScreen extends Component {
-    constructor(props) {
-        super(props);
+
+    state = { confirmed: false, canceled: false, completed: false }
+
+    componentWillReceiveProps (nextProps) {
+        if (nextProps.confirmed) {
+            this.setState({ confirmed: true })
+        }
+        if (nextProps.canceled) {
+            this.setState({ canceled: true })
+        }
+        if (nextProps.completed) {
+            this.setState({ completed: true })
+        }
     }
 
     renderOrderItems = item => {
@@ -30,6 +42,7 @@ class RecentOrdersScreen extends Component {
 
     renderOrderCard = () => {
         const { params } = this.props.navigation.state;
+        const { completed, confirmed, canceled } = this.state
         return (
             <View style={styles.container}>
                 <View style={styles.orderCardContainer}>
@@ -66,11 +79,13 @@ class RecentOrdersScreen extends Component {
                         style={styles.button}
                         textStyle={{ /* styles for button title */ }}
                     />
-                    <Button
+                    {!confirmed && params.details.orderStatus === 'PENDING' ? <Button
                         title={'Cancel Order'}
                         onPress={() => {
                             const { details } = params;
-                            this.props.updateOrder(`/restaurant/cancel-order/${details.id}`);
+                            this.props.updateOrder(
+                                `/restaurant/cancel-order/${details.id}`, 'canceled'
+                            );
                         }}
                         style={[styles.button, {
                             borderWidth: 1,
@@ -78,12 +93,14 @@ class RecentOrdersScreen extends Component {
                             backgroundColor: '#fff',
                         }]}
                         textStyle={{ color: '#ff0000' }}
-                    />
-                    <Button
+                    /> : null}
+                    {!confirmed && params.details.orderStatus === 'PENDING' ? <Button
                         title={'Accept Order'}
                         onPress={() => {
                             const { details } = params;
-                            this.props.updateOrder(`/restaurant/confirm-order/${details.id}`);
+                            this.props.updateOrder(
+                                `/restaurant/confirm-order/${details.id}`, 'accepted'
+                            );
                         }}
                         style={[styles.button, {
                             borderWidth: 1,
@@ -91,7 +108,23 @@ class RecentOrdersScreen extends Component {
                             backgroundColor: '#fff',
                         }]}
                         textStyle={{ color: '#3C9238' }}
-                    />
+                    /> : null}
+                    {!confirmed && params.details.orderStatus === 'CONFIRMED' ? <Button
+                        title={'Complete Order'}
+                        onPress={() => {
+                            const { details } = params;
+                            this.props.updateOrder(
+                                `/restaurant/complete-order/${details.id}`, 'completed'
+                            );
+                        }}
+                        style={[styles.button, {
+                            width: '40%',
+                            borderWidth: 1,
+                            borderColor: '#3C9238',
+                            backgroundColor: '#fff',
+                        }]}
+                        textStyle={{ color: '#3C9238' }}
+                    /> : null}
                 </View>
             </View>
         )
@@ -176,11 +209,18 @@ const styles = StyleSheet.create({
     }
 });
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+    confirmed: selectors.makeSelectConfirmed()(state),
+    completed: selectors.makeSelectCompleted()(state),
+    canceled: selectors.makeSelectCanceled()(state),
+});
 
 const mapDispatchToProps = dispatch => {
     return {
-        updateOrder: url => dispatch(actions.updateOrderStatusAction(url)),
+        updateOrder: (url, type) => {
+            dispatch(actions.updateOrderStatusAction(url));
+            dispatch(actions.updateLocally(type));
+        },
     }
 }
 
