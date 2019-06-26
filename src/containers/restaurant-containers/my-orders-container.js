@@ -39,21 +39,23 @@ class OrdersContainer extends Component {
                         style={styles.button}
                         textStyle={{ /* styles for button title */ }}
                     />
-                    <Button
-                        title={'View Details'}
-                        onPress={() => {
-                            const { navigation } = this.props;
-                            navigation.navigate('ResturantOrderDetailsScreen', {
-                                details: item
-                            });
-                        }}
-                        style={[styles.button, {
-                            borderWidth: 1,
-                            borderColor: '#1BA2FC',
-                            backgroundColor: '#fff',
-                        }]}
-                        textStyle={{ color: '#1BA2FC' }}
-                    />
+                    {!this.props.isCollecting ?
+                        <Button
+                            title={'View Details'}
+                            onPress={() => {
+                                const { navigation } = this.props;
+                                navigation.navigate('ResturantOrderDetailsScreen', {
+                                    details: item
+                                });
+                            }}
+                            style={[styles.button, {
+                                borderWidth: 1,
+                                borderColor: '#1BA2FC',
+                                backgroundColor: '#fff',
+                            }]}
+                            textStyle={{ color: '#1BA2FC' }}
+                        /> : null
+                    }
                 </View>
             </View>
         )

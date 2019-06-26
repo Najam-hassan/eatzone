@@ -59,20 +59,20 @@ class RecentOrdersScreen extends Component {
           renderScene={SceneMap({
             first: () => (
               <OrdersContainer
-                list={collections}
+                list={deliveries}
                 navigation={this.props.navigation}
               />
             ),
             second: () => (
               <OrdersContainer
-                list={deliveries}
+                list={collections}
+                isCollecting={true}
                 navigation={this.props.navigation}
               />
             ),
           })}
           onIndexChange={index => this.setState({ index })}
           initialLayout={{ width: Dimensions.get('window').width }}
-          style={{ backgroundColor: '#fff' }}
         />
       </View>
     )
@@ -82,7 +82,7 @@ class RecentOrdersScreen extends Component {
 const styles = StyleSheet.create({
   scene: {
     flex: 1,
-  }
+  },
 });
 
 const mapStateToProps = state => ({
