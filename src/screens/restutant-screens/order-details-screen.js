@@ -43,7 +43,7 @@ class RecentOrdersScreen extends Component {
                         <View style={styles.nameContainer}>
                             <Text>{params.details.user.name}</Text>
                             <Text>{moment(params.details.createdAt).format("ddd, hA")}</Text>
-                            <Text>Location: Lahore</Text>
+                            {/* <Text>Location: Lahore</Text> */}
                         </View>
                     </View>
                     <View style={styles.orderDetails}>
@@ -66,7 +66,8 @@ class RecentOrdersScreen extends Component {
                     <Button
                         title={'Cancel Order'}
                         onPress={() => {
-                            console.log('button pressed')
+                            const { details } = params;
+                            this.props.updateOrder(`/restaurant/cancel-order/${details.id}`);
                         }}
                         style={[styles.button, {
                             borderWidth: 1,
@@ -79,7 +80,7 @@ class RecentOrdersScreen extends Component {
                         title={'Accept Order'}
                         onPress={() => {
                             const { details } = params;
-                            this.props.updateOrder(`/restaurant/cancel-order/${details.id}`);
+                            this.props.updateOrder(`/restaurant/confirm-order/${details.id}`);
                         }}
                         style={[styles.button, {
                             borderWidth: 1,
