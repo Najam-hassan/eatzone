@@ -122,7 +122,7 @@ class MenuItemForm extends Component {
                             errorTextColor="red"
                             keyboardType='number-pad'
                             component={InputField}
-                            placeholder='Price'
+                            placeholder='Price $'
                             customContainerStyle={styles.input}
                             customInputStyle={{ color: "#000" }}
                         />
@@ -131,7 +131,7 @@ class MenuItemForm extends Component {
                             errorTextColor="red"
                             keyboardType='default'
                             component={TextAreaFiled}
-                            placeholder='Enter Category Description'
+                            placeholder='Enter Item Description'
                             customContainerStyle={[styles.input, {
                                 height: 100,
                                 borderRadius: 10

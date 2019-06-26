@@ -71,7 +71,7 @@ class OrderScreen extends Component {
         const { loading, list } = this.props;
 
         return (
-            <View style={{ flex: 1, backgroundColor: '#e4e4e4', }}>
+            <View style={{ flex: 1, backgroundColor: '#e4e4e4' }}>
                 <StatusBar hidden={false} />
                 <Header
                     navigation={this.props.navigation}

@@ -9,6 +9,16 @@ class RecentOrdersScreen extends Component {
         super(props);
     }
 
+    renderOrderItems = () => {
+        return (
+            <View style={styles.orderItemContainer}>
+                <Text>Spanish Omellete with cheese</Text>
+                <Text>Qty: 2</Text>
+                <Text>$ 203</Text>
+            </View>
+        )
+    }
+
     renderOrderCard = () => {
         return (
             <View style={styles.container}>
@@ -29,6 +39,9 @@ class RecentOrdersScreen extends Component {
                         <Text>Total: $352</Text>
                     </View>
                 </View>
+                {this.renderOrderItems()}
+                {this.renderOrderItems()}
+                {this.renderOrderItems()}
                 <View style={styles.actionContainer}>
                     <Button
                         title={'Call Customer'}
@@ -39,19 +52,28 @@ class RecentOrdersScreen extends Component {
                         textStyle={{ /* styles for button title */ }}
                     />
                     <Button
-                        title={'View Details'}
+                        title={'Cancel Order'}
                         onPress={() => {
-                            const { navigation } = this.props;
-                            navigation.navigate('ResturantOrderDetailsScreen', {
-                                details: {}
-                            });
+                            console.log('button pressed')
                         }}
                         style={[styles.button, {
                             borderWidth: 1,
-                            borderColor: '#1BA2FC',
+                            borderColor: '#ff0000',
                             backgroundColor: '#fff',
                         }]}
-                        textStyle={{ color: '#1BA2FC' }}
+                        textStyle={{ color: '#ff0000' }}
+                    />
+                    <Button
+                        title={'Accept Order'}
+                        onPress={() => {
+                            console.log('button pressed')
+                        }}
+                        style={[styles.button, {
+                            borderWidth: 1,
+                            borderColor: '#3C9238',
+                            backgroundColor: '#fff',
+                        }]}
+                        textStyle={{ color: '#3C9238' }}
                     />
                 </View>
             </View>
@@ -66,8 +88,6 @@ class RecentOrdersScreen extends Component {
                     navigation={this.props.navigation}
                     title={'Recent Orders'}
                 />
-                {this.renderOrderCard()}
-                {this.renderOrderCard()}
                 {this.renderOrderCard()}
             </View>
         )
@@ -121,7 +141,7 @@ const styles = StyleSheet.create({
     },
     button: {
         height: 45,
-        width: '40%',
+        width: '30%',
         color: 'gray',
         marginTop: 10,
         // lineHeight: 37,
@@ -129,6 +149,14 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         backgroundColor: '#1BA2FC',
     },
+    orderItemContainer: {
+        padding: 8,
+        width: '100%',
+        flexDirection: 'row',
+        paddingHorizontal: 15,
+        alignItems: 'flex-start',
+        justifyContent: 'space-between',
+    }
 });
 
 export default RecentOrdersScreen 

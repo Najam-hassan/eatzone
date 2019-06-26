@@ -31,6 +31,7 @@ import RecentOrdersScreen from './screens/restutant-screens/recent-orders-screen
 import EditRestaurantProfile from './screens/restutant-screens/edit-profile-screen';
 import CreateRestaurantProfile from './screens/restutant-screens/create-profile-screen';
 import CompletedOrdersScreen from './screens/restutant-screens/completed-orders-screen';
+import ResturantOrderDetailsScreen from './screens/restutant-screens/order-details-screen';
 
 // Side Drawer (Side Navigation component)
 import SidebarMenu from './components/common/sidebar-menu';
@@ -56,10 +57,11 @@ const AuthStack = createStackNavigator({
     RecentOrdersScreen: RecentOrdersScreen,
     EditRestaurantProfile: EditRestaurantProfile,
     CompletedOrdersScreen: CompletedOrdersScreen,
+    ResturantOrderDetailsScreen: ResturantOrderDetailsScreen,
 }, {
         headerMode: 'none',
-        initialRouteName: 'HomeScreen',
-        initialRouteName: 'OrderScreen',
+        // initialRouteName: 'HomeScreen',
+        initialRouteName: 'RecentOrdersScreen',
         defaultNavigationOptions: {
             headerStyle: {
                 backgroundColor: '#edebed',
