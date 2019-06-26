@@ -60,8 +60,8 @@ const AuthStack = createStackNavigator({
     ResturantOrderDetailsScreen: ResturantOrderDetailsScreen,
 }, {
         headerMode: 'none',
-        // initialRouteName: 'HomeScreen',
-        initialRouteName: 'RecentOrdersScreen',
+        initialRouteName: 'HomeScreen',
+        // initialRouteName: 'RecentOrdersScreen',
         defaultNavigationOptions: {
             headerStyle: {
                 backgroundColor: '#edebed',
@@ -93,7 +93,6 @@ const LoginStack = createStackNavigator({
     }
 );
 
-// export default AppContainer = createAppContainer(Drawerstack);
 export default AppContainer = createAppContainer(
     createSwitchNavigator(
         {
