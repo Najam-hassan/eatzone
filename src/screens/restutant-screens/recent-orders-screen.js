@@ -1,32 +1,54 @@
+import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import { View, Text, StatusBar, StyleSheet, Image } from 'react-native';
+import {
+    View, Text, StatusBar, StyleSheet, Image, ActivityIndicator, FlatList
+} from 'react-native';
 
 import Button from '../../components/common/button';
 import { Header } from '../../components/common/header';
+
+import * as actions from '../../actions/restaurant-actions/order-listing-actions';
+import * as selectors from '../../selectors/restaurant-selectors/order-list-selectors';
 
 class RecentOrdersScreen extends Component {
     constructor(props) {
         super(props);
     }
 
-    renderOrderCard = () => {
+    componentDidMount () {
+        this.props.fetchList();
+    }
+
+    calculateCost = items => {
+        let total = 0;
+        items.forEach(item => {
+            total = item.itemQuantity * item.menu_item.price;
+        });
+        return total.toFixed(0);
+    }
+
+    renderOrderCard = ({ item, index }) => {
         return (
             <View style={styles.container}>
                 <View style={styles.orderCardContainer}>
                     <View style={styles.detailsContainer}>
-                        <Image
-                            source={require('../../assets/images/account.png')}
-                            style={{ height: 60, width: 60, borderRadius: 25 }}
-                        />
+                        {item && item.user.avatarUrl ?
+                            <Image
+                                source={{ uri: item.user.avatarUrl }}
+                                style={{ height: 60, width: 60, borderRadius: 25 }}
+                            /> :
+                            <Image
+                                source={require('../../assets/images/account.png')}
+                                style={{ height: 60, width: 60, borderRadius: 25 }}
+                            />}
                         <View style={styles.nameContainer}>
-                            <Text>Angel James</Text>
-                            <Text>Today at 12pm</Text>
-                            <Text>Location: Lahore</Text>
+                            <Text>{item.user && item.user.name || 'Name Here'}</Text>
+                            <Text>{item.user.phone}</Text>
                         </View>
                     </View>
                     <View style={styles.orderDetails}>
-                        <Text>Order Id: #35201</Text>
-                        <Text>Total: $352</Text>
+                        <Text>Order Id: {item.id}</Text>
+                        <Text>Total: {this.calculateCost(item.order_items)}</Text>
                     </View>
                 </View>
                 <View style={styles.actionContainer}>
@@ -43,7 +65,7 @@ class RecentOrdersScreen extends Component {
                         onPress={() => {
                             const { navigation } = this.props;
                             navigation.navigate('ResturantOrderDetailsScreen', {
-                                details: {}
+                                details: item
                             });
                         }}
                         style={[styles.button, {
@@ -59,6 +81,22 @@ class RecentOrdersScreen extends Component {
     }
 
     render () {
+        const { loading, collections, deliveries } = this.props;
+        console.log(loading, '///////');
+        console.log(collections, 'collection');
+        console.log(deliveries, 'delivery');
+        if (loading) {
+            return (
+                <View style={{ flex: 1, backgroundColor: '#e4e4e4' }}>
+                    <StatusBar hidden={false} />
+                    <Header
+                        navigation={this.props.navigation}
+                        title={'Recent Orders'}
+                    />
+                    <ActivityIndicator size={'large'} color={'#1BA2FC'} />
+                </View>
+            )
+        }
         return (
             <View style={{ flex: 1, backgroundColor: '#e4e4e4' }}>
                 <StatusBar hidden={false} />
@@ -66,9 +104,21 @@ class RecentOrdersScreen extends Component {
                     navigation={this.props.navigation}
                     title={'Recent Orders'}
                 />
+                {collections && collections.length ?
+                    <FlatList
+                        data={collections}
+                        extraData={this.state}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={this.renderOrderCard}
+                    /> : <View style={styles.message}>
+                        <Text style={[styles.title, { fontWeight: '400' }]}>
+                            Menu Item not exsit, please create menu items.
+                        </Text>
+                    </View>
+                }
+                {/* {this.renderOrderCard()}
                 {this.renderOrderCard()}
-                {this.renderOrderCard()}
-                {this.renderOrderCard()}
+                {this.renderOrderCard()} */}
             </View>
         )
     }
@@ -131,4 +181,20 @@ const styles = StyleSheet.create({
     },
 });
 
-export default RecentOrdersScreen 
+const mapStateToProps = state => ({
+    collections: selectors.makeSelectCollectionOrderList()(state),
+    deliveries: selectors.makeSelectDeliveryOrderList()(state),
+    loading: selectors.makeSelectOrderListLoading()(state),
+    error: selectors.makeSelectOrderListError()(state),
+});
+
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchList: () => dispatch(actions.fetchOrdersAction()),
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(RecentOrdersScreen); 

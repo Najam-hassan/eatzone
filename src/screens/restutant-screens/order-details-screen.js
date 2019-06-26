@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React, { Component } from 'react';
 import { View, Text, StatusBar, StyleSheet, Image } from 'react-native';
 
@@ -9,28 +10,34 @@ class RecentOrdersScreen extends Component {
         super(props);
     }
 
-    renderOrderItems = () => {
+    renderOrderItems = item => {
         return (
             <View style={styles.orderItemContainer}>
-                <Text>Spanish Omellete with cheese</Text>
-                <Text>Qty: 2</Text>
-                <Text>$ 203</Text>
+                <Text>{item.menu_item.name}</Text>
+                <Text>Qty: {item.itemQuantity}</Text>
+                <Text>$ {item.menu_item.price}</Text>
             </View>
         )
     }
 
     renderOrderCard = () => {
+        const { params } = this.props.navigation.state;
         return (
             <View style={styles.container}>
                 <View style={styles.orderCardContainer}>
                     <View style={styles.detailsContainer}>
-                        <Image
-                            source={require('../../assets/images/account.png')}
-                            style={{ height: 60, width: 60, borderRadius: 25 }}
-                        />
+                        {params && params.details.user.avatarUrl ?
+                            <Image
+                                source={{ uri: item.user.avatarUrl }}
+                                style={{ height: 60, width: 60, borderRadius: 25 }}
+                            /> :
+                            <Image
+                                source={require('../../assets/images/account.png')}
+                                style={{ height: 60, width: 60, borderRadius: 25 }}
+                            />}
                         <View style={styles.nameContainer}>
-                            <Text>Angel James</Text>
-                            <Text>Today at 12pm</Text>
+                            <Text>{params.details.user.name}</Text>
+                            <Text>{moment(params.details.createdAt).format("ddd, hA")}</Text>
                             <Text>Location: Lahore</Text>
                         </View>
                     </View>
@@ -39,9 +46,9 @@ class RecentOrdersScreen extends Component {
                         <Text>Total: $352</Text>
                     </View>
                 </View>
-                {this.renderOrderItems()}
-                {this.renderOrderItems()}
-                {this.renderOrderItems()}
+                {params.details.order_items.map(item => (
+                    this.renderOrderItems(item)
+                ))}
                 <View style={styles.actionContainer}>
                     <Button
                         title={'Call Customer'}

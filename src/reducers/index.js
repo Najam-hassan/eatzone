@@ -15,6 +15,7 @@ import restaurantDetailReducer from './user-reducers/resturant-detail-reducer';
 import categoryList from './restaurant-reducers/home-reducer';
 import profileReducer from './restaurant-reducers/profile-reducer';
 import categoryReducer from './restaurant-reducers/category-reducer';
+import restaurantOrderList from './restaurant-reducers/order-list-reducer';
 import categoryItemReducer from './restaurant-reducers/category-item-reducer';
 
 export default function index () {
@@ -32,6 +33,7 @@ export default function index () {
         restaurantProfile: profileReducer,
         restaurantCategories: categoryList,
         restaurantCategory: categoryReducer,
-        categoryItemReducer: categoryItemReducer
+        categoryItemReducer: categoryItemReducer,
+        restaurantOrderList: restaurantOrderList,
     });
 }
