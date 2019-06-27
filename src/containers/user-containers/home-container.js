@@ -125,6 +125,7 @@ class HomeContainer extends Component {
                     maxZoomLevel={20}
                     style={styles.map}
                     pitchEnabled={true}
+                    showsCompass={true}
                     followsUserLocation
                     rotateEnabled={true}
                     scrollEnabled={false}
@@ -132,6 +133,8 @@ class HomeContainer extends Component {
                     showsUserLocation={true}
                     provider={PROVIDER_GOOGLE}
                     showsMyLocationButton={true}
+                    showsPointsOfInterest={false}
+                    initialRegion={initialValues}
                     region={region.latitude !== null ? this.state.region : initialValues}
                 >
                     <View>
@@ -160,8 +163,8 @@ class HomeContainer extends Component {
                                     latitudeDelta: 1,
                                     longitudeDelta: 1
                                 }}
-                                title={'Title Here'}
-                                description={'local description'}>
+                                title={item.name}
+                                description={item.addressDetails}>
                                 <Icon name="map-marker" size={40} color="#E6464D" />
                             </Marker>
                         )) : null}
