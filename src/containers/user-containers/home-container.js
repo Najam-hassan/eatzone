@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import Drawer from 'react-native-draggable-view';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
     View, Text, StyleSheet, Dimensions, StatusBar, FlatList,
@@ -122,16 +122,17 @@ class HomeContainer extends Component {
         return (
             <View style={styles.container}>
                 <MapView
-                    // maxZoomLevel={8}
+                    maxZoomLevel={20}
                     style={styles.map}
                     pitchEnabled={true}
                     followsUserLocation
                     rotateEnabled={true}
-                    scrollEnabled={true}
+                    scrollEnabled={false}
                     zoomTapEnabled={true}
                     showsUserLocation={true}
-                    region={region.latitude !== null ? this.state.region : initialValues}
+                    provider={PROVIDER_GOOGLE}
                     showsMyLocationButton={true}
+                    region={region.latitude !== null ? this.state.region : initialValues}
                 >
                     <View>
                         {region.latitude !== null && region.longitude !== null ?
@@ -256,11 +257,11 @@ const styles = StyleSheet.create({
     },
     map: {
         ...StyleSheet.absoluteFillObject,
+        position: 'absolute',
         top: 0,
         left: 0,
         right: 0,
         bottom: 0,
-        position: 'absolute',
     },
     dragView: {
         borderTopLeftRadius: 60,

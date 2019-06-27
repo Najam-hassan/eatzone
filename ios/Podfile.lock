@@ -76,6 +76,7 @@ PODS:
   - yoga (0.59.8.React)
 
 DEPENDENCIES:
+  - Google-Maps-iOS-Utils
   - GoogleMaps
   - react-native-google-maps (from `../node_modules/react-native-maps/`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
@@ -142,6 +143,6 @@ SPEC CHECKSUMS:
   RNVectorIcons: 66af4d5c8ff4f584c7b7cd9c4b0780920f27fce2
   yoga: 128daf064cacaede0c3bb27424b6b4c71052e6cd
 
-PODFILE CHECKSUM: 4fab4a19b9fa5701e3df851f83ecea93966f26e0
+PODFILE CHECKSUM: d4b9cbac138a4254672c284a9e45ff78e6d6ff4d
 
 COCOAPODS: 1.5.3
