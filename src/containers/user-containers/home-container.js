@@ -121,58 +121,60 @@ class HomeContainer extends Component {
         }
         return (
             <View style={styles.container}>
-                <MapView
-                    maxZoomLevel={20}
-                    style={styles.map}
-                    pitchEnabled={true}
-                    showsCompass={true}
-                    followsUserLocation
-                    rotateEnabled={true}
-                    scrollEnabled={false}
-                    zoomTapEnabled={true}
-                    showsUserLocation={true}
-                    provider={PROVIDER_GOOGLE}
-                    showsMyLocationButton={true}
-                    showsPointsOfInterest={false}
-                    initialRegion={initialValues}
-                    region={region.latitude !== null ? this.state.region : initialValues}
-                >
-                    <View>
-                        {region.latitude !== null && region.longitude !== null ?
-                            <Marker
-                                title={`User's Loaction`}
-                                coordinate={this.state.region}
-                                description={'local description'}>
-                                <Icon name="map-marker" size={45} color="#1BA2FC" />
-                            </Marker> : null
-                        }
-                        {!firstClick && list && list.length ? list.map((item, index) => (
-                            <Marker
-                                onPress={() => {
-                                    const { resturant } = this.props;
-                                    this.props.fetchDetails(item.id, resturant.id);
-                                    this.props.delivertRestaurant(item);
-                                    navigation.navigate('RestaurantDetailScreen', {
-                                        restaurantId: item.id
-                                    })
-                                }}
-                                id={index}
-                                coordinate={{
-                                    latitude: item.location.coordinates[1],
-                                    longitude: item.location.coordinates[0],
-                                    latitudeDelta: 1,
-                                    longitudeDelta: 1
-                                }}
-                                title={item.name}
-                                description={item.addressDetails}>
-                                <Icon name="map-marker" size={40} color="#E6464D" />
-                            </Marker>
-                        )) : null}
-                    </View>
-                </MapView>
                 <Drawer
                     initialDrawerSize={0.15}
-                    renderContainerView={() => (null)}
+                    renderContainerView={() => (
+                        <MapView
+                            maxZoomLevel={20}
+                            style={styles.map}
+                            pitchEnabled={true}
+                            showsCompass={true}
+                            followsUserLocation
+                            rotateEnabled={true}
+                            scrollEnabled={true}
+                            zoomTapEnabled={true}
+                            cacheEnabled={false}
+                            showsUserLocation={true}
+                            provider={PROVIDER_GOOGLE}
+                            showsMyLocationButton={true}
+                            showsPointsOfInterest={false}
+                            initialRegion={initialValues}
+                            region={region.latitude !== null ? this.state.region : initialValues}
+                        >
+                            <View>
+                                {region.latitude !== null && region.longitude !== null ?
+                                    <Marker
+                                        title={`User's Loaction`}
+                                        coordinate={this.state.region}
+                                        description={'local description'}>
+                                        <Icon name="map-marker" size={45} color="#1BA2FC" />
+                                    </Marker> : null
+                                }
+                                {!firstClick && list && list.length ? list.map((item, index) => (
+                                    <Marker
+                                        onPress={() => {
+                                            const { resturant } = this.props;
+                                            this.props.fetchDetails(item.id, resturant.id);
+                                            this.props.delivertRestaurant(item);
+                                            navigation.navigate('RestaurantDetailScreen', {
+                                                restaurantId: item.id
+                                            })
+                                        }}
+                                        id={index}
+                                        coordinate={{
+                                            latitude: item.location.coordinates[1],
+                                            longitude: item.location.coordinates[0],
+                                            latitudeDelta: 1,
+                                            longitudeDelta: 1
+                                        }}
+                                        title={item.name}
+                                        description={item.addressDetails}>
+                                        <Icon name="map-marker" size={40} color="#E6464D" />
+                                    </Marker>
+                                )) : null}
+                            </View>
+                        </MapView>
+                    )}
                     finalDrawerHeight={(height / 2) - 100}
                     renderDrawerView={() => {
                         if (loading) {
@@ -272,7 +274,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#cccccc',
         backgroundColor: '#f7f8fa',
-        borderBottomWidth: 0
+        borderBottomWidth: 0,
+        backgroundColor: 'red'
     },
     itemStyling: {
         flex: 1,
