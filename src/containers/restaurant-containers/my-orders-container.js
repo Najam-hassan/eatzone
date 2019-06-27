@@ -8,26 +8,26 @@ import Button from '../../components/common/button';
 class OrdersContainer extends Component {
     renderOrderCard = ({ item, index }) => {
         return (
-            <View style={styles.container}>
+            <View key={`order-item-${index}`} style={styles.container}>
                 <View style={styles.orderCardContainer}>
                     <View style={styles.detailsContainer}>
                         {item && item.user.avatarUrl ?
                             <Image
                                 source={{ uri: item.user.avatarUrl }}
-                                style={{ height: 60, width: 60, borderRadius: 25 }}
+                                style={{ height: 60, width: 60, borderRadius: 60, backgroundColor: '#636363', }}
                             /> :
                             <Image
                                 source={require('../../assets/images/account.png')}
                                 style={{ height: 60, width: 60, borderRadius: 25 }}
                             />}
                         <View style={styles.nameContainer}>
-                            <Text>{item.user && item.user.name || 'Name Here'}</Text>
-                            <Text>{item.user.phone}</Text>
+                            <Text style={styles.userName}>{item.user && item.user.name || 'Name Here'}</Text>
+                            <Text style={styles.userContact}>{item.user.phone}</Text>
                         </View>
                     </View>
                     <View style={styles.orderDetails}>
-                        <Text>Order Id: {item.id}</Text>
-                        <Text>Total: {calculateCost(item.order_items)}</Text>
+                        <Text style={styles.userInfo}>Order Id: {item.id}</Text>
+                        <Text style={styles.userInfo}>Total: {calculateCost(item.order_items)}</Text>
                     </View>
                 </View>
                 <View style={styles.actionContainer}>
@@ -36,8 +36,10 @@ class OrdersContainer extends Component {
                         onPress={() => {
                             console.log('button pressed')
                         }}
-                        style={styles.button}
-                        textStyle={{ /* styles for button title */ }}
+                        style={[styles.button, {
+                            backgroundColor: '#00a0ff',
+                        }]}
+                        textStyle={{ color: '#fff', fontSize: 14, fontWeight: '400', }}
                     />
                     {!this.props.isCollecting ?
                         <Button
@@ -50,10 +52,10 @@ class OrdersContainer extends Component {
                             }}
                             style={[styles.button, {
                                 borderWidth: 1,
-                                borderColor: '#1BA2FC',
+                                borderColor: '#00a0ff',
                                 backgroundColor: '#fff',
                             }]}
-                            textStyle={{ color: '#1BA2FC' }}
+                            textStyle={{ color: '#00a0ff', fontSize: 14, fontWeight: '400', }}
                         /> : null
                     }
                 </View>
@@ -85,57 +87,78 @@ class OrdersContainer extends Component {
 const styles = StyleSheet.create({
     container: {
         borderRadius: 10,
-        marginVertical: 15,
-        marginHorizontal: 20,
+        marginTop: 15,
+        marginHorizontal: 15,
         flexDirection: 'column',
         backgroundColor: '#fff',
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
     },
     orderCardContainer: {
-        paddingVertical: 10,
+        paddingVertical: 15,
+        paddingHorizontal: 15,
         flexDirection: 'row',
-        paddingHorizontal: 20,
+        alignItems: 'center',
         borderTopLeftRadius: 10,
-        alignItems: 'flex-start',
         borderTopRightRadius: 10,
-        backgroundColor: '#DAF0FD',
+        backgroundColor: '#d9f1ff',
         justifyContent: 'space-between',
     },
     detailsContainer: {
-        flex: .6,
+        flex: .65,
         flexDirection: 'row',
-        paddingHorizontal: 15,
-        justifyContent: 'space-between',
+        alignItems: 'center',
     },
     nameContainer: {
-        paddingHorizontal: 15,
+        paddingLeft: 12,
+        paddingRight: 4,
         flexDirection: 'column',
         alignItems: 'flex-start',
-        justifyContent: 'flex-start',
+        flexWrap: 'wrap',
+        flex: 1,
+    },
+    userName: {
+        fontSize: 17,
+        fontWeight: '500',
+        color: '#000',
+    },
+    userContact: {
+        fontSize: 14,
+        fontWeight: '400',
+        color: '#5e5a5a',
+        marginTop: 2,
+        lineHeight: 20,
     },
     orderDetails: {
-        flex: .4,
+        flex: .35,
         alignItems: 'flex-end',
         flexDirection: 'column',
         justifyContent: 'flex-end',
+        flexWrap: 'wrap',
+    },
+    userInfo: {
+        fontSize: 14,
+        fontWeight: '400',
+        color: '#5e5a5a',
+        textAlign: 'right',
+        lineHeight: 20,
     },
     actionContainer: {
         width: '100%',
-        marginVertical: 12,
+        paddingVertical: 12,
+        paddingHorizontal: 15,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-evenly',
+        justifyContent: 'center',
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
     },
     button: {
-        height: 45,
-        width: '40%',
-        color: 'gray',
-        marginTop: 10,
-        // lineHeight: 37,
+        height: 40,
+        width: '42%',
+        marginHorizontal: 6,
         borderRadius: 50,
         textAlign: 'center',
-        backgroundColor: '#1BA2FC',
     },
     scene: {
         flex: 1,

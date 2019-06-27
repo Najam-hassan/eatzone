@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { NavigationEvents } from 'react-navigation';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import {
-  View, StatusBar, StyleSheet, ActivityIndicator, Dimensions
+  View, StatusBar, ActivityIndicator, Dimensions
 } from 'react-native';
 
 import { Header } from '../../components/common/header';
@@ -41,8 +41,9 @@ class RecentOrdersScreen extends Component {
         </View>
       )
     }
+
     return (
-      <View style={{ flex: 1, backgroundColor: '#e4e4e4' }}>
+      <View style={{ flex: 1, backgroundColor: '#e4e4e4', paddingBottom: 15, }}>
         <StatusBar hidden={false} />
         <Header
           navigation={this.props.navigation}
@@ -87,12 +88,6 @@ class RecentOrdersScreen extends Component {
     )
   }
 }
-
-const styles = StyleSheet.create({
-  scene: {
-    flex: 1,
-  },
-});
 
 const mapStateToProps = state => ({
   collections: selectors.makeSelectCollectionOrderList()(state),
