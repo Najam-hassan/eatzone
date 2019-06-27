@@ -125,6 +125,7 @@ class HomeContainer extends Component {
                     initialDrawerSize={0.15}
                     renderContainerView={() => (
                         <MapView
+                            key={Date.now()}
                             maxZoomLevel={20}
                             style={styles.map}
                             pitchEnabled={true}
@@ -151,7 +152,8 @@ class HomeContainer extends Component {
                                     </Marker> : null
                                 }
                                 {!firstClick && list && list.length ? list.map((item, index) => (
-                                    <Marker
+                                    < Marker
+                                        key={`Alert-marker-${index}`}
                                         onPress={() => {
                                             const { resturant } = this.props;
                                             this.props.fetchDetails(item.id, resturant.id);
@@ -169,7 +171,12 @@ class HomeContainer extends Component {
                                         }}
                                         title={item.name}
                                         description={item.addressDetails}>
-                                        <Icon name="map-marker" size={40} color="#E6464D" />
+                                        <View>
+                                            <Text style={{
+                                                color: '#000', paddingBottom: -5, fontSize: 16, fontWeight: '500'
+                                            }}>{item.name}</Text>
+                                            <Icon name="map-marker" size={40} color="#E6464D" />
+                                        </View>
                                     </Marker>
                                 )) : null}
                             </View>
