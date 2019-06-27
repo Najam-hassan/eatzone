@@ -275,7 +275,6 @@ const styles = StyleSheet.create({
         borderColor: '#cccccc',
         backgroundColor: '#f7f8fa',
         borderBottomWidth: 0,
-        backgroundColor: 'red'
     },
     itemStyling: {
         flex: 1,
