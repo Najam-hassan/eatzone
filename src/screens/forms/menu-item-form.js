@@ -41,7 +41,8 @@ class MenuItemForm extends Component {
                 if (imageData) {
                     this.props.updateItem({
                         ...values.toJS(),
-                        imageData: `data:image/jpeg;base64,${imageData}`
+                        // imageData: `data:image/jpeg;base64,${imageData}`
+                        imageData: imageData
                     }, categoryId, itemId);
                 } else {
                     this.props.updateItem(values.toJS(), categoryId, itemId);
@@ -49,7 +50,8 @@ class MenuItemForm extends Component {
             } else if (imageData) {
                 this.props.onSubmit(categoryId, {
                     ...values.toJS(),
-                    imageData: `data:image/jpeg;base64,${imageData}`
+                    // imageData: `data:image/jpeg;base64,${imageData}`
+                    imageData: imageData
                 });
             } else {
                 return Alert.alert(

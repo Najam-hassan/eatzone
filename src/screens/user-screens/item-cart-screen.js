@@ -172,7 +172,6 @@ class CartScreen extends Component {
         this.props.cartItems[categoryIndex].menu_items[itemIndex].quantity++;
       }
     }
-    console.log('adddddd: ', this.props.cartItems);
     this.props.addItemQuantity(this.props.cartItems);
   }
 
@@ -192,7 +191,6 @@ class CartScreen extends Component {
           this.props.cartItems[categoryIndex].menu_items[itemIndex].quantity--;
         }
       }
-      console.log('subtrat: ', this.props.cartItems);
       this.props.addItemQuantity(this.props.cartItems);
     }
   }

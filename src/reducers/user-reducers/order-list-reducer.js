@@ -25,7 +25,6 @@ export default function orderListReducer (state = initialState, action) {
                     }),
                 ),
             );
-            console.log(payload, '90909090')
             return state
                 .setIn(['orders', 'data'], payload)
                 .setIn(['orders', 'loading'], false);

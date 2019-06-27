@@ -25,7 +25,6 @@ class OrderScreen extends Component {
                 key={index}
                 onPress={() => {
                     const { navigation } = this.props;
-                    console.log(navigation);
                     navigation.navigate('OrderDetailScreen', {
                         details: item
                     })

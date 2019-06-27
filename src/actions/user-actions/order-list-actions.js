@@ -26,11 +26,9 @@ export function fetchOrdersAction () {
         dispatch(fetchOrderRrquest());
         return axios.get(`/user/get-orders`)
             .then(response => {
-                console.log(response, '-=-=-=-=-=-');
                 dispatch(fetchOrderSuccess(response.data));
             })
             .catch(error => {
-                console.log(error, '-=-=-=-=-=-');
                 dispatch(fetchOrderFailure(error))
             })
     }

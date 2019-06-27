@@ -16,7 +16,6 @@ class ItemContainer extends Component {
     componentWillReceiveProps (nextProps) {
         const { parent } = this.props;
         if (nextProps.success) {
-            console.log(parent.refs, 'parent');
             // parent.refs.toast.show('Menu Item deleted successfully', 2000);
             this.props.fetchList();
         }

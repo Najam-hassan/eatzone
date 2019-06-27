@@ -40,7 +40,8 @@ class UserProfileForm extends Component {
         if (avatarUrl) {
             this.props.profileDetails({
                 ...values.toJS(),
-                avatarData: `data:image/jpeg;base64,${avatarUrl}`
+                // avatarData: `data:image/jpeg;base64,${avatarUrl}`
+                avatarData: avatarUrl
             });
         } else {
             this.props.profileDetails(values.toJS())

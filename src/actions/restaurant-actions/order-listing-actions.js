@@ -66,11 +66,9 @@ export function updateOrderStatusAction (url) {
         dispatch(updateOrderRequest());
         axios.put(url)
             .then(response => {
-                console.log(response.data, 'response');
                 dispatch(updateOrderSuccess(response.data));
             })
             .catch(error => {
-                console.log(error, 'error');
                 dispatch(updateOrderFailure(error));
             })
     }

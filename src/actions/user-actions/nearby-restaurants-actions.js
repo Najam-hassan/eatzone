@@ -28,7 +28,6 @@ export function fetchNearByListAction (id) {
         dispatch(fetchListRequest());
         return axios.get(`/user/eligible-restaurants/${id}`)
             .then(response => {
-                console.log(response.data);
                 dispatch(fetchListSuccess(response.data));
             }).catch(error => {
                 dispatch(fetchListFailure(error.response.data))

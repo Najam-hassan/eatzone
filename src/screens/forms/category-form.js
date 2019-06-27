@@ -37,7 +37,8 @@ class CategoryForm extends Component {
                 if (imageData) {
                     this.props.updateCategory({
                         ...values.toJS(),
-                        imageData: `data:image/jpeg;base64,${imageData}`
+                        // imageData: `data:image/jpeg;base64,${imageData}`
+                        imageData: imageData
                     }, catId);
                 } else {
                     this.props.updateCategory(values.toJS(), catId);
@@ -45,7 +46,8 @@ class CategoryForm extends Component {
             } else if (imageData) {
                 this.props.addCategory({
                     ...values.toJS(),
-                    imageData: `data:image/jpeg;base64,${imageData}`
+                    // imageData: `data:image/jpeg;base64,${imageData}`
+                    imageData: imageData
                 });
             } else {
                 return Alert.alert(

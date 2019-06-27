@@ -45,11 +45,9 @@ class RestaurantDetailScreen extends Component {
       ));
 
     let cardItems = listItems;
-    console.log(cardItems, 'before');
     if (cardItems.length > 1) {
       cardItems = listItems && listItems.length > 1 && listItems.reduce((a, b) => a.concat(b));
     }
-    console.log(cardItems, 'after');
     if (loading) {
       return (
         <View style={{ flex: 1 }}>
