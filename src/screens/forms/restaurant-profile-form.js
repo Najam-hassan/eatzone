@@ -306,7 +306,7 @@ class ProfileForm extends Component {
                         {this.state.canCollect ?
                             <View style={styles.permission}>
                                 <Text style={[styles.timeText, {
-                                    marginTop: 10, fontSize: 20
+                                    marginTop: 16, fontSize: 16, fontWeight: '600'
                                 }]}>
                                     Select prefer time
                                 </Text>
@@ -474,7 +474,7 @@ class ProfileForm extends Component {
                                     </MapView>
                                 </View>
                                 <Text style={[styles.timeText, {
-                                    marginTop: 10, fontSize: 20
+                                    marginTop: 16, fontSize: 16, fontWeight: '600'
                                 }]}>
                                     Select prefer time
                                 </Text>

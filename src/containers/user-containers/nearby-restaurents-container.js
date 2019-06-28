@@ -23,7 +23,7 @@ class Restaurents extends Component {
         this.props.navigateTo(item);
       }}
     >
-      <View style={{ flex: 1, margin: 10, borderRadius: 30, position: 'relative' }}>
+      <View style={{ flex: 1, marginBottom: 10, borderRadius: 30, position: 'relative' }}>
         <View style={{ flex: 0.3, justifyContent: 'center' }}>
           {index % 2 === 0 ? <Image
             source={require('../../assets/images/mcdonal.jpg')}
@@ -74,7 +74,7 @@ class Restaurents extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingBottom: 10
+    padding: 10,
   },
   titleStyle: {
     flex: 1,

@@ -50,7 +50,7 @@ class OrderScreen extends Component {
                             </View>
                         </View>
                     </View>
-                    <Text style={{ color: '#cccccc', fontSize: 14, fontWeight: '400', }}>Cheese Burger</Text>
+                    {/* <Text style={{ color: '#cccccc', fontSize: 14, fontWeight: '400', }}>Cheese Burger</Text> */}
                     <View style={styles.contentMain}>
                         <Text style={{ color: '#000000', fontSize: 14, fontWeight: '400', }}>
                             Order Date: {moment(item.createdAt).format('LL')}
@@ -138,11 +138,13 @@ const styles = StyleSheet.create({
         paddingHorizontal: 7,
         lineHeight: 18,
         backgroundColor: '#00a651',
+        marginRight: -2,
     },
     contentMain: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
+        marginTop: 6,
     },
 });
 

@@ -90,13 +90,17 @@ class RestaurantDetailScreen extends Component {
                     Service Charges: {list.deliveryServiceCharges}
                     {/* Service Charges: 10 % */}
                   </Text>
-                  <Text style={{ color: "#fff", marginTop: 5 }}>
-                    <Icon
-                      name="map-marker"
-                      size={16} color="#fff"
-                    />
-                    {conversion(list.distance)} miles away
-                  </Text>
+                  <View style={{ flexDirection: 'row' }}>
+                    <View style={{ marginRight: 6 }}>
+                      <Icon
+                        name="map-marker"
+                        size={16} color="#fff"
+                      />
+                    </View>
+                    <Text style={{ color: '#fff' }}>
+                      {conversion(list.distance)} miles away
+                    </Text>
+                  </View>
                 </View>
               </View>
             </View>

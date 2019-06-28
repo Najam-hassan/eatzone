@@ -11,7 +11,7 @@ import { calculateCost } from '../../utils/misc';
 import * as actions from '../../actions/restaurant-actions/order-listing-actions';
 import * as selectors from '../../selectors/restaurant-selectors/order-list-selectors';
 
-class RecentOrdersScreen extends Component {
+class OrderDetailsScreen extends Component {
 
   state = { confirmed: false, canceled: false, completed: false }
 
@@ -74,7 +74,7 @@ class RecentOrdersScreen extends Component {
           this.renderOrderItems(item, index)
         ))}
         <View style={styles.actionContainer}>
-          <Button
+          {/* <Button
             title={'Call Customer'}
             onPress={() => {
               console.log('button pressed')
@@ -82,8 +82,8 @@ class RecentOrdersScreen extends Component {
             style={[styles.button, {
               backgroundColor: '#00a0ff',
             }]}
-            textStyle={{ color: '#fff', fontSize: 13, fontWeight: '400', }}
-          />
+            textStyle={{ color: '#fff', fontSize: 12, fontWeight: '400', }}
+          /> */}
           {!confirmed && params.details.orderStatus === 'PENDING' ? <Button
             title={'Cancel Order'}
             onPress={() => {
@@ -97,7 +97,7 @@ class RecentOrdersScreen extends Component {
               borderColor: '#ff0000',
               backgroundColor: '#fff',
             }]}
-            textStyle={{ color: '#ff0000', fontSize: 13, fontWeight: '400', }}
+            textStyle={{ color: '#ff0000', fontSize: 14, fontWeight: '400', }}
           /> : null}
           {!confirmed && params.details.orderStatus === 'PENDING' ? <Button
             title={'Accept Order'}
@@ -112,7 +112,7 @@ class RecentOrdersScreen extends Component {
               borderColor: '#17820c',
               backgroundColor: '#fff',
             }]}
-            textStyle={{ color: '#17820c', fontSize: 13, fontWeight: '400', }}
+            textStyle={{ color: '#17820c', fontSize: 14, fontWeight: '400', }}
           /> : null}
           {!confirmed && params.details.orderStatus === 'CONFIRMED' ? <Button
             title={'Complete Order'}
@@ -128,7 +128,7 @@ class RecentOrdersScreen extends Component {
               borderColor: '#17820c',
               backgroundColor: '#fff',
             }]}
-            textStyle={{ color: '#17820c', fontSize: 13, fontWeight: '400', }}
+            textStyle={{ color: '#17820c', fontSize: 14, fontWeight: '400', }}
           /> : null}
         </View>
       </View>
@@ -215,14 +215,15 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
   },
   button: {
     height: 40,
-    width: '32%',
+    width: '42%',
     borderRadius: 50,
+    marginHorizontal: 6,
     textAlign: 'center',
   },
   orderItemContent: {
@@ -238,7 +239,7 @@ const styles = StyleSheet.create({
     color: '#000000',
     fontSize: 15,
     fontWeight: '400',
-    flex: 0.55,
+    flex: 0.50,
     flexWrap: 'wrap',
   },
   orderQuantity: {
@@ -254,9 +255,9 @@ const styles = StyleSheet.create({
     color: '#000000',
     fontSize: 15,
     fontWeight: '400',
-    flex: 0.2,
+    flex: 0.25,
     textAlign: 'right',
-    flexWrap: 'wrap',
+    flexWrap: 'nowrap',
   },
 });
 
@@ -278,4 +279,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(RecentOrdersScreen); 
+)(OrderDetailsScreen); 

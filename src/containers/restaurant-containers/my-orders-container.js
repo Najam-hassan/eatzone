@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     detailsContainer: {
-        flex: .65,
+        flex: .58,
         flexDirection: 'row',
         alignItems: 'center',
     },
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
         lineHeight: 20,
     },
     orderDetails: {
-        flex: .35,
+        flex: .42,
         alignItems: 'flex-end',
         flexDirection: 'column',
         justifyContent: 'flex-end',

@@ -90,17 +90,15 @@ class MenuItemForm extends Component {
                                 height: 200,
                             }}
                             source={{ uri: imageUrl }}
-                            resizeMode='stretch'
+                            resizeMode='cover'
                         /> :
                         <Image
                             style={{
                                 width: width,
                                 height: 200,
                             }}
-                            source={{
-                                uri: 'https://smppharmacy.com/wp-content/uploads/2019/02/food-post.jpg'
-                            }}
-                            resizeMode='stretch'
+                            source={require('../../assets/images/placeholder-img.png')}
+                            resizeMode='cover'
                         />}
                     </PhotoUpload>
                     <View style={[styles.container, {
