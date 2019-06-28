@@ -1,22 +1,25 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import Drawer from 'react-native-draggable-view';
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import {
-    View, Text, StyleSheet, Dimensions, StatusBar, FlatList,
-    Image, ActivityIndicator, TouchableOpacity, ScrollView, AsyncStorage
+    View, Text, StyleSheet, Dimensions, StatusBar,
+    FlatList, Image, ActivityIndicator, TouchableOpacity,
+    ScrollView, AsyncStorage, Platform
 } from 'react-native';
 
 const { height, width } = Dimensions.get('screen');
 
 import DragHeader from '../../components/drag-header';
 
+import { mapsProps } from '../../utils/utils';
+
 import * as actions from '../../actions/user-actions/home-actions';
 import * as selectors from '../../selectors/user-selectors/home-selectors';
 import { fetchDetailAction } from '../../actions/user-actions/resturant-detail-actions';
 
-const initialValues = {
+let initialValues = {
     latitude: 37.78825,
     longitude: -122.4324,
     latitudeDelta: 0.0922,
@@ -47,6 +50,11 @@ class HomeContainer extends Component {
                 const { latitude, longitude } = position.coords;
                 console.log('lat: ', latitude, 'long: ', longitude);
                 AsyncStorage.setItem('location', { latitude, longitude });
+                initialValues = {
+                    ...initialValues,
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude
+                };
                 this.setState({
                     region: {
                         ...this.state.region,
@@ -66,6 +74,19 @@ class HomeContainer extends Component {
         );
     }
 
+    setLocation = location => {
+        if (location) {
+            this.setState({
+                firstClick: false,
+                region: {
+                    ...this.state.region,
+                    latitude: location.coordinates[1],
+                    longitude: location.coordinates[0]
+                }
+            });
+        }
+    }
+
     _renderItem = ({ item, index }) => (
         <TouchableOpacity
             key={item.id}
@@ -74,16 +95,7 @@ class HomeContainer extends Component {
                 const { firstClick } = this.state;
                 const { location } = item;
                 if (firstClick) {
-                    if (location) {
-                        this.setState({
-                            firstClick: false,
-                            region: {
-                                ...this.state.region,
-                                latitude: location.coordinates[1],
-                                longitude: location.coordinates[0]
-                            }
-                        });
-                    }
+                    this.setLocation(location);
                     this.props.fetchList(`/user/eligible-restaurants/${item.id}`);
                     this.props.collectingResturant(item);
                 } else {
@@ -123,65 +135,61 @@ class HomeContainer extends Component {
             <View style={styles.container}>
                 <Drawer
                     initialDrawerSize={0.15}
-                    renderContainerView={() => (
-                        <MapView
-                            key={Date.now()}
-                            maxZoomLevel={20}
-                            style={styles.map}
-                            pitchEnabled={true}
-                            showsCompass={true}
-                            followsUserLocation
-                            rotateEnabled={true}
-                            scrollEnabled={true}
-                            zoomTapEnabled={true}
-                            cacheEnabled={false}
-                            showsUserLocation={true}
-                            provider={PROVIDER_GOOGLE}
-                            showsMyLocationButton={true}
-                            showsPointsOfInterest={false}
-                            initialRegion={initialValues}
-                            region={region.latitude !== null ? this.state.region : initialValues}
-                        >
-                            <View>
-                                {region.latitude !== null && region.longitude !== null ?
-                                    <Marker
-                                        title={`User's Loaction`}
-                                        coordinate={this.state.region}
-                                        description={'local description'}>
-                                        <Icon name="map-marker" size={45} color="#1BA2FC" />
-                                    </Marker> : null
-                                }
-                                {!firstClick && list && list.length ? list.map((item, index) => (
-                                    < Marker
-                                        key={`Alert-marker-${index}`}
-                                        onPress={() => {
-                                            const { resturant } = this.props;
-                                            this.props.fetchDetails(item.id, resturant.id);
-                                            this.props.delivertRestaurant(item);
-                                            navigation.navigate('RestaurantDetailScreen', {
-                                                restaurantId: item.id
-                                            })
-                                        }}
-                                        id={index}
-                                        coordinate={{
-                                            latitude: item.location.coordinates[1],
-                                            longitude: item.location.coordinates[0],
-                                            latitudeDelta: 1,
-                                            longitudeDelta: 1
-                                        }}
-                                        title={item.name}
-                                        description={item.addressDetails}>
-                                        <View>
-                                            <Text style={{
-                                                color: '#000', paddingBottom: -5, fontSize: 16, fontWeight: '500'
-                                            }}>{item.name}</Text>
-                                            <Icon name="map-marker" size={40} color="#E6464D" />
-                                        </View>
-                                    </Marker>
-                                )) : null}
-                            </View>
-                        </MapView>
-                    )}
+                    renderContainerView={() => {
+                        const { region } = this.state;
+                        return (
+                            <MapView
+                                {...mapsProps}
+                                maxZoomLevel={20}
+                                style={styles.map}
+                                followsUserLocation
+                                provider={PROVIDER_GOOGLE}
+                                initialRegion={initialValues}
+                                key={Platform.OS !== 'android' && Date.now()}
+                                region={region.latitude !== null ?
+                                    this.state.region : initialValues}
+                            >
+                                <View>
+                                    {region.latitude !== null && region.longitude !== null ?
+                                        <Marker
+                                            title={`User's Loaction`}
+                                            coordinate={this.state.region}
+                                            description={'local description'}>
+                                            <Icon name="map-marker" size={45} color="#1BA2FC" />
+                                        </Marker> : null
+                                    }
+                                    {!firstClick && list && list.length ? list.map((item, index) => (
+                                        < Marker
+                                            key={`Alert-marker-${index}`}
+                                            onPress={() => {
+                                                const { resturant } = this.props;
+                                                this.props.fetchDetails(item.id, resturant.id);
+                                                this.props.delivertRestaurant(item);
+                                                navigation.navigate('RestaurantDetailScreen', {
+                                                    restaurantId: item.id
+                                                })
+                                            }}
+                                            id={index}
+                                            coordinate={{
+                                                latitude: item.location.coordinates[1],
+                                                longitude: item.location.coordinates[0],
+                                                latitudeDelta: 1,
+                                                longitudeDelta: 1
+                                            }}
+                                            title={item.name}
+                                            description={item.addressDetails}>
+                                            <View>
+                                                <Text style={{
+                                                    color: '#000', paddingBottom: -5, fontSize: 16, fontWeight: '500'
+                                                }}>{item.name}</Text>
+                                                <Icon name="map-marker" size={40} color="#E6464D" />
+                                            </View>
+                                        </Marker>
+                                    )) : null}
+                                </View>
+                            </MapView>
+                        )
+                    }}
                     finalDrawerHeight={(height / 2) - 100}
                     renderDrawerView={() => {
                         if (loading) {

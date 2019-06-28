@@ -43,15 +43,6 @@ class CartScreen extends Component {
           if (row.quantity > 0) {
             return (
               <View style={styles.itemContainer}>
-                {/* <View style={{ flex: 1 }}>
-                  <TouchableOpacity style={styles.radioBtnContainer}>
-                    {
-                      true ?
-                        <View style={styles.radioBtn} />
-                        : null
-                    }
-                  </TouchableOpacity>
-                </View> */}
                 <View style={{ flex: 9, }}>
                   <View style={{
                     flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center',
@@ -85,17 +76,17 @@ class CartScreen extends Component {
                         flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', backgroundColor: '#f7f8fa',
                       }}>
                         <TouchableOpacity
-                          onPress={() => { this.addQuantity(item.id, row.id, row.price) }}
+                          onPress={() => { this.subtractQuantity(item.id, row.id, row.quantity, row.price) }}
                         >
-                          <Text style={styles.blueBtn}> + </Text>
+                          <Text style={styles.blueBtn}> - </Text>
                         </TouchableOpacity>
                         <Text style={{ marginHorizontal: 10, fontSize: 14, }}>{row.quantity}</Text>
                         <TouchableOpacity
                           onPress={() => {
-                            this.subtractQuantity(item.id, row.id, row.quantity, row.price)
+                            this.addQuantity(item.id, row.id, row.price)
                           }}
                         >
-                          <Text style={styles.blueBtn}> - </Text>
+                          <Text style={styles.blueBtn}> + </Text>
                         </TouchableOpacity>
                       </View>
                     </View>

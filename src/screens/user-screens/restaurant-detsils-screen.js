@@ -17,9 +17,8 @@ import { conversion } from '../../utils/misc';
 const { width, height } = Dimensions.get('screen');
 
 class RestaurantDetailScreen extends Component {
-  constructor(props) {
-    super(props);
-  }
+
+  state = { total: 0 }
 
   componentDidMount () {
 
@@ -106,6 +105,14 @@ class RestaurantDetailScreen extends Component {
         <View style={[styles.itemContainer, { marginTop: -15 }]}>
           {list && Object.keys(list).length && list.menu_categories.length ?
             <RestaurantDetail
+              addToTotal={amount => {
+                const { total } = this.state;
+                this.setState({ total: total + amount });
+              }}
+              subtractFromTotal={amount => {
+                const { total } = this.state;
+                this.setState({ total: total - amount });
+              }}
               data={list.menu_categories}
               navigation={this.props.navigation}
               list={list.menu_categories.map(item => (
@@ -123,7 +130,7 @@ class RestaurantDetailScreen extends Component {
           <View style={styles.itemCardStyle}>
             <View style={styles.cardBodyStyle}>
               <Text style={{ fontSize: 14, color: '#fff' }}>
-                1 Items | 30$
+                {cardItems.length} | {this.state.total}$
             </Text>
               <Button
                 title="View Card"

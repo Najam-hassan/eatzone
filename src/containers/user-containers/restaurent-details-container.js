@@ -37,16 +37,20 @@ class RestaurantDetail extends Component {
                       {item.description}
                     </Text>
                     <View style={styles.stockStyle}>
-                      <TouchableOpacity onPress={() => { this.addQuantity(row.id, item.id) }}>
-                        <Text style={styles.blueBtn}>+</Text>
+                      <TouchableOpacity onPress={() => {
+                        this.subtractQuantity(row.id, item.id, item.quantity);
+                        this.props.subtractFromTotal(item.price);
+                      }}>
+                        <Text style={styles.blueBtn}> - </Text>
                       </TouchableOpacity>
                       <Text style={{ marginHorizontal: 10 }}>{item.quantity}</Text>
                       <TouchableOpacity
                         onPress={() => {
-                          this.subtractQuantity(row.id, item.id, item.quantity)
+                          this.addQuantity(row.id, item.id);
+                          this.props.addToTotal(item.price);
                         }}
                       >
-                        <Text style={styles.blueBtn}>-</Text>
+                        <Text style={styles.blueBtn}> + </Text>
                       </TouchableOpacity>
                     </View>
                   </View>
@@ -78,7 +82,6 @@ class RestaurantDetail extends Component {
           itemIndex >= 0 &&
           this.props.data[categoryIndex].menu_items[itemIndex].quantity > 0
         ) {
-
           this.props.data[categoryIndex].menu_items[itemIndex].quantity--;
         }
       }
