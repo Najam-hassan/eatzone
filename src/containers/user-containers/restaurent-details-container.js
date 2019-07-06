@@ -36,7 +36,7 @@ class RestaurantDetail extends Component {
                     flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'wrap', marginTop: 4,
                   }}>
                     <Text style={styles.description}>
-                      {item.description} dsdsadsadsafasfsa naslkfsa anfas
+                      {item.description}
                     </Text>
                     <View style={styles.stockStyle}>
                       <TouchableOpacity onPress={() => {
