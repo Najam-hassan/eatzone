@@ -26,11 +26,9 @@ export function placeOrderAction (data) {
         dispatch(placeOrderRrquest());
         return axios.post(`/user/place-order`, data)
             .then(response => {
-                console.log(response, '-=-=-=-=-=-');
                 dispatch(placeOrderSuccess(response.data));
             })
             .catch(error => {
-                console.log(error, '-=-=-=-=-=-');
                 dispatch(placeOrderFailure(error))
             })
     }

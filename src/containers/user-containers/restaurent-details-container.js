@@ -32,21 +32,27 @@ class RestaurantDetail extends Component {
                     <Text style={styles.title}>{item.name}</Text>
                     <Text style={styles.price}>${item.price}</Text>
                   </View>
-                  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <Text numberOfLines={2} style={styles.description}>
+                  <View style={{
+                    flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'wrap', marginTop: 4,
+                  }}>
+                    <Text style={styles.description}>
                       {item.description}
                     </Text>
                     <View style={styles.stockStyle}>
-                      <TouchableOpacity onPress={() => { this.addQuantity(row.id, item.id) }}>
-                        <Text style={styles.blueBtn}>+</Text>
+                      <TouchableOpacity onPress={() => {
+                        this.subtractQuantity(row.id, item.id, item.quantity);
+                        this.props.subtractFromTotal(item.price);
+                      }}>
+                        <Text style={styles.blueBtn}> - </Text>
                       </TouchableOpacity>
                       <Text style={{ marginHorizontal: 10 }}>{item.quantity}</Text>
                       <TouchableOpacity
                         onPress={() => {
-                          this.subtractQuantity(row.id, item.id, item.quantity)
+                          this.addQuantity(row.id, item.id);
+                          this.props.addToTotal(item.price);
                         }}
                       >
-                        <Text style={styles.blueBtn}>-</Text>
+                        <Text style={styles.blueBtn}> + </Text>
                       </TouchableOpacity>
                     </View>
                   </View>
@@ -78,7 +84,6 @@ class RestaurantDetail extends Component {
           itemIndex >= 0 &&
           this.props.data[categoryIndex].menu_items[itemIndex].quantity > 0
         ) {
-
           this.props.data[categoryIndex].menu_items[itemIndex].quantity--;
         }
       }
@@ -141,7 +146,9 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 13,
     fontWeight: '300',
-    color: '#cccccc'
+    color: '#cccccc',
+    flexWrap: 'wrap',
+    flex: 0.65,
   },
   category: {
     fontWeight: '700'
@@ -150,7 +157,9 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: 'center',
     flexDirection: 'row',
+    flex: 0.35,
     backgroundColor: '#f7f8fa',
+    height: 24,
     justifyContent: 'space-between',
   },
   blueBtn: {

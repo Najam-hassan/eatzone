@@ -118,32 +118,51 @@ class ProfileForm extends Component {
             let newValues = [0];
             if (profile.deliverRadius) {
                 newValues[0] = profile.deliverRadius / 1000;
+                if (newValues[0] > 20) {
+                    newValues[0] = 20;
+                    this.setState({
+                        sliderOneValue: newValues
+                    });
+                } else {
+                    this.setState({
+                        sliderOneValue: newValues
+                    });
+                }
+            }
+            this.props.change("name", profile.name ? profile.name : '');
+            this.props.change("phone", profile.phone ? profile.phone : '');
+            this.props.change("websiteUrl", profile.websiteUrl ? profile.websiteUrl : '');
+            this.props.change("addressDetails", profile.addressDetails ?
+                profile.addressDetails : ''
+            );
+            this.props.change(
+                "collectionServiceCharges", profile.collectionServiceCharges ? profile.collectionServiceCharges.toString() : 10
+            );
+            this.props.change(
+                "deliveryServiceCharges", profile.deliveryServiceCharges ? profile.deliveryServiceCharges.toString() : 10
+            );
+            if (profile.canCollect === true) {
                 this.setState({
-                    sliderOneValue: newValues
+                    canCollect: true,
+                    collect: {
+                        ...this.state.collect,
+                        collectTimeEnd: profile.collectTimeEnd,
+                        collectTimeStart: profile.collectTimeStart,
+                    }
                 });
             }
-            this.props.change("name", profile.name);
-            this.props.change("phone", profile.phone);
-            this.props.change("websiteUrl", profile.websiteUrl);
-            this.props.change("addressDetails", profile.addressDetails);
-            this.props.change(
-                "collectionServiceCharges", profile.collectionServiceCharges.toString()
-            );
-            this.props.change(
-                "deliveryServiceCharges", profile.deliveryServiceCharges.toString()
-            );
+            if (profile.canDeliver === true) {
+                this.setState({
+                    canDeliver: true,
+                    deliver: {
+                        ...this.state.deliver,
+                        deliverTimeStart: profile.deliverTimeStart,
+                        deliverTimeEnd: profile.deliverTimeEnd,
+                    }
+                });
+            }
             this.setState({
-                canDeliver: profile.canDeliver,
-                canCollect: profile.canCollect,
-                location: profile.address,
-                collect: {
-                    collectTimeEnd: profile.collectTimeEnd,
-                    collectTimeStart: profile.collectTimeStart,
-                },
-                deliver: {
-                    deliverTimeStart: profile.deliverTimeStart,
-                    deliverTimeEnd: profile.deliverTimeEnd,
-                }
+                location: profile.address ? profile.address : 'Restaurant Address',
             });
             if (profile.location) {
                 this.setState({
@@ -289,7 +308,7 @@ class ProfileForm extends Component {
                         {this.state.canCollect ?
                             <View style={styles.permission}>
                                 <Text style={[styles.timeText, {
-                                    marginTop: 10, fontSize: 20
+                                    marginTop: 16, fontSize: 16, fontWeight: '600'
                                 }]}>
                                     Select prefer time
                                 </Text>
@@ -393,7 +412,7 @@ class ProfileForm extends Component {
                                         <Text style={styles.radiusText}>
                                             {this.state.sliderOneValue[0]}Km
                                         </Text>
-                                        <Text style={styles.radiusText}>100Km</Text>
+                                        <Text style={styles.radiusText}>20Km</Text>
                                     </View>
                                     <MultiSlider
                                         values={this.state.sliderOneValue}
@@ -402,7 +421,7 @@ class ProfileForm extends Component {
                                             this.sliderOneValuesChange(values)
                                         }}
                                         min={1}
-                                        max={100}
+                                        max={20}
                                         step={1}
                                         trackStyle={{
                                             backgroundColor: '#d9d9d9',
@@ -457,7 +476,7 @@ class ProfileForm extends Component {
                                     </MapView>
                                 </View>
                                 <Text style={[styles.timeText, {
-                                    marginTop: 10, fontSize: 20
+                                    marginTop: 16, fontSize: 16, fontWeight: '600'
                                 }]}>
                                     Select prefer time
                                 </Text>

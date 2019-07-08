@@ -16,7 +16,6 @@ import * as selectors from '../../selectors/auth-selectors';
 class SignInForm extends Component {
     onSubmit = (values) => {
         const { playerId } = this.props;
-        console.log(values, '-=-=-=-=-')
         if (values) {
             if (this.props.userType === 'admin') {
                 this.props.onSubmit('/restaurant/sign-in', { ...values.toJS(), playerId });

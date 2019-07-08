@@ -41,7 +41,8 @@ class MenuItemForm extends Component {
                 if (imageData) {
                     this.props.updateItem({
                         ...values.toJS(),
-                        imageData: `data:image/jpeg;base64,${imageData}`
+                        // imageData: `data:image/jpeg;base64,${imageData}`
+                        imageData: imageData
                     }, categoryId, itemId);
                 } else {
                     this.props.updateItem(values.toJS(), categoryId, itemId);
@@ -49,7 +50,8 @@ class MenuItemForm extends Component {
             } else if (imageData) {
                 this.props.onSubmit(categoryId, {
                     ...values.toJS(),
-                    imageData: `data:image/jpeg;base64,${imageData}`
+                    // imageData: `data:image/jpeg;base64,${imageData}`
+                    imageData: imageData
                 });
             } else {
                 return Alert.alert(
@@ -88,17 +90,15 @@ class MenuItemForm extends Component {
                                 height: 200,
                             }}
                             source={{ uri: imageUrl }}
-                            resizeMode='stretch'
+                            resizeMode='cover'
                         /> :
                         <Image
                             style={{
                                 width: width,
                                 height: 200,
                             }}
-                            source={{
-                                uri: 'https://smppharmacy.com/wp-content/uploads/2019/02/food-post.jpg'
-                            }}
-                            resizeMode='stretch'
+                            source={require('../../assets/images/placeholder-img.png')}
+                            resizeMode='cover'
                         />}
                     </PhotoUpload>
                     <View style={[styles.container, {

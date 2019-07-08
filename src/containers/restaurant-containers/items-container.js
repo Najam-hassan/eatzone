@@ -16,7 +16,6 @@ class ItemContainer extends Component {
     componentWillReceiveProps (nextProps) {
         const { parent } = this.props;
         if (nextProps.success) {
-            console.log(parent.refs, 'parent');
             // parent.refs.toast.show('Menu Item deleted successfully', 2000);
             this.props.fetchList();
         }
@@ -52,7 +51,7 @@ class ItemContainer extends Component {
                 <View style={{ flex: 1, flexDirection: 'column', marginLeft: 20, }}>
                     <Text style={styles.title}>{item.name}</Text>
                     <Text numberOfLines={2} style={styles.description}>
-                        {item.description ? item.description : 'Some thing about the category'}
+                        {item.description}
                     </Text>
                 </View>
                 <View style={{ padding: 8 }}>

@@ -59,7 +59,7 @@ class ItemDetailsContainer extends Component {
 
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <Text style={styles.headerDescrip}>
-              {detail.description ? detail.description : 'Some Description here'}
+              {detail.description}
             </Text>
           </View>
         </View>
@@ -69,18 +69,18 @@ class ItemDetailsContainer extends Component {
             <View style={styles.stockStyle}>
               <TouchableOpacity
                 onPress={() => {
-                  this.addQuantity(detail.id)
+                  this.subtractQuantity(detail.id, detail.quantity)
                 }}
               >
-                <Text style={styles.blueBtn}>+</Text>
+                <Text style={styles.blueBtn}> - </Text>
               </TouchableOpacity>
               <Text style={{ marginHorizontal: 10 }}>{quantity}</Text>
               <TouchableOpacity
                 onPress={() => {
-                  this.subtractQuantity(detail.id, detail.quantity)
+                  this.addQuantity(detail.id)
                 }}
               >
-                <Text style={[styles.blueBtn]}>-</Text>
+                <Text style={[styles.blueBtn]}> + </Text>
               </TouchableOpacity>
             </View>
           </View>
