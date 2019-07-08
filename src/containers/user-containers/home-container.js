@@ -100,11 +100,13 @@ class HomeContainer extends Component {
                     this.props.collectingResturant(item);
                 } else {
                     const { resturant } = this.props;
-                    this.props.delivertRestaurant(item);
-                    this.props.fetchDetails(item.id, resturant.id);
-                    this.props.navigation.navigate('RestaurantDetailScreen', {
-                        restaurantId: item.id
-                    });
+                    if (item.isValid) {
+                        this.props.delivertRestaurant(item);
+                        this.props.fetchDetails(item.id, resturant.id);
+                        this.props.navigation.navigate('RestaurantDetailScreen', {
+                            restaurantId: item.id
+                        });
+                    }
                 }
             }}
         >
@@ -163,11 +165,13 @@ class HomeContainer extends Component {
                                             key={`Alert-marker-${index}`}
                                             onPress={() => {
                                                 const { resturant } = this.props;
-                                                this.props.fetchDetails(item.id, resturant.id);
-                                                this.props.delivertRestaurant(item);
-                                                navigation.navigate('RestaurantDetailScreen', {
-                                                    restaurantId: item.id
-                                                })
+                                                if (item.isValid) {
+                                                    this.props.fetchDetails(item.id, resturant.id);
+                                                    this.props.delivertRestaurant(item);
+                                                    navigation.navigate('RestaurantDetailScreen', {
+                                                        restaurantId: item.id
+                                                    })
+                                                }
                                             }}
                                             id={index}
                                             coordinate={{
