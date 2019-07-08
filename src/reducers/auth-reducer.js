@@ -16,7 +16,7 @@ export const initialState = fromJS({
     }
 });
 
-export default function authReducer (state = initialState, action) {
+export default function authReducer(state = initialState, action) {
     switch (action.type) {
         case constants.USER_LOGIN_REQUEST:
             return state
@@ -25,6 +25,7 @@ export default function authReducer (state = initialState, action) {
 
         case constants.USER_LOGIN_SUCCESS: {
             return state
+                .setIn(['user', 'error'], null)
                 .setIn(['user', 'data'], action.user)
                 .setIn(['user', 'loading'], false);
         }
@@ -42,6 +43,7 @@ export default function authReducer (state = initialState, action) {
 
         case constants.USER_SIGNUP_SUCCESS: {
             return state
+                .setIn(['user', 'error'], null)
                 .setIn(['signUp', 'data'], action.user)
                 .setIn(['user', 'loading'], false);
         }

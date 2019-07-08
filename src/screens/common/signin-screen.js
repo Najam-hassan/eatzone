@@ -21,15 +21,16 @@ class SignInScreen extends Component {
 		OneSignal.configure()
 	}
 
-	componentDidMount () {
+	componentDidMount() {
 		OneSignal.addEventListener("ids", this.onIds.bind(this));
 	}
-	onIds (device) {
+	onIds(device) {
 		console.log('Device info: ', device);
 		this.setState({ playerId: device.userId })
 	}
 
-	componentWillReceiveProps (nextProps) {
+	componentWillReceiveProps(nextProps) {
+		debugger
 		const { params } = this.props.navigation.state;
 		if (nextProps.authUser !== null) {
 			this.refs.toast.show(
@@ -58,7 +59,7 @@ class SignInScreen extends Component {
 			if (nextProps.error && nextProps.error.message) {
 				this.refs.toast.show(nextProps.error.message, 2000);
 			} else {
-				this.refs.toast.show('Failed to login, check email and password combination!');
+				this.refs.toast.show('Confirmation email has been sent to your account!');
 			}
 		}
 	}
@@ -75,7 +76,7 @@ class SignInScreen extends Component {
 		}
 	}
 
-	render () {
+	render() {
 		const { state } = this.props.navigation;
 		console.log(state.params, 'sign in screen');
 		return (

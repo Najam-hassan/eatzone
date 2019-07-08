@@ -6,6 +6,7 @@ import {
     View, Text, StatusBar, TouchableOpacity, StyleSheet,
     Image, ActivityIndicator, FlatList
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Feather';
 
 import { Header } from '../../components/common/header';
 import * as actions from '../../actions/user-actions/order-list-actions';
@@ -15,7 +16,7 @@ class OrderScreen extends Component {
 
     state = {};
 
-    componentDidMount () {
+    componentDidMount() {
         this.props.fetchList();
     }
 
@@ -25,7 +26,6 @@ class OrderScreen extends Component {
                 key={index}
                 onPress={() => {
                     const { navigation } = this.props;
-                    console.log(navigation);
                     navigation.navigate('OrderDetailScreen', {
                         details: item
                     })
@@ -51,16 +51,17 @@ class OrderScreen extends Component {
                             </View>
                         </View>
                     </View>
-                    <Text style={{ color: '#cccccc', fontSize: 14, fontWeight: '400', }}>Cheese Burger</Text>
+                    {/* <Text style={{ color: '#cccccc', fontSize: 14, fontWeight: '400', }}>Cheese Burger</Text> */}
                     <View style={styles.contentMain}>
                         <Text style={{ color: '#000000', fontSize: 14, fontWeight: '400', }}>
                             Order Date: {moment(item.createdAt).format('LL')}
                         </Text>
                         <View style={styles.orderFind}>
-                            <Image
+                            {/* <Image
                                 source={require('../../assets/images/call-icon.png')}
-                                style={{ width: 20, height: 20, borderRadius: 15 }}
-                            />
+                                style={{ width: 18, height: 18, borderRadius: 15 }}
+                            /> */}
+                            <Icon name="phone-call" size={18} color="#000" />
                         </View>
                     </View>
                 </View>
@@ -68,7 +69,7 @@ class OrderScreen extends Component {
         )
     }
 
-    render () {
+    render() {
         const { loading, list } = this.props;
 
         return (
@@ -139,12 +140,14 @@ const styles = StyleSheet.create({
         paddingHorizontal: 7,
         lineHeight: 18,
         backgroundColor: '#00a651',
+        marginRight: -2,
     },
     contentMain: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-    },
+        marginTop: 8,
+    }
 });
 
 const mapStateToProps = state => ({

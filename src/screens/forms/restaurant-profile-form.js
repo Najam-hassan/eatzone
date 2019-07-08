@@ -111,7 +111,7 @@ class ProfileForm extends Component {
         });
     };
 
-    componentWillReceiveProps () {
+    componentWillReceiveProps() {
         const { profile, isEdit } = this.props;
         if (isEdit && profile && profile.name && this.state.editing) {
             this.setState({ editing: false });
@@ -157,7 +157,7 @@ class ProfileForm extends Component {
         }
     }
 
-    render () {
+    render() {
         const { handleSubmit, submitting, loading, isEdit } = this.props;
         return (
             <View style={styles.container}>
@@ -255,6 +255,7 @@ class ProfileForm extends Component {
                             style={styles.input}
                             keyboardType='default'
                             component={InputField}
+                            notRequired={true}
                             placeholder='Add More Details'
                             customContainerStyle={styles.input}
                             customInputStyle={[styles.inputField]}
@@ -265,6 +266,7 @@ class ProfileForm extends Component {
                             style={styles.input}
                             keyboardType='default'
                             component={InputField}
+                            notRequired={true}
                             placeholder='Website URL'
                             customContainerStyle={styles.input}
                             customInputStyle={[styles.inputField]}

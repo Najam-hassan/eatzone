@@ -17,11 +17,10 @@ import { conversion } from '../../utils/misc';
 const { width, height } = Dimensions.get('screen');
 
 class RestaurantDetailScreen extends Component {
-  constructor(props) {
-    super(props);
-  }
 
-  componentDidMount () {
+  state = { total: 0 }
+
+  componentDidMount() {
 
     // const { params } = this.props.navigation.state;
     // if (params.restaurantId) {
@@ -29,14 +28,14 @@ class RestaurantDetailScreen extends Component {
     // }
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.list) {
       // console.log('props: ', nextProps.list);
       // this.initilizeItems(nextProps.list)
     }
   }
 
-  render () {
+  render() {
     const { list, navigation, loading } = this.props;
     const listItems = list && Object.keys(list).length &&
       list.menu_categories.map(item => (
@@ -45,11 +44,9 @@ class RestaurantDetailScreen extends Component {
       ));
 
     let cardItems = listItems;
-    console.log(cardItems, 'before');
     if (cardItems.length > 1) {
       cardItems = listItems && listItems.length > 1 && listItems.reduce((a, b) => a.concat(b));
     }
-    console.log(cardItems, 'after');
     if (loading) {
       return (
         <View style={{ flex: 1 }}>
@@ -84,22 +81,25 @@ class RestaurantDetailScreen extends Component {
               <View style={{ flex: 1 }} />
               <View style={styles.detailStyle}>
                 <View>
-                  <Text style={styles.titleStyle}>
-                    {list.name}
-                  </Text>
+                  <Text style={styles.titleStyle}>{list.name}</Text>
+                  <Text style={styles.titleStyle}>https://google.com</Text>
                 </View>
                 <View style={{ flexDirection: 'column', alignItems: 'flex-end' }}>
                   <Text style={styles.serviceChargeText}>
                     Service Charges: {list.deliveryServiceCharges}
                     {/* Service Charges: 10 % */}
                   </Text>
-                  <Text style={{ color: "#fff", marginTop: 5 }}>
-                    <Icon
-                      name="map-marker"
-                      size={16} color="#fff"
-                    />
-                    {conversion(list.distance)} miles away
-                  </Text>
+                  <View style={{ flexDirection: 'row' }}>
+                    <View style={{ marginRight: 8 }}>
+                      <Icon
+                        name="map-marker"
+                        size={16} color="#fff"
+                      />
+                    </View>
+                    <Text style={{ color: '#fff' }}>
+                      {conversion(list.distance)} miles away
+                    </Text>
+                  </View>
                 </View>
               </View>
             </View>
@@ -108,6 +108,14 @@ class RestaurantDetailScreen extends Component {
         <View style={[styles.itemContainer, { marginTop: -15 }]}>
           {list && Object.keys(list).length && list.menu_categories.length ?
             <RestaurantDetail
+              addToTotal={amount => {
+                const { total } = this.state;
+                this.setState({ total: total + amount });
+              }}
+              subtractFromTotal={amount => {
+                const { total } = this.state;
+                this.setState({ total: total - amount });
+              }}
               data={list.menu_categories}
               navigation={this.props.navigation}
               list={list.menu_categories.map(item => (
@@ -125,7 +133,7 @@ class RestaurantDetailScreen extends Component {
           <View style={styles.itemCardStyle}>
             <View style={styles.cardBodyStyle}>
               <Text style={{ fontSize: 14, color: '#fff' }}>
-                1 Items | 30$
+                {cardItems.length} | {this.state.total}$
             </Text>
               <Button
                 title="View Card"
@@ -166,8 +174,7 @@ const styles = StyleSheet.create({
   },
   titleStyle: {
     color: '#fff',
-    fontSize: 20,
-    fontWeight: '500'
+    fontWeight: '300',
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,

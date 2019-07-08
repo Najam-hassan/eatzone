@@ -15,7 +15,8 @@ class SignInScreen extends Component {
         super(props);
     }
 
-    componentWillReceiveProps (nextProps) {
+    componentWillReceiveProps(nextProps) {
+        debugger
         if (nextProps.user !== null) {
             this.props.navigation.navigate('SignInScreen');
             this.props.resetState();
@@ -41,7 +42,7 @@ class SignInScreen extends Component {
         }
     }
 
-    render () {
+    render() {
         const { state } = this.props.navigation;
         console.log(state.params, 'sign up screen');
         return (

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Platform } from 'react-native';
 import { TextField } from 'react-native-material-textfield';
 
-export default function MyTextInput (props) {
+export default function MyTextInput(props) {
     const {
         meta,
         input,
@@ -21,6 +21,7 @@ export default function MyTextInput (props) {
         selectTextOnFocus,
         placeholderTextColor,
         customContainerStyle,
+        notRequired,
         ...inputProps
     } = props;
 
@@ -51,7 +52,13 @@ export default function MyTextInput (props) {
                     maxLength={maxLength}
                     editable={editable}
                     value={value}
-                    label={<Text>{placeholder}<Text style={{color:'#00a0ff', position:'absolute', top:0}}> *</Text></Text>}
+                    label={
+                        notRequired ?
+                            <Text>{placeholder}< Text style={{ color: '#00a0ff', position: 'absolute', top: 0 }}></Text></Text>
+                            :
+                            <Text>{placeholder}< Text style={{ color: '#00a0ff', position: 'absolute', top: 0 }}> *</Text></Text>
+
+                    }
                     {...input}
                 />
                 <View style={styles.errorContainerStyle}>{
