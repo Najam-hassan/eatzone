@@ -17,11 +17,6 @@ import { conversion } from '../../utils/misc';
 const { width, height } = Dimensions.get('screen');
 
 class RestaurantDetailScreen extends Component {
-<<<<<<< HEAD
-=======
-
-  state = { total: 0 }
->>>>>>> d0b872463fe0cbb587252a9fb2fc944f0bcea63e
 
   state = { total: 0 }
 
@@ -95,11 +90,7 @@ class RestaurantDetailScreen extends Component {
                     {/* Service Charges: 10 % */}
                   </Text>
                   <View style={{ flexDirection: 'row' }}>
-<<<<<<< HEAD
-                    <View style={{ marginRight: 8 }}>
-=======
                     <View style={{ marginRight: 6 }}>
->>>>>>> d0b872463fe0cbb587252a9fb2fc944f0bcea63e
                       <Icon
                         name="map-marker"
                         size={16} color="#fff"
