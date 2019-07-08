@@ -137,7 +137,7 @@ class CartScreen extends Component {
         <View style={{
           flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 3,
         }}>
-          <Text numberOfLines={1} style={{
+          {/* <Text numberOfLines={1} style={{
             flex: 8, color: '#cccccc', fontWeight: '400',
           }}>Dine in Fee</Text>
           <View style={{
@@ -146,7 +146,7 @@ class CartScreen extends Component {
             <Text style={{ color: '#cccccc', fontWeight: '400', }}>
               ${collectingResturant.collectionServiceCharges}
             </Text>
-          </View>
+          </View> */}
         </View>
       </View>
     )
@@ -213,7 +213,7 @@ class CartScreen extends Component {
           navigation={this.props.navigation}
           title={'View Cart'}
         />
-        <View style={{ padding: 10 }}>
+        <View style={{ padding: 10, paddingTop: 30 }}>
           <View style={styles.TotalOrder}>
             <FlatList
               data={cartItems}
@@ -231,13 +231,18 @@ class CartScreen extends Component {
                 <Text numberOfLines={1} style={{
                   flex: 8, color: '#000', fontSize: 16, fontWeight: '400',
                 }}>Total</Text>
-                <View style={{ flex: 2, alignItems: 'flex-end', justifyContent: 'flex-end' }}>
+                <View style={{ flex: 2, justifyContent: 'space-between' }}>
                   <Text style={{ color: '#000', fontWeight: '400', fontSize: 16, }}>
-                    {this.state.subTotal + serviceCharges}
+                    {this.state.subTotal + deliveryResturant.deliveryServiceCharges}
                   </Text>
                 </View>
               </View>
             </View>
+          </View>
+          <View style={styles.dineInStyle}>
+            <Text style={{ color: '#cccccc', fontWeight: '400', }}>
+              {collectingResturant.collectionServiceCharges}% Dine in fee will be charged from you
+            </Text>
           </View>
         </View>
         <View style={{ position: 'absolute', left: 0, right: 0, bottom: 5 }}>
@@ -343,6 +348,19 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     marginHorizontal: 20,
   },
+  dineInStyle: {
+    top: 0,
+    left: 0,
+    flex: 1,
+    right: 0,
+    bottom: 0,
+    height: 30,
+    marginVertical: 8,
+    marginHorizontal: 20,
+    alignItems: 'center',
+    position: 'absolute',
+    justifyContent: 'space-between',
+  }
 });
 
 export default connect(
