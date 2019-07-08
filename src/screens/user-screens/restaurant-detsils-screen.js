@@ -79,6 +79,28 @@ class RestaurantDetailScreen extends Component {
           navigation={this.props.navigation}
           title={'Restaurant Detail'}
         />
+        <NavigationEvents
+          onWillFocus={payload => {
+            const { list } = this.props;
+            const listItems = list && Object.keys(list).length &&
+              list.menu_categories.map(item => (
+                item.menu_items.filter(row => (
+                  row.quantity > 0))
+              ));
+            let cardItems = listItems;
+            if (cardItems.length > 1) {
+              cardItems = listItems &&
+                listItems.length > 1 && listItems.reduce((a, b) => a.concat(b));
+            }
+            let total = 0;
+            if (cardItems.length) {
+              cardItems.forEach(item => {
+                total = total + (item.price * item.quantity);
+              });
+            }
+            this.setState({ total: total })
+          }}
+        />
         <View style={{ flex: 0.4 }}>
           <ImageBackground
             source={require('../../assets/images/mcdonal.jpg')}
