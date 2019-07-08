@@ -18,9 +18,11 @@ class Restaurents extends Component {
     <TouchableOpacity
       activeOpacity={1}
       onPress={() => {
-        const { resturant } = this.props;
-        this.props.fetchDetails(item.id, resturant.id);
-        this.props.navigateTo(item);
+        if (item.isValid) {
+          const { resturant } = this.props;
+          this.props.fetchDetails(item.id, resturant.id);
+          this.props.navigateTo(item);
+        }
       }}
     >
       <View style={{ flex: 1, marginBottom: 10, borderRadius: 30, position: 'relative' }}>
@@ -42,6 +44,11 @@ class Restaurents extends Component {
                 /> {conversion(item.distance)} miles away</Text>
             </View>
           </View>
+          {!(item.isValid) ? <View style={styles.message}>
+            <Text style={{ color: '#fff' }}>
+              This restaurant deliver food in between {item.deliverTimeStart} to {item.deliverTimeEnd}.
+            </Text>
+          </View> : null}
         </View>
         <View style={{ flex: 1 }}>
           <View style={styles.titleStyle}>
@@ -99,6 +106,21 @@ const styles = StyleSheet.create({
     height: 200,
     borderRadius: 10,
     width: width - 20,
+  },
+  message: {
+    top: 0,
+    left: 0,
+    flex: 1,
+    right: 0,
+    bottom: 0,
+    height: 40,
+    alignItems: 'center',
+    position: 'absolute',
+    flexDirection: 'row',
+    backgroundColor: 'red',
+    borderTopLeftRadius: 10,
+    justifyContent: 'center',
+    borderTopRightRadius: 10,
   }
 });
 

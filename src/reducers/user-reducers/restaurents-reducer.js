@@ -18,12 +18,18 @@ export default function homeReducer (state = initialState, action) {
 
         case constants.FETCH_RESTAURENTS_SUCCESS: {
             const payload = List(
-                action.data.map(item =>
-                    Map({
-                        ...item,
-                        key: guid(),
-                    }),
-                ),
+                action.data.map(item => {
+                    const date = new Date();
+                    const isValid = item.deliverTimeEnd <= date.toLocaleTimeString() ||
+                        item.deliverTimeStart >= date.toLocaleTimeString();
+                    return (
+                        Map({
+                            ...item,
+                            isValid: isValid,
+                            key: guid(),
+                        })
+                    )
+                }),
             );
             return state.setIn(['list', 'data'], payload)
                 .setIn(['list', 'loading'], false);
