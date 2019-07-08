@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import React, { Component } from 'react';
+import { NavigationEvents } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
   View, Text, StatusBar, ImageBackground, StyleSheet, Dimensions, ActivityIndicator
@@ -18,9 +19,9 @@ const { width, height } = Dimensions.get('screen');
 
 class RestaurantDetailScreen extends Component {
 
-  state = { total: 0 }
+  state = { total: 0, distance: 0, charges: 0, name: '' }
 
-  componentDidMount() {
+  componentDidMount () {
 
     // const { params } = this.props.navigation.state;
     // if (params.restaurantId) {
@@ -28,14 +29,20 @@ class RestaurantDetailScreen extends Component {
     // }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.list) {
+  componentWillReceiveProps (nextProps) {
+
+    if (nextProps.list && nextProps.list.distance) {
       // console.log('props: ', nextProps.list);
       // this.initilizeItems(nextProps.list)
+      this.setState({
+        name: nextProps.list.name,
+        distance: nextProps.list.distance,
+        charges: nextProps.list.deliveryServiceCharges,
+      })
     }
   }
 
-  render() {
+  render () {
     const { list, navigation, loading } = this.props;
     const listItems = list && Object.keys(list).length &&
       list.menu_categories.map(item => (
@@ -81,12 +88,12 @@ class RestaurantDetailScreen extends Component {
               <View style={{ flex: 1 }} />
               <View style={styles.detailStyle}>
                 <View>
-                  <Text style={styles.titleStyle}>{list.name}</Text>
+                  <Text style={styles.titleStyle}>{this.state.name}</Text>
                   <Text style={styles.titleStyle}>https://google.com</Text>
                 </View>
                 <View style={{ flexDirection: 'column', alignItems: 'flex-end' }}>
                   <Text style={styles.serviceChargeText}>
-                    Service Charges: {list.deliveryServiceCharges}
+                    Service Charges: {this.state.charges}
                     {/* Service Charges: 10 % */}
                   </Text>
                   <View style={{ flexDirection: 'row' }}>
@@ -97,7 +104,7 @@ class RestaurantDetailScreen extends Component {
                       />
                     </View>
                     <Text style={{ color: '#fff' }}>
-                      {conversion(list.distance)} miles away
+                      {conversion(this.state.distance)} miles away
                     </Text>
                   </View>
                 </View>
