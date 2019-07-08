@@ -22,8 +22,8 @@ export default function homeReducer (state = initialState, action) {
       const payload = List(
         action.data.map(item => {
           const date = new Date();
-          const isValid = item.deliverTimeEnd <= date.toLocaleTimeString() ||
-            item.deliverTimeStart >= date.toLocaleTimeString();
+          const isValid = date.toLocaleTimeString() < item.deliverTimeEnd &&
+            date.toLocaleTimeString() >= item.deliverTimeStart;
           return (
             Map({
               ...item,
