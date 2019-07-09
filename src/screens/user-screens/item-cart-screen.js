@@ -54,7 +54,7 @@ class CartScreen extends Component {
                     <View style={{
                       flex: 2, alignItems: 'flex-end', justifyContent: 'flex-end',
                     }}>
-                      <Text style={{ color: '#000', fontSize: 16, fontWeight: '400', }}>${row.price}</Text>
+                      <Text style={{ color: '#000', fontSize: 16, fontWeight: '400', }}>${row.price.toFixed(2)}</Text>
                     </View>
                   </View>
 
@@ -130,7 +130,7 @@ class CartScreen extends Component {
             flex: 2, alignItems: 'flex-end', justifyContent: 'flex-end'
           }}>
             <Text style={{ color: '#cccccc', fontWeight: '400' }}>
-              ${deliveryResturant.deliveryServiceCharges}
+              ${deliveryResturant.deliveryServiceCharges.toFixed(2)}
             </Text>
           </View>
         </View>

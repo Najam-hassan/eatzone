@@ -162,7 +162,7 @@ class RestaurantDetailScreen extends Component {
           <View style={styles.itemCardStyle}>
             <View style={styles.cardBodyStyle}>
               <Text style={{ fontSize: 14, color: '#fff' }}>
-                {cardItems.length} | {this.state.total}$
+                {cardItems.length} | {this.state.total.toFixed(2)}$
             </Text>
               <Button
                 title="View Card"

@@ -24,7 +24,7 @@ class OrderDetailScreen extends Component {
                     <Text style={{ color: '#cccccc', fontWeight: '400' }}>SubTotal</Text>
                     <View style={styles.priceStyle}>
                         <Text style={{ color: '#cccccc', fontWeight: '400', }}>
-                            ${this.state.subTotal}
+                            ${this.state.subTotal.toFixed(2)}
                         </Text>
                     </View>
                 </View>
@@ -33,7 +33,7 @@ class OrderDetailScreen extends Component {
                     <Text style={{ color: '#cccccc', fontWeight: '400' }}>Delivery Fee</Text>
                     <View style={styles.priceStyle}>
                         <Text style={{ color: '#cccccc', fontWeight: '400' }}>
-                            ${details.deliveringRestaurant.deliveryServiceCharges}
+                            ${details.deliveringRestaurant.deliveryServiceCharges.toFixed(2)}
                         </Text>
                     </View>
                 </View>
