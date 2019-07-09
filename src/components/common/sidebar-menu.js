@@ -4,14 +4,15 @@ import PhotoUpload from 'react-native-photo-upload';
 import { StyleSheet, View, TouchableOpacity, Text, ScrollView, AsyncStorage, Image } from 'react-native';
 
 import { resetState } from '../../actions/auth-actions'
+import { updateProfileAction } from '../../actions/restaurant-actions/profile-actions';
 
 class SidebarMenu extends Component {
   state = { type: null, user: null, avatarUrl: '' }
 
-  componentWillMount() {
+  componentWillMount () {
     this.fetchUser()
   }
-  componentDidMount() {
+  componentDidMount () {
     AsyncStorage.getItem('user_type', (err, value) => {
       if (err) {
         console.log(err)
@@ -21,7 +22,7 @@ class SidebarMenu extends Component {
     })
   }
 
-  fetchUser() {
+  fetchUser () {
     AsyncStorage.getItem('user', (err, user) => {
       if (user !== null) {
         this.setState({ user: JSON.parse(user) });
@@ -29,11 +30,11 @@ class SidebarMenu extends Component {
     });
   }
 
-  uploadPhoto(avatar) {
-    debugger;
+  uploadPhoto (avatar) {
+    this.props.updateProfile({ bannerUrl: avatar });
   }
 
-  render() {
+  render () {
     const { type, user } = this.state;
     return (
       <View style={{ flex: 1, paddingHorizontal: 30 }}>
@@ -212,7 +213,8 @@ class SidebarMenu extends Component {
 const mapStateToProps = state => ({})
 const mapDispatchToProps = dispatch => {
   return {
-    clearStore: () => dispatch(resetState())
+    clearStore: () => dispatch(resetState()),
+    updateProfile: data => dispatch(updateProfileAction(data))
   }
 }
 
