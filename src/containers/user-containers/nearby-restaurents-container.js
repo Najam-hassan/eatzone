@@ -27,14 +27,13 @@ class Restaurents extends Component {
     >
       <View style={{ flex: 1, marginBottom: 10, borderRadius: 30, position: 'relative' }}>
         <View style={{ flex: 0.3, justifyContent: 'center' }}>
-          {index % 2 === 0 ? <Image
-            source={require('../../assets/images/mcdonal.jpg')}
+          <Image
+            source={
+              item && item.bannerUrl !== '' ?
+                { uri: item.bannerUrl } : require('../../assets/images/mcdonal.jpg')
+            }
             style={styles.bannerStyle}
-          /> : <Image
-              source={require('../../assets/images/subway.jpg')}
-              style={styles.bannerStyle}
-            />
-          }
+          />
           <View style={styles.overlay}>
             <View style={[styles.locationStyle]}>
               <Text style={{ color: "#fff" }}>

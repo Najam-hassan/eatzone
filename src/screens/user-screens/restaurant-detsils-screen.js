@@ -103,7 +103,10 @@ class RestaurantDetailScreen extends Component {
         />
         <View style={{ flex: 0.4 }}>
           <ImageBackground
-            source={require('../../assets/images/mcdonal.jpg')}
+            source={
+              list && list.bannerUrl !== '' ?
+                { uri: list.bannerUrl } : require('../../assets/images/mcdonal.jpg')
+            }
             style={styles.backgroundImage}
           >
             <View style={[styles.overlay]}>
