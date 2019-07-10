@@ -25,17 +25,20 @@ class SidebarMenu extends Component {
   fetchUser () {
     AsyncStorage.getItem('user', (err, user) => {
       if (user !== null) {
-        this.setState({ user: JSON.parse(user) });
+        this.setState({
+          user: JSON.parse(user)
+        });
       }
     });
   }
 
   uploadPhoto (avatar) {
-    this.props.updateProfile({ bannerUrl: avatar });
+    this.props.updateProfile({ bannerData: avatar });
   }
 
   render () {
     const { type, user } = this.state;
+    console.log(user, '90909090');
     return (
       <View style={{ flex: 1, paddingHorizontal: 30 }}>
         <View style={styles.topViewStyle}>
@@ -43,7 +46,10 @@ class SidebarMenu extends Component {
             {
               !(type === 'admin') ?
                 <Image
-                  source={this.state.user ? { uri: user.avatarUrl } : require('../../assets/images/account.png')}
+                  source={
+                    (user && user.bannerUrl !== null)
+                      ? { uri: user.avatarUrl } : require('../../assets/images/account.png')
+                  }
                   style={{
                     height: 100,
                     width: 100,
@@ -57,7 +63,7 @@ class SidebarMenu extends Component {
                       this.uploadPhoto(avatar)
                     }
                   }}
-                >{this.state.avatarUrl !== '' ?
+                >{user && user.bannerUrl !== '' ?
                   <Image
                     style={{
                       width: 150,
@@ -66,7 +72,7 @@ class SidebarMenu extends Component {
                       paddingVertical: 30,
                     }}
                     resizeMode='cover'
-                    source={{ uri: this.state.avatarUrl }}
+                    source={{ uri: user.bannerUrl }}
                   /> :
                   <Image
                     style={{
