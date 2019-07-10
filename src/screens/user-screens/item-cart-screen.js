@@ -235,7 +235,8 @@ class CartScreen extends Component {
                   }}>Total</Text>
                   <View style={{ flex: 2, justifyContent: 'space-between' }}>
                     <Text style={{ color: '#000', fontWeight: '400', fontSize: 16, }}>
-                      {this.state.subTotal + deliveryResturant.deliveryServiceCharges}
+                      ${(this.state.subTotal +
+                        deliveryResturant.deliveryServiceCharges).toFixed(2)}
                     </Text>
                   </View>
                 </View>

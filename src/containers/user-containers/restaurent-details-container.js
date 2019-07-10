@@ -30,7 +30,7 @@ class RestaurantDetail extends Component {
                 <View style={{ flex: 1, flexDirection: 'column', marginLeft: 15, }}>
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 }}>
                     <Text style={styles.title}>{item.name}</Text>
-                    <Text style={styles.price}>${item.price}</Text>
+                    <Text style={styles.price}>${item.price.toFixed(2)}</Text>
                   </View>
                   <View style={{
                     flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'wrap', marginTop: 4,
