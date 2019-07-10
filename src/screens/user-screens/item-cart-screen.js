@@ -217,7 +217,6 @@ class CartScreen extends Component {
         />
         <NavigationEvents
           onWillFocus={payload => {
-            console.log(payload, '0-0-0-0-0-0-0');
             const { cartItems } = this.props;
             let total = 0;
             cartItems && cartItems.length &&
