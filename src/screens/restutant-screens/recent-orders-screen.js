@@ -70,7 +70,9 @@ class RecentOrdersScreen extends Component {
             first: () => (
               <OrdersContainer
                 navigation={this.props.navigation}
-                list={deliveries && deliveries.filter(row => row.orderStatus !== 'COMPLETED')}
+                list={deliveries && deliveries.filter(row => (
+                  row.orderStatus !== 'COMPLETED' || row.orderStatus !== 'CANCELED')
+                )}
               />
             ),
             second: () => (
@@ -81,7 +83,9 @@ class RecentOrdersScreen extends Component {
               />
             ),
           })}
-          onIndexChange={index => this.setState({ index })}
+          onIndexChange={index => {
+            this.setState({ index });
+          }}
           initialLayout={{ width: Dimensions.get('window').width }}
         />
       </View>
