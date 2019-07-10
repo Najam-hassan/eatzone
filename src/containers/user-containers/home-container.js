@@ -249,7 +249,7 @@ class HomeContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-    list: selectors.makeSelectData()(state),
+    list: selectors.makeSelectFilterData()(state),
     loading: selectors.makeSelectLoading()(state),
     resturant: selectors.makeSelectCollectingResturant()(state),
 });
