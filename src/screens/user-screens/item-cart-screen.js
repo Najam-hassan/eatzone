@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
+import { NavigationEvents } from 'react-navigation'
 import {
   View, Text, StatusBar, TouchableOpacity, ScrollView,
   StyleSheet, FlatList, Dimensions, ActivityIndicator
@@ -31,10 +32,10 @@ class CartScreen extends Component {
       cartItems.map(category => (
         category.menu_items.forEach(item => {
           if (item.quantity > 0)
-            total = total + item.price;
+            total = total + (item.price * item.quantity);
         })
       ));
-    this.setState({ subTotal: total })
+    this.setState({ subTotal: total });
   }
 
   _renderItem = ({ item }) => {
@@ -213,6 +214,21 @@ class CartScreen extends Component {
         <Header
           navigation={this.props.navigation}
           title={'View Cart'}
+        />
+        <NavigationEvents
+          onWillFocus={payload => {
+            console.log(payload, '0-0-0-0-0-0-0');
+            const { cartItems } = this.props;
+            let total = 0;
+            cartItems && cartItems.length &&
+              cartItems.map(category => (
+                category.menu_items.forEach(item => {
+                  if (item.quantity > 0)
+                    total = total + (item.price * item.quantity);
+                })
+              ));
+            this.setState({ subTotal: total });
+          }}
         />
         <View style={{ padding: 10, paddingTop: 30 }}>
           <ScrollView>
