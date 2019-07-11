@@ -103,7 +103,10 @@ class RestaurantDetailScreen extends Component {
         />
         <View style={{ flex: 0.4 }}>
           <ImageBackground
-            source={require('../../assets/images/mcdonal.jpg')}
+            source={
+              list && list.bannerUrl !== '' ?
+                { uri: list.bannerUrl } : require('../../assets/images/mcdonal.jpg')
+            }
             style={styles.backgroundImage}
           >
             <View style={[styles.overlay]}>
@@ -162,7 +165,7 @@ class RestaurantDetailScreen extends Component {
           <View style={styles.itemCardStyle}>
             <View style={styles.cardBodyStyle}>
               <Text style={{ fontSize: 14, color: '#fff' }}>
-                {cardItems.length} | {this.state.total}$
+                {cardItems.length} | {this.state.total.toFixed(2)}$
             </Text>
               <Button
                 title="View Card"

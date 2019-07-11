@@ -54,7 +54,7 @@ class ItemDetailsContainer extends Component {
         <View style={styles.itemContainer}>
           <View style={styles.itemHeader}>
             <Text style={styles.headerText}>{detail.name ? detail.name : 'Some Name'}</Text>
-            <Text style={styles.headerPrice}>${detail.price ? detail.price : 0}</Text>
+            <Text style={styles.headerPrice}>${detail.price ? (detail.price).toFixed(2) : 0}</Text>
           </View>
 
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>

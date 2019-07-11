@@ -4,14 +4,15 @@ import PhotoUpload from 'react-native-photo-upload';
 import { StyleSheet, View, TouchableOpacity, Text, ScrollView, AsyncStorage, Image } from 'react-native';
 
 import { resetState } from '../../actions/auth-actions'
+import { updateProfileAction } from '../../actions/restaurant-actions/profile-actions';
 
 class SidebarMenu extends Component {
   state = { type: null, user: null, avatarUrl: '' }
 
-  componentWillMount() {
+  componentWillMount () {
     this.fetchUser()
   }
-  componentDidMount() {
+  componentDidMount () {
     AsyncStorage.getItem('user_type', (err, value) => {
       if (err) {
         console.log(err)
@@ -21,19 +22,21 @@ class SidebarMenu extends Component {
     })
   }
 
-  fetchUser() {
+  fetchUser () {
     AsyncStorage.getItem('user', (err, user) => {
       if (user !== null) {
-        this.setState({ user: JSON.parse(user) });
+        this.setState({
+          user: JSON.parse(user)
+        });
       }
     });
   }
 
-  uploadPhoto(avatar) {
-    debugger;
+  uploadPhoto (avatar) {
+    this.props.updateProfile({ bannerData: avatar });
   }
 
-  render() {
+  render () {
     const { type, user } = this.state;
     return (
       <View style={{ flex: 1, paddingHorizontal: 30 }}>
@@ -42,7 +45,10 @@ class SidebarMenu extends Component {
             {
               !(type === 'admin') ?
                 <Image
-                  source={this.state.user ? { uri: user.avatarUrl } : require('../../assets/images/account.png')}
+                  source={
+                    (user && user.bannerUrl !== null)
+                      ? { uri: user.avatarUrl } : require('../../assets/images/account.png')
+                  }
                   style={{
                     height: 100,
                     width: 100,
@@ -56,7 +62,7 @@ class SidebarMenu extends Component {
                       this.uploadPhoto(avatar)
                     }
                   }}
-                >{this.state.avatarUrl !== '' ?
+                >{user && user.bannerUrl !== '' ?
                   <Image
                     style={{
                       width: 150,
@@ -65,7 +71,7 @@ class SidebarMenu extends Component {
                       paddingVertical: 30,
                     }}
                     resizeMode='cover'
-                    source={{ uri: this.state.avatarUrl }}
+                    source={{ uri: user.bannerUrl }}
                   /> :
                   <Image
                     style={{
@@ -212,7 +218,8 @@ class SidebarMenu extends Component {
 const mapStateToProps = state => ({})
 const mapDispatchToProps = dispatch => {
   return {
-    clearStore: () => dispatch(resetState())
+    clearStore: () => dispatch(resetState()),
+    updateProfile: data => dispatch(updateProfileAction(data))
   }
 }
 

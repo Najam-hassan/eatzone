@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Image, Linking } from 'react-native';
 
 import { calculateCost } from '../../utils/misc';
 import Button from '../../components/common/button';
@@ -34,7 +34,8 @@ class OrdersContainer extends Component {
                     <Button
                         title={'Call Customer'}
                         onPress={() => {
-                            console.log('button pressed')
+                            console.log('button pressed');
+                            Linking.openURL(`tel:${item.user.phone}`)
                         }}
                         style={[styles.button, {
                             backgroundColor: '#00a0ff',

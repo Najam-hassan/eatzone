@@ -1,8 +1,10 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
+import { NavigationEvents } from 'react-navigation'
 import {
-  View, Text, StatusBar, TouchableOpacity, StyleSheet, FlatList, Dimensions, ActivityIndicator
+  View, Text, StatusBar, TouchableOpacity, ScrollView,
+  StyleSheet, FlatList, Dimensions, ActivityIndicator
 } from 'react-native';
 
 const { width, height } = Dimensions.get('screen');
@@ -30,10 +32,10 @@ class CartScreen extends Component {
       cartItems.map(category => (
         category.menu_items.forEach(item => {
           if (item.quantity > 0)
-            total = total + item.price;
+            total = total + (item.price * item.quantity);
         })
       ));
-    this.setState({ subTotal: total })
+    this.setState({ subTotal: total });
   }
 
   _renderItem = ({ item }) => {
@@ -53,7 +55,7 @@ class CartScreen extends Component {
                     <View style={{
                       flex: 2, alignItems: 'flex-end', justifyContent: 'flex-end',
                     }}>
-                      <Text style={{ color: '#000', fontSize: 16, fontWeight: '400', }}>${row.price}</Text>
+                      <Text style={{ color: '#000', fontSize: 16, fontWeight: '400', }}>${row.price.toFixed(2)}</Text>
                     </View>
                   </View>
 
@@ -129,7 +131,7 @@ class CartScreen extends Component {
             flex: 2, alignItems: 'flex-end', justifyContent: 'flex-end'
           }}>
             <Text style={{ color: '#cccccc', fontWeight: '400' }}>
-              ${deliveryResturant.deliveryServiceCharges}
+              ${deliveryResturant.deliveryServiceCharges.toFixed(2)}
             </Text>
           </View>
         </View>
@@ -213,32 +215,49 @@ class CartScreen extends Component {
           navigation={this.props.navigation}
           title={'View Cart'}
         />
+        <NavigationEvents
+          onWillFocus={payload => {
+            const { cartItems } = this.props;
+            let total = 0;
+            cartItems && cartItems.length &&
+              cartItems.map(category => (
+                category.menu_items.forEach(item => {
+                  if (item.quantity > 0)
+                    total = total + (item.price * item.quantity);
+                })
+              ));
+            this.setState({ subTotal: total });
+          }}
+        />
         <View style={{ padding: 10, paddingTop: 30 }}>
-          <View style={styles.TotalOrder}>
-            <FlatList
-              data={cartItems}
-              extraData={this.state}
-              renderItem={this._renderItem}
-              keyExtractor={(item, index) => (
-                Date.now() + index.toString()
-              )}
-            />
-            {this.renderTaxes()}
-            <View style={{ paddingTop: 12, paddingBottom: 22, paddingHorizontal: 15, }}>
-              <View style={{
-                flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
-              }}>
-                <Text numberOfLines={1} style={{
-                  flex: 8, color: '#000', fontSize: 16, fontWeight: '400',
-                }}>Total</Text>
-                <View style={{ flex: 2, justifyContent: 'space-between' }}>
-                  <Text style={{ color: '#000', fontWeight: '400', fontSize: 16, }}>
-                    {this.state.subTotal + deliveryResturant.deliveryServiceCharges}
-                  </Text>
+          <ScrollView>
+            <View style={styles.TotalOrder}>
+              <FlatList
+                data={cartItems}
+                extraData={this.state}
+                renderItem={this._renderItem}
+                keyExtractor={(item, index) => (
+                  Date.now() + index.toString()
+                )}
+              />
+              {this.renderTaxes()}
+              <View style={{ paddingTop: 12, paddingBottom: 22, paddingHorizontal: 15, }}>
+                <View style={{
+                  flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
+                }}>
+                  <Text numberOfLines={1} style={{
+                    flex: 8, color: '#000', fontSize: 16, fontWeight: '400',
+                  }}>Total</Text>
+                  <View style={{ flex: 2, justifyContent: 'space-between' }}>
+                    <Text style={{ color: '#000', fontWeight: '400', fontSize: 16, }}>
+                      ${(this.state.subTotal +
+                        deliveryResturant.deliveryServiceCharges).toFixed(2)}
+                    </Text>
+                  </View>
                 </View>
               </View>
             </View>
-          </View>
+          </ScrollView>
           <View style={styles.dineInStyle}>
             <Text style={{ color: '#cccccc', fontWeight: '400', }}>
               {collectingResturant.collectionServiceCharges}% Dine in fee will be charged from you
