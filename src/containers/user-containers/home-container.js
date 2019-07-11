@@ -4,6 +4,7 @@ import Drawer from 'react-native-draggable-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Button } from 'react-native-elements';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import Toast from 'react-native-easy-toast';
 import {
   View, Text, StyleSheet, Dimensions, StatusBar,
   FlatList, Image, ActivityIndicator, TouchableOpacity,
@@ -62,8 +63,8 @@ class HomeContainer extends Component {
             longitude: position.coords.longitude,
           }
         });
-        // fetchList(`/user/nearby-restaurants/${latitude},${longitude}`);
-        fetchList(`/user/nearby-restaurants/31.474241414107382, 74.24986490048468`);
+        fetchList(`/user/nearby-restaurants/${latitude},${longitude}`);
+        // fetchList(`/user/nearby-restaurants/31.474241414107382, 74.24986490048468`);
       },
       (error) => {
         this.setState({ error: error.message, isLoading: false });
@@ -96,7 +97,6 @@ class HomeContainer extends Component {
   }
 
   _renderItem = ({ item, index }) => (
-
     < TouchableOpacity
       key={item.id}
       activeOpacity={0.7}
@@ -104,6 +104,7 @@ class HomeContainer extends Component {
         const { firstClick } = this.state;
         const { location } = item;
         if (firstClick) {
+          console.log(this.state)
           this.setLocation(location);
           this.props.fetchList(`/user/eligible-restaurants/${item.id}`);
           this.props.collectingResturant(item);
@@ -144,6 +145,12 @@ class HomeContainer extends Component {
     }
     return (
       <View style={styles.container}>
+        <Toast
+          ref="toast"
+          position='bottom'
+          fadeOutDuration={3000}
+          textStyle={{ color: '#fff' }}
+        />
         <Drawer
           initialDrawerSize={0.15}
           renderContainerView={() => {
@@ -151,7 +158,8 @@ class HomeContainer extends Component {
             return (
               <MapView
                 {...mapsProps}
-                maxZoomLevel={50}
+                maxZoomLevel={20}
+                minZoomLevel={13}
                 style={styles.map}
                 followsUserLocation
                 provider={PROVIDER_GOOGLE}
@@ -172,16 +180,16 @@ class HomeContainer extends Component {
                   {!firstClick && list && list.length ? list.map((item, index) => (
                     < Marker
                       key={`Alert-marker-${index}`}
-                      onPress={() => {
-                        const { resturant } = this.props;
-                        if (item.isValid) {
-                          this.props.fetchDetails(item.id, resturant.id);
-                          this.props.delivertRestaurant(item);
-                          navigation.navigate('RestaurantDetailScreen', {
-                            restaurantId: item.id
-                          })
-                        }
-                      }}
+                      // onPress={() => {
+                      //   const { resturant } = this.props;
+                      //   if (item.isValid) {
+                      //     this.props.fetchDetails(item.id, resturant.id);
+                      //     this.props.delivertRestaurant(item);
+                      //     navigation.navigate('RestaurantDetailScreen', {
+                      //       restaurantId: item.id
+                      //     })
+                      //   }
+                      // }}
                       id={index}
                       coordinate={{
                         latitude: item.location.coordinates[1],
@@ -191,11 +199,30 @@ class HomeContainer extends Component {
                       }}
                       title={item.name}
                       description={item.addressDetails}>
+                      <MapView.Callout
+                        onPress={() => {
+                          const { resturant } = this.props;
+                          if (item.isValid) {
+                            this.props.fetchDetails(item.id, resturant.id);
+                            this.props.delivertRestaurant(item);
+                            navigation.navigate('RestaurantDetailScreen', {
+                              restaurantId: item.id
+                            })
+                          }
+                          else {
+                            this.refs.toast.show("This restaurant is not available at the moment", 2000);
+                          }
+                        }
+                        }
+                        style={{ width: 100 }}
+                      >
+                        <Text>{item.name}</Text>
+                      </MapView.Callout>
                       <View>
                         {/* <Text style={{
                           color: '#000', paddingBottom: -5, fontSize: 10, fontWeight: '200'
                         }}>{item.name}</Text> */}
-                        <Icon name="map-marker" size={10} color="#E6464D" />
+                        <Icon name="map-marker" size={20} color="#E6464D" />
                       </View>
                     </Marker>
                   )) : null}
