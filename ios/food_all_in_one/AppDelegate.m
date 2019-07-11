@@ -16,7 +16,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  [GMSServices provideAPIKey:@"AIzaSyBcnMFdYtSXJVhPyxqaxKfE3nbvAoRZD_A"];
+  [GMSServices provideAPIKey:@"AIzaSyAtdkIXCBimfOKeT_7NpQlI0eA92W_7z8o"];
   for (NSString* family in [UIFont familyNames])
   {
     NSLog(@"%@", family);
