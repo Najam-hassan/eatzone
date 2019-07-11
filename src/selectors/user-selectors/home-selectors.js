@@ -27,7 +27,9 @@ const makeSelectFilterData = () => createSelector(
                         }
                     }).value()
             );
-            return list.filter(row => row);
+            const data = list.filter(row => row);
+            return Array.from(new Set(data.map(a => a.id)))
+                .map(id => data.find(a => a.id === id))
         } else {
             return restaurants;
         }
