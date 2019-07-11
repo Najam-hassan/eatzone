@@ -112,9 +112,10 @@ class HomeContainer extends Component {
         >
             <View style={styles.itemStyling}>
                 <Image
-                    source={index % 2 === 0 ?
-                        require('../../assets/images/mcdonal.jpg') :
-                        require('../../assets/images/subway.jpg')}
+                    source={
+                        item && item.bannerUrl !== '' ?
+                            { uri: item.bannerUrl } : require('../../assets/images/mcdonal.jpg')
+                    }
                     style={{ width: 70, height: 70, borderRadius: 10 }}
                 />
                 <View style={{ flex: 1, flexDirection: 'column', marginLeft: 20, }}>
@@ -201,7 +202,7 @@ class HomeContainer extends Component {
                         } else {
                             return (
                                 <View style={{
-                                    marginBottom: 15, backgroundColor: '#f7f8fa', flex: .5
+                                    marginBottom: -15, backgroundColor: '#f7f8fa', flex: .5
                                 }}>
                                     <ScrollView>
                                         {list && list.length ?
