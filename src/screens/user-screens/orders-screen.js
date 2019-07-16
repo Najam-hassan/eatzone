@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { NavigationEvents } from 'react-navigation';
 import {
     View, Text, StatusBar, TouchableOpacity, StyleSheet,
-    Image, ActivityIndicator, FlatList
+    Linking, ActivityIndicator, FlatList
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 
@@ -15,10 +15,6 @@ import * as selectors from '../../selectors/user-selectors/order-list-selectors'
 class OrderScreen extends Component {
 
     state = {};
-
-    componentDidMount() {
-        this.props.fetchList();
-    }
 
     renderOrderCard = ({ item, index }) => {
         return (
@@ -51,25 +47,33 @@ class OrderScreen extends Component {
                             </View>
                         </View>
                     </View>
-                    {/* <Text style={{ color: '#cccccc', fontSize: 14, fontWeight: '400', }}>Cheese Burger</Text> */}
                     <View style={styles.contentMain}>
                         <Text style={{ color: '#000000', fontSize: 14, fontWeight: '400', }}>
                             Order Date: {moment(item.createdAt).format('LL')}
                         </Text>
-                        <View style={styles.orderFind}>
-                            {/* <Image
+                        <TouchableOpacity
+                            onPress={() => {
+                                console.log('..........');
+                                Linking.openURL(`tel:${item.user.phone}`);
+                            }}
+                        >
+                            <View
+                                style={styles.orderFind}
+                            >
+                                {/* <Image
                                 source={require('../../assets/images/call-icon.png')}
                                 style={{ width: 18, height: 18, borderRadius: 15 }}
                             /> */}
-                            <Icon name="phone-call" size={18} color="#000" />
-                        </View>
+                                <Icon name="phone-call" size={18} color="#000" />
+                            </View>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </TouchableOpacity>
         )
     }
 
-    render() {
+    render () {
         const { loading, list } = this.props;
 
         return (
@@ -99,8 +103,6 @@ class OrderScreen extends Component {
                             <Text>You haven't placed any order yet!!</Text>
                         </View>
                 }
-                {/* {this.renderOrderCard()} */}
-                {/* {this.renderOrderCard()} */}
             </View>
         )
     }
