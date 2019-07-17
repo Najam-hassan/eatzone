@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import Drawer from 'react-native-draggable-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Button } from 'react-native-elements';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import Toast from 'react-native-easy-toast';
 import {
@@ -16,6 +15,7 @@ const { height, width } = Dimensions.get('screen');
 import DragHeader from '../../components/drag-header';
 
 import { mapsProps } from '../../utils/utils';
+import { setInitialDrawerSize } from '../../utils/misc';
 
 import * as actions from '../../actions/user-actions/home-actions';
 import * as selectors from '../../selectors/user-selectors/home-selectors';
@@ -152,7 +152,7 @@ class HomeContainer extends Component {
           textStyle={{ color: '#fff' }}
         />
         <Drawer
-          initialDrawerSize={0.15}
+          initialDrawerSize={setInitialDrawerSize()}
           renderContainerView={() => {
             const { region } = this.state;
             return (
