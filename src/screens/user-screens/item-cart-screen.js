@@ -9,7 +9,7 @@ import {
 
 const { width, height } = Dimensions.get('screen');
 
-import { Header } from '../../components/common/header';
+import { PageHeader } from '../../components/common/header';
 
 import Button from '../../components/common/button';
 import * as retaurant from '../../selectors/user-selectors/home-selectors';
@@ -26,7 +26,7 @@ class CartScreen extends Component {
 
   state = { subTotal: 0, showModal: false }
 
-  componentDidMount() {
+  componentDidMount () {
     const { cartItems } = this.props;
     let total = 0;
     cartItems && cartItems.length &&
@@ -155,7 +155,7 @@ class CartScreen extends Component {
     )
   }
 
-  addQuantity(categoryId, itemId, price) {
+  addQuantity (categoryId, itemId, price) {
     let categoryIndex = this.props.cartItems.findIndex(e => e.id === categoryId);
     if (categoryIndex >= 0) {
       this.setState({
@@ -169,7 +169,7 @@ class CartScreen extends Component {
     this.props.addItemQuantity(this.props.cartItems);
   }
 
-  subtractQuantity(categoryId, itemId, quantity, price) {
+  subtractQuantity (categoryId, itemId, quantity, price) {
     if (quantity > 0) {
       let categoryIndex = this.props.cartItems.findIndex(e => e.id === categoryId);
       if (categoryIndex >= 0) {
@@ -211,14 +211,14 @@ class CartScreen extends Component {
     this.setState({ showModal: true })
   };
 
-  render() {
+  render () {
     const { cartItems, collectingResturant, deliveryResturant, loadding } = this.props;
     const serviceCharges =
       collectingResturant.collectionServiceCharges + deliveryResturant.deliveryServiceCharges;
     return (
       <View style={{ flex: 1, backgroundColor: '#ebebeb' }}>
         <StatusBar hidden={false} />
-        <Header
+        <PageHeader
           navigation={this.props.navigation}
           title={'Your Cart'}
         />

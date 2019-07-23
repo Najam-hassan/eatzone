@@ -18,11 +18,11 @@ class OrdersContainer extends Component {
                         {item && item.user.avatarUrl ?
                             <Image
                                 source={{ uri: item.user.avatarUrl }}
-                                style={{ height: 60, width: 60, borderRadius: 60, backgroundColor: '#636363', }}
+                                style={styles.imageStyle}
                             /> :
                             <Image
                                 source={require('../../assets/images/account.png')}
-                                style={{ height: 60, width: 60, borderRadius: 25 }}
+                                style={{ height: 60, width: 60, borderRadius: 30 }}
                             />}
                         <View style={styles.nameContainer}>
                             <Text style={styles.userName}>{item.user && item.user.name || 'Name Here'}</Text>
@@ -134,6 +134,12 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         flexWrap: 'wrap',
         flex: 1,
+    },
+    imageStyle: {
+        width: 60,
+        height: 60,
+        borderRadius: 30,
+        backgroundColor: '#636363',
     },
     userName: {
         fontSize: 17,
