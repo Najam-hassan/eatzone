@@ -2,8 +2,11 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-import Button from '../../components/common/button';
+import ButtonCom from '../../components/common/button';
 import * as actions from '../../actions/user-actions/resturant-detail-actions';
+
+import { Button } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 class ItemDetailsContainer extends Component {
   state = { value: null, quantity: 0 }
@@ -67,25 +70,55 @@ class ItemDetailsContainer extends Component {
         <View style={styles.fixedBottom}>
           <View style={styles.fixedLeft}>
             <View style={styles.stockStyle}>
-              <TouchableOpacity
+              <Button
+                buttonStyle={{
+                  margin: 0, padding: 0, color: '#fff', height: 24, width: 24, borderRadius: 24
+                }}
+                icon={
+                  <Icon
+                    name="minus"
+                    size={15}
+                    color="#fff"
+                  />
+                }
+                onPress={() => {
+                  this.subtractQuantity(detail.id, detail.quantity)
+                }}
+              />
+              {/* <TouchableOpacity
                 onPress={() => {
                   this.subtractQuantity(detail.id, detail.quantity)
                 }}
               >
                 <Text style={styles.blueBtn}> - </Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
               <Text style={{ marginHorizontal: 10 }}>{quantity}</Text>
-              <TouchableOpacity
+              <Button
+                buttonStyle={{
+                  margin: 0, padding: 0, color: '#fff', height: 24, width: 24, borderRadius: 24
+                }}
+                icon={
+                  <Icon
+                    name="plus"
+                    size={15}
+                    color="#fff"
+                  />
+                }
+                onPress={() => {
+                  this.addQuantity(detail.id)
+                }}
+              />
+              {/* <TouchableOpacity
                 onPress={() => {
                   this.addQuantity(detail.id)
                 }}
               >
                 <Text style={[styles.blueBtn]}> + </Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
           </View>
           <View style={styles.fixedRight}>
-            <Button
+            <ButtonCom
               title="View Cart"
               onPress={() => {
                 navigation.navigate('ItemCartScreen');

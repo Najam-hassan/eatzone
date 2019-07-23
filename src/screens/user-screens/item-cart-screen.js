@@ -11,7 +11,10 @@ const { width, height } = Dimensions.get('screen');
 
 import { PageHeader } from '../../components/common/header';
 
-import Button from '../../components/common/button';
+import { Button } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+import ButtonCom from '../../components/common/button';
 import * as retaurant from '../../selectors/user-selectors/home-selectors';
 import * as orderActions from '../../actions/user-actions/place-order-actions';
 import * as actions from '../../actions/user-actions/resturant-detail-actions';
@@ -78,19 +81,49 @@ class CartScreen extends Component {
                       <View style={{
                         flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', backgroundColor: '#f7f8fa',
                       }}>
-                        <TouchableOpacity
+                        <Button
+                          buttonStyle={{
+                            margin: 0, padding: 0, color: '#fff', height: 24, width: 24, borderRadius: 24
+                          }}
+                          icon={
+                            <Icon
+                              name="minus"
+                              size={15}
+                              color="#fff"
+                            />
+                          }
+                          onPress={() => {
+                            this.subtractQuantity(item.id, row.id, row.quantity, row.price);
+                          }}
+                        />
+                        {/* <TouchableOpacity
                           onPress={() => { this.subtractQuantity(item.id, row.id, row.quantity, row.price) }}
                         >
                           <Text style={styles.blueBtn}> - </Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                         <Text style={{ marginHorizontal: 10, fontSize: 14, }}>{row.quantity}</Text>
-                        <TouchableOpacity
+                        <Button
+                          buttonStyle={{
+                            margin: 0, padding: 0, color: '#fff', height: 24, width: 24, borderRadius: 24
+                          }}
+                          icon={
+                            <Icon
+                              name="plus"
+                              size={15}
+                              color="#fff"
+                            />
+                          }
+                          onPress={() => {
+                            this.addQuantity(item.id, row.id, row.price)
+                          }}
+                        />
+                        {/* <TouchableOpacity
                           onPress={() => {
                             this.addQuantity(item.id, row.id, row.price)
                           }}
                         >
                           <Text style={styles.blueBtn}> + </Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                       </View>
                     </View>
                   </View>
@@ -282,7 +315,7 @@ class CartScreen extends Component {
                     size={'large'}
                     color={'#1BA2FC'}
                   /> :
-                  <Button
+                  <ButtonCom
                     title={'Place Order'}
                     onPress={() => {
                       this.onSubmit();
@@ -313,7 +346,7 @@ class CartScreen extends Component {
               />
               <Text style={{ textAlign: "center", fontWeight: "500", fontSize: 20, padding: 8 }}>Hungry?</Text>
               <Text style={{ textAlign: "center", fontWeight: "400", fontSize: 16, padding: 8, color: 'grey' }}>You haven't added anything to your cart yet!</Text>
-              <Button
+              <ButtonCom
                 title={'Back To Restaurants'}
                 onPress={() => {
                   this.props.navigation.navigate("HomeScreen")

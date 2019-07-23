@@ -5,6 +5,9 @@ import { Text, View, Image, StyleSheet, FlatList, TouchableOpacity } from 'react
 
 import * as actions from '../../actions/user-actions/resturant-detail-actions';
 
+import { Button } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 class RestaurantDetail extends Component {
 
   _renderItem = ({ item, index }) => (
@@ -39,21 +42,55 @@ class RestaurantDetail extends Component {
                       {item.description}
                     </Text>
                     <View style={styles.stockStyle}>
-                      <TouchableOpacity onPress={() => {
-                        this.subtractQuantity(row.id, item.id, item.quantity);
-                        this.props.subtractFromTotal(item.price);
-                      }}>
+                      <Button
+                        buttonStyle={{
+                          margin: 0, padding: 0, color: '#fff', height: 24, width: 24, borderRadius: 24
+                        }}
+                        icon={
+                          <Icon
+                            name="minus"
+                            size={15}
+                            color="#fff"
+                          />
+                        }
+                        onPress={() => {
+                          this.subtractQuantity(row.id, item.id, item.quantity);
+                          this.props.subtractFromTotal(item.price);
+                        }}
+                      />
+                      {/* <TouchableOpacity style={{ backgroundColor: '#00a0ff', height: 24, width: 24, borderRadius: 24, overflow: 'hidden', justifyContent: 'center', alignItems: 'center' }}
+                        onPress={() => {
+                          this.subtractQuantity(row.id, item.id, item.quantity);
+                          this.props.subtractFromTotal(item.price);
+                        }}>
                         <Text style={styles.blueBtn}> - </Text>
-                      </TouchableOpacity>
+                      </TouchableOpacity> */}
                       <Text style={{ marginHorizontal: 10 }}>{item.quantity}</Text>
-                      <TouchableOpacity
+                      <Button
+                        buttonStyle={{
+                          margin: 0, padding: 0, color: '#fff', height: 24, width: 24, borderRadius: 24
+                        }}
+                        icon={
+                          <Icon
+                            name="plus"
+                            size={15}
+                            color="#fff"
+                          />
+                        }
+                        onPress={() => {
+                          this.addQuantity(row.id, item.id);
+                          this.props.addToTotal(item.price);
+                        }}
+                      />
+                      {/* <TouchableOpacity
+                        style={{ backgroundColor: '#00a0ff', height: 24, width: 24, borderRadius: 24, overflow: 'hidden', justifyContent: 'center', alignItems: 'center' }}
                         onPress={() => {
                           this.addQuantity(row.id, item.id);
                           this.props.addToTotal(item.price);
                         }}
                       >
                         <Text style={styles.blueBtn}> + </Text>
-                      </TouchableOpacity>
+                      </TouchableOpacity> */}
                     </View>
                   </View>
                 </View>
@@ -163,14 +200,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   blueBtn: {
-    backgroundColor: '#00a0ff',
-    height: 24,
-    width: 24,
-    borderRadius: 24,
     color: '#fff',
-    textAlign: 'center',
     fontSize: 20,
-    lineHeight: 24
+    textAlign: 'center'
   },
 });
 
