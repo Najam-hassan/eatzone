@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { NavigationEvents } from 'react-navigation'
 import {
-  View, Text, StatusBar, TouchableOpacity, ScrollView,
+  Image, View, Text, StatusBar, TouchableOpacity, ScrollView,
   StyleSheet, FlatList, Dimensions, ActivityIndicator
 } from 'react-native';
 
@@ -17,15 +17,16 @@ import * as orderActions from '../../actions/user-actions/place-order-actions';
 import * as actions from '../../actions/user-actions/resturant-detail-actions';
 import * as orderSelectors from '../../selectors/user-selectors/place-order-selectors';
 import * as selectors from '../../selectors/user-selectors/restaurent-detail-selectors';
+import FoodModal from '../../components/food-modal';
 
 class CartScreen extends Component {
   constructor(props) {
     super(props);
   }
 
-  state = { subTotal: 0 }
+  state = { subTotal: 0, showModal: false }
 
-  componentDidMount () {
+  componentDidMount() {
     const { cartItems } = this.props;
     let total = 0;
     cartItems && cartItems.length &&
@@ -154,7 +155,7 @@ class CartScreen extends Component {
     )
   }
 
-  addQuantity (categoryId, itemId, price) {
+  addQuantity(categoryId, itemId, price) {
     let categoryIndex = this.props.cartItems.findIndex(e => e.id === categoryId);
     if (categoryIndex >= 0) {
       this.setState({
@@ -168,7 +169,7 @@ class CartScreen extends Component {
     this.props.addItemQuantity(this.props.cartItems);
   }
 
-  subtractQuantity (categoryId, itemId, quantity, price) {
+  subtractQuantity(categoryId, itemId, quantity, price) {
     if (quantity > 0) {
       let categoryIndex = this.props.cartItems.findIndex(e => e.id === categoryId);
       if (categoryIndex >= 0) {
@@ -188,6 +189,11 @@ class CartScreen extends Component {
     }
   }
 
+  navigateToOrderHistoryScreenAndCloseModal = () => {
+    this.setState({ showModal: false });
+    this.props.navigation.navigate('OrderScreen');
+  }
+
   onSubmit = () => {
     const { cartItems, deliveryResturant, collectingResturant } = this.props;
     const orderArr = _.flatMap(cartItems, category =>
@@ -202,9 +208,10 @@ class CartScreen extends Component {
       deliveringRestaurantId: deliveryResturant.id,
     }
     this.props.placeOrder(resultObj);
+    this.setState({ showModal: true })
   };
 
-  render () {
+  render() {
     const { cartItems, collectingResturant, deliveryResturant, loadding } = this.props;
     const serviceCharges =
       collectingResturant.collectionServiceCharges + deliveryResturant.deliveryServiceCharges;
@@ -213,7 +220,7 @@ class CartScreen extends Component {
         <StatusBar hidden={false} />
         <Header
           navigation={this.props.navigation}
-          title={'View Cart'}
+          title={'Your Cart'}
         />
         <NavigationEvents
           onWillFocus={payload => {
@@ -229,57 +236,93 @@ class CartScreen extends Component {
             this.setState({ subTotal: total });
           }}
         />
-        <View style={{ padding: 10, paddingTop: 30 }}>
-          <ScrollView>
-            <View style={styles.TotalOrder}>
-              <FlatList
-                data={cartItems}
-                extraData={this.state}
-                renderItem={this._renderItem}
-                keyExtractor={(item, index) => (
-                  Date.now() + index.toString()
-                )}
-              />
-              {this.renderTaxes()}
-              <View style={{ paddingTop: 12, paddingBottom: 22, paddingHorizontal: 15, }}>
-                <View style={{
-                  flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
-                }}>
-                  <Text numberOfLines={1} style={{
-                    flex: 8, color: '#000', fontSize: 16, fontWeight: '400',
-                  }}>Total</Text>
-                  <View style={{ flex: 2, justifyContent: 'space-between' }}>
-                    <Text style={{ color: '#000', fontWeight: '400', fontSize: 16, }}>
-                      ${(this.state.subTotal +
-                        deliveryResturant.deliveryServiceCharges).toFixed(2)}
-                    </Text>
+
+        {
+          this.state.subTotal > 0 ?
+            <View>
+              <Text>{console.log(cartItems)}</Text>
+              <View style={{ padding: 10, paddingTop: 30 }}>
+                <ScrollView>
+                  <View style={styles.TotalOrder}>
+                    <FlatList
+                      data={cartItems}
+                      extraData={this.state}
+                      renderItem={this._renderItem}
+                      keyExtractor={(item, index) => (
+                        Date.now() + index.toString()
+                      )}
+                    />
+                    {this.renderTaxes()}
+                    <View style={{ paddingTop: 12, paddingBottom: 22, paddingHorizontal: 15, }}>
+                      <View style={{
+                        flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
+                      }}>
+                        <Text numberOfLines={1} style={{
+                          flex: 8, color: '#000', fontSize: 16, fontWeight: '400',
+                        }}>Total</Text>
+                        <View style={{ flex: 2, justifyContent: 'space-between' }}>
+                          <Text style={{ color: '#000', fontWeight: '400', fontSize: 16, }}>
+                            ${(this.state.subTotal +
+                              deliveryResturant.deliveryServiceCharges).toFixed(2)}
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
                   </View>
+                </ScrollView>
+                <View style={styles.dineInStyle}>
+                  <Text style={{ color: '#cccccc', fontWeight: '400', }}>
+                    {collectingResturant.collectionServiceCharges}% Dine in fee will be charged from you
+              </Text>
                 </View>
               </View>
+              <View style={{ position: 'relative', left: 0, right: 0, bottom: 5 }}>
+                {loadding ?
+                  <ActivityIndicator
+                    size={'large'}
+                    color={'#1BA2FC'}
+                  /> :
+                  <Button
+                    title={'Place Order'}
+                    onPress={() => {
+                      this.onSubmit();
+                    }}
+                    style={styles.button}
+                    textStyle={{ /* styles for button title */ }}
+                  />
+                }
+              </View>
+              {this.state.showModal ?
+                <FoodModal
+                  showModal={true}
+                  heading={"Congratulations"}
+                  body={"Your order has been placed."}
+                  closeModal={() => this.navigateToOrderHistoryScreenAndCloseModal()}
+                /> : null
+              }
+            </View> :
+            <View style={{ padding: 10, paddingTop: 30 }}>
+              <Image
+                source={require('../../assets/images/foodallinlogo.png')}
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  paddingVertical: 15, height: width - 70,
+                  width: width - 30,
+                }}
+              />
+              <Text style={{ textAlign: "center", fontWeight: "500", fontSize: 20, padding: 8 }}>Hungry?</Text>
+              <Text style={{ textAlign: "center", fontWeight: "400", fontSize: 16, padding: 8, color: 'grey' }}>You haven't added anything to your cart yet!</Text>
+              <Button
+                title={'Back To Restaurants'}
+                onPress={() => {
+                  this.props.navigation.navigate("HomeScreen")
+                }}
+                style={styles.button}
+                textStyle={{ /* styles for button title */ }}
+              />
             </View>
-          </ScrollView>
-          <View style={styles.dineInStyle}>
-            <Text style={{ color: '#cccccc', fontWeight: '400', }}>
-              {collectingResturant.collectionServiceCharges}% Dine in fee will be charged from you
-            </Text>
-          </View>
-        </View>
-        <View style={{ position: 'absolute', left: 0, right: 0, bottom: 5 }}>
-          {loadding ?
-            <ActivityIndicator
-              size={'large'}
-              color={'#1BA2FC'}
-            /> :
-            <Button
-              title={'Place Order'}
-              onPress={() => {
-                this.onSubmit();
-              }}
-              style={styles.button}
-              textStyle={{ /* styles for button title */ }}
-            />
-          }
-        </View>
+        }
       </View >
     )
   }

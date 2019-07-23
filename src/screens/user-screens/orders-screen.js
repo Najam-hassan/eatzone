@@ -11,7 +11,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import { Header } from '../../components/common/header';
 import * as actions from '../../actions/user-actions/order-list-actions';
 import * as selectors from '../../selectors/user-selectors/order-list-selectors';
-
+import { Linking } from 'react-native'
 class OrderScreen extends Component {
 
     state = {};
@@ -22,16 +22,17 @@ class OrderScreen extends Component {
 
     renderOrderCard = ({ item, index }) => {
         return (
-            <TouchableOpacity
-                key={index}
-                onPress={() => {
-                    const { navigation } = this.props;
-                    navigation.navigate('OrderDetailScreen', {
-                        details: item
-                    })
-                }}
-            >
-                <View style={styles.cardContainer}>
+
+            <View style={styles.cardContainer}>
+                <TouchableOpacity
+                    key={index}
+                    onPress={() => {
+                        const { navigation } = this.props;
+                        navigation.navigate('OrderDetailScreen', {
+                            details: item
+                        })
+                    }}
+                >
                     <View style={styles.itemContentsHead}>
                         <Text style={styles.hotelName}>
                             {item.deliveringRestaurant.name}
@@ -51,21 +52,29 @@ class OrderScreen extends Component {
                             </View>
                         </View>
                     </View>
-                    {/* <Text style={{ color: '#cccccc', fontSize: 14, fontWeight: '400', }}>Cheese Burger</Text> */}
-                    <View style={styles.contentMain}>
-                        <Text style={{ color: '#000000', fontSize: 14, fontWeight: '400', }}>
-                            Order Date: {moment(item.createdAt).format('LL')}
-                        </Text>
-                        <View style={styles.orderFind}>
-                            {/* <Image
+                </TouchableOpacity>
+                {/* <Text style={{ color: '#cccccc', fontSize: 14, fontWeight: '400', }}>Cheese Burger</Text> */}
+                <View style={styles.contentMain}>
+                    <Text style={{ color: '#000000', fontSize: 14, fontWeight: '400', }}>
+                        Order Date: {moment(item.createdAt).format('LL')}
+                    </Text>
+                    <View style={styles.orderFind}>
+                        {/* <Image
                                 source={require('../../assets/images/call-icon.png')}
                                 style={{ width: 18, height: 18, borderRadius: 15 }}
                             /> */}
+
+                        <TouchableOpacity
+                            onPress={() => {
+                                console.log('button pressed');
+                                Linking.openURL(`tel:${item.deliveringRestaurant.phone}`)
+                            }}
+                        >
                             <Icon name="phone-call" size={18} color="#000" />
-                        </View>
+                        </TouchableOpacity>
                     </View>
                 </View>
-            </TouchableOpacity>
+            </View>
         )
     }
 

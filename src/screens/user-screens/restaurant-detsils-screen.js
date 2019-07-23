@@ -21,7 +21,7 @@ class RestaurantDetailScreen extends Component {
 
   state = { total: 0, distance: 0, charges: 0, name: '' }
 
-  componentDidMount () {
+  componentDidMount() {
 
     // const { params } = this.props.navigation.state;
     // if (params.restaurantId) {
@@ -29,11 +29,10 @@ class RestaurantDetailScreen extends Component {
     // }
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
 
+    debugger
     if (nextProps.list && nextProps.list.distance) {
-      // console.log('props: ', nextProps.list);
-      // this.initilizeItems(nextProps.list)
       this.setState({
         name: nextProps.list.name,
         distance: nextProps.list.distance,
@@ -42,7 +41,7 @@ class RestaurantDetailScreen extends Component {
     }
   }
 
-  render () {
+  render() {
     const { list, navigation, loading } = this.props;
     const listItems = list && Object.keys(list).length &&
       list.menu_categories.map(item => (
@@ -168,7 +167,7 @@ class RestaurantDetailScreen extends Component {
                 {cardItems.length} | {this.state.total.toFixed(2)}$
             </Text>
               <Button
-                title="View Card"
+                title="View Cart"
                 onPress={() => {
                   navigation.navigate('ItemCartScreen');
                 }}
