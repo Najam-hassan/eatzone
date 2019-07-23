@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, FlatList, Image, Linking } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Image, Linking, Platform } from 'react-native';
 
 import { calculateCost } from '../../utils/misc';
 import Button from '../../components/common/button';
@@ -35,7 +35,20 @@ class OrdersContainer extends Component {
                         title={'Call Customer'}
                         onPress={() => {
                             console.log('button pressed');
-                            Linking.openURL(`tel:${item.user.phone}`)
+                            if (Platform.OS === 'android') {
+                                Linking.openURL(`tel:${item.user.phone}`);
+                            }
+                            else {
+                                const url = `telprompt:${item.user.phone}`;
+                                Linking.canOpenURL(url)
+                                    .then((supported) => {
+                                        if (supported) {
+                                            return Linking.openURL(url)
+                                                .catch(() => null);
+                                        }
+                                    });
+                                // Linking.openURL(`telprompt:${item.user.phone}`);
+                            }
                         }}
                         style={[styles.button, {
                             backgroundColor: '#00a0ff',

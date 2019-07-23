@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { NavigationEvents } from 'react-navigation';
 import {
     View, Text, StatusBar, TouchableOpacity, StyleSheet,
-    Linking, ActivityIndicator, FlatList
+    Linking, ActivityIndicator, FlatList, Platform
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 
@@ -13,7 +13,7 @@ import * as actions from '../../actions/user-actions/order-list-actions';
 import * as selectors from '../../selectors/user-selectors/order-list-selectors';
 
 class OrderScreen extends Component {
-    
+
     state = {};
 
     renderOrderCard = ({ item, index }) => {
@@ -63,7 +63,24 @@ class OrderScreen extends Component {
                         <TouchableOpacity
                             onPress={() => {
                                 console.log('button pressed');
-                                Linking.openURL(`tel:${item.deliveringRestaurant.phone}`)
+                                if (Platform.OS === 'android') {
+                                    Linking.openURL(
+                                        `tel:${item.deliveringRestaurant.phone}`
+                                    );
+                                }
+                                else {
+                                    const url = `telprompt:${item.deliveringRestaurant.phone}`;
+                                    Linking.canOpenURL(url)
+                                        .then((supported) => {
+                                            if (supported) {
+                                                return Linking.openURL(url)
+                                                    .catch(() => null);
+                                            }
+                                        });
+                                    // Linking.openURL(
+                                    //     `telprompt:${item.deliveringRestaurant.phone}`
+                                    // );
+                                }
                             }}
                         >
                             <Icon name="phone-call" size={18} color="#000" />
@@ -74,7 +91,7 @@ class OrderScreen extends Component {
         )
     }
 
-    render() {
+    render () {
         const { loading, list } = this.props;
 
         return (
