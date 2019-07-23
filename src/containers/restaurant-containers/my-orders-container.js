@@ -6,9 +6,13 @@ import { calculateCost } from '../../utils/misc';
 import Button from '../../components/common/button';
 
 class OrdersContainer extends Component {
+
     renderOrderCard = ({ item, index }) => {
         return (
-            <View key={`order-item-${index}`} style={styles.container}>
+            <View
+                key={`order-item-${index}`}
+                style={styles.container}
+            >
                 <View style={styles.orderCardContainer}>
                     <View style={styles.detailsContainer}>
                         {item && item.user.avatarUrl ?

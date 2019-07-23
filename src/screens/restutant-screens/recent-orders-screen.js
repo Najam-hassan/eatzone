@@ -71,7 +71,7 @@ class RecentOrdersScreen extends Component {
               <OrdersContainer
                 navigation={this.props.navigation}
                 list={deliveries && deliveries.filter(row => (
-                  row.orderStatus !== 'COMPLETED' || row.orderStatus !== 'CANCELED')
+                  row.orderStatus === 'CONFIRMED' || row.orderStatus === 'PENDING')
                 )}
               />
             ),
