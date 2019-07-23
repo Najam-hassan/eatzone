@@ -86,7 +86,7 @@ class ItemDetailsContainer extends Component {
           </View>
           <View style={styles.fixedRight}>
             <Button
-              title="View Card"
+              title="View Cart"
               onPress={() => {
                 navigation.navigate('ItemCartScreen');
               }}
