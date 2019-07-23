@@ -141,7 +141,11 @@ class HomeContainer extends Component {
     const { list, loading, navigation } = this.props;
     const { isLoading, firstClick, region } = this.state;
     if (isLoading) {
-      return <ActivityIndicator size={'large'} color={'#1BA2FC'} />
+      return (
+        <View style={styles.loadingStyle}>
+          <ActivityIndicator size={'large'} color={'#1BA2FC'} />
+        </View>
+      )
     }
     return (
       <View style={styles.container}>
@@ -233,7 +237,11 @@ class HomeContainer extends Component {
           finalDrawerHeight={(height / 2) - 100}
           renderDrawerView={() => {
             if (loading) {
-              return <ActivityIndicator size={'large'} color={'#1BA2FC'} />
+              return (
+                <View style={styles.loadingStyle}>
+                  <ActivityIndicator size={'large'} color={'#1BA2FC'} />
+                </View>
+              )
             } else {
               return (
                 <View style={{
@@ -388,6 +396,11 @@ const styles = StyleSheet.create({
     borderColor: '#fff',
     backgroundColor: '#1BA2FC',
     marginLeft: 5
+  },
+  loadingStyle: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

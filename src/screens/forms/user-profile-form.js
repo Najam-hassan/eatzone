@@ -11,6 +11,8 @@ import InputField from '../../components/common/input';
 import * as actions from '../../actions/user-actions/profile-actions';
 import * as selectors from '../../selectors/user-selectors/profile-selectors';
 
+import { isValidWebUrl } from '../../utils/regex';
+
 class UserProfileForm extends Component {
 
     state = {
@@ -37,14 +39,14 @@ class UserProfileForm extends Component {
     onSubmit = values => {
         const { avatarUrl } = this.state;
         this.setState({ submitting: true });
-        if (avatarUrl) {
+        if (isValidWebUrl(avatarUrl)) {
+            this.props.profileDetails(values.toJS())
+        } else {
             this.props.profileDetails({
                 ...values.toJS(),
                 // avatarData: `data:image/jpeg;base64,${avatarUrl}`
                 avatarData: avatarUrl
             });
-        } else {
-            this.props.profileDetails(values.toJS())
         }
     }
 
