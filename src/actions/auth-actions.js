@@ -73,3 +73,37 @@ export function registerAction (url, user) {
             });
     }
 }
+
+export function forgotPasswordRequest () {
+    return {
+        type: constants.FORGOT_PASSWORD_REQUEST,
+    }
+}
+
+export function forgotPasswordSuccess (data) {
+    return {
+        type: constants.FORGOT_PASSWORD_SUCCESS,
+        data,
+    }
+}
+
+export function forgotPasswordFailure (error) {
+    return {
+        type: constants.FORGOT_PASSWORD_FAILURE,
+        error,
+    }
+}
+
+export function forgotPasswordAction (url, values) {
+    return dispatch => {
+        dispatch(forgotPasswordRequest())
+        return axios.post(url, values)
+            .then(response => {
+                dispatch(forgotPasswordSuccess(response.data));
+            })
+            .catch(error => {
+                dispatch(forgotPasswordFailure(error.response ? error.response.data : null));
+            });
+    }
+
+}

@@ -7,6 +7,14 @@ const makeSelectLoading = () => createSelector(
     selectLoginState, state => state.getIn(['user', 'loading'])
 );
 
+const makeSelectForgotPasswordLoading = () => createSelector(
+    selectLoginState, state => state.getIn(['forgotPassword', 'loading'])
+);
+
+const makeSelectForgotPasswordData = () => createSelector(
+    selectLoginState, state => state.getIn(['forgotPassword', 'data']).toJS()
+);
+
 const makeSelectData = () => createSelector(
     selectLoginState, state => state.getIn(['user', 'data'])
 );
@@ -40,4 +48,6 @@ export {
     makeSelectAuthStatue,
     makeSelectSignInError,
     makeSelectSignUpError,
+    makeSelectForgotPasswordData,
+    makeSelectForgotPasswordLoading,
 };

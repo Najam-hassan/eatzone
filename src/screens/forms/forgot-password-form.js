@@ -1,8 +1,8 @@
 import { connect } from "react-redux";
 import React, { Component } from 'react';
-import { Field, reduxForm, initialize } from 'redux-form/immutable'
+import { Field, reduxForm } from 'redux-form/immutable'
 import {
-    View, StyleSheet, Dimensions, ActivityIndicator, Text, AsyncStorage, Alert
+    View, StyleSheet, Dimensions, ActivityIndicator
 } from 'react-native'
 
 const { width, height } = Dimensions.get('screen');
@@ -10,33 +10,29 @@ const { width, height } = Dimensions.get('screen');
 import InputField from '../../components/common/input';
 import Button from '../../components/common/button';
 
-import * as actions from '../../actions/auth-actions'
-import * as selectors from '../../selectors/auth-selectors'
+import * as actions from '../../actions/auth-actions';
+import * as selectors from '../../selectors/auth-selectors';
 
 class ForgetPasswordForm extends Component {
 
     componentWillReceiveProps (nextProps) {
-        if (nextProps.user !== null) {
-            try {
-                AsyncStorage.setItem(
-                    'user',
-                    JSON.stringify(nextProps.user),
-                    () => {
-                        this.props.navigateTo('HomeScreen');
-                        this.forceUpdate();
-                    }
-                );
-            } catch (error) {
-            }
+        if (nextProps.data && nextProps.data.code === 200) {
+            this.props.navigateTo('SignInScreen');
+            this.forceUpdate();
+        } else if (nextProps.data && nextProps.data.code === 404) {
+            this.props.showToastMessage(
+                'Email does not exist!!!'
+            );
+            this.props.resetState();
         }
     }
 
     onSubmit = (values) => {
         if (values) {
             if (this.props.userType === 'admin') {
-                this.props.onSubmit('/restaurant/sign-in', values);
+                this.props.onSubmit('/restaurant/req-forgot-password', values);
             } else {
-                this.props.onSubmit('/user/sign-in', values);
+                this.props.onSubmit('/user/req-forgot-password', values);
             }
         }
     }
@@ -84,16 +80,18 @@ const validate = values => {
 };
 
 const mapStateToProps = state => ({
-    user: selectors.makeSelectData()(state),
-    loading: selectors.makeSelectLoading()(state)
+    data: selectors.makeSelectForgotPasswordData()(state),
+    loading: selectors.makeSelectForgotPasswordLoading()(state),
 });
 
 const mapDispatchToProps = dispatch => {
     return {
         onSubmit: (url, values) => {
-            const { email, password } = values && values.toJS();
-            dispatch(actions.loginAction(url, { email, password }));
-        }
+            if (values.toJS()) {
+                dispatch(actions.forgotPasswordAction(url, values.toJS()));
+            }
+        },
+        resetState: () => dispatch(actions.resetState())
     }
 };
 

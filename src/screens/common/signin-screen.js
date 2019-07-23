@@ -21,15 +21,15 @@ class SignInScreen extends Component {
 		OneSignal.configure()
 	}
 
-	componentDidMount() {
+	componentDidMount () {
 		OneSignal.addEventListener("ids", this.onIds.bind(this));
 	}
-	onIds(device) {
+	onIds (device) {
 		console.log('Device info: ', device);
 		this.setState({ playerId: device.userId })
 	}
 
-	componentWillReceiveProps(nextProps) {
+	componentWillReceiveProps (nextProps) {
 		const { params } = this.props.navigation.state;
 		if (nextProps.authUser !== null) {
 			this.refs.toast.show(
@@ -57,9 +57,15 @@ class SignInScreen extends Component {
 		if (nextProps.isAuthenticated) {
 			if (nextProps.error && nextProps.error.message) {
 				this.refs.toast.show(nextProps.error.message, 2000);
+				this.props.resetState();
 			} else {
 				this.refs.toast.show('Confirmation email has been sent to your account!');
+				this.props.resetState()
 			}
+		}
+		if (nextProps.data && nextProps.data.code === 200) {
+			this.refs.toast.show('Please check your email, and follow the Instruction!');
+			this.props.resetState();
 		}
 	}
 
@@ -75,7 +81,7 @@ class SignInScreen extends Component {
 		}
 	}
 
-	render() {
+	render () {
 		const { state } = this.props.navigation;
 		console.log(state.params, 'sign in screen');
 		return (
@@ -114,6 +120,7 @@ const mapStateToProps = state => ({
 	user: selectors.makeSelectData()(state),
 	error: selectors.makeSelectSignInError()(state),
 	authUser: selectors.makeSelectSignUpUser()(state),
+	data: selectors.makeSelectForgotPasswordData()(state),
 	isAuthenticated: selectors.makeSelectAuthStatue()(state),
 });
 

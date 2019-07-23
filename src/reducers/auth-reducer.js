@@ -1,4 +1,4 @@
-import { fromJS } from 'immutable';
+import { fromJS, Map } from 'immutable';
 
 import * as constants from '../actions/constants';
 
@@ -13,10 +13,16 @@ export const initialState = fromJS({
         data: null,
         error: null,
         failed: false
+    },
+    forgotPassword: {
+        loading: false,
+        success: false,
+        data: {},
+        error: ''
     }
 });
 
-export default function authReducer(state = initialState, action) {
+export default function authReducer (state = initialState, action) {
     switch (action.type) {
         case constants.USER_LOGIN_REQUEST:
             return state
@@ -53,6 +59,21 @@ export default function authReducer(state = initialState, action) {
                 .setIn(['signUp', 'error'], action.error)
                 .setIn(['user', 'failed'], true)
                 .setIn(['user', 'loading'], false);
+
+        case constants.FORGOT_PASSWORD_REQUEST:
+            return state
+                .setIn(['forgotPassword', 'loading'], true);
+
+        case constants.FORGOT_PASSWORD_SUCCESS:
+            return state
+                .setIn(['forgotPassword', 'success'], true)
+                .setIn(['forgotPassword', 'data'], Map(action.data))
+                .setIn(['forgotPassword', 'loading'], false);
+
+        case constants.FORGOT_PASSWORD_FAILURE:
+            return state
+                .setIn(['forgotPassword', 'error'], action.error)
+                .setIn(['forgotPassword', 'loading'], false);
 
         case constants.RESET_LOGIN_STATE:
             return initialState;

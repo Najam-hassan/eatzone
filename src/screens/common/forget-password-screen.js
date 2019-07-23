@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
 import React, { Component } from 'react';
-import { View, StyleSheet, ImageBackground, Dimensions, Text, AsyncStorage, ScrollView } from 'react-native';
+import Toast from 'react-native-easy-toast';
+import { View, StyleSheet, ImageBackground, Dimensions, Text, ScrollView } from 'react-native';
 
 import ForgetPasswordForm from '../forms/forgot-password-form';
 
@@ -23,6 +24,10 @@ class ForgetPasswordScreen extends Component {
         }
     }
 
+    showMessage = message => {
+        this.refs.toast.show(message, 2000);
+    }
+
     render () {
         const { state } = this.props.navigation;
         return (
@@ -43,11 +48,13 @@ class ForgetPasswordScreen extends Component {
                                 <ForgetPasswordForm
                                     navigateTo={this.navigateTo}
                                     userType={state.params.type}
+                                    showToastMessage={this.showMessage}
                                 />
                             </ScrollView>
                         </View>
                     </View>
                 </ImageBackground>
+                <Toast ref="toast" />
             </View>
         )
     }
