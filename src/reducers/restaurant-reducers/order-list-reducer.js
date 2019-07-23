@@ -7,11 +7,12 @@ export const initialState = fromJS({
     orders: {
         deliveries: [],
         collections: [],
+        completed: false,
         canceled: false,
         accepted: false,
-        completed: false,
-        error: null,
+        updating: false,
         loading: false,
+        error: null,
     },
 });
 
@@ -48,8 +49,18 @@ export default function orderListReducer (state = initialState, action) {
                 .setIn(['orders', 'error'], action.error)
                 .setIn(['orders', 'loading'], false);
 
+        case constants.UPDATE_RESTAURANT_ORDERS_REQUEST:
+            return state.setIn(['orders', 'updating'], true);
+
         case constants.UPDATE_STATUS_LOCALLY:
-            return state.setIn(['orders', action.type], true);
+            return state
+                .setIn(['orders', action.orderStatus], true)
+                .setIn(['orders', 'updating'], false);
+
+        case constants.UPDATE_RESTAURANT_ORDERS_REQUEST:
+            return state
+                .setIn(['orders', 'updating'], true)
+                .setIn(['orders', action.orderStatus], true);
 
         case constants.RESET_RESTAURANT_ORDERS_STATE:
             return initialState;

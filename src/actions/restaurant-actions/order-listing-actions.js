@@ -54,19 +54,21 @@ function updateOrderFailure (error) {
     }
 }
 
-export function updateLocally (type) {
+export function updateLocally (orderStatus) {
+    console.log(orderStatus, '0-0-0-0')
     return {
         type: constants.UPDATE_STATUS_LOCALLY,
-        type,
+        orderStatus,
     }
 }
 
-export function updateOrderStatusAction (url) {
+export function updateOrderStatusAction (url, orderStatus) {
     return dispatch => {
         dispatch(updateOrderRequest());
         axios.put(url)
             .then(response => {
-                dispatch(updateOrderSuccess(response.data));
+                // dispatch(updateOrderSuccess(response.data));
+                dispatch(updateLocally(orderStatus))
             })
             .catch(error => {
                 dispatch(updateOrderFailure(error));

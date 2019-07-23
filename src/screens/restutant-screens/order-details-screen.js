@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import { View, Text, StatusBar, StyleSheet, Image } from 'react-native';
+import { View, Text, StatusBar, StyleSheet, Image, ActivityIndicator } from 'react-native';
 
 import Button from '../../components/common/button';
 import { PageHeader } from '../../components/common/header';
@@ -13,23 +13,34 @@ import * as selectors from '../../selectors/restaurant-selectors/order-list-sele
 
 class OrderDetailsScreen extends Component {
 
-  state = { confirmed: false, canceled: false, completed: false }
+  state = { confirmed: false, completed: false }
+
+  componentDidMount () {
+    const { params } = this.props.navigation.state;
+    if (params.details) {
+      if (params.details.orderStatus === 'PENDING') {
+        this.setState({ confirmed: true });
+      } else if (params.details && params.details.orderStatus === 'CONFIRMED') {
+        this.setState({ completed: true })
+      }
+    }
+  }
 
   componentWillReceiveProps (nextProps) {
+    console.log(nextProps)
     if (nextProps.confirmed) {
-      this.setState({ confirmed: true })
+      this.setState({
+        completed: true,
+        confirmed: false,
+      })
     }
-    if (nextProps.canceled) {
-      this.setState({ canceled: true })
-    }
-    if (nextProps.completed) {
-      this.setState({ completed: true })
+    if (nextProps.completed || nextProps.canceled) {
+      this.props.navigation.navigate('CompletedOrdersScreen')
     }
   }
 
   renderOrderItems = (item, index) => {
     return (
-
       <View key={`menu-item-${index}`} style={styles.orderItemContent}>
         <View
           key={item.id}
@@ -45,7 +56,8 @@ class OrderDetailsScreen extends Component {
 
   renderOrderCard = () => {
     const { params } = this.props.navigation.state;
-    const { completed, confirmed, canceled } = this.state
+    const { completed, confirmed } = this.state
+    const { loading } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.orderCardContainer}>
@@ -84,7 +96,7 @@ class OrderDetailsScreen extends Component {
             }]}
             textStyle={{ color: '#fff', fontSize: 12, fontWeight: '400', }}
           /> */}
-          {!confirmed && params.details.orderStatus === 'PENDING' ? <Button
+          {confirmed || completed ? <Button
             title={'Cancel Order'}
             onPress={() => {
               const { details } = params;
@@ -99,22 +111,24 @@ class OrderDetailsScreen extends Component {
             }]}
             textStyle={{ color: '#ff0000', fontSize: 14, fontWeight: '400', }}
           /> : null}
-          {!confirmed && params.details.orderStatus === 'PENDING' ? <Button
-            title={'Accept Order'}
-            onPress={() => {
-              const { details } = params;
-              this.props.updateOrder(
-                `/restaurant/confirm-order/${details.id}`, 'accepted'
-              );
-            }}
-            style={[styles.button, {
-              borderWidth: 1,
-              borderColor: '#17820c',
-              backgroundColor: '#fff',
-            }]}
-            textStyle={{ color: '#17820c', fontSize: 14, fontWeight: '400', }}
-          /> : null}
-          {!confirmed && params.details.orderStatus === 'CONFIRMED' ? <Button
+          {loading ?
+            <ActivityIndicator size={'large'} color={'#1BA2FC'} /> :
+            confirmed ? <Button
+              title={'Accept Order'}
+              onPress={() => {
+                const { details } = params;
+                this.props.updateOrder(
+                  `/restaurant/confirm-order/${details.id}`, 'accepted'
+                );
+              }}
+              style={[styles.button, {
+                borderWidth: 1,
+                borderColor: '#17820c',
+                backgroundColor: '#fff',
+              }]}
+              textStyle={{ color: '#17820c', fontSize: 14, fontWeight: '400', }}
+            /> : null}
+          {!loading && completed ? <Button
             title={'Complete Order'}
             onPress={() => {
               const { details } = params;
@@ -262,6 +276,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
+  loading: selectors.makeSelectOrderLoading()(state),
   confirmed: selectors.makeSelectConfirmed()(state),
   completed: selectors.makeSelectCompleted()(state),
   canceled: selectors.makeSelectCanceled()(state),
@@ -269,9 +284,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateOrder: (url, type) => {
-      dispatch(actions.updateOrderStatusAction(url));
-      dispatch(actions.updateLocally(type));
+    updateOrder: (url, orderStatus) => {
+      dispatch(actions.updateOrderStatusAction(url, orderStatus));
+      // dispatch(actions.updateLocally(type));
     },
   }
 }

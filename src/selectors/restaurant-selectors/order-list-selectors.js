@@ -31,11 +31,16 @@ const makeSelectCanceled = () => createSelector(
     selectOrderListState, state => state.getIn(['orders', 'canceled'])
 );
 
+const makeSelectOrderLoading = () => createSelector(
+    selectOrderListState, state => state.getIn(['orders', 'updating'])
+);
+
 export {
     makeSelectCanceled,
     makeSelectCompleted,
     makeSelectConfirmed,
     selectOrderListState,
+    makeSelectOrderLoading,
     makeSelectOrderListError,
     makeSelectOrderListLoading,
     makeSelectDeliveryOrderList,
