@@ -16,7 +16,6 @@ class SignInScreen extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        debugger
         if (nextProps.user !== null) {
             this.props.navigation.navigate('SignInScreen');
             this.props.resetState();

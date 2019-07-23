@@ -30,7 +30,6 @@ class SignInScreen extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		debugger
 		const { params } = this.props.navigation.state;
 		if (nextProps.authUser !== null) {
 			this.refs.toast.show(

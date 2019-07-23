@@ -30,8 +30,6 @@ class RestaurantDetailScreen extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-
-    debugger
     if (nextProps.list && nextProps.list.distance) {
       this.setState({
         name: nextProps.list.name,

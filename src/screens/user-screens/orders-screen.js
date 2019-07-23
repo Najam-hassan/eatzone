@@ -11,9 +11,9 @@ import Icon from 'react-native-vector-icons/Feather';
 import { Header } from '../../components/common/header';
 import * as actions from '../../actions/user-actions/order-list-actions';
 import * as selectors from '../../selectors/user-selectors/order-list-selectors';
-import { Linking } from 'react-native'
-class OrderScreen extends Component {
 
+class OrderScreen extends Component {
+    
     state = {};
 
     renderOrderCard = ({ item, index }) => {

@@ -581,16 +581,16 @@ const validate = values => {
     } else if (values.get('phone').length < 9) {
         errors.phone = "must be at least 9 characters long"
     }
-    // if (!values.get('collectionServiceCharges')) {
-    //     errors.collectionServiceCharges = '*Required';
-    // } else if (values.get('collectionServiceCharges') < 0) {
-    //     errors.collectionServiceCharges = "Must be greater the zero"
-    // }
-    // if (!values.get('deliveryServiceCharges')) {
-    //     errors.deliveryServiceCharges = '*Required';
-    // } else if (values.get('deliveryServiceCharges') < 0) {
-    //     errors.deliveryServiceCharges = "Must be greater the zero"
-    // }
+    if (!values.get('collectionServiceCharges')) {
+        errors.collectionServiceCharges = '*Required';
+    } else if (values.get('collectionServiceCharges') < 0) {
+        errors.collectionServiceCharges = "Must be greater the zero"
+    }
+    if (!values.get('deliveryServiceCharges')) {
+        errors.deliveryServiceCharges = '*Required';
+    } else if (values.get('deliveryServiceCharges') < 0) {
+        errors.deliveryServiceCharges = "Must be greater the zero"
+    }
 
     return errors;
 };
