@@ -38,6 +38,13 @@ class ProfileForm extends Component {
         const {
             canCollect, canDeliver, collect, deliver, sliderOneValue, region, location
         } = this.state;
+        const formValues = {
+            ...values.toJS(),
+            address: location,
+            canDeliver: canDeliver,
+            canCollect: canCollect,
+            location: `${region.latitude}, ${region.longitude}`,
+        }
         if (values && values.toJS() !== {}) {
             if (!canCollect && !canDeliver) {
                 return Alert.alert(
@@ -50,22 +57,17 @@ class ProfileForm extends Component {
                 );
             } else if (canCollect && canDeliver) {
                 this.props.onSubmitForm({
-                    ...values.toJS(),
-                    canDeliver: canDeliver,
-                    canCollect: canCollect,
+                    ...formValues,
                     deliverRadius: sliderOneValue[0] * 1000,
                     collectTimeEnd: collect.collectTimeEnd,
                     deliverTimeEnd: deliver.deliverTimeEnd,
                     collectTimeStart: collect.collectTimeStart,
                     deliverTimeStart: deliver.deliverTimeStart,
-                    location: `${region.latitude}, ${region.longitude}`,
-                    address: location
                 });
             } else if (canCollect) {
                 if (values.get('collectionServiceCharges')) {
                     this.props.onSubmitForm({
-                        ...values.toJS(),
-                        canCollect: canCollect,
+                        ...formValues,
                         collectTimeEnd: collect.collectTimeEnd,
                         collectTimeStart: collect.collectTimeStart,
                     });
@@ -80,8 +82,7 @@ class ProfileForm extends Component {
             } else if (canDeliver) {
                 if (values.get('deliveryServiceCharges')) {
                     this.props.onSubmitForm({
-                        ...values.toJS(),
-                        canDeliver: canDeliver,
+                        ...formValues,
                         deliverTimeEnd: deliver.deliverTimeEnd,
                         deliverTimeStart: deliver.deliverTimeStart,
                     });
@@ -95,9 +96,7 @@ class ProfileForm extends Component {
                 );
             } else {
                 this.props.onSubmitForm({
-                    ...values.toJS(),
-                    canDeliver: canDeliver,
-                    canCollect: canCollect,
+                    ...formValues,
                 })
             }
         }

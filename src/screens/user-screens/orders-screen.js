@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { NavigationEvents } from 'react-navigation';
 import {
     View, Text, StatusBar, TouchableOpacity, StyleSheet,
-    Image, ActivityIndicator, FlatList
+    Linking, ActivityIndicator, FlatList
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 
@@ -15,10 +15,6 @@ import { Linking } from 'react-native'
 class OrderScreen extends Component {
 
     state = {};
-
-    componentDidMount() {
-        this.props.fetchList();
-    }
 
     renderOrderCard = ({ item, index }) => {
         return (
@@ -108,8 +104,6 @@ class OrderScreen extends Component {
                             <Text>You haven't placed any order yet!!</Text>
                         </View>
                 }
-                {/* {this.renderOrderCard()} */}
-                {/* {this.renderOrderCard()} */}
             </View>
         )
     }

@@ -1,3 +1,7 @@
+import { Platform, Dimensions } from 'react-native';
+
+const dim = Dimensions.get('window');
+
 export function guid () {
     function s4 () {
         return Math.floor((1 + Math.random()) * 0x10000)
@@ -19,4 +23,16 @@ export const calculateCost = items => {
         total = total + item.itemQuantity * item.menu_item.price;
     });
     return total.toFixed(0);
+}
+
+export function setInitialDrawerSize () {
+    return Platform.OS === 'ios' && (isIPhoneXSize(dim) || isIPhoneXrSize(dim)) ? 0.23 : 0.15
+}
+
+export function isIPhoneXSize (dim) {
+    return dim.height == 812 || dim.width == 812;
+}
+
+export function isIPhoneXrSize (dim) {
+    return dim.height == 896 || dim.width == 896;
 }
