@@ -65,7 +65,6 @@ class SignInScreen extends Component {
 		}
 		if (nextProps.data && nextProps.data.code === 200) {
 			this.refs.toast.show('Please check your email, and follow the Instruction!');
-			this.props.resetState();
 		}
 	}
 
@@ -126,7 +125,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
 	return {
-		resetState: () => dispatch(actions.resetState()),
+		resetState: () => dispatch(actions.resetAuthState()),
 	}
 }
 

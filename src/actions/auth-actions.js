@@ -41,7 +41,7 @@ export function registerFailure (error) {
     }
 }
 
-export function resetState () {
+export function resetAuthState () {
     return {
         type: constants.RESET_LOGIN_STATE,
     }

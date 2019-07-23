@@ -62,7 +62,9 @@ class SignInForm extends Component {
                     <View style={{ marginTop: 10 }}>
                         <Text
                             style={[styles.textStyle, {}]}
-                            onPress={() => this.props.navigateTo('ForgotPasswordScreen')}
+                            onPress={() => {
+                                this.props.navigateTo('ForgotPasswordScreen');
+                            }}
                         >
                             Forgot Password?
                         </Text>

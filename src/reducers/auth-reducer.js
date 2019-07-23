@@ -1,6 +1,7 @@
-import { fromJS, Map } from 'immutable';
+import { fromJS } from 'immutable';
 
 import * as constants from '../actions/constants';
+import { guid } from '../utils/misc';
 
 export const initialState = fromJS({
     user: {
@@ -17,7 +18,7 @@ export const initialState = fromJS({
     forgotPassword: {
         loading: false,
         success: false,
-        data: {},
+        response: {},
         error: ''
     }
 });
@@ -64,11 +65,16 @@ export default function authReducer (state = initialState, action) {
             return state
                 .setIn(['forgotPassword', 'loading'], true);
 
-        case constants.FORGOT_PASSWORD_SUCCESS:
+        case constants.FORGOT_PASSWORD_SUCCESS: {
+            const payload = {
+                ...action.data,
+                key: guid()
+            };
             return state
                 .setIn(['forgotPassword', 'success'], true)
-                .setIn(['forgotPassword', 'data'], Map(action.data))
+                .setIn(['forgotPassword', 'response'], payload)
                 .setIn(['forgotPassword', 'loading'], false);
+        }
 
         case constants.FORGOT_PASSWORD_FAILURE:
             return state

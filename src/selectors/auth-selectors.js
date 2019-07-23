@@ -12,7 +12,7 @@ const makeSelectForgotPasswordLoading = () => createSelector(
 );
 
 const makeSelectForgotPasswordData = () => createSelector(
-    selectLoginState, state => state.getIn(['forgotPassword', 'data']).toJS()
+    selectLoginState, state => state.getIn(['forgotPassword', 'response'])
 );
 
 const makeSelectData = () => createSelector(

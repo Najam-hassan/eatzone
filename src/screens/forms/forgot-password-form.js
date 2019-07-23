@@ -18,6 +18,7 @@ class ForgetPasswordForm extends Component {
     componentWillReceiveProps (nextProps) {
         if (nextProps.data && nextProps.data.code === 200) {
             this.props.navigateTo('SignInScreen');
+            this.props.resetState();
             this.forceUpdate();
         } else if (nextProps.data && nextProps.data.code === 404) {
             this.props.showToastMessage(
@@ -91,7 +92,7 @@ const mapDispatchToProps = dispatch => {
                 dispatch(actions.forgotPasswordAction(url, values.toJS()));
             }
         },
-        resetState: () => dispatch(actions.resetState())
+        resetState: () => dispatch(actions.resetAuthState())
     }
 };
 

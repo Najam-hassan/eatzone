@@ -117,7 +117,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
     return {
-        resetState: () => dispatch(actions.resetState()),
+        resetState: () => dispatch(actions.resetAuthState()),
         change: (fieldName, value) => {
             dispatch(change('SigninForm', fieldName, value));
         },

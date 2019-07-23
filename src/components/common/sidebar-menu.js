@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import PhotoUpload from 'react-native-photo-upload';
 import { StyleSheet, View, TouchableOpacity, Text, ScrollView, AsyncStorage, Image } from 'react-native';
 
-import { resetState } from '../../actions/auth-actions'
+import { resetAuthState } from '../../actions/auth-actions'
 import { updateProfileAction } from '../../actions/restaurant-actions/profile-actions';
 
 class SidebarMenu extends Component {
@@ -218,7 +218,7 @@ class SidebarMenu extends Component {
 const mapStateToProps = state => ({})
 const mapDispatchToProps = dispatch => {
   return {
-    clearStore: () => dispatch(resetState()),
+    clearStore: () => dispatch(resetAuthState()),
     updateProfile: data => dispatch(updateProfileAction(data))
   }
 }
