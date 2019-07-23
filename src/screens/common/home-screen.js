@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import { View, AsyncStorage, ActivityIndicator } from 'react-native';
+import { View, AsyncStorage, ActivityIndicator, StyleSheet } from 'react-native';
 
 import { Header } from '../../components/common/header';
 import UserDashboard from '../../containers/user-containers/home-container'
@@ -44,7 +44,9 @@ class HomeScreen extends Component {
                     title={'Home'}
                 />
                 {loading ?
-                    <ActivityIndicator size={'large'} color={'#1BA2FC'} />
+                    <View style={styles.loadingStyle}>
+                        <ActivityIndicator size={'large'} color={'#1BA2FC'} />
+                    </View>
                     : type === 'admin' ? <OwnerDashboard
                         navigation={this.props.navigation}
                     /> :
@@ -63,5 +65,13 @@ const mapStateToProps = state => ({});
 const mapDispatchToProps = dispatch => {
     return {}
 }
+
+const styles = StyleSheet.create({
+    loadingStyle: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    }
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

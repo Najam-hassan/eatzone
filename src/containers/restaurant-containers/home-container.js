@@ -43,7 +43,7 @@ class OwnerDashboard extends Component {
         }
         if (loading) {
             return (
-                <View>
+                <View style={styles.loadingStyle}>
                     <ActivityIndicator size={'large'} color={'#1BA2FC'} />
                 </View>
             )
@@ -60,6 +60,7 @@ class OwnerDashboard extends Component {
                             ({ item }) => (
                                 <View key={item.id} style={styles.listView}>
                                     <TouchableOpacity
+                                        style={{ zIndex: 999 }}
                                         activeOpacity={0.7}
                                         delayLongPress={!isEnable ? 500 : 0}
                                         onPress={() => {
@@ -156,6 +157,11 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
         paddingHorizontal: 8,
         justifyContent: 'space-between',
+    },
+    loadingStyle: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     listView: {
         flex: 1,
