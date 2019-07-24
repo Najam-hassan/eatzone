@@ -31,6 +31,21 @@ class MainApp extends Component {
         console.log('Data: ', openResult.notification.payload.additionalData);
         console.log('isActive: ', openResult.notification.isAppInFocus);
         console.log('openResult: ', openResult);
+
+        const details = openResult.notification.payload.additionalData;
+        if (details) {
+            AsyncStorage.getItem("user_type")
+                .then((value) => {
+                    const { navigation } = this.props;
+                    if (value === 'user') {
+                        navigation.navigate('OrderScreen');
+                    } else if (value === 'admin') {
+                        navigation.navigate('ResturantOrderDetailsScreen', {
+                            details: details && details.newOrder ? details.newOrder : {}
+                        });
+                    }
+                })
+        }
     }
 
     verifyUser = async () => {

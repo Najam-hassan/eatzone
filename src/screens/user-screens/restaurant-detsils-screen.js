@@ -21,7 +21,7 @@ class RestaurantDetailScreen extends Component {
 
   state = { total: 0, distance: 0, charges: 0, name: '' }
 
-  componentDidMount() {
+  componentDidMount () {
 
     // const { params } = this.props.navigation.state;
     // if (params.restaurantId) {
@@ -29,7 +29,7 @@ class RestaurantDetailScreen extends Component {
     // }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps (nextProps) {
     if (nextProps.list && nextProps.list.distance) {
       this.setState({
         name: nextProps.list.name,
@@ -39,7 +39,7 @@ class RestaurantDetailScreen extends Component {
     }
   }
 
-  render() {
+  render () {
     const { list, navigation, loading } = this.props;
     const listItems = list && Object.keys(list).length &&
       list.menu_categories.map(item => (
@@ -115,7 +115,7 @@ class RestaurantDetailScreen extends Component {
                 </View>
                 <View style={{ flexDirection: 'column', alignItems: 'flex-end' }}>
                   <Text style={styles.serviceChargeText}>
-                    Service Charges: {this.state.charges}
+                    Service Charges: {this.state.charges}%
                     {/* Service Charges: 10 % */}
                   </Text>
                   <View style={{ flexDirection: 'row' }}>

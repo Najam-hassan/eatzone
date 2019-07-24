@@ -231,12 +231,15 @@ class CartScreen extends Component {
     const { cartItems, deliveryResturant, collectingResturant } = this.props;
     const orderArr = _.flatMap(cartItems, category =>
       _(category.menu_items)
-        .map(menuItem => ({ menuCategoryId: category.id, itemQuantity: menuItem.quantity, menuItemId: menuItem.id }))
-        .value()
+        .map(menuItem => ({
+          menuCategoryId: category.id,
+          itemQuantity: menuItem.quantity,
+          menuItemId: menuItem.id
+        })).value()
     );
 
     const resultObj = {
-      orderArr,
+      orderArr: orderArr.filter(row => row.itemQuantity > 0),
       collectingRestaurantId: collectingResturant.id,
       deliveringRestaurantId: deliveryResturant.id,
     }

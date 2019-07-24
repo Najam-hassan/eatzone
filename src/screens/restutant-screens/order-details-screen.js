@@ -65,11 +65,11 @@ class OrderDetailsScreen extends Component {
             {params && params.details.user.avatarUrl ?
               <Image
                 source={{ uri: params.details.user.avatarUrl }}
-                style={{ height: 60, width: 60, borderRadius: 60 }}
+                style={{ height: 60, width: 60, borderRadius: 30 }}
               /> :
               <Image
                 source={require('../../assets/images/account.png')}
-                style={{ height: 60, width: 60, borderRadius: 60 }}
+                style={{ height: 60, width: 60, borderRadius: 30 }}
               />}
             <View style={styles.nameContainer}>
               <Text style={styles.userName}>{params.details.user.name}</Text>
