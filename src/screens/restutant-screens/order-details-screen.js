@@ -86,17 +86,30 @@ class OrderDetailsScreen extends Component {
           this.renderOrderItems(item, index)
         ))}
         <View style={styles.actionContainer}>
-          {/* <Button
+          {params.orderConfirmed ? <Button
             title={'Call Customer'}
             onPress={() => {
-              console.log('button pressed')
+              console.log('button pressed');
+              if (Platform.OS === 'android') {
+                Linking.openURL(`tel:${params.details.user.phone}`);
+              }
+              else {
+                const url = `telprompt:${params.details.user.phone}`;
+                Linking.canOpenURL(url)
+                  .then((supported) => {
+                    if (supported) {
+                      return Linking.openURL(url)
+                        .catch(() => null);
+                    }
+                  });
+              }
             }}
             style={[styles.button, {
               backgroundColor: '#00a0ff',
             }]}
             textStyle={{ color: '#fff', fontSize: 12, fontWeight: '400', }}
-          /> */}
-          {confirmed || completed ? <Button
+          /> : null}
+          {!params.orderConfirmed && (confirmed || completed) ? <Button
             title={'Cancel Order'}
             onPress={() => {
               const { details } = params;
@@ -113,7 +126,7 @@ class OrderDetailsScreen extends Component {
           /> : null}
           {loading ?
             <ActivityIndicator size={'large'} color={'#1BA2FC'} /> :
-            confirmed ? <Button
+            !params.orderConfirmed && confirmed ? <Button
               title={'Accept Order'}
               onPress={() => {
                 const { details } = params;
@@ -128,7 +141,7 @@ class OrderDetailsScreen extends Component {
               }]}
               textStyle={{ color: '#17820c', fontSize: 14, fontWeight: '400', }}
             /> : null}
-          {!loading && completed ? <Button
+          {!params.orderConfirmed && !loading && completed ? <Button
             title={'Complete Order'}
             onPress={() => {
               const { details } = params;
