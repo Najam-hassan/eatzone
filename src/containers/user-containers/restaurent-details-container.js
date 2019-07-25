@@ -54,10 +54,7 @@ class RestaurantDetail extends Component {
                           />
                         }
                         onPress={() => {
-                          this.subtractQuantity(row.id, item.id, item.quantity);
-                          if (item.quantity > 0) {
-                            this.props.subtractFromTotal(item.price);
-                          }
+                          this.subtractQuantity(row.id, item.id, item.quantity, item.price);
                         }}
                       />
                       {/* <TouchableOpacity style={{ backgroundColor: '#00a0ff', height: 24, width: 24, borderRadius: 24, overflow: 'hidden', justifyContent: 'center', alignItems: 'center' }}
@@ -114,8 +111,9 @@ class RestaurantDetail extends Component {
     }
     this.props.addItemQuantity(this.props.data);
   }
-  subtractQuantity (categoryId, itemId, quantity) {
+  subtractQuantity (categoryId, itemId, quantity, price) {
     if (quantity > 0) {
+      this.props.subtractFromTotal(price);
       let categoryIndex = this.props.data.findIndex(e => e.id === categoryId);
       if (categoryIndex >= 0) {
         let itemIndex = this.props.data[categoryIndex].menu_items.findIndex(e => e.id === itemId);

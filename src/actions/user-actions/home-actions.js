@@ -47,3 +47,35 @@ export function fetchListAction (url) {
             });
     }
 }
+
+export function fetchCollectingListRequest () {
+    return {
+        type: constants.FETCH_COLLECTING_LIST_REQUEST,
+    }
+}
+
+export function fetchCollectingListSuccess (resturants) {
+    return {
+        type: constants.FETCH_COLLECTING_LIST_SUCCESS,
+        data: resturants,
+    }
+}
+
+export function fetchListCollectingFailure (error) {
+    return {
+        type: constants.FETCH_COLLECTING_LIST_FAILURE,
+        error
+    }
+}
+
+export function fetchCollectingListAction (url) {
+    return dispatch => {
+        dispatch(fetchCollectingListRequest());
+        return axios.get(url)
+            .then(response => {
+                dispatch(fetchCollectingListSuccess(response.data));
+            }).catch(error => {
+                dispatch(fetchListCollectingFailure(error.response.data))
+            });
+    }
+}

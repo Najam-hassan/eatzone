@@ -72,7 +72,7 @@ class SignInScreen extends Component {
                             </ScrollView>
                         </View>
                     </View>
-                    <Toast ref="toast" position='top' />
+                    <Toast ref="toast" position='bottom' />
                 </ImageBackground>
             </View>
         )

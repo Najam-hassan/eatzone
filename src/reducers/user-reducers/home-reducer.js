@@ -10,11 +10,43 @@ export const initialState = fromJS({
     loading: false,
     error: null,
   },
+  collecting: {
+    data: [],
+  },
   restaurant: { collectingResturant: {}, deliveryResturant: {} }
 });
 
 export default function homeReducer (state = initialState, action) {
   switch (action.type) {
+    case constants.FETCH_COLLECTING_LIST_REQUEST:
+      return state.setIn(['list', 'loading'], true);
+
+    case constants.FETCH_COLLECTING_LIST_SUCCESS: {
+      const payload = List(
+        action.data.map(item => {
+          const date = new Date();
+          const isValid = date.toLocaleTimeString() < item.collectTimeEnd &&
+            date.toLocaleTimeString() >= item.collectTimeStart;
+          return (
+            Map({
+              ...item,
+              key: guid(),
+              isValid: isValid,
+            })
+          )
+        }),
+      );
+      return state
+        .setIn(['collecting', 'data'], payload)
+        .setIn(['list', 'data'], List())
+        .setIn(['list', 'loading'], false);
+    }
+
+    case constants.FETCH_COLLECTING_LIST_FAILURE:
+      return state.setIn(['list', 'error'], action.error)
+        .setIn(['list', 'loading'], false);
+
+
     case constants.FETCH_LIST_REQUEST:
       return state.setIn(['list', 'loading'], true);
 
@@ -33,7 +65,9 @@ export default function homeReducer (state = initialState, action) {
           )
         }),
       );
-      return state.setIn(['list', 'data'], payload)
+      return state
+        .setIn(['list', 'data'], payload)
+        .setIn(['collecting', 'data'], List())
         .setIn(['list', 'loading'], false);
     }
 

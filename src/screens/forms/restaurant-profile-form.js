@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React, { Component } from 'react';
 import { CheckBox } from 'react-native-elements';
 import MapView, { Marker } from 'react-native-maps';
@@ -20,8 +21,8 @@ import { isAlphabetsWithSpaces, isValidNumber } from '../../utils/regex';
 
 class ProfileForm extends Component {
   state = {
-    collect: { collectTimeStart: '00:00', collectTimeEnd: '00:00' },
-    deliver: { deliverTimeStart: '00:00', deliverTimeEnd: '00:00' },
+    collect: { collectTimeStart: '0:00', collectTimeEnd: '0:00' },
+    deliver: { deliverTimeStart: '0:00', deliverTimeEnd: '0:00' },
     multiSliderValue: [5, 30],
     sliderOneValue: [1],
     location: 'Restaurant Address',
@@ -58,39 +59,57 @@ class ProfileForm extends Component {
           { cancelable: false },
         );
       } else if (canCollect && canDeliver) {
-        this.props.onSubmitForm({
-          ...formValues,
-          deliverRadius: sliderOneValue[0] * 1000,
-          collectTimeEnd: collect.collectTimeEnd,
-          deliverTimeEnd: deliver.deliverTimeEnd,
-          collectTimeStart: collect.collectTimeStart,
-          deliverTimeStart: deliver.deliverTimeStart,
-        });
-      } else if (canCollect) {
-        if (values.get('collectionServiceCharges')) {
+        if ((collect.collectTimeStart !== '0:00' &&
+          collect.collectTimeEnd !== '0:00') &&
+          (deliver.deliverTimeStart !== '0:00' &&
+            deliver.deliverTimeEnd !== '0:00')) {
           this.props.onSubmitForm({
             ...formValues,
+            deliverRadius: sliderOneValue[0] * 1000,
+            collectTimeEnd: collect.collectTimeEnd,
+            deliverTimeEnd: deliver.deliverTimeEnd,
+            collectTimeStart: collect.collectTimeStart,
+            deliverTimeStart: deliver.deliverTimeStart,
+          });
+        } else {
+          return Alert.alert(
+            "Required",
+            'Please select start and end time!',
+            [
+              { text: 'OK', onPress: () => console.log('OK Pressed') },
+            ],
+            { cancelable: false },
+          );
+        }
+      } else if (canCollect) {
+        if ((collect.collectTimeStart !== '0:00' &&
+          collect.collectTimeEnd !== '0:00')) {
+          this.props.onSubmitForm({
+            ...formValues,
+            deliverRadius: sliderOneValue[0] * 1000,
             collectTimeEnd: collect.collectTimeEnd,
             collectTimeStart: collect.collectTimeStart,
           });
         } else return Alert.alert(
-          "",
-          'Please fill the required field (time and service charges)',
+          "Required",
+          'Please select dine in start and end time',
           [
             { text: 'OK', onPress: () => console.log('OK Pressed') },
           ],
           { cancelable: false },
         );
       } else if (canDeliver) {
-        if (values.get('deliveryServiceCharges')) {
+        if ((deliver.deliverTimeStart !== '0:00' &&
+          deliver.deliverTimeEnd !== '0:00')) {
           this.props.onSubmitForm({
             ...formValues,
+            deliverRadius: sliderOneValue[0] * 1000,
             deliverTimeEnd: deliver.deliverTimeEnd,
             deliverTimeStart: deliver.deliverTimeStart,
           });
         } else return Alert.alert(
-          "",
-          'Please fill the required field (time and delivery charges)',
+          "Required",
+          'Please select delivery start and end time',
           [
             { text: 'OK', onPress: () => console.log('OK Pressed') },
           ],
@@ -325,7 +344,7 @@ class ProfileForm extends Component {
                       onPress={() => this.collectStartTime.open()}
                       style={styles.text}
                     >
-                      {this.state.collect.collectTimeStart}
+                      {moment(this.state.collect.collectTimeStart, "h:mm:ss").format("h:mm A")}
                     </Text>
                     <TimePicker
                       ref={ref => {
@@ -356,7 +375,7 @@ class ProfileForm extends Component {
                       onPress={() => this.collectEndTime.open()}
                       style={styles.text}
                     >
-                      {this.state.collect.collectTimeEnd}
+                      {moment(this.state.collect.collectTimeEnd, "h:mm:ss").format("h:mm A")}
                     </Text>
                     <TimePicker
                       ref={ref => {
@@ -493,7 +512,7 @@ class ProfileForm extends Component {
                       style={styles.text}
                       onPress={() => this.deliverStartTime.open()}
                     >
-                      {this.state.deliver.deliverTimeStart}
+                      {moment(this.state.deliver.deliverTimeStart, "h:mm:ss").format("h:mm A")}
                     </Text>
                     <TimePicker
                       ref={ref => {
@@ -524,7 +543,7 @@ class ProfileForm extends Component {
                       onPress={() => this.deliverEndTime.open()}
                       style={styles.text}
                     >
-                      {this.state.deliver.deliverTimeEnd}
+                      {moment(this.state.deliver.deliverTimeEnd, "h:mm:ss").format("h:mm A")}
                     </Text>
                     <TimePicker
                       ref={ref => {

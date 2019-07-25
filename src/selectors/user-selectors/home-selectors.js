@@ -37,6 +37,12 @@ const makeSelectFilterData = () => createSelector(
         }
     }
 )
+const makeSelectCollectingList = () => createSelector(
+    selectHomeState, state => {
+        const restaurants = state.getIn(['collecting', 'data']).toJS();
+        return restaurants.filter(row => row.isValid === false);
+    }
+)
 
 const makeSelectError = () => createSelector(
     selectHomeState, state => state.getIn(['list', 'error'])
@@ -56,6 +62,7 @@ export {
     makeSelectError,
     makeSelectLoading,
     makeSelectFilterData,
+    makeSelectCollectingList,
     makeSelectdeliveryResturant,
     makeSelectCollectingResturant,
 };

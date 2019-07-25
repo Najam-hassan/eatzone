@@ -35,6 +35,8 @@ class HomeContainer extends Component {
     this.state = {
       firstClick: true,
       isLoading: false,
+      latitude: "",
+      longitude: "",
       region: {
         latitude: null,
         longitude: null,
@@ -45,11 +47,15 @@ class HomeContainer extends Component {
   }
 
   getCurrentResPosition () {
-    const { fetchList } = this.props;
+    const { fetchCollectingList } = this.props;
     navigator.geolocation.getCurrentPosition(
       (position) => {
         this.setState({ isLoading: false });
         const { latitude, longitude } = position.coords;
+        this.setState({
+          latitude: latitude,
+          longitude: longitude
+        })
         console.log('lat: ', latitude, 'long: ', longitude);
         AsyncStorage.setItem('location', { latitude, longitude });
         initialValues = {
@@ -64,7 +70,7 @@ class HomeContainer extends Component {
             longitude: position.coords.longitude,
           }
         });
-        fetchList(`/user/nearby-restaurants/${latitude},${longitude}`);
+        fetchCollectingList(`/user/nearby-restaurants/${latitude},${longitude}`);
         // fetchList(`/user/nearby-restaurants/31.474241414107382, 74.24986490048468`);
       },
       (error) => {
@@ -82,8 +88,10 @@ class HomeContainer extends Component {
   }
 
   moveBack () {
-    this.setState({ firstClick: true })
-    this.getCurrentResPosition();
+    this.setState({ firstClick: true });
+    const { fetchCollectingList } = this.props;
+    const { latitude, longitude } = this.state;
+    fetchCollectingList(`/user/nearby-restaurants/${latitude},${longitude}`);
   }
   setLocation = location => {
     if (location) {
@@ -144,7 +152,7 @@ class HomeContainer extends Component {
   );
 
   render () {
-    const { list, loading, navigation } = this.props;
+    const { list, loading, navigation, collecting } = this.props;
     const { isLoading, firstClick, region } = this.state;
     if (isLoading) {
       return (
@@ -260,27 +268,36 @@ class HomeContainer extends Component {
                     }
                   </Text>
                   <ScrollView>
-                    {list && list.length ?
+                    {collecting && collecting.length ?
                       <FlatList
-                        data={list}
+                        data={collecting}
                         scrollEnabled={true}
                         extraData={this.state}
                         renderItem={this._renderItem}
                         keyExtractor={(item, index) => (
                           Date.now() + index.toString()
                         )}
-                      /> :
-                      <View style={{
-                        flex: .5,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}>
-                        <Text style={[styles.title, {
-                          fontWeight: '400', color: '#999'
-                        }]}>
-                          No Restaurant found in your location
+                      /> : list && list.length ?
+                        <FlatList
+                          data={list}
+                          scrollEnabled={true}
+                          extraData={this.state}
+                          renderItem={this._renderItem}
+                          keyExtractor={(item, index) => (
+                            Date.now() + index.toString()
+                          )}
+                        /> :
+                        <View style={{
+                          flex: .5,
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}>
+                          <Text style={[styles.title, {
+                            fontWeight: '400', color: '#999'
+                          }]}>
+                            No Restaurant found in your location
                         </Text>
-                      </View>
+                        </View>
                     }
                   </ScrollView>
                 </View>
@@ -314,11 +331,15 @@ class HomeContainer extends Component {
 const mapStateToProps = state => ({
   list: selectors.makeSelectFilterData()(state),
   loading: selectors.makeSelectLoading()(state),
+  collecting: selectors.makeSelectCollectingList()(state),
   resturant: selectors.makeSelectCollectingResturant()(state),
 });
 
 const mapDispatchToProps = dispatch => {
   return {
+    fetchCollectingList: (url) => {
+      dispatch(actions.fetchCollectingListAction(url));
+    },
     fetchList: (url) => {
       dispatch(actions.fetchListAction(url));
     },
