@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -45,7 +46,7 @@ class Restaurents extends Component {
           </View>
           {!(item.isValid) ? <View style={styles.message}>
             <Text style={{ color: '#fff' }}>
-              This restaurant deliver food in between {item.deliverTimeStart} to {item.deliverTimeEnd}.
+              This restaurant deliver food in between {moment(item.deliverTimeStart, "h:mm:ss").format("h:mm A")} to {moment(item.deliverTimeEnd, "h:mm:ss").format("h:mm A")}.
             </Text>
           </View> : null}
         </View>
@@ -116,10 +117,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     position: 'absolute',
     flexDirection: 'row',
-    backgroundColor: 'red',
     borderTopLeftRadius: 10,
     justifyContent: 'center',
     borderTopRightRadius: 10,
+    backgroundColor: '#3C71A8',
   }
 });
 
