@@ -1,5 +1,7 @@
 import _ from 'lodash';
 import { createSelector } from 'reselect';
+
+import { getUnique } from '../../utils/misc';
 import { initialState } from '../../reducers/user-reducers/home-reducer';
 
 const selectHomeState = state => state.get('home', initialState);
@@ -17,19 +19,19 @@ const makeSelectFilterData = () => createSelector(
         const restaurants = state.getIn(['list', 'data']).toJS();
         if (restaurants && restaurants.length > 0 &&
             restaurants[0].menu_categories && restaurants[0].menu_categories.length) {
-            const list = _.flatMap(restaurants, category =>
-                _(category.menu_categories)
-                    .map(menuItems => {
-                        if (menuItems.menu_items.length > 0) {
-                            return ({
-                                ...category
-                            })
-                        }
-                    }).value()
-            );
+            const list = _.flatMap(restaurants, category => {
+                if (category.menu_categories && category.menu_categories.length) {
+                    return _(category.menu_categories).map(menuItems => (
+                        menuItems.menu_items.length > 0 && ({
+                            ...category
+                        })
+                    )).value()
+                }
+            });
             const data = list.filter(row => row);
-            return Array.from(new Set(data.map(a => a.id)))
-                .map(id => data.find(a => a.id === id))
+            return getUnique(data, 'id');
+            // return Array.from(new Set(data.map(a => a.id)))
+            //     .map(id => data.find(a => a.id === id))
         } else {
             return restaurants;
         }

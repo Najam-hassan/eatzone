@@ -23,8 +23,10 @@ class SignInScreen extends Component {
         if (nextProps.isAuthenticated) {
             if (nextProps.error && nextProps.error.message) {
                 this.refs.toast.show('Email already registered', 1500);
+                this.props.resetState();
             } else {
-                this.refs.toast.show('Failed to registered, please try again ')
+                this.refs.toast.show('Failed to registered, please try again ');
+                this.props.resetState();
             }
         }
     }

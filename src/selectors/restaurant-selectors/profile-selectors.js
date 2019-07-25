@@ -7,6 +7,10 @@ const makeSelectProfileLoading = () => createSelector(
     selectRestaurantProfileState, state => state.getIn(['restaurant', 'loading'])
 );
 
+const makeSelectorProfileStatus = () => createSelector(
+    selectRestaurantProfileState, state => state.getIn(['restaurant', 'updateSuccess'])
+);
+
 const makeSelectProflieData = () => createSelector(
     selectRestaurantProfileState, state => state.getIn(['restaurant', 'data']).toJS()
 );
@@ -19,5 +23,6 @@ export {
     makeSelectError,
     makeSelectProflieData,
     makeSelectProfileLoading,
+    makeSelectorProfileStatus,
     selectRestaurantProfileState,
 };

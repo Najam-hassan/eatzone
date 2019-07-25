@@ -9,6 +9,7 @@ const { width, height } = Dimensions.get('screen');
 import Button from '../../components/common/button';
 import InputField from '../../components/common/input';
 import * as actions from '../../actions/user-actions/profile-actions';
+import { isAlphabetsWithSpaces, isValidNumber } from '../../utils/regex';
 import * as selectors from '../../selectors/user-selectors/profile-selectors';
 
 import { isValidWebUrl } from '../../utils/regex';
@@ -140,17 +141,22 @@ const validate = values => {
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.get('email'))) {
         errors.email = 'not valid email!'
     }
+
     if (!values.get('name')) {
         errors.name = '*Required';
-    } else if (values.get('name').length < 4) {
-        errors.name = 'name must have at least 5 charecters long!'
-    }
-    if (!values.get('phone')) {
-        errors.phone = '*Required';
-    } else if (values.get('phone').length < 9) {
-        errors.phone = "must be at least 9 characters long"
+    } else if (!isAlphabetsWithSpaces(values.get('name'))) {
+        errors.name = 'numeric values not allowed'
+    } else if (values.get('name').length < 4 || values.get('name').length > 15) {
+        errors.name = 'name must be 4 to 15 charecters long!'
     }
 
+    if (!values.get('phone')) {
+        errors.phone = '*Required';
+    } else if (!isValidNumber(values.get('phone'))) {
+        errors.phone = "Only number allowed "
+    } else if (values.get('phone').length <= 10) {
+        errors.phone = "must be at least 10 characters long"
+    }
     return errors;
 }
 

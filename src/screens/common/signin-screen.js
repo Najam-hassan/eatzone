@@ -60,7 +60,7 @@ class SignInScreen extends Component {
 				this.props.resetState();
 			} else {
 				this.refs.toast.show('Confirmation email has been sent to your account!');
-				this.props.resetState()
+				// this.props.resetState();
 			}
 		}
 		if (nextProps.data && nextProps.data.code === 200) {

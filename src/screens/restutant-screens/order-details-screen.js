@@ -73,7 +73,7 @@ class OrderDetailsScreen extends Component {
               />}
             <View style={styles.nameContainer}>
               <Text style={styles.userName}>{params.details.user.name}</Text>
-              <Text style={styles.userContact}>{moment(params.details.createdAt).format("ddd, hA")}</Text>
+              <Text style={styles.userContact}>{moment(params.details.createdAt).format("ddd, LT")}</Text>
               {/* <Text>Location: Lahore</Text> */}
             </View>
           </View>

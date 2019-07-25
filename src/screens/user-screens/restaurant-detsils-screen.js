@@ -19,7 +19,7 @@ const { width, height } = Dimensions.get('screen');
 
 class RestaurantDetailScreen extends Component {
 
-  state = { total: 0, distance: 0, charges: 0, name: '' }
+  state = { total: 0, distance: 0, charges: 0, name: '', bannerUrl: '' }
 
   componentDidMount () {
 
@@ -34,6 +34,7 @@ class RestaurantDetailScreen extends Component {
       this.setState({
         name: nextProps.list.name,
         distance: nextProps.list.distance,
+        bannerUrl: nextProps.list.bannerUrl,
         charges: nextProps.list.deliveryServiceCharges,
       })
     }
@@ -101,8 +102,8 @@ class RestaurantDetailScreen extends Component {
         <View style={{ flex: 0.4 }}>
           <ImageBackground
             source={
-              list && list.bannerUrl !== '' ?
-                { uri: list.bannerUrl } : require('../../assets/images/mcdonal.jpg')
+              this.state.bannerUrl !== '' ?
+                { uri: this.state.bannerUrl } : require('../../assets/images/mcdonal.jpg')
             }
             style={styles.backgroundImage}
           >

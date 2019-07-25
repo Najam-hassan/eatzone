@@ -150,7 +150,7 @@ class CartScreen extends Component {
             flex: 2, alignItems: 'flex-end', justifyContent: 'flex-end'
           }}>
             <Text style={{ color: '#cccccc', fontWeight: '400', }}>
-              {parseFloat(this.state.subTotal).toFixed(2)}
+              ${parseFloat(this.state.subTotal).toFixed(2)}
             </Text>
           </View>
         </View>
@@ -165,7 +165,22 @@ class CartScreen extends Component {
             flex: 2, alignItems: 'flex-end', justifyContent: 'flex-end'
           }}>
             <Text style={{ color: '#cccccc', fontWeight: '400' }}>
-              ${deliveryResturant.deliveryServiceCharges.toFixed(2)}
+              {deliveryResturant.deliveryServiceCharges}%
+            </Text>
+          </View>
+        </View>
+
+        <View style={{
+          flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 3,
+        }}>
+          <Text numberOfLines={1} style={{
+            flex: 8, color: '#cccccc', fontWeight: '400',
+          }}>GST</Text>
+          <View style={{
+            flex: 2, alignItems: 'flex-end', justifyContent: 'flex-end'
+          }}>
+            <Text style={{ color: '#cccccc', fontWeight: '400' }}>
+              16%
             </Text>
           </View>
         </View>
@@ -299,7 +314,10 @@ class CartScreen extends Component {
                         <View style={{ flex: 2, justifyContent: 'space-between' }}>
                           <Text style={{ color: '#000', fontWeight: '400', fontSize: 16, }}>
                             ${(this.state.subTotal +
-                              deliveryResturant.deliveryServiceCharges).toFixed(2)}
+                              (this.state.subTotal *
+                                `.${deliveryResturant.deliveryServiceCharges}` +
+                                (this.state.subTotal * 0.16))).toFixed(2)
+                            }
                           </Text>
                         </View>
                       </View>

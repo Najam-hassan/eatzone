@@ -93,7 +93,7 @@ class OrdersContainer extends Component {
                         renderItem={this.renderOrderCard}
                     /> : <View style={styles.message}>
                         <Text style={[styles.title, { fontWeight: '400' }]}>
-                            Dont have any order yet!.
+                            Don't have any order yet.
                         </Text>
                     </View>
                 }

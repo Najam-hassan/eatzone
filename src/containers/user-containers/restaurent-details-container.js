@@ -55,7 +55,9 @@ class RestaurantDetail extends Component {
                         }
                         onPress={() => {
                           this.subtractQuantity(row.id, item.id, item.quantity);
-                          this.props.subtractFromTotal(item.price);
+                          if (item.quantity > 0) {
+                            this.props.subtractFromTotal(item.price);
+                          }
                         }}
                       />
                       {/* <TouchableOpacity style={{ backgroundColor: '#00a0ff', height: 24, width: 24, borderRadius: 24, overflow: 'hidden', justifyContent: 'center', alignItems: 'center' }}

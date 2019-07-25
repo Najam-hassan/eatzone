@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form/immutable'
 import {
-    View, StyleSheet, Dimensions, ActivityIndicator
+    View, StyleSheet, Dimensions, ActivityIndicator, Text, TouchableOpacity
 } from 'react-native'
 
 const { width, height } = Dimensions.get('screen');
@@ -61,9 +61,15 @@ class ForgetPasswordForm extends Component {
                             textStyle={{ /* styles for button title */ }}
                         />
                     }
-                    {/* <View style={{ marginTop: 10 }}>
-                        <Text style={[styles.textStyle, {}]}>Forgot Password?</Text>
-                    </View> */}
+                    <TouchableOpacity
+                        activeOpacity={0.5}
+                        style={{ marginTop: 40 }}
+                        onPress={() => {
+                            this.props.navigateTo('SignInScreen')
+                        }}
+                    >
+                        <Text style={[styles.textStyle, {}]}>Back to login</Text>
+                    </TouchableOpacity>
                 </View>
             </View >
         )
@@ -119,8 +125,8 @@ const styles = StyleSheet.create({
     },
     textStyle: {
         textAlign: 'center',
+        fontWeight: "400",
         color: '#000',
-        fontWeight: "400"
     },
     signUpTextStyle: {
         color: '#1BA2FC',

@@ -8,6 +8,7 @@ export const initialState = fromJS({
         data: {},
         loading: false,
         error: null,
+        updateSuccess: false,
     },
 });
 
@@ -21,8 +22,10 @@ export default function profileReducer (state = initialState, action) {
                 ...action.profile,
                 key: guid(),
             });
-            return state.setIn(['restaurant', 'data'], payload)
-                .setIn(['restaurant', 'loading'], false);
+            return state
+                .setIn(['restaurant', 'data'], payload)
+                .setIn(['restaurant', 'loading'], false)
+                .setIn(['restaurant', 'updateSuccess'], action.updating);
         }
 
         case constants.UPDATE_RESATURANT_PROFILE_FAILURE:

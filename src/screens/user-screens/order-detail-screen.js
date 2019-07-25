@@ -33,7 +33,16 @@ class OrderDetailScreen extends Component {
                     <Text style={{ color: '#cccccc', fontWeight: '400' }}>Delivery Fee</Text>
                     <View style={styles.priceStyle}>
                         <Text style={{ color: '#cccccc', fontWeight: '400' }}>
-                            ${details.deliveringRestaurant.deliveryServiceCharges.toFixed(2)}
+                            {details.deliveringRestaurant.deliveryServiceCharges}%
+                        </Text>
+                    </View>
+                </View>
+
+                <View style={styles.innerViewStyle}>
+                    <Text style={{ color: '#cccccc', fontWeight: '400' }}>GST</Text>
+                    <View style={styles.priceStyle}>
+                        <Text style={{ color: '#cccccc', fontWeight: '400' }}>
+                            16%
                         </Text>
                     </View>
                 </View>
@@ -89,7 +98,9 @@ class OrderDetailScreen extends Component {
                             <Text style={styles.titleText}>Total</Text>
                             <Text style={styles.titleText}>
                                 ${subTotal +
-                                    params.details.deliveringRestaurant.deliveryServiceCharges}
+                                    (subTotal *
+                                        `.${params.details.deliveringRestaurant.deliveryServiceCharges}` +
+                                        (subTotal * 0.16))}
                             </Text>
                         </View>
                     </View>

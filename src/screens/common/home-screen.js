@@ -16,7 +16,6 @@ class HomeScreen extends Component {
             latitude: null,
             longitude: null,
         }
-        // this.checkUserType();
     }
 
     checkUserType = async () => {

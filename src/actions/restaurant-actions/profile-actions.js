@@ -7,10 +7,11 @@ export function updateProfileRequest () {
     }
 }
 
-export function updateProfileSuccess (profile) {
+export function updateProfileSuccess (profile, updating) {
     return {
         type: constants.UPDATE_RESATURANT_PROFILE_SUCCESS,
         profile,
+        updating
     }
 }
 
@@ -27,12 +28,12 @@ export function resetState () {
     }
 }
 
-export function updateProfileAction (data) {
+export function updateProfileAction (data, updating) {
     return dispatch => {
         dispatch(updateProfileRequest());
         return axios.put(`/restaurant/edit-profile`, data)
             .then(response => {
-                dispatch(updateProfileSuccess(response.data));
+                dispatch(updateProfileSuccess(response.data, updating));
             })
             .catch(error => {
                 dispatch(updateProfileFailure(error));

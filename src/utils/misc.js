@@ -36,3 +36,11 @@ export function isIPhoneXSize (dim) {
 export function isIPhoneXrSize (dim) {
     return dim.height == 896 || dim.width == 896;
 }
+
+export function getUnique (arr, comp) {
+    const unique = arr
+        .map(e => e[comp])
+        .map((e, i, final) => final.indexOf(e) === i && i)
+        .filter(e => arr[e]).map(e => arr[e]);
+    return unique;
+}

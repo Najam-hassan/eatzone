@@ -19,6 +19,10 @@ class EditProfileScreen extends Component {
     }
 
     componentWillReceiveProps (nextProps) {
+        if (nextProps.updateSuccess) {
+            this.props.navigation.navigate("HomeScreen");
+            this.props.resetState();
+        }
         if (nextProps.profile && nextProps.profile.name) {
             this.setState({ profile: nextProps.profile });
             this.props.resetState();
@@ -60,6 +64,7 @@ class EditProfileScreen extends Component {
 }
 
 const mapStateToProps = state => ({
+    updateSuccess: selectors.makeSelectorProfileStatus()(state),
     loading: selectors.makeSelectProfileLoading()(state),
     profile: selectors.makeSelectProflieData()(state),
 });
@@ -71,7 +76,9 @@ const mapDispatchToProps = dispatch => {
         change: (fieldName, value) => {
             dispatch(change("RestaurantProfileForm", fieldName, value))
         },
-        onSubmit: values => dispatch(actions.updateProfileAction(values)),
+        onSubmit: (values) => {
+            dispatch(actions.updateProfileAction(values, true))
+        },
     }
 };
 

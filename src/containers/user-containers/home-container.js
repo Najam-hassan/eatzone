@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import Drawer from 'react-native-draggable-view';
@@ -74,6 +75,7 @@ class HomeContainer extends Component {
       { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
     );
   }
+
   componentDidMount () {
     this.setState({ isLoading: true });
     this.getCurrentResPosition();
@@ -129,9 +131,13 @@ class HomeContainer extends Component {
         />
         <View style={{ flex: 1, flexDirection: 'column', marginLeft: 20, }}>
           <Text style={styles.title}>{item.name}</Text>
-          <Text numberOfLines={2} style={styles.description}>
-            {item.addressDetails}
-          </Text>
+          {this.state.firstClick ?
+            <Text numberOfLines={2} style={styles.description}>
+              {moment(item.collectTimeStart, "h:mm:ss").format("h:mm A")} to {moment(item.collectTimeEnd, "h:mm:ss").format("h:mm A")}
+            </Text> :
+            <Text numberOfLines={2} style={styles.description}>
+              {moment(item.deliverTimeStart, "h:mm:ss").format("h:mm A")} to {moment(item.deliverTimeEnd, "h:mm:ss").format("h:mm A")}
+            </Text>}
         </View>
       </View>
     </TouchableOpacity>
@@ -247,8 +253,11 @@ class HomeContainer extends Component {
                 <View style={{
                   marginBottom: 15, backgroundColor: '#f7f8fa', flex: .5
                 }}>
-                  <Text style={{ color: '#000000', textAlign: "center", padding: 6 }}>{firstClick ?
-                    `Please select your dine in restaurant` : `Please select your delivery restaurant`}
+                  <Text style={{ color: '#000000', textAlign: "center", padding: 6 }}>
+                    {firstClick ?
+                      `Please select your dine in restaurant` :
+                      `Please select your delivery restaurant`
+                    }
                   </Text>
                   <ScrollView>
                     {list && list.length ?
@@ -288,7 +297,6 @@ class HomeContainer extends Component {
         {
           !firstClick ?
             <View style={styles.overlayMessage}>
-
               <TouchableOpacity
                 onPress={() => this.moveBack()}
                 style={{ position: 'relative', marginRight: 5 }}>
@@ -322,7 +330,6 @@ const mapDispatchToProps = dispatch => {
     },
     fetchDetails: (id, collectingId) => {
       dispatch(fetchDetailAction(id, collectingId));
-      // dispatch(setSetUser)
     },
   }
 };
