@@ -130,7 +130,7 @@ class HomeContainer extends Component {
         }
       }}
     >
-      <View style={styles.itemStyling}>
+      <View style={[styles.itemStyling]}>
         <Image
           source={
             item && item.bannerUrl !== '' ?
@@ -148,6 +148,10 @@ class HomeContainer extends Component {
               {moment(item.deliverTimeStart, "h:mm:ss").format("h:mm A")} to {moment(item.deliverTimeEnd, "h:mm:ss").format("h:mm A")}
             </Text>}
         </View>
+        {!this.state.firstClick && item && !item.isValid ?
+          <View style={styles.bannerMessage}>
+            <Text style={styles.bannerText}>Temporarily unavailable</Text>
+          </View> : null}
       </View>
     </TouchableOpacity>
   );
@@ -421,10 +425,8 @@ const styles = StyleSheet.create({
     flex: 1,
     right: 0,
     padding: 4,
-    // alignItems: 'center',
     position: 'absolute',
     justifyContent: 'center',
-    // backgroundColor: 'rgba(0,0,0,0.5)',
   },
   button: {
     height: 30,
@@ -443,6 +445,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  bannerText: {
+    color: '#fff',
+    fontSize: 12,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  bannerMessage: {
+    top: 5,
+    right: 5,
+    padding: 3,
+    borderRadius: 5,
+    position: 'absolute',
+    backgroundColor: '#00a0ff',
+  }
 });
 
 export default connect(
