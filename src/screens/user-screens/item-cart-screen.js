@@ -270,6 +270,8 @@ class CartScreen extends Component {
       <View style={{ flex: 1, backgroundColor: '#ebebeb' }}>
         <StatusBar hidden={false} />
         <PageHeader
+          isCartScreen={true}
+          id={collectingResturant.id}
           navigation={this.props.navigation}
           title={'Your Cart'}
         />

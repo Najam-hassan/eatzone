@@ -26,14 +26,22 @@ const Header = ({ navigation, title, profile }) => {
     )
 }
 
-const PageHeader = ({ navigation, title }) => {
+const PageHeader = ({ navigation, title, isCartScreen, id }) => {
     const { iconsViewStyle, navTitle, navRight } = styles;
     return (
         <View style={{ backgroundColor: '#00a0ff', }}>
             <View style={[iconsViewStyle, { backgroundColor: '#00a0ff' }]}>
                 <TouchableOpacity
                     style={{ paddingHorizontal: 5, paddingVertical: 10, flex: 0.1, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', }}
-                    onPress={() => { navigation.goBack() }}
+                    onPress={() => {
+                        if (isCartScreen) {
+                            navigation.navigate("RestaurantDetailScreen", {
+                                restaurantId: id
+                            });
+                        } else {
+                            navigation.goBack()
+                        }
+                    }}
                 >
                     <Icon name="chevron-left" size={34} color={'#fff'} />
                 </TouchableOpacity>
