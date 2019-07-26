@@ -6,10 +6,11 @@ import Drawer from 'react-native-draggable-view';
 import { NavigationEvents } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
 import {
   View, Text, StyleSheet, Dimensions, StatusBar,
   FlatList, Image, ActivityIndicator, TouchableOpacity,
-  ScrollView, AsyncStorage, Platform
+  ScrollView, AsyncStorage, Platform, Linking, Alert
 } from 'react-native';
 
 const { height, width } = Dimensions.get('screen');
@@ -49,35 +50,60 @@ class HomeContainer extends Component {
 
   getCurrentResPosition () {
     const { fetchCollectingList } = this.props;
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        this.setState({ isLoading: false });
-        const { latitude, longitude } = position.coords;
-        this.setState({
-          latitude: latitude,
-          longitude: longitude
-        })
-        console.log('lat: ', latitude, 'long: ', longitude);
-        AsyncStorage.setItem('location', { latitude, longitude });
-        initialValues = {
-          ...initialValues,
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.setState({ isLoading: false });
+      const { latitude, longitude } = position.coords;
+      this.setState({
+        latitude: latitude,
+        longitude: longitude
+      })
+      console.log('lat: ', latitude, 'long: ', longitude);
+      AsyncStorage.setItem('location', { latitude, longitude });
+      initialValues = {
+        ...initialValues,
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      };
+      this.setState({
+        region: {
+          ...this.state.region,
           latitude: position.coords.latitude,
-          longitude: position.coords.longitude
-        };
-        this.setState({
-          region: {
-            ...this.state.region,
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          }
-        });
-        fetchCollectingList(`/user/nearby-restaurants/${latitude},${longitude}`);
-        // fetchList(`/user/nearby-restaurants/31.474241414107382, 74.24986490048468`);
-      },
+          longitude: position.coords.longitude,
+        }
+      });
+      fetchCollectingList(`/user/nearby-restaurants/${latitude},${longitude}`);
+      // fetchList(`/user/nearby-restaurants/31.474241414107382, 74.24986490048468`);
+    },
       (error) => {
         this.setState({ error: error.message, isLoading: false });
-        // const location = AsyncStorage.getItem('location');
-        // console.log(location, '..........');
+        if (error.message === "No location provider available." || error.code === 2) {
+          if (Platform.OS === 'android') {
+            RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({ interval: 10000, fastInterval: 5000 })
+              .then(data => {
+                console.log(data, '0-0-0-0-0-0-0-0');
+                this.getCurrentResPosition();
+              }).catch(error => {
+                console.log(error, '())()()()()')
+              });
+          } else {
+            return Alert.alert(
+              "",
+              'Please enable your device location',
+              [
+                {
+                  text: 'settings', onPress: () =>
+                    Linking.openURL('App-Prefs:root=LOCATION_SERVICES:')
+                },
+                {
+                  text: 'Cancel',
+                  onPress: () => console.log('Cancel Pressed'),
+                  style: 'cancel'
+                },
+              ],
+              { cancelable: false },
+            );
+          }
+        }
       },
       { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
     );

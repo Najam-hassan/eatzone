@@ -3,6 +3,7 @@ package com.food_all_in_one;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.heanoria.library.reactnative.locationenabler.RNAndroidLocationEnablerPackage;
 import com.swmansion.reanimated.ReanimatedPackage;
 import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
 import com.rnfs.RNFSPackage;
@@ -30,6 +31,7 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(new MainReactPackage(),
+            new RNAndroidLocationEnablerPackage(),
             new ReanimatedPackage(),
             new ReactNativeOneSignalPackage(),
             new RNFSPackage(),

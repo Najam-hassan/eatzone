@@ -31,7 +31,9 @@ class OrdersContainer extends Component {
                     </View>
                     <View style={styles.orderDetails}>
                         <Text style={styles.userInfo}>Order Id: {item.id}</Text>
-                        <Text style={styles.userInfo}>Total: {calculateCost(item.order_items)}</Text>
+                        <Text style={styles.userInfo}>
+                            Total: {calculateCost(item.order_items, item.deliveringRestaurant)}
+                        </Text>
                     </View>
                 </View>
                 <View style={styles.actionContainer}>

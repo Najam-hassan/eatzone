@@ -11,7 +11,9 @@ const { width, height } = Dimensions.get('screen');
 
 import * as selectors from '../../selectors/user-selectors/restaurents-selectors';
 import { fetchDetailAction } from '../../actions/user-actions/resturant-detail-actions';
-import { makeSelectCollectingResturant } from '../../selectors/user-selectors/home-selectors';
+import {
+  makeSelectCollectingResturant, makeSelectFilterData
+} from '../../selectors/user-selectors/home-selectors';
 
 class Restaurents extends Component {
 
@@ -125,7 +127,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  list: selectors.makeSelectData()(state),
+  // list: selectors.makeSelectData()(state),
+  list: makeSelectFilterData()(state),
   resturant: makeSelectCollectingResturant()(state),
 });
 
