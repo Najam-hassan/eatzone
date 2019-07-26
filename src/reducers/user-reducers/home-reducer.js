@@ -54,8 +54,10 @@ export default function homeReducer (state = initialState, action) {
       const payload = List(
         action.data.map(item => {
           const date = new Date();
-          const isValid = date.toLocaleTimeString() < item.deliverTimeEnd &&
-            date.toLocaleTimeString() >= item.deliverTimeStart;
+          const time = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds}`;
+          console.log(moment(time, "h:mm:ss A").format("HH:mm:ss"), 'current time');
+          const isValid = moment(time, "h:mm:ss A").format("HH:mm:ss") < item.deliverTimeEnd &&
+            moment(time, "h:mm:ss A").format("HH:mm:ss") >= item.deliverTimeStart;
           return (
             Map({
               ...item,
