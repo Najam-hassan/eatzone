@@ -79,7 +79,9 @@ class OrderDetailsScreen extends Component {
           </View>
           <View style={styles.orderDetails}>
             <Text style={styles.userInfo}>Order Id: {params.details.id}</Text>
-            <Text style={styles.userInfo}>Total: {calculateCost(params.details.order_items)}</Text>
+            <Text style={styles.userInfo}>Total: {
+              calculateCost(params.details.order_items, params.details.deliveringRestaurant)
+            }</Text>
           </View>
         </View>
         {params.details.order_items.map((item, index) => (
