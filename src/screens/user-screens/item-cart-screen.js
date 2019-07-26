@@ -264,6 +264,7 @@ class CartScreen extends Component {
 
   render () {
     const { cartItems, collectingResturant, deliveryResturant, loadding } = this.props;
+    const navTitle = deliveryResturant && deliveryResturant.name ? deliveryResturant.name : 'Your Cart'
     const serviceCharges =
       collectingResturant.collectionServiceCharges + deliveryResturant.deliveryServiceCharges;
     return (
@@ -273,7 +274,7 @@ class CartScreen extends Component {
           isCartScreen={true}
           id={collectingResturant.id}
           navigation={this.props.navigation}
-          title={'Your Cart'}
+          title={navTitle}
         />
         <NavigationEvents
           onWillFocus={payload => {
