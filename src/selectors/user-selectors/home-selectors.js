@@ -40,7 +40,7 @@ const makeSelectFilterData = () => createSelector(
 const makeSelectCollectingList = () => createSelector(
     selectHomeState, state => {
         const restaurants = state.getIn(['collecting', 'data']).toJS();
-        return restaurants.filter(row => row.isValid === false);
+        return restaurants.filter(row => row.isValid === true);
     }
 )
 
