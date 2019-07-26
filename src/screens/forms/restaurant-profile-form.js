@@ -21,8 +21,8 @@ import { isAlphabetsWithSpaces, isValidNumber } from '../../utils/regex';
 
 class ProfileForm extends Component {
   state = {
-    collect: { collectTimeStart: '0:00', collectTimeEnd: '0:00' },
-    deliver: { deliverTimeStart: '0:00', deliverTimeEnd: '0:00' },
+    collect: { collectTimeStart: '', collectTimeEnd: '' },
+    deliver: { deliverTimeStart: '', deliverTimeEnd: '' },
     multiSliderValue: [5, 30],
     sliderOneValue: [1],
     location: 'Restaurant Address',
@@ -59,10 +59,10 @@ class ProfileForm extends Component {
           { cancelable: false },
         );
       } else if (canCollect && canDeliver) {
-        if ((collect.collectTimeStart !== '0:00' &&
-          collect.collectTimeEnd !== '0:00') &&
-          (deliver.deliverTimeStart !== '0:00' &&
-            deliver.deliverTimeEnd !== '0:00')) {
+        if ((collect.collectTimeStart !== '' &&
+          collect.collectTimeEnd !== '') &&
+          (deliver.deliverTimeStart !== '' &&
+            deliver.deliverTimeEnd !== '')) {
           this.props.onSubmitForm({
             ...formValues,
             deliverRadius: sliderOneValue[0] * 1000,
@@ -82,8 +82,8 @@ class ProfileForm extends Component {
           );
         }
       } else if (canCollect) {
-        if ((collect.collectTimeStart !== '0:00' &&
-          collect.collectTimeEnd !== '0:00')) {
+        if ((collect.collectTimeStart !== '' &&
+          collect.collectTimeEnd !== '')) {
           this.props.onSubmitForm({
             ...formValues,
             deliverRadius: sliderOneValue[0] * 1000,
@@ -99,8 +99,8 @@ class ProfileForm extends Component {
           { cancelable: false },
         );
       } else if (canDeliver) {
-        if ((deliver.deliverTimeStart !== '0:00' &&
-          deliver.deliverTimeEnd !== '0:00')) {
+        if ((deliver.deliverTimeStart !== '' &&
+          deliver.deliverTimeEnd !== '')) {
           this.props.onSubmitForm({
             ...formValues,
             deliverRadius: sliderOneValue[0] * 1000,
@@ -340,12 +340,18 @@ class ProfileForm extends Component {
                     >
                       <Text style={styles.timeText}>Start Time *</Text>
                     </TouchableOpacity>
-                    <Text
-                      onPress={() => this.collectStartTime.open()}
-                      style={styles.text}
-                    >
-                      {moment(this.state.collect.collectTimeStart, "h:mm:ss").format("h:mm A")}
-                    </Text>
+                    {this.state.collect.collectTimeStart !== '' ?
+                      <Text
+                        onPress={() => this.collectStartTime.open()}
+                        style={styles.text}
+                      >
+                        {moment(this.state.collect.collectTimeStart, "h:mm:ss").format("h:mm A")}
+                      </Text> : <Text
+                        onPress={() => this.collectStartTime.open()}
+                        style={styles.text}
+                      >
+                        Select Time
+                      </Text>}
                     <TimePicker
                       ref={ref => {
                         this.collectStartTime = ref;
@@ -371,12 +377,18 @@ class ProfileForm extends Component {
                     >
                       <Text style={styles.timeText}>End Time *</Text>
                     </TouchableOpacity>
-                    <Text
-                      onPress={() => this.collectEndTime.open()}
-                      style={styles.text}
-                    >
-                      {moment(this.state.collect.collectTimeEnd, "h:mm:ss").format("h:mm A")}
-                    </Text>
+                    {this.state.collect.collectTimeEnd !== '' ?
+                      <Text
+                        onPress={() => this.collectEndTime.open()}
+                        style={styles.text}
+                      >
+                        {moment(this.state.collect.collectTimeEnd, "h:mm:ss").format("h:mm A")}
+                      </Text> : <Text
+                        onPress={() => this.collectEndTime.open()}
+                        style={styles.text}
+                      >
+                        Select Time
+                      </Text>}
                     <TimePicker
                       ref={ref => {
                         this.collectEndTime = ref;
@@ -508,12 +520,19 @@ class ProfileForm extends Component {
                     >
                       <Text style={styles.timeText}>Start Time *</Text>
                     </TouchableOpacity>
-                    <Text
-                      style={styles.text}
-                      onPress={() => this.deliverStartTime.open()}
-                    >
-                      {moment(this.state.deliver.deliverTimeStart, "h:mm:ss").format("h:mm A")}
-                    </Text>
+
+                    {this.state.deliver.deliverTimeStart !== '' ?
+                      <Text
+                        onPress={() => this.deliverStartTime.open()}
+                        style={styles.text}
+                      >
+                        {moment(this.state.deliver.deliverTimeStart, "h:mm:ss").format("h:mm A")}
+                      </Text> : <Text
+                        onPress={() => this.deliverStartTime.open()}
+                        style={styles.text}
+                      >
+                        Select Time
+                      </Text>}
                     <TimePicker
                       ref={ref => {
                         this.deliverStartTime = ref;
@@ -539,12 +558,19 @@ class ProfileForm extends Component {
                     >
                       <Text style={styles.timeText}>End Time *</Text>
                     </TouchableOpacity>
-                    <Text
-                      onPress={() => this.deliverEndTime.open()}
-                      style={styles.text}
-                    >
-                      {moment(this.state.deliver.deliverTimeEnd, "h:mm:ss").format("h:mm A")}
-                    </Text>
+
+                    {this.state.deliver.deliverTimeEnd !== '' ?
+                      <Text
+                        onPress={() => this.deliverEndTime.open()}
+                        style={styles.text}
+                      >
+                        {moment(this.state.deliver.deliverTimeEnd, "h:mm:ss").format("h:mm A")}
+                      </Text> : <Text
+                        onPress={() => this.deliverEndTime.open()}
+                        style={styles.text}
+                      >
+                        Select Time
+                      </Text>}
                     <TimePicker
                       ref={ref => {
                         this.deliverEndTime = ref;
