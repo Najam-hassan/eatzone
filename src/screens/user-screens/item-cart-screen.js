@@ -290,10 +290,10 @@ class CartScreen extends Component {
 
         {
           this.state.subTotal > 0 ?
-            <View>
-              <Text>{console.log(cartItems)}</Text>
-              <View style={{ padding: 10, paddingTop: 30 }}>
-                <ScrollView>
+            <View style={{ flex: 1 }}>
+              <ScrollView style={{ marginBottom: 10 }}>
+                <Text>{console.log(cartItems)}</Text>
+                <View style={{ padding: 10, paddingTop: 30 }}>
                   <View style={styles.TotalOrder}>
                     <FlatList
                       data={cartItems}
@@ -323,29 +323,29 @@ class CartScreen extends Component {
                       </View>
                     </View>
                   </View>
-                </ScrollView>
-                <View style={styles.dineInStyle}>
-                  <Text style={{ color: '#cccccc', fontWeight: '400', }}>
-                    {collectingResturant.collectionServiceCharges}% Dine in fee will be charged from you
+                  <View style={styles.dineInStyle}>
+                    <Text style={{ color: '#cccccc', fontWeight: '400', }}>
+                      {collectingResturant.collectionServiceCharges}% Dine in fee will be charged from you
               </Text>
+                  </View>
                 </View>
-              </View>
-              <View style={{ position: 'relative', left: 0, right: 0, bottom: 5 }}>
-                {loadding ?
-                  <ActivityIndicator
-                    size={'large'}
-                    color={'#1BA2FC'}
-                  /> :
-                  <ButtonCom
-                    title={'Place Order'}
-                    onPress={() => {
-                      this.onSubmit();
-                    }}
-                    style={styles.button}
-                    textStyle={{ /* styles for button title */ }}
-                  />
-                }
-              </View>
+                <View style={{ position: 'relative', left: 0, right: 0, bottom: 5 }}>
+                  {loadding ?
+                    <ActivityIndicator
+                      size={'large'}
+                      color={'#1BA2FC'}
+                    /> :
+                    <ButtonCom
+                      title={'Place Order'}
+                      onPress={() => {
+                        this.onSubmit();
+                      }}
+                      style={styles.button}
+                      textStyle={{ /* styles for button title */ }}
+                    />
+                  }
+                </View>
+              </ScrollView>
               {this.state.showModal ?
                 <FoodModal
                   showModal={true}
