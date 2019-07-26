@@ -1,10 +1,11 @@
 import moment from 'moment';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
+import Toast from 'react-native-easy-toast';
 import Drawer from 'react-native-draggable-view';
+import { NavigationEvents } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import Toast from 'react-native-easy-toast';
 import {
   View, Text, StyleSheet, Dimensions, StatusBar,
   FlatList, Image, ActivityIndicator, TouchableOpacity,
@@ -158,11 +159,23 @@ class HomeContainer extends Component {
       return (
         <View style={styles.loadingStyle}>
           <ActivityIndicator size={'large'} color={'#1BA2FC'} />
+          <NavigationEvents
+            onWillFocus={payload => {
+              console.log('will focus', payload)
+              this.moveBack();
+            }}
+          />
         </View>
       )
     }
     return (
       <View style={styles.container}>
+        <NavigationEvents
+          onWillFocus={payload => {
+            console.log('will focus', payload)
+            this.moveBack();
+          }}
+        />
         <Toast
           ref="toast"
           position='bottom'
