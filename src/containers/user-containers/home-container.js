@@ -72,7 +72,7 @@ class HomeContainer extends Component {
         }
       });
       fetchCollectingList(`/user/nearby-restaurants/${latitude},${longitude}`);
-      // fetchList(`/user/nearby-restaurants/31.474241414107382, 74.24986490048468`);
+      // fetchCollectingList(`/user/nearby-restaurants/31.474241414107382, 74.24986490048468`);
     },
       (error) => {
         this.setState({ error: error.message, isLoading: false });
