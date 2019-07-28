@@ -20,7 +20,7 @@ const { width, height } = Dimensions.get('screen');
 class RestaurantDetailScreen extends Component {
 
   state = {
-    name: '',
+    phone: '',
     total: 0,
     charges: 0,
     distance: 0,
@@ -47,7 +47,7 @@ class RestaurantDetailScreen extends Component {
     }
     if (nextProps.list && nextProps.list.distance) {
       this.setState({
-        name: nextProps.list.name,
+        phone: nextProps.list.phone,
         distance: nextProps.list.distance,
         bannerUrl: nextProps.list.bannerUrl,
         charges: nextProps.list.deliveryServiceCharges,
@@ -96,7 +96,6 @@ class RestaurantDetailScreen extends Component {
         <NavigationEvents
           onWillFocus={payload => {
             this.setState({ total: 0, totalItems: 0 });
-            // const { totalItems } = this.state;
             const { list } = this.props;
             const listItems = list && Object.keys(list).length &&
               list.menu_categories.map(item => (
@@ -134,7 +133,7 @@ class RestaurantDetailScreen extends Component {
               <View style={{ flex: 1 }} />
               <View style={styles.detailStyle}>
                 <View>
-                  <Text style={styles.titleStyle}>{this.state.name}</Text>
+                  <Text style={styles.titleStyle}>{this.state.phone}</Text>
                   <Text style={styles.titleStyle}>https://google.com</Text>
                 </View>
                 <View style={{ flexDirection: 'column', alignItems: 'flex-end' }}>
