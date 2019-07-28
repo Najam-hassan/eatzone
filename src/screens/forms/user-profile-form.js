@@ -26,7 +26,11 @@ class UserProfileForm extends Component {
     }
 
     componentWillReceiveProps (nextProps) {
-        console.log(nextProps);
+        console.log(nextProps.updating);
+        if (nextProps.updating) {
+            this.props.navigation.navigate('HomeScreen');
+            this.props.resetState();
+        }
         if (nextProps.profile && Object.keys(nextProps.profile).length) {
             this.props.change('name', nextProps.profile.name);
             this.props.change('email', nextProps.profile.email);
@@ -41,13 +45,13 @@ class UserProfileForm extends Component {
         const { avatarUrl } = this.state;
         this.setState({ submitting: true });
         if (isValidWebUrl(avatarUrl)) {
-            this.props.profileDetails(values.toJS())
+            this.props.profileDetails(values.toJS(), true)
         } else {
             this.props.profileDetails({
                 ...values.toJS(),
                 // avatarData: `data:image/jpeg;base64,${avatarUrl}`
                 avatarData: avatarUrl
-            });
+            }, true);
         }
     }
 
@@ -188,12 +192,13 @@ const mapStateToProps = state => ({
     profile: selectors.makeSelectProfileData()(state),
     success: selectors.makeSelectUpdateStatue()(state),
     loading: selectors.makeSelectProfileLoading()(state),
+    updating: selectors.makeSelectProfileUpdating()(state),
 });
 
 const mapDispatchToProps = dispatch => {
     return {
         resetState: () => dispatch(actions.resetState()),
-        profileDetails: (data) => dispatch(actions.profileDetailsAction(data)),
+        profileDetails: (data, updating) => dispatch(actions.profileDetailsAction(data, updating)),
         change: (fieldName, value) => {
             dispatch(change('UserProfileForm', fieldName, value));
         },

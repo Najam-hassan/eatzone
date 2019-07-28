@@ -9,13 +9,16 @@ export const initialState = fromJS({
         error: null,
         loading: false,
         success: false,
+        updating: false,
     },
 });
 
 export default function profileReducer (state = initialState, action) {
     switch (action.type) {
         case constants.PROFILE_DATEILS_REQUEST:
-            return state.setIn(['profile', 'loading'], true);
+            return state
+                .setIn(['profile', 'updating'], false)
+                .setIn(['profile', 'loading'], true);
 
         case constants.PROFILE_DATEILS_SUCCESS: {
             const payload = Map({
@@ -24,6 +27,7 @@ export default function profileReducer (state = initialState, action) {
             });
             return state
                 .setIn(['profile', 'data'], payload)
+                .setIn(['profile', 'updating'], action.updating)
                 .setIn(['profile', 'success'], true)
                 .setIn(['profile', 'loading'], false);
         }

@@ -8,10 +8,11 @@ export function profileDetailsRequest () {
     }
 }
 
-export function profileDetailsSuccess (profile) {
+export function profileDetailsSuccess (profile, updating) {
     return {
         type: constants.PROFILE_DATEILS_SUCCESS,
         data: profile,
+        updating,
     }
 }
 
@@ -28,12 +29,12 @@ export function resetState () {
     }
 }
 
-export function profileDetailsAction (data) {
+export function profileDetailsAction (data, updating) {
     return dispatch => {
         dispatch(profileDetailsRequest());
         return axios.put(`/user/edit-profile`, data)
             .then(response => {
-                dispatch(profileDetailsSuccess(response.data));
+                dispatch(profileDetailsSuccess(response.data, updating));
             }).catch(error => {
                 dispatch(profileDetailsFailure(error.response.data))
             });

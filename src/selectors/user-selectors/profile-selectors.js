@@ -7,6 +7,10 @@ const makeSelectProfileLoading = () => createSelector(
     selectProfileState, state => state.getIn(['profile', 'loading'])
 );
 
+const makeSelectProfileUpdating = () => createSelector(
+    selectProfileState, state => state.getIn(['profile', 'updating'])
+);
+
 const makeSelectProfileData = () => createSelector(
     selectProfileState, state => state.getIn(['profile', 'data']).toJS()
 );
@@ -25,4 +29,5 @@ export {
     makeSelectUpdateStatue,
     makeSelectProfileError,
     makeSelectProfileLoading,
+    makeSelectProfileUpdating,
 };
