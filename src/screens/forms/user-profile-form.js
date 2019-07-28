@@ -9,7 +9,7 @@ const { width, height } = Dimensions.get('screen');
 import Button from '../../components/common/button';
 import InputField from '../../components/common/input';
 import * as actions from '../../actions/user-actions/profile-actions';
-import { isAlphabetsWithSpaces, isValidNumber } from '../../utils/regex';
+import { isAlphanumericWithSpace, isValidNumber } from '../../utils/regex';
 import * as selectors from '../../selectors/user-selectors/profile-selectors';
 
 import { isValidWebUrl } from '../../utils/regex';
@@ -144,7 +144,7 @@ const validate = values => {
 
     if (!values.get('name')) {
         errors.name = '*Required';
-    } else if (!isAlphabetsWithSpaces(values.get('name'))) {
+    } else if (!isAlphanumericWithSpace(values.get('name'))) {
         errors.name = 'numeric values not allowed'
     } else if (values.get('name').length < 4 || values.get('name').length > 15) {
         errors.name = 'name must be 4 to 15 charecters long!'
@@ -154,8 +154,8 @@ const validate = values => {
         errors.phone = '*Required';
     } else if (!isValidNumber(values.get('phone'))) {
         errors.phone = "Only number allowed "
-    } else if (values.get('phone').length <= 10) {
-        errors.phone = "must be at least 10 characters long"
+    } else if (values.get('phone').length !== 10) {
+        errors.phone = "Phone number must be 10 characters long"
     }
     return errors;
 }

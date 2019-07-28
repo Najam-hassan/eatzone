@@ -10,7 +10,7 @@ const { width, height } = Dimensions.get('screen');
 import Button from '../../components/common/button';
 import * as actions from '../../actions/auth-actions';
 import InputField from '../../components/common/input';
-import { isAlphabetsWithSpaces } from '../../utils/regex';
+import { isAlphabetsWithSpecialChar } from '../../utils/regex';
 import * as selectors from '../../selectors/auth-selectors';
 
 class SignUpForm extends Component {
@@ -95,7 +95,7 @@ const validate = values => {
 
     if (!values.get('name')) {
         errors.name = '*Required';
-    } else if (!isAlphabetsWithSpaces(values.get('name'))) {
+    } else if (!isAlphabetsWithSpecialChar(values.get('name'))) {
         errors.name = 'numeric values not allowed'
     } else if (values.get('name').length < 4 || values.get('name').length > 15) {
         errors.name = 'name must be 4 to 15 charecters long!'
