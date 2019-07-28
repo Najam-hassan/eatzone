@@ -418,7 +418,7 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   dragView: {
-    height: 60,
+    height: 45,
     borderWidth: 1,
     borderBottomWidth: 0,
     borderColor: '#cccccc',

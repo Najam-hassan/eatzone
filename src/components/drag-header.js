@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     cart_layout: {
         justifyContent: 'space-between',
         flexDirection: 'column',
-        height: 25,
+        height: 30,
     },
     cart_detail: {
         paddingLeft: 20,
