@@ -49,7 +49,7 @@ class OrderScreen extends Component {
                     </View>
                     <View style={styles.contentMain}>
                         <Text style={{ color: '#000000', fontSize: 14, fontWeight: '400', }}>
-                            Order Date: {moment(item.createdAt).format('LL')}
+                            Order Date: {moment(item.createdAt).format("LLL")}
                         </Text>
                         <View style={styles.orderFind} ref={this.setPhoneIconRef}>
                             <TouchableOpacity

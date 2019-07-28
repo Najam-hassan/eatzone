@@ -75,7 +75,7 @@ class OrderDetailScreen extends Component {
                             <Text style={styles.titleText}>Order No: {params.details.id}</Text>
                             <Text style={styles.descripText}>
                                 Order Date: {moment(params.details.createdAt)
-                                    .format(("dddd, MMMM, YYYY, h:mm:ss a"))}
+                                    .format(("LLL"))}
                             </Text>
                         </View>
                         <View style={styles.orderDetail}>
