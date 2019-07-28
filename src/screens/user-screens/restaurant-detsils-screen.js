@@ -39,6 +39,12 @@ class RestaurantDetailScreen extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
+    if (nextProps.loading) {
+      this.setState({
+        total: 0,
+        totalItems: 0
+      })
+    }
     if (nextProps.list && nextProps.list.distance) {
       this.setState({
         name: nextProps.list.name,
@@ -89,6 +95,8 @@ class RestaurantDetailScreen extends Component {
         />
         <NavigationEvents
           onWillFocus={payload => {
+            this.setState({ total: 0, totalItems: 0 });
+            // const { totalItems } = this.state;
             const { list } = this.props;
             const listItems = list && Object.keys(list).length &&
               list.menu_categories.map(item => (
@@ -101,12 +109,17 @@ class RestaurantDetailScreen extends Component {
                 listItems.length > 1 && listItems.reduce((a, b) => a.concat(b));
             }
             let total = 0;
+            let totalItems = 0;
             if (cardItems.length) {
               cardItems.forEach(item => {
                 total = total + (item.price * item.quantity);
+                totalItems = totalItems + item.quantity;
               });
             }
-            this.setState({ total: total })
+            this.setState({
+              total: total,
+              totalItems: totalItems
+            });
           }}
         />
         <View style={{ flex: 0.4 }}>
@@ -150,12 +163,17 @@ class RestaurantDetailScreen extends Component {
             <RestaurantDetail
               addToTotal={amount => {
                 const { total, totalItems } = this.state;
-                this.setState({ total: total + amount, totalItems: totalItems + 1 });
+                this.setState({
+                  total: total + amount,
+                  totalItems: totalItems + 1
+                });
               }}
               subtractFromTotal={amount => {
                 const { total, totalItems } = this.state;
-
-                this.setState({ total: total - amount, totalItems: totalItems - 1 });
+                this.setState({
+                  total: total - amount,
+                  totalItems: totalItems - 1
+                });
               }}
               data={list.menu_categories}
               navigation={this.props.navigation}
