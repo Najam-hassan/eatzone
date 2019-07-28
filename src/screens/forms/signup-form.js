@@ -95,7 +95,7 @@ const validate = values => {
 
     if (!values.get('name')) {
         errors.name = '*Required';
-    } else if (!isAlphabetsWithSpecialChar(values.get('name'))) {
+    } else if (isAlphabetsWithSpecialChar(values.get('name'))) {
         errors.name = 'numeric values not allowed'
     } else if (values.get('name').length < 4 || values.get('name').length > 15) {
         errors.name = 'name must be 4 to 15 charecters long!'

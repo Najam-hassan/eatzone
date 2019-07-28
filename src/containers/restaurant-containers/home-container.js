@@ -18,7 +18,7 @@ class OwnerDashboard extends Component {
     state = { isEnable: false, selectAll: false };
 
     componentWillMount () {
-        this.props.fetchDetails();
+        // this.props.fetchDetails();
     }
 
     componentDidMount () {

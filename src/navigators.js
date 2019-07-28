@@ -57,6 +57,7 @@ const AuthStack = createStackNavigator({
     RecentOrdersScreen: RecentOrdersScreen,
     EditRestaurantProfile: EditRestaurantProfile,
     CompletedOrdersScreen: CompletedOrdersScreen,
+    CreateRestaurantProfile: CreateRestaurantProfile,
     ResturantOrderDetailsScreen: ResturantOrderDetailsScreen,
 }, {
         headerMode: 'none',
@@ -86,7 +87,6 @@ const LoginStack = createStackNavigator({
     SignInScreen: SignInScreen,
     WelcomeScreen: WelcomeScreen,
     ForgotPasswordScreen: ForgotPasswordScreen,
-    CreateRestaurantProfile: CreateRestaurantProfile,
 }, {
         headerMode: 'none',
         initialRouteName: 'WelcomeScreen',
