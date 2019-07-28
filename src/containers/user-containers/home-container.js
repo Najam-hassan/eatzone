@@ -6,11 +6,9 @@ import Drawer from 'react-native-draggable-view';
 import { NavigationEvents } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
 import {
-  View, Text, StyleSheet, Dimensions, StatusBar,
-  FlatList, Image, ActivityIndicator, TouchableOpacity,
-  ScrollView, AsyncStorage, Platform, Linking, Alert
+  View, Text, StyleSheet, Dimensions, StatusBar, FlatList,
+  Image, ActivityIndicator, TouchableOpacity, ScrollView, Platform
 } from 'react-native';
 
 const { height, width } = Dimensions.get('screen');
@@ -24,19 +22,11 @@ import * as actions from '../../actions/user-actions/home-actions';
 import * as selectors from '../../selectors/user-selectors/home-selectors';
 import { fetchDetailAction } from '../../actions/user-actions/resturant-detail-actions';
 
-let initialValues = {
-  latitude: 37.78825,
-  longitude: -122.4324,
-  latitudeDelta: 0.0922,
-  longitudeDelta: 0.0421,
-}
-
 class HomeContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       firstClick: true,
-      isLoading: false,
       latitude: "",
       longitude: "",
       region: {
@@ -48,84 +38,19 @@ class HomeContainer extends Component {
     }
   }
 
-  getCurrentResPosition () {
-    const { fetchCollectingList } = this.props;
-    navigator.geolocation.getCurrentPosition((position) => {
-      this.setState({ isLoading: false });
-      const { latitude, longitude } = position.coords;
-      this.setState({
-        latitude: latitude,
-        longitude: longitude
-      })
-      console.log('lat: ', latitude, 'long: ', longitude);
-      AsyncStorage.setItem('location', { latitude, longitude });
-      initialValues = {
-        ...initialValues,
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude
-      };
-      this.setState({
-        region: {
-          ...this.state.region,
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        }
-      });
-      fetchCollectingList(`/user/nearby-restaurants/${latitude},${longitude}`);
-      // fetchCollectingList(`/user/nearby-restaurants/31.474241414107382, 74.24986490048468`);
-    },
-      (error) => {
-        this.setState({ error: error.message, isLoading: false });
-        if (error.message === "No location provider available." || error.code === 2) {
-          if (Platform.OS === 'android') {
-            RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({ interval: 10000, fastInterval: 5000 })
-              .then(data => {
-                console.log(data, '0-0-0-0-0-0-0-0');
-                this.getCurrentResPosition();
-              }).catch(error => {
-                console.log(error, '())()()()()')
-              });
-          } else {
-            return Alert.alert(
-              "",
-              'Please enable your device location',
-              [
-                {
-                  text: 'settings', onPress: () =>
-                    Linking.openURL('App-Prefs:root=LOCATION_SERVICES:')
-                },
-                {
-                  text: 'Cancel',
-                  onPress: () => console.log('Cancel Pressed'),
-                  style: 'cancel'
-                },
-              ],
-              { cancelable: false },
-            );
-          }
-        }
-      },
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-    );
-  }
-
-  componentDidMount () {
-    this.setState({ isLoading: true });
-    this.getCurrentResPosition();
-  }
-
   moveBack () {
     this.setState({ firstClick: true });
-    const { fetchCollectingList } = this.props;
-    const { latitude, longitude } = this.state;
+    const { fetchCollectingList, region } = this.props;
+    const { latitude, longitude } = region;
     fetchCollectingList(`/user/nearby-restaurants/${latitude},${longitude}`);
   }
+
   setLocation = location => {
     if (location) {
       this.setState({
         firstClick: false,
         region: {
-          ...this.state.region,
+          ...this.props.region,
           latitude: location.coordinates[1],
           longitude: location.coordinates[0]
         }
@@ -184,9 +109,17 @@ class HomeContainer extends Component {
   );
 
   render () {
-    const { list, loading, navigation, collecting } = this.props;
-    const { isLoading, firstClick, region } = this.state;
-    if (isLoading) {
+    const { list, loading, navigation, collecting, isLoading } = this.props;
+    const { firstClick } = this.state;
+    if (!isLoading && !loading && this.props.region && !this.props.region.latitude) {
+      return (
+        <View style={{ flex: 1, backgroundColor: '#f7f8fa' }}>
+          <Text style={{ textAlign: "center" }}>Unable to read device location</Text>
+        </View>
+      )
+
+    }
+    if (loading || isLoading) {
       return (
         <View style={styles.loadingStyle}>
           <StatusBar hidden={true} />
@@ -218,7 +151,7 @@ class HomeContainer extends Component {
         <Drawer
           initialDrawerSize={setInitialDrawerSize()}
           renderContainerView={() => {
-            const { region } = this.state;
+            const { region } = this.props;
             return (
               <MapView
                 {...mapsProps}
@@ -227,10 +160,9 @@ class HomeContainer extends Component {
                 style={styles.map}
                 followsUserLocation
                 provider={PROVIDER_GOOGLE}
-                initialRegion={initialValues}
+                initialRegion={region}
                 key={Platform.OS !== 'android' && Date.now()}
-                region={region.latitude !== null ?
-                  this.state.region : initialValues}
+                region={region}
               >
                 <View>
                   {/* {region.latitude !== null && region.longitude !== null ?
