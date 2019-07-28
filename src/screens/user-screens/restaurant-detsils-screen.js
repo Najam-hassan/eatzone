@@ -19,7 +19,14 @@ const { width, height } = Dimensions.get('screen');
 
 class RestaurantDetailScreen extends Component {
 
-  state = { total: 0, distance: 0, charges: 0, name: '', bannerUrl: '' }
+  state = {
+    name: '',
+    total: 0,
+    charges: 0,
+    distance: 0,
+    bannerUrl: '',
+    totalItems: 0,
+  }
 
   componentDidMount () {
 
@@ -139,12 +146,13 @@ class RestaurantDetailScreen extends Component {
           {list && Object.keys(list).length && list.menu_categories.length ?
             <RestaurantDetail
               addToTotal={amount => {
-                const { total } = this.state;
-                this.setState({ total: total + amount });
+                const { total, totalItems } = this.state;
+                this.setState({ total: total + amount, totalItems: totalItems + 1 });
               }}
               subtractFromTotal={amount => {
-                const { total } = this.state;
-                this.setState({ total: total - amount });
+                const { total, totalItems } = this.state;
+
+                this.setState({ total: total - amount, totalItems: totalItems - 1 });
               }}
               data={list.menu_categories}
               navigation={this.props.navigation}
@@ -161,7 +169,7 @@ class RestaurantDetailScreen extends Component {
         <View style={styles.itemCardStyle}>
           <View style={styles.cardBodyStyle}>
             <Text style={{ fontSize: 14, color: '#fff' }}>
-              {cardItems.length} | {this.state.total.toFixed(2)}$
+              {this.state.totalItems} | {this.state.total.toFixed(2)}$
                 </Text>
             <Button
               title="View Cart"
