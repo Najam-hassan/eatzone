@@ -135,7 +135,7 @@ class RestaurantDetailScreen extends Component {
             </View>
           </ImageBackground>
         </View>
-        <View style={[styles.itemContainer, { marginTop: -15 }]}>
+        <View style={[styles.itemContainer, { marginTop: -15, marginBottom: 20 }]}>
           {list && Object.keys(list).length && list.menu_categories.length ?
             <RestaurantDetail
               addToTotal={amount => {
@@ -158,23 +158,24 @@ class RestaurantDetailScreen extends Component {
             </View>
           }
         </View>
-        {cardItems && cardItems.length &&
-          Object.keys(cardItems[0]).length ?
-          <View style={styles.itemCardStyle}>
-            <View style={styles.cardBodyStyle}>
-              <Text style={{ fontSize: 14, color: '#fff' }}>
-                {cardItems.length} | {this.state.total.toFixed(2)}$
-            </Text>
-              <Button
-                title="View Cart"
-                onPress={() => {
+        <View style={styles.itemCardStyle}>
+          <View style={styles.cardBodyStyle}>
+            <Text style={{ fontSize: 14, color: '#fff' }}>
+              {cardItems.length} | {this.state.total.toFixed(2)}$
+                </Text>
+            <Button
+              title="View Cart"
+              onPress={() => {
+                if (cardItems && cardItems.length &&
+                  Object.keys(cardItems[0]).length) {
                   navigation.navigate('ItemCartScreen');
-                }}
-                style={styles.button}
-                textStyle={{ /* styles for button title */ }}
-              />
-            </View>
-          </View> : null}
+                }
+              }}
+              style={styles.button}
+              textStyle={{ /* styles for button title */ }}
+            />
+          </View>
+        </View>
       </View>
     )
   }
@@ -214,12 +215,12 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    height: 60,
+    height: 50,
     position: 'absolute',
     backgroundColor: '#1BA2FC',
   },
   cardBodyStyle: {
-    marginVertical: 20,
+    marginVertical: 15,
     flexDirection: "row",
     marginHorizontal: 20,
     justifyContent: 'space-between',
