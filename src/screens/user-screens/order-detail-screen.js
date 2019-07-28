@@ -97,10 +97,10 @@ class OrderDetailScreen extends Component {
                         <View style={styles.orderTotal}>
                             <Text style={styles.titleText}>Total</Text>
                             <Text style={styles.titleText}>
-                                ${subTotal +
+                                ${(subTotal +
                                     (subTotal *
                                         `.${params.details.deliveringRestaurant.deliveryServiceCharges}` +
-                                        (subTotal * 0.16))}
+                                        (subTotal * 0.16))).toFixed(2)}
                             </Text>
                         </View>
                     </View>

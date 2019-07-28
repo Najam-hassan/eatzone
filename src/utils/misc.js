@@ -24,9 +24,9 @@ export const calculateCost = (items, charges) => {
         total = total + item.itemQuantity * item.menu_item.price;
     });
     if (charges) {
-        return (total + (total * 0.16) + (total * `0.${charges.deliveryServiceCharges}`)).toFixed(0);
+        return (total + (total * 0.16) + (total * `0.${charges.deliveryServiceCharges}`)).toFixed(2);
     }
-    return total.toFixed(0);
+    return total.toFixed(2);
 }
 
 export function setInitialDrawerSize () {
