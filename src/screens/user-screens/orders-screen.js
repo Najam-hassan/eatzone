@@ -18,7 +18,6 @@ class OrderScreen extends Component {
 
     renderOrderCard = ({ item, index }) => {
         return (
-
             <View style={styles.cardContainer}>
                 <TouchableOpacity
                     key={index}
@@ -48,45 +47,35 @@ class OrderScreen extends Component {
                             </View>
                         </View>
                     </View>
-                </TouchableOpacity>
-                {/* <Text style={{ color: '#cccccc', fontSize: 14, fontWeight: '400', }}>Cheese Burger</Text> */}
-                <View style={styles.contentMain}>
-                    <Text style={{ color: '#000000', fontSize: 14, fontWeight: '400', }}>
-                        Order Date: {moment(item.createdAt).format('LL')}
-                    </Text>
-                    <View style={styles.orderFind}>
-                        {/* <Image
-                                source={require('../../assets/images/call-icon.png')}
-                                style={{ width: 18, height: 18, borderRadius: 15 }}
-                            /> */}
-
-                        <TouchableOpacity
-                            onPress={() => {
-                                console.log('button pressed');
-                                if (Platform.OS === 'android') {
-                                    Linking.openURL(
-                                        `tel:${item.deliveringRestaurant.phone}`
-                                    );
-                                }
-                                else {
-                                    const url = `telprompt:${item.deliveringRestaurant.phone}`;
-                                    Linking.canOpenURL(url)
-                                        .then((supported) => {
+                    <View style={styles.contentMain}>
+                        <Text style={{ color: '#000000', fontSize: 14, fontWeight: '400', }}>
+                            Order Date: {moment(item.createdAt).format('LL')}
+                        </Text>
+                        <View style={styles.orderFind} ref={this.setPhoneIconRef}>
+                            <TouchableOpacity
+                                onPress={() => {
+                                    console.log('button pressed');
+                                    if (Platform.OS === 'android') {
+                                        Linking.openURL(
+                                            `tel:${item.deliveringRestaurant.phone}`
+                                        );
+                                    }
+                                    else {
+                                        const url = `telprompt:${item.deliveringRestaurant.phone}`;
+                                        Linking.canOpenURL(url).then((supported) => {
                                             if (supported) {
                                                 return Linking.openURL(url)
                                                     .catch(() => null);
                                             }
                                         });
-                                    // Linking.openURL(
-                                    //     `telprompt:${item.deliveringRestaurant.phone}`
-                                    // );
-                                }
-                            }}
-                        >
-                            <Icon name="phone-call" size={18} color="#000" />
-                        </TouchableOpacity>
+                                    }
+                                }}
+                            >
+                                <Icon name="phone-call" size={18} color="#000" />
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                </View>
+                </TouchableOpacity>
             </View>
         )
     }
