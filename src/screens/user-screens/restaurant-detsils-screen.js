@@ -159,9 +159,11 @@ class RestaurantDetailScreen extends Component {
               }}
               data={list.menu_categories}
               navigation={this.props.navigation}
-              list={list.menu_categories.map(item => (
-                item.menu_items && item.menu_items.length && item.name
-              ))}
+              list={list.menu_categories.map(item => {
+                if (item.menu_items && item.menu_items.length) {
+                  return item.name
+                }
+              })}
             /> :
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
               {/* <ActivityIndicator size="large" color="#1BA2FC" /> */}

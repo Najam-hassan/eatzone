@@ -29,8 +29,6 @@ const makeSelectFilterData = () => createSelector(
             });
             const data = list.filter(row => row);
             return getUnique(data, 'id');
-            // return Array.from(new Set(data.map(a => a.id)))
-            //     .map(id => data.find(a => a.id === id))
         } else {
             return restaurants;
         }
