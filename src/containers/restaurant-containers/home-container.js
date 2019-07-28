@@ -10,10 +10,16 @@ import {
 import ActionButton from '../../components/common/action-button';
 import * as actions from '../../actions/restaurant-actions/home-actions';
 import * as selectors from '../../selectors/restaurant-selectors/home-selectors';
+import { updateProfileAction } from '../../actions/restaurant-actions/profile-actions';
+import { makeSelectProflieData } from '../../selectors/restaurant-selectors/profile-selectors';
 
 class OwnerDashboard extends Component {
 
     state = { isEnable: false, selectAll: false };
+
+    componentWillMount () {
+        this.props.fetchDetails();
+    }
 
     componentDidMount () {
         this.props.fetchList();
@@ -113,9 +119,17 @@ class OwnerDashboard extends Component {
                                 </View>
                             )
                         }
-                    /> : <Text style={{ textAlign: 'center', fontSize: 20, color: '#000' }}>
-                        You haven't created category yet!
-                        </Text>}
+                    /> :
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                        <Text style={{
+                            fontSize: 16,
+                            textAlign: 'center',
+                            fontWeight: '500',
+                            color: '#000000'
+                        }}>
+                            You haven't created category yet!
+                        </Text>
+                    </View>}
                 {isEnable ? <View style={styles.overlayOptions}>
                     <View style={styles.overlayDel}>
                         <Icon
@@ -232,9 +246,9 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
+    profile: makeSelectProflieData()(state),
     loading: selectors.makeSelectLoading()(state),
     isDeleted: selectors.makeSelectIsDeleted()(state),
-    profile: selectors.makeSelectProfileDetails()(state),
     categories: selectors.makeSelectCategoryList()(state),
     selectedList: selectors.makeSelectSelectedList()(state),
 });
@@ -243,6 +257,7 @@ const mapDispatchToProps = dispatch => {
     return {
         resetState: () => dispatch(actions.resetState()),
         showOptions: (id) => dispatch(actions.showMoreOptions(id)),
+        fetchDetails: () => dispatch(updateProfileAction()),
         fetchList: () => dispatch(actions.fetchCategoryListAction()),
         selectAll: selectAll => dispatch(actions.selectAllAction(selectAll)),
         deleteCategory: list => dispatch(actions.deleteCategoryAction(list)),
