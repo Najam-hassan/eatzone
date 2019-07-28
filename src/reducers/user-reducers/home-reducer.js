@@ -44,7 +44,8 @@ export default function homeReducer (state = initialState, action) {
     }
 
     case constants.FETCH_COLLECTING_LIST_FAILURE:
-      return state.setIn(['list', 'error'], action.error)
+      return state
+        .setIn(['list', 'error'], action.error)
         .setIn(['list', 'loading'], false);
 
 
@@ -76,20 +77,23 @@ export default function homeReducer (state = initialState, action) {
     }
 
     case constants.FETCH_LIST_FAILURE:
-      return state.setIn(['list', 'error'], action.error)
+      return state
+        .setIn(['list', 'error'], action.error)
         .setIn(['list', 'loading'], false);
 
     case constants.SET_COLLECTING_RESTAURANT:
-      return state.setIn(['restaurant', 'collectingResturant'], Map({
-        ...action.restaurant,
-        key: action.restaurant.id
-      }));
+      return state
+        .setIn(['restaurant', 'collectingResturant'], Map({
+          ...action.restaurant,
+          key: action.restaurant.id
+        }));
 
     case constants.SET_DELIVERY_RESTAURANT:
-      return state.setIn(['restaurant', 'deliveryResturant'], Map({
-        ...action.restaurant,
-        key: action.restaurant.id
-      }));
+      return state
+        .setIn(['restaurant', 'deliveryResturant'], Map({
+          ...action.restaurant,
+          key: action.restaurant.id
+        }));
 
     case constants.RESET_LIST_STATE:
       return initialState;

@@ -189,6 +189,7 @@ class HomeContainer extends Component {
     if (isLoading) {
       return (
         <View style={styles.loadingStyle}>
+          <StatusBar hidden={true} />
           <ActivityIndicator size={'large'} color={'#1BA2FC'} />
           <NavigationEvents
             onWillFocus={payload => {
@@ -201,6 +202,7 @@ class HomeContainer extends Component {
     }
     return (
       <View style={styles.container}>
+        <StatusBar hidden={true} />
         <NavigationEvents
           onWillFocus={payload => {
             console.log('will focus', payload)
@@ -351,8 +353,7 @@ class HomeContainer extends Component {
             }
           }}
           renderInitDrawerView={() => (
-            <View style={styles.dragView}>
-              <StatusBar hidden={true} />
+            <View style={[styles.dragView]}>
               <DragHeader />
             </View>
           )}
@@ -417,12 +418,13 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   dragView: {
-    borderTopLeftRadius: 60,
-    borderTopRightRadius: 60,
+    height: 60,
     borderWidth: 1,
+    borderBottomWidth: 0,
     borderColor: '#cccccc',
     backgroundColor: '#f7f8fa',
-    borderBottomWidth: 0,
+    // borderTopLeftRadius: 60,
+    // borderTopRightRadius: 60,
   },
   itemStyling: {
     flex: 1,
