@@ -150,7 +150,8 @@ class HomeContainer extends Component {
             this.props.delivertRestaurant(item);
             this.props.fetchDetails(item.id, resturant.id);
             this.props.navigation.navigate('RestaurantDetailScreen', {
-              restaurantId: item.id
+              restaurantId: item.id,
+              name: item.name
             });
           }
         }
@@ -247,7 +248,8 @@ class HomeContainer extends Component {
                       //     this.props.fetchDetails(item.id, resturant.id);
                       //     this.props.delivertRestaurant(item);
                       //     navigation.navigate('RestaurantDetailScreen', {
-                      //       restaurantId: item.id
+                      //       restaurantId: item.id,
+                      //       name: item.name
                       //     })
                       //   }
                       // }}
@@ -267,7 +269,8 @@ class HomeContainer extends Component {
                             this.props.fetchDetails(item.id, resturant.id);
                             this.props.delivertRestaurant(item);
                             navigation.navigate('RestaurantDetailScreen', {
-                              restaurantId: item.id
+                              restaurantId: item.id,
+                              name: item.name,
                             })
                           }
                           else {

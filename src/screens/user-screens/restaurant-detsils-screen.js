@@ -26,14 +26,16 @@ class RestaurantDetailScreen extends Component {
     distance: 0,
     bannerUrl: '',
     totalItems: 0,
+    restaurantName: null
   }
 
   componentDidMount () {
-
-    // const { params } = this.props.navigation.state;
-    // if (params.restaurantId) {
-    // this.props.fetchDetails(params.restaurantId)
-    // }
+    const { params } = this.props.navigation.state;
+    if (params.name) {
+      this.setState({
+        restaurantName: params.name
+      })
+    }
   }
 
   componentWillReceiveProps (nextProps) {
@@ -48,6 +50,7 @@ class RestaurantDetailScreen extends Component {
   }
 
   render () {
+    const { restaurantName } = this.state;
     const { list, navigation, loading } = this.props;
     const listItems = list && Object.keys(list).length &&
       list.menu_categories.map(item => (
@@ -65,7 +68,7 @@ class RestaurantDetailScreen extends Component {
           <StatusBar hidden={false} />
           <PageHeader
             navigation={this.props.navigation}
-            title={'Restaurant Detail'}
+            title={restaurantName ? restaurantName : 'Restaurant Detail'}
           />
           <View style={{
             justifyContent: 'center',
@@ -82,7 +85,7 @@ class RestaurantDetailScreen extends Component {
         <StatusBar hidden={false} />
         <PageHeader
           navigation={this.props.navigation}
-          title={'Restaurant Detail'}
+          title={restaurantName ? restaurantName : 'Restaurant Detail'}
         />
         <NavigationEvents
           onWillFocus={payload => {

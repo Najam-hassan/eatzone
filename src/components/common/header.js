@@ -36,7 +36,8 @@ const PageHeader = ({ navigation, title, isCartScreen, id }) => {
                     onPress={() => {
                         if (isCartScreen) {
                             navigation.navigate("RestaurantDetailScreen", {
-                                restaurantId: id
+                                restaurantId: id,
+                                name: title
                             });
                         } else {
                             navigation.goBack()

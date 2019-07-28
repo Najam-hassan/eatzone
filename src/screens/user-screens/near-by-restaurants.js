@@ -31,7 +31,8 @@ class RestaurantsScreen extends Component {
                     navigateTo={(item) => {
                         this.props.navigation.navigate(
                             'RestaurantDetailScreen', {
-                                restaurantId: item.id
+                                restaurantId: item.id,
+                                name: item.name
                             }
                         )
                     }}
