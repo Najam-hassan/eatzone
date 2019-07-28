@@ -17,8 +17,7 @@ const makeSelectData = () => createSelector(
 const makeSelectFilterData = () => createSelector(
     selectHomeState, state => {
         const restaurants = state.getIn(['list', 'data']).toJS();
-        if (restaurants && restaurants.length > 0 &&
-            restaurants[0].menu_categories && restaurants[0].menu_categories.length) {
+        if (restaurants && restaurants.length > 0) {
             const list = _.flatMap(restaurants, category => {
                 if (category.menu_categories && category.menu_categories.length) {
                     return _(category.menu_categories).map(menuItems => (
