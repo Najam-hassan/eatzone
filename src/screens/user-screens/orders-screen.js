@@ -30,7 +30,7 @@ class OrderScreen extends Component {
                 >
                     <View style={styles.itemContentsHead}>
                         <Text style={styles.hotelName}>
-                            {item.deliveringRestaurant.name}
+                            {item.deliveringRestaurant ? item.deliveringRestaurant.name : ""}
                         </Text>
                         <View style={styles.orderStatus}>
                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', }}>
@@ -57,11 +57,11 @@ class OrderScreen extends Component {
                                     console.log('button pressed');
                                     if (Platform.OS === 'android') {
                                         Linking.openURL(
-                                            `tel:${item.deliveringRestaurant.phone}`
+                                            `tel:${item.deliveringRestaurant ? item.deliveringRestaurant.phone : 123}`
                                         );
                                     }
                                     else {
-                                        const url = `telprompt:${item.deliveringRestaurant.phone}`;
+                                        const url = `telprompt:${item.deliveringRestaurant ? item.deliveringRestaurant.phone : 123}`;
                                         Linking.canOpenURL(url).then((supported) => {
                                             if (supported) {
                                                 return Linking.openURL(url)

@@ -5,7 +5,7 @@ import Toast from 'react-native-easy-toast';
 import Drawer from 'react-native-draggable-view';
 import { NavigationEvents } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { Marker, Callout, PROVIDER_GOOGLE } from 'react-native-maps';
 import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
 import {
   View, Text, StyleSheet, Dimensions, StatusBar,
@@ -241,57 +241,44 @@ class HomeContainer extends Component {
                       <Icon name="map-marker" size={45} color="#1BA2FC" />
                     </Marker> : null
                   } */}
-                  {!firstClick && list && list.length ? list.map((item, index) => (
-                    < Marker
-                      key={`Alert-marker-${index}`}
-                      // onPress={() => {
-                      //   const { resturant } = this.props;
-                      //   if (item.isValid) {
-                      //     this.props.fetchDetails(item.id, resturant.id);
-                      //     this.props.delivertRestaurant(item);
-                      //     navigation.navigate('RestaurantDetailScreen', {
-                      //       restaurantId: item.id,
-                      //       name: item.name
-                      //     })
-                      //   }
-                      // }}
-                      id={index}
-                      coordinate={{
-                        latitude: item.location.coordinates[1],
-                        longitude: item.location.coordinates[0],
-                        latitudeDelta: 1,
-                        longitudeDelta: 1
-                      }}
-                      title={item.name}
-                      description={item.addressDetails}>
-                      <MapView.Callout
-                        onPress={() => {
-                          const { resturant } = this.props;
-                          if (item.isValid) {
-                            this.props.fetchDetails(item.id, resturant.id);
-                            this.props.delivertRestaurant(item);
-                            navigation.navigate('RestaurantDetailScreen', {
-                              restaurantId: item.id,
-                              name: item.name,
-                            })
-                          }
-                          else {
-                            this.refs.toast.show("This restaurant is not available at the moment", 2000);
-                          }
-                        }
-                        }
-                        style={{ width: 100 }}
+                  {!firstClick && list && list.length ? list.map((item, index) => {
+                    return (
+                      < Marker
+                        key={`Alert-marker-${index}`}
+                        coordinate={{
+                          latitude: item.location.coordinates[1],
+                          longitude: item.location.coordinates[0],
+                          latitudeDelta: 1,
+                          longitudeDelta: 1
+                        }}
+                        title={item.name}
+                        description={item.addressDetails}
                       >
-                        <Text>{item.name}</Text>
-                      </MapView.Callout>
-                      <View>
-                        {/* <Text style={{
-                          color: '#000', paddingBottom: -5, fontSize: 10, fontWeight: '200'
-                        }}>{item.name}</Text> */}
-                        <Icon name="map-marker" size={20} color="#E6464D" />
-                      </View>
-                    </Marker>
-                  )) : null}
+                        <Callout
+                          onPress={() => {
+                            const { resturant } = this.props;
+                            if (item.isValid) {
+                              this.props.fetchDetails(item.id, resturant.id);
+                              this.props.delivertRestaurant(item);
+                              navigation.navigate('RestaurantDetailScreen', {
+                                restaurantId: item.id,
+                                name: item.name,
+                              })
+                            } else {
+                              this.refs.toast.show("This restaurant is not available at the moment", 2000);
+                            }
+                          }}
+                          style={{ width: 150 }}
+                        >
+                          <Text style={{ fontSize: 20, color: '#000' }}>{item.name}</Text>
+                          <Text style={{ fontSize: 14, color: '#000' }}>{item.addressDetails}</Text>
+                          {/* <View>
+                            <Icon name="map-marker" size={20} color="#E6464D" />
+                          </View> */}
+                        </Callout>
+                      </Marker>
+                    )
+                  }) : null}
                 </View>
               </MapView>
             )
