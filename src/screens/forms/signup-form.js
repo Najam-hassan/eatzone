@@ -1,9 +1,9 @@
 import { Text } from 'react-native';
 import { connect } from "react-redux";
 import React, { Component } from 'react';
-import { Field, reduxForm, initialize, destroy } from 'redux-form/immutable'
+import { Field, reduxForm } from 'redux-form/immutable'
 
-import { View, StyleSheet, Dimensions, ActivityIndicator } from 'react-native'
+import { View, StyleSheet, Dimensions, ActivityIndicator, Keyboard } from 'react-native'
 
 const { width, height } = Dimensions.get('screen');
 
@@ -17,6 +17,7 @@ class SignUpForm extends Component {
 
     onSubmit = (values) => {
         if (values) {
+            Keyboard.dismiss();
             if (this.props.userType === 'admin') {
                 this.props.onSubmit('/restaurant/sign-up', values)
             } else {

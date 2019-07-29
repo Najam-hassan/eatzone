@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 import React, { Component } from 'react';
 import { Field, reduxForm, initialize } from 'redux-form/immutable'
 import {
-    View, StyleSheet, Dimensions, ActivityIndicator, Text, AsyncStorage, Alert
+    View, StyleSheet, Dimensions, ActivityIndicator, Text, Keyboard
 } from 'react-native'
 
 const { width, height } = Dimensions.get('screen');
@@ -16,6 +16,7 @@ import * as selectors from '../../selectors/auth-selectors';
 class SignInForm extends Component {
     onSubmit = (values) => {
         const { playerId } = this.props;
+        Keyboard.dismiss();
         if (values) {
             if (this.props.userType === 'admin') {
                 this.props.onSubmit('/restaurant/sign-in', { ...values.toJS(), playerId });

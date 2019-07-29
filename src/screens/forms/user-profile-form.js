@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import PhotoUpload from 'react-native-photo-upload';
 import { Field, reduxForm, change } from 'redux-form/immutable';
-import { View, Image, StyleSheet, Dimensions, ActivityIndicator } from 'react-native';
+import { View, Image, StyleSheet, Dimensions, ActivityIndicator, Keyboard } from 'react-native';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -44,6 +44,7 @@ class UserProfileForm extends Component {
     onSubmit = values => {
         const { avatarUrl } = this.state;
         this.setState({ submitting: true });
+        Keyboard.dismiss();
         if (isValidWebUrl(avatarUrl)) {
             this.props.profileDetails(values.toJS(), true)
         } else {

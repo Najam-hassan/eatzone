@@ -1,6 +1,6 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/EvilIcons';
-import { View, StyleSheet, TouchableOpacity, Image, Text } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Image, Text, Keyboard } from 'react-native';
 
 const Header = ({ navigation, title, profile }) => {
     const { iconsViewStyle, navTitle, navRight } = styles;
@@ -11,7 +11,10 @@ const Header = ({ navigation, title, profile }) => {
                     <TouchableOpacity
                         style={{ paddingHorizontal: 5, paddingVertical: 10, flex: 0.1, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', }}
                         hitSlop={{ top: 5, bottom: 5, right: 5, left: 5 }}
-                        onPress={() => { navigation.openDrawer() }}
+                        onPress={() => {
+                            Keyboard.dismiss();
+                            navigation.openDrawer();
+                        }}
                     >
                         <Image source={require('../../assets/images/menuIcon.png')} />
                     </TouchableOpacity> : null}
