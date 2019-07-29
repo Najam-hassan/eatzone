@@ -233,14 +233,6 @@ class HomeContainer extends Component {
                   this.state.region : initialValues}
               >
                 <View>
-                  {/* {region.latitude !== null && region.longitude !== null ?
-                    <Marker
-                      title={`User's Loaction`}
-                      coordinate={this.state.region}
-                      description={'local description'}>
-                      <Icon name="map-marker" size={45} color="#1BA2FC" />
-                    </Marker> : null
-                  } */}
                   {!firstClick && list && list.length ? list.map((item, index) => {
                     return (
                       < Marker
@@ -271,10 +263,7 @@ class HomeContainer extends Component {
                           style={{ width: 150 }}
                         >
                           <Text style={{ fontSize: 20, color: '#000' }}>{item.name}</Text>
-                          <Text style={{ fontSize: 14, color: '#000' }}>{item.addressDetails}</Text>
-                          {/* <View>
-                            <Icon name="map-marker" size={20} color="#E6464D" />
-                          </View> */}
+                          <Text style={{ fontSize: 14, color: '#000' }}>{item.address}</Text>
                         </Callout>
                       </Marker>
                     )
