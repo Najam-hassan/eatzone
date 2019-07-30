@@ -66,15 +66,23 @@ class Restaurents extends Component {
   );
 
   render () {
+    const { list } = this.props;
     return (
       <View style={styles.container}>
-        <FlatList
+        {list && list.length ? <FlatList
           data={this.props.list}
           extraData={this.state}
           // keyExtractor={this._keyExtractor}
           keyExtractor={(item, index) => index.toString()}
           renderItem={this._renderItem}
-        />
+        /> : <View style={{ flex: 1, justifyContent: 'center' }}>
+            <Text style={{
+              color: '#000000', fontSize: 16, fontWeight: '400', textAlign: 'center'
+            }}>
+              Please select dine in restaurant first!
+            </Text>
+          </View>}
+
       </View>
     )
   }
