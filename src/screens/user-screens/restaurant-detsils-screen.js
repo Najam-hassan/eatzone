@@ -157,7 +157,7 @@ class RestaurantDetailScreen extends Component {
             </View>
           </ImageBackground>
         </View>
-        <View style={[styles.itemContainer, { marginTop: -15, marginBottom: 20 }]}>
+        <View style={[styles.itemContainer, { marginTop: -15, marginBottom: 50 }]}>
           {list && Object.keys(list).length && list.menu_categories.length ?
             <RestaurantDetail
               addToTotal={amount => {

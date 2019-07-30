@@ -21,6 +21,12 @@ function placeOrderFailure (data) {
     }
 }
 
+export function resetOrderState () {
+    return {
+        type: constants.RESET_PLACE_ORDER_STATE,
+    }
+}
+
 export function placeOrderAction (data) {
     return dispatch => {
         dispatch(placeOrderRrquest());

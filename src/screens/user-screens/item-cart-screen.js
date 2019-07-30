@@ -1,9 +1,10 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import { NavigationEvents } from 'react-navigation'
+import Toast from 'react-native-easy-toast';
+import { NavigationEvents } from 'react-navigation';
 import {
-  Image, View, Text, StatusBar, TouchableOpacity, ScrollView,
+  Image, View, Text, StatusBar, ScrollView,
   StyleSheet, FlatList, Dimensions, ActivityIndicator
 } from 'react-native';
 
@@ -40,6 +41,17 @@ class CartScreen extends Component {
         })
       ));
     this.setState({ subTotal: total });
+  }
+
+  componentWillReceiveProps (nextProps) {
+    console.log(nextProps.response, '909090909090');
+    if (nextProps.response.message === "Order Placed") {
+      this.setState({ showModal: true });
+      this.props.resetState();
+    } else if (nextProps.response.code === 404) {
+      this.refs.toast.show(nextProps.response.message, 2000);
+      this.props.resetState();
+    }
   }
 
   _renderItem = ({ item }) => {
@@ -259,7 +271,6 @@ class CartScreen extends Component {
       deliveringRestaurantId: deliveryResturant.id,
     }
     this.props.placeOrder(resultObj);
-    this.setState({ showModal: true })
   };
 
   render () {
@@ -269,6 +280,12 @@ class CartScreen extends Component {
       collectingResturant.collectionServiceCharges + deliveryResturant.deliveryServiceCharges;
     return (
       <View style={{ flex: 1, backgroundColor: '#ebebeb' }}>
+        <Toast
+          ref="toast"
+          position='bottom'
+          fadeOutDuration={3000}
+          textStyle={{ color: '#fff' }}
+        />
         <StatusBar hidden={false} />
         <PageHeader
           isCartScreen={true}
@@ -387,6 +404,7 @@ class CartScreen extends Component {
 
 const mapStateToProps = state => ({
   cartItems: selectors.makeSelectCartItem()(state),
+  response: orderSelectors.makeSelectPlaceOrderData()(state),
   loadding: orderSelectors.makeSelectPlaceOrderLoading()(state),
   deliveryResturant: retaurant.makeSelectdeliveryResturant()(state),
   collectingResturant: retaurant.makeSelectCollectingResturant()(state),
@@ -394,6 +412,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
+    resetState: () => dispatch(orderActions.resetOrderState()),
     placeOrder: data => dispatch(orderActions.placeOrderAction(data)),
     addItemQuantity: data => {
       dispatch(actions.addQuantityToItem(data));
