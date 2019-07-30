@@ -41,14 +41,14 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Food all in one would like you user your camera</string>
-  <key>NSLocationUsageDescription</key>
-  <string>Food all in one would like to use your location</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Food all in one would like to use your location</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Food all in one would like to use your location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Food all in one would like to use your location</string>
-  <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-  <string>Food all in one would like to use your location</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Food all in one would like to use your location</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Food all in one would like you user your camera</string>
 	<key>UIAppFonts</key>
