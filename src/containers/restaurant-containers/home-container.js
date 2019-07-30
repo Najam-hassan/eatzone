@@ -121,12 +121,10 @@ class OwnerDashboard extends Component {
                         }
                     /> :
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                        <Text style={{
-                            fontSize: 16,
-                            textAlign: 'center',
-                            fontWeight: '500',
+                        <Text style={[styles.title, {
+                            fontWeight: '400',
                             color: '#000000'
-                        }}>
+                        }]}>
                             You haven't created category yet!
                         </Text>
                     </View>}

@@ -88,7 +88,7 @@ class ItemContainer extends Component {
                         renderItem={this._renderItem}
                     /> : <View style={styles.message}>
                         <Text style={[styles.title, { fontWeight: '400' }]}>
-                            Menu Item not exist, please create menu items.
+                            Item is not created yet!.
                         </Text>
                     </View>
                 }
