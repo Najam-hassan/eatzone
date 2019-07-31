@@ -38,7 +38,7 @@ class RestaurantDetail extends Component {
                   <View style={{
                     flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'wrap', marginTop: 4,
                   }}>
-                    <Text style={styles.description}>
+                    <Text style={styles.description} numberOfLines={3}>
                       {item.description}
                     </Text>
                     <View style={styles.stockStyle}>
