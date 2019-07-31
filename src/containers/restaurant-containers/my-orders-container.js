@@ -36,6 +36,25 @@ class OrdersContainer extends Component {
                         </Text>
                     </View>
                 </View>
+                <View style={{
+                    marginTop: 10,
+                    backgroundColor: '#fff',
+                    marginHorizontal: 20,
+                }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <Text style={{ fontSize: 16, color: '#00000', fontWeight: '500' }}>
+                            Restaurant Name: </Text>
+                        <Text style={{ fontSize: 16, color: '#00000', fontWeight: '400' }}>
+                            {item.deliveringRestaurant.name}
+                        </Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+                        <Text style={{ fontSize: 16, color: '#00000', fontWeight: '500' }}>Restaurant Address: </Text>
+                        <Text style={{ fontSize: 16, color: '#00000', fontWeight: '400' }}>
+                            {item.deliveringRestaurant.address}
+                        </Text>
+                    </View>
+                </View>
                 <View style={styles.actionContainer}>
                     <Button
                         title={'Call Customer'}
