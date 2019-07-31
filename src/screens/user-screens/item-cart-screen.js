@@ -44,7 +44,6 @@ class CartScreen extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    console.log(nextProps.response, '909090909090');
     if (nextProps.response.message === "Order Placed") {
       this.setState({ showModal: true });
       this.props.resetState();

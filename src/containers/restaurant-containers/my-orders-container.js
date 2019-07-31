@@ -40,7 +40,6 @@ class OrdersContainer extends Component {
                     <Button
                         title={'Call Customer'}
                         onPress={() => {
-                            console.log('button pressed');
                             if (Platform.OS === 'android') {
                                 Linking.openURL(`tel:${item.user.phone}`);
                             }

@@ -18,7 +18,6 @@ export function conversion (value) {
 }
 
 export const calculateCost = (items, charges) => {
-    console.log(charges, '00-0-0-0-0-00')
     let total = 0;
     items.forEach(item => {
         total = total + item.itemQuantity * item.menu_item.price;

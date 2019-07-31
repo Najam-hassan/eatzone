@@ -55,7 +55,6 @@ function updateOrderFailure (error) {
 }
 
 export function updateLocally (orderStatus) {
-    console.log(orderStatus, '0-0-0-0')
     return {
         type: constants.UPDATE_STATUS_LOCALLY,
         orderStatus,

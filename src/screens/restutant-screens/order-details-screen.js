@@ -27,7 +27,6 @@ class OrderDetailsScreen extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    console.log(nextProps)
     if (nextProps.confirmed) {
       this.setState({
         completed: true,
@@ -91,7 +90,6 @@ class OrderDetailsScreen extends Component {
           {params.orderConfirmed ? <Button
             title={'Call Customer'}
             onPress={() => {
-              console.log('button pressed');
               if (Platform.OS === 'android') {
                 Linking.openURL(`tel:${params.details.user.phone}`);
               }

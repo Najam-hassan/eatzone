@@ -54,7 +54,6 @@ class OrderScreen extends Component {
                         <View style={styles.orderFind} ref={this.setPhoneIconRef}>
                             <TouchableOpacity
                                 onPress={() => {
-                                    console.log('button pressed');
                                     if (Platform.OS === 'android') {
                                         Linking.openURL(
                                             `tel:${item.deliveringRestaurant ? item.deliveringRestaurant.phone : 123}`

@@ -26,7 +26,6 @@ class UserProfileForm extends Component {
     }
 
     componentWillReceiveProps (nextProps) {
-        console.log(nextProps.updating);
         if (nextProps.updating) {
             this.props.navigation.navigate('HomeScreen');
             this.props.resetState();
