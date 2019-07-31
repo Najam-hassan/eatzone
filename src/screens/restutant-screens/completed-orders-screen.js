@@ -13,7 +13,7 @@ import OrdersContainer from '../../containers/restaurant-containers/my-orders-co
 class CompletedOrdersScreen extends Component {
 
     componentDidMount () {
-        this.props.fetchList();
+        // this.props.fetchList();
     }
 
     render () {
@@ -46,7 +46,9 @@ class CompletedOrdersScreen extends Component {
                 <OrdersContainer
                     isCollecting={true}
                     navigation={this.props.navigation}
-                    list={deliveries && deliveries.filter(row => row.orderStatus === 'COMPLETED')}
+                    list={deliveries && deliveries.filter(row => (
+                        row.orderStatus === 'COMPLETED' || row.orderStatus === 'CANCELLED'
+                    ))}
                 />
             </View>
         )

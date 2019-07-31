@@ -24,7 +24,7 @@ class RecentOrdersScreen extends Component {
   };
 
   componentDidMount () {
-    this.props.fetchList();
+    // this.props.fetchList();
   }
 
   render () {
