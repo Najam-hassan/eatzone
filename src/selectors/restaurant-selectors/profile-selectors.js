@@ -19,8 +19,13 @@ const makeSelectError = () => createSelector(
     selectRestaurantProfileState, state => state.getIn(['restaurant', 'error'])
 );
 
+const makeSelectIsExisted = () => createSelector(
+    selectRestaurantProfileState, state => state.getIn(['existedRestaurant', 'data']).toJS()
+);
+
 export {
     makeSelectError,
+    makeSelectIsExisted,
     makeSelectProflieData,
     makeSelectProfileLoading,
     makeSelectorProfileStatus,

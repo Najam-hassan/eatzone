@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { CheckBox } from 'react-native-elements';
 import MapView, { Marker } from 'react-native-maps';
@@ -14,8 +15,10 @@ import {
 const { width, height } = Dimensions.get('screen');
 
 import Button from '../../components/common/button';
-// import InputField from '../../components/common/input';
 import InputField from '../../components/common/materialInput';
+
+import * as actions from '../../actions/restaurant-actions/profile-actions';
+import * as selectors from '../../selectors/restaurant-selectors/profile-selectors';
 
 import { isAlphabetsWithSpecialChar, isValidNumber } from '../../utils/regex';
 
@@ -23,6 +26,8 @@ class ProfileForm extends Component {
   state = {
     collect: { collectTimeStart: '', collectTimeEnd: '' },
     deliver: { deliverTimeStart: '', deliverTimeEnd: '' },
+    message: '',
+    googlePlaceId: null,
     multiSliderValue: [5, 30],
     sliderOneValue: [1],
     location: 'Restaurant Address',
@@ -39,7 +44,7 @@ class ProfileForm extends Component {
 
   onSubmit = values => {
     const {
-      canCollect, canDeliver, collect, deliver, sliderOneValue, region, location
+      canCollect, canDeliver, collect, deliver, sliderOneValue, region, location, googlePlaceId
     } = this.state;
     const formValues = {
       ...values.toJS(),
@@ -47,8 +52,12 @@ class ProfileForm extends Component {
       canDeliver: canDeliver,
       canCollect: canCollect,
       location: `${region.latitude}, ${region.longitude}`,
+      googlePlaceId: googlePlaceId && googlePlaceId || null,
     }
-    if (values && values.toJS() !== {}) {
+
+    const { isExisted } = this.props;
+
+    if (values && values.toJS() !== {} && isExisted.code === 200) {
       if (!canCollect && !canDeliver) {
         return Alert.alert(
           "Required",
@@ -121,6 +130,7 @@ class ProfileForm extends Component {
         })
       }
     }
+    this.setState({ googlePlaceId: null });
   };
 
   sliderOneValuesChange = values => {
@@ -197,7 +207,7 @@ class ProfileForm extends Component {
   }
 
   render () {
-    const { handleSubmit, submitting, loading, isEdit } = this.props;
+    const { handleSubmit, submitting, loading, isEdit, isExisted } = this.props;
     return (
       <View style={styles.container}>
         <ScrollView
@@ -234,8 +244,10 @@ class ProfileForm extends Component {
               enablePoweredByContainer={false}
               placeholder={this.state.location}
               onPress={(data, details = null) => {
+                this.props.checkResturantExist(details.id);
                 this.mapView && this.mapView.animateToRegion(details.geometry.location, 500)
                 this.setState({
+                  googlePlaceId: details.id,
                   location:
                     details.name,
                   region: {
@@ -288,6 +300,10 @@ class ProfileForm extends Component {
               }}
               debounce={0}
             />
+            {isExisted && isExisted.code === 400 ?
+              <Text style={styles.errorTextStyle}>
+                {isExisted.message}
+              </Text> : null}
             <Field
               name='addressDetails'
               errorTextColor="red"
@@ -742,11 +758,30 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#000',
     fontWeight: '400'
-  }
+  },
+  errorTextStyle: {
+    fontSize: 12,
+    color: 'red',
+    fontWeight: '400',
+    textAlign: 'right',
+  },
 });
 
-export default reduxForm({
+mapStateToProps = state => ({
+  isExisted: selectors.makeSelectIsExisted()(state)
+});
+
+mapDispatchToProps = dispatch => {
+  return {
+    checkResturantExist: id => dispatch(actions.checkResturantExistAction(id))
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(reduxForm({
   form: 'RestaurantProfileForm',
   enableReinitialize: true,
   validate,
-})(ProfileForm)
+})(ProfileForm));

@@ -40,3 +40,38 @@ export function updateProfileAction (data, updating) {
             });
     }
 }
+
+export function checkResturantExistRequest () {
+    return {
+        type: constants.CHECK_RESTAURANT_EXIST_REQUEST,
+    }
+}
+
+export function checkResturantExistSuccess (data) {
+    return {
+        type: constants.CHECK_RESTAURANT_EXIST_SUCCESS,
+        data
+    }
+}
+
+export function checkResturantExistFailure (error) {
+    return {
+        type: constants.CHECK_RESTAURANT_EXIST_FAILURE,
+        error,
+    }
+}
+
+export function checkResturantExistAction (id) {
+    console.log(id, 'places Id');
+    return dispatch => {
+        dispatch(checkResturantExistRequest());
+        return axios.get(`/restaurant/restaurant-exists/${id}`)
+            .then(response => {
+                dispatch(checkResturantExistSuccess(response.data));
+            })
+            .catch(error => {
+                dispatch(checkResturantExistFailure(error))
+            });
+    }
+}
+
