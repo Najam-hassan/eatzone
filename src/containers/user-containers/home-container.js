@@ -183,8 +183,50 @@ class HomeContainer extends Component {
     </TouchableOpacity>
   );
 
+  renderMarkers = (list, isValid) => {
+    const { navigation } = this.props;
+    if (list && list.length)
+      return list.map((item, index) => {
+        return (
+          < Marker
+            key={`Alert-marker-${index}`}
+            coordinate={{
+              latitude: item.location.coordinates[1],
+              longitude: item.location.coordinates[0],
+              latitudeDelta: 1,
+              longitudeDelta: 1
+            }}
+            title={item.name}
+            description={item.addressDetails}
+          >
+            <Callout
+              onPress={() => {
+                const { resturant } = this.props;
+                if (isValid) {
+                  if (item.isValid) {
+                    this.props.fetchDetails(item.id, resturant.id);
+                    this.props.delivertRestaurant(item);
+                    navigation.navigate('RestaurantDetailScreen', {
+                      restaurantId: item.id,
+                      name: item.name,
+                    })
+                  } else {
+                    this.refs.toast.show("This restaurant is not available at the moment", 2000);
+                  }
+                }
+              }}
+              style={{ width: 150 }}
+            >
+              <Text style={{ fontSize: 20, color: '#000' }}>{item.name}</Text>
+              <Text style={{ fontSize: 14, color: '#000' }}>{item.address}</Text>
+            </Callout>
+          </Marker>
+        )
+      });
+  }
+
   render () {
-    const { list, loading, navigation, collecting } = this.props;
+    const { list, loading, collecting } = this.props;
     const { isLoading, firstClick, region } = this.state;
     if (isLoading) {
       return (
@@ -233,41 +275,10 @@ class HomeContainer extends Component {
                   this.state.region : initialValues}
               >
                 <View>
-                  {!firstClick && list && list.length ? list.map((item, index) => {
-                    return (
-                      < Marker
-                        key={`Alert-marker-${index}`}
-                        coordinate={{
-                          latitude: item.location.coordinates[1],
-                          longitude: item.location.coordinates[0],
-                          latitudeDelta: 1,
-                          longitudeDelta: 1
-                        }}
-                        title={item.name}
-                        description={item.addressDetails}
-                      >
-                        <Callout
-                          onPress={() => {
-                            const { resturant } = this.props;
-                            if (item.isValid) {
-                              this.props.fetchDetails(item.id, resturant.id);
-                              this.props.delivertRestaurant(item);
-                              navigation.navigate('RestaurantDetailScreen', {
-                                restaurantId: item.id,
-                                name: item.name,
-                              })
-                            } else {
-                              this.refs.toast.show("This restaurant is not available at the moment", 2000);
-                            }
-                          }}
-                          style={{ width: 150 }}
-                        >
-                          <Text style={{ fontSize: 20, color: '#000' }}>{item.name}</Text>
-                          <Text style={{ fontSize: 14, color: '#000' }}>{item.address}</Text>
-                        </Callout>
-                      </Marker>
-                    )
-                  }) : null}
+                  {!firstClick && list && list.length ?
+                    this.renderMarkers(list, true) : null}
+                  {firstClick && collecting && collecting.length ?
+                    this.renderMarkers(collecting, false) : null}
                 </View>
               </MapView>
             )
