@@ -42,27 +42,32 @@ export function deleteCategoryRequest () {
     }
 }
 
-export function deleteCategorySuccess () {
+export function deleteCategorySuccess (id) {
     return {
         type: constants.DELETE_CATEGORY_SUCCESS,
+        id,
     }
 }
 
-// export function deleteCategoryFailure (error) {
-//     return {
-//         type: constants.DELETE_CATEGORY_FAILURE,
-//         error
-//     }
-// }
+export function deleteCategoryFailure (error) {
+    return {
+        type: constants.DELETE_CATEGORY_FAILURE,
+        error
+    }
+}
 
 export function deleteCategoryAction (list) {
     return dispatch => {
         dispatch(deleteCategoryRequest());
         list.map(item => {
             return axios.delete(`/restaurant/menu-category/${item.id}`)
+                .then(response => {
+                    console.log(response, '-=-=-=-')
+                    dispatch(deleteCategorySuccess(item.id));
+                }).catch(error => {
+                    dispatch(deleteCategoryFailure(error));
+                })
         });
-        dispatch(deleteCategorySuccess());
-        dispatch(fetchCategoryListAction())
     }
 }
 

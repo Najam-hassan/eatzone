@@ -44,11 +44,12 @@ export default function homeReducer (state = initialState, action) {
                 row.get('id') === action.id
             ));
             return state
+                .deleteIn(['categories', 'data', index])
                 .setIn(['categories', 'loading'], false)
                 .setIn(['categories', 'isDeleted'], true);
         }
 
-        case constants.FETCH_CATEGORY_LIST_FAILURE:
+        case constants.DELETE_CATEGORY_FAILURE:
             return state
                 .setIn(['categories', 'error'], action.error)
                 .setIn(['categories', 'loading'], false);
