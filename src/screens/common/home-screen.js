@@ -40,7 +40,9 @@ class HomeScreen extends Component {
             <View style={{ flex: 1 }}>
                 <Header
                     navigation={this.props.navigation}
-                    title={'Home'}
+                    title={type === 'admin' ?
+                        'Categories' : type === 'user' ?
+                            'Home' : null}
                 />
                 {loading ?
                     <View style={styles.loadingStyle}>
