@@ -10,6 +10,7 @@ import { conversion } from '../../utils/misc';
 const { width, height } = Dimensions.get('screen');
 
 import * as selectors from '../../selectors/user-selectors/restaurents-selectors';
+import { setDeliveryRestaurant } from '../../actions/user-actions/home-actions';
 import { fetchDetailAction } from '../../actions/user-actions/resturant-detail-actions';
 import {
   makeSelectCollectingResturant, makeSelectFilterData
@@ -22,7 +23,8 @@ class Restaurents extends Component {
       activeOpacity={1}
       onPress={() => {
         if (item.isValid) {
-          const { resturant } = this.props;
+          const { resturant, delivertRestaurant } = this.props;
+          delivertRestaurant(item);
           this.props.fetchDetails(item.id, resturant.id);
           this.props.navigateTo(item);
         }
@@ -142,7 +144,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchDetails: (id, collectingId) => dispatch(fetchDetailAction(id, collectingId))
+    fetchDetails: (id, collectingId) => dispatch(fetchDetailAction(id, collectingId)),
+    delivertRestaurant: resturant => {
+      dispatch(setDeliveryRestaurant(resturant));
+    },
   }
 }
 
