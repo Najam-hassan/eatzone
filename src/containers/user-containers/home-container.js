@@ -37,6 +37,7 @@ class HomeContainer extends Component {
     this.state = {
       firstClick: true,
       isLoading: false,
+      length: 0,
       latitude: "",
       longitude: "",
       region: {
@@ -157,7 +158,7 @@ class HomeContainer extends Component {
         }
       }}
     >
-      <View style={[styles.itemStyling]}>
+      <View style={[styles.itemStyling, { marginBottom: this.state.length === index + 1 ? 10 : 0 }]}>
         <Image
           source={
             item && item.bannerUrl !== '' ?
@@ -228,10 +229,14 @@ class HomeContainer extends Component {
   render () {
     const { list, loading, collecting } = this.props;
     const { isLoading, firstClick, region } = this.state;
+    const length = collecting && collecting.length ?
+      collecting.length : list && list.length ? list.length : 0;
+    if (length >= 0 && this.state.length !== length) {
+      this.setState({ length: length });
+    }
     if (isLoading) {
       return (
         <View style={styles.loadingStyle}>
-          <StatusBar hidden={true} />
           <ActivityIndicator size={'large'} color={'#1BA2FC'} />
           <NavigationEvents
             onWillFocus={payload => {
@@ -244,7 +249,6 @@ class HomeContainer extends Component {
     }
     return (
       <View style={styles.container}>
-        <StatusBar hidden={true} />
         <NavigationEvents
           onWillFocus={payload => {
             console.log('will focus', payload)
@@ -294,7 +298,7 @@ class HomeContainer extends Component {
             } else {
               return (
                 <View style={{
-                  marginBottom: 15, backgroundColor: '#f7f8fa', flex: .5
+                  marginBottom: -50, backgroundColor: '#f7f8fa', flex: .5,
                 }}>
                   <Text style={{ color: '#000000', textAlign: "center", padding: 6 }}>
                     {firstClick ?
@@ -341,6 +345,7 @@ class HomeContainer extends Component {
           }}
           renderInitDrawerView={() => (
             <View style={[styles.dragView]}>
+              <StatusBar hidden={true} />
               <DragHeader />
             </View>
           )}
