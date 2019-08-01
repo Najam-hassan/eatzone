@@ -111,8 +111,15 @@ class RestaurantDetailScreen extends Component {
             let totalItems = 0;
             if (cardItems.length) {
               cardItems.forEach(item => {
-                total = total + (item.price * item.quantity);
-                totalItems = totalItems + item.quantity;
+                if (item.length && item.length > 0) {
+                  item.forEach(row => {
+                    total = total + (row.price * row.quantity);
+                    totalItems = totalItems + row.quantity;
+                  })
+                } else {
+                  total = total + (item.price * item.quantity);
+                  totalItems = totalItems + item.quantity;
+                }
               });
             }
             this.setState({
