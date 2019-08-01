@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { NavigationEvents } from 'react-navigation';
 import {
-    View, Text, StatusBar, TouchableOpacity, StyleSheet,
-    Linking, ActivityIndicator, FlatList, Platform
+    View, Text, StatusBar, TouchableOpacity, StyleSheet, RefreshControl,
+    Linking, ActivityIndicator, FlatList, Platform, ScrollView
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 
@@ -95,20 +95,33 @@ class OrderScreen extends Component {
                         this.props.fetchList();
                     }}
                 />
-                {loading ?
-                    <ActivityIndicator
-                        size={'large'}
-                        color={'#1BA2FC'}
-                    /> : list && list.length ?
-                        <FlatList
-                            data={list}
-                            extraData={this.state}
-                            keyExtractor={(item, index) => index.toString()}
-                            renderItem={this.renderOrderCard}
-                        /> : <View>
-                            <Text>You haven't placed any order yet!!</Text>
-                        </View>
-                }
+                <ScrollView
+                    style={{ backgroundColor: '#fff' }}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={loading}
+                            onRefresh={() => this.props.fetchList()}
+                            progressBackgroundColor='#1BA2FC'
+                            tintColor="#1BA2FC"
+                            colors={["#1BA2FC", "#1BA2FC"]}
+                        />
+                    }
+                >
+                    {loading ?
+                        <ActivityIndicator
+                            size={'large'}
+                            color={'#1BA2FC'}
+                        /> : list && list.length ?
+                            <FlatList
+                                data={list}
+                                extraData={this.state}
+                                keyExtractor={(item, index) => index.toString()}
+                                renderItem={this.renderOrderCard}
+                            /> : <View>
+                                <Text>You haven't placed any order yet!!</Text>
+                            </View>
+                    }
+                </ScrollView>
             </View>
         )
     }
