@@ -35,6 +35,8 @@ target 'food_all_in_one' do
 
   pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
 
+  pod 'react-native-geolocation', :path => '../node_modules/@react-native-community/geolocation'
+
 end
 
 post_install do |installer|

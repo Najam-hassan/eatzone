@@ -222,16 +222,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     backgroundColor: '#f7f8fa',
   },
-  fixedLeft: {
-    flex: 0.5,
-  },
-  fixedRight: {
-    flex: 0.5,
-    textAlign: 'right',
-  },
   button: {
     height: 36,
-    width: '100%',
+    width: 200,
     color: '#fff',
     borderWidth: 1,
     borderRadius: 50,

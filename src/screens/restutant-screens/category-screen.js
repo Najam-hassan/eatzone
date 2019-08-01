@@ -18,16 +18,13 @@ class CategoryScreen extends Component {
                     navigation={this.props.navigation}
                     title={'Add Category'}
                 />
-                <ScrollView
-                    showsVerticalScrollIndicator={false}
-                    keyboardShouldPersistTaps="handled"
-                >
+                <View style={{ flex: 1 }}>
                     <CategoryForm
                         navigation={this.props.navigation}
                         imageUrl={params ? params.imageUrl : null}
                         catId={params ? params.catId : null}
                     />
-                </ScrollView>
+                </View>
             </View>
         )
     }

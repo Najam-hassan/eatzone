@@ -4,7 +4,7 @@ import PhotoUpload from 'react-native-photo-upload';
 import { Field, reduxForm } from 'redux-form/immutable';
 import Toast from 'react-native-easy-toast';
 import {
-    View, ActivityIndicator, StyleSheet, Dimensions, Image, Alert
+    View, ActivityIndicator, StyleSheet, Dimensions, Image, Alert, ScrollView
 } from 'react-native';
 
 const { width, height } = Dimensions.get('screen');
@@ -73,7 +73,7 @@ class CategoryForm extends Component {
                     fadeOutDuration={3000}
                     textStyle={{ color: '#fff' }}
                 />
-                <View>
+                <View style={{ flex: 0.4 }}>
                     <PhotoUpload
                         onStart={() => this.setState({ imageLoading: true })}
                         onPhotoSelect={avatar => {
@@ -89,7 +89,7 @@ class CategoryForm extends Component {
                         <Image
                             style={{
                                 width: width,
-                                height: 200,
+                                height: '100%',
                             }}
                             source={{ uri: this.props.imageUrl }}
                             resizeMode='cover'
@@ -97,7 +97,7 @@ class CategoryForm extends Component {
                         <Image
                             style={{
                                 width: width,
-                                height: 200,
+                                height: '100%',
                             }}
                             source={require('../../assets/images/placeholder-img.png')}
                             resizeMode='cover'
@@ -106,32 +106,43 @@ class CategoryForm extends Component {
                             size="large" color="#000" style={styles.indicator}
                         /> : null}
                     </PhotoUpload>
-                    <View style={[styles.container, {
-                        paddingTop: 35,
-                        top: -20,
-                        borderTopLeftRadius: 15,
-                        borderTopRightRadius: 15,
-                        backgroundColor: '#fff'
-                    }]}>
-                        <Field
-                            name='name'
-                            errorTextColor="red"
-                            keyboardType='default'
-                            component={InputField}
-                            placeholder='Enter Category Name'
-                            customContainerStyle={styles.input}
-                            customInputStyle={{ color: "#000" }}
-                        />
-                        {submitting || loading ?
-                            <ActivityIndicator size="large" color="#1BA2FC" /> :
-                            <Button
-                                title={imageUrl ? "Update" : "Save"}
-                                onPress={handleSubmit(this.onSubmit)}
-                                style={styles.button}
-                                textStyle={{ /* styles for button title */ }}
+                </View>
+                <View style={{
+                    top: -20,
+                    flex: 0.6,
+                    paddingTop: 35,
+                    backgroundColor: '#fff',
+                    borderTopLeftRadius: 15,
+                    borderTopRightRadius: 15,
+                }}>
+                    <ScrollView
+                        showsVerticalScrollIndicator={false}
+                        keyboardShouldPersistTaps="handled"
+                    >
+                        <View style={{
+                            alignItems: 'center',
+                            flex: 1
+                        }}>
+                            <Field
+                                name='name'
+                                errorTextColor="red"
+                                keyboardType='default'
+                                component={InputField}
+                                placeholder='Enter Category Name'
+                                customContainerStyle={styles.input}
+                                customInputStyle={{ color: "#000" }}
                             />
-                        }
-                    </View>
+                            {submitting || loading ?
+                                <ActivityIndicator size="large" color="#1BA2FC" /> :
+                                <Button
+                                    title={imageUrl ? "Update" : "Save"}
+                                    onPress={handleSubmit(this.onSubmit)}
+                                    style={styles.button}
+                                    textStyle={{ /* styles for button title */ }}
+                                />
+                            }
+                        </View>
+                    </ScrollView>
                 </View>
             </View>
         );
@@ -165,9 +176,7 @@ const mapDispatchToProps = dispatch => {
 
 const styles = StyleSheet.create({
     container: {
-        alignItems: 'center',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
+        flex: 1
     },
     button: {
         backgroundColor: '#1BA2FC',

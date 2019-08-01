@@ -18,17 +18,14 @@ class AddMenuItemScreen extends Component {
                     navigation={this.props.navigation}
                     title={'Add Menu Item'}
                 />
-                <ScrollView
-                    showsVerticalScrollIndicator={false}
-                    keyboardShouldPersistTaps="handled"
-                >
+                <View style={{ flex: 1 }}>
                     <MenuItemForm
                         categoryId={params.catId}
                         navigation={this.props.navigation}
                         itemId={params ? params.itemId : null}
                         imageUrl={params ? params.imageUrl : null}
                     />
-                </ScrollView>
+                </View>
             </View>
         )
     }

@@ -89,9 +89,7 @@ class OwnerDashboard extends Component {
                                             <Text style={styles.title}>{item.name}</Text>
                                         </View>
                                         {this.state.isEnable ?
-                                            <View style={[styles.titleView, {
-                                                top: -110, left: '70%'
-                                            }]}>
+                                            <View style={{ position: 'absolute', top: 0, right: 0 }}>
                                                 <CheckBox
                                                     size={24}
                                                     checked={item.selected}
@@ -100,9 +98,7 @@ class OwnerDashboard extends Component {
                                             </View> : null
                                         }
                                     </TouchableOpacity>
-                                    <View style={[styles.titleView, {
-                                        top: -105, left: 15
-                                    }]}>
+                                    <View style={styles.titleView}>
                                         <EditIcon
                                             size={26}
                                             color={'#fff'}

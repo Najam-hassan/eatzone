@@ -41,7 +41,7 @@ class RestaurantDetail extends Component {
                     <Text style={styles.description} numberOfLines={3}>
                       {item.description}
                     </Text>
-                    <View style={styles.stockStyle}>
+                    <View style={[styles.stockStyle]}>
                       <Button
                         buttonStyle={{
                           margin: 0, padding: 0, color: '#fff', height: 24, width: 24, borderRadius: 24
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: 'center',
     flexDirection: 'row',
-    flex: 0.35,
+    // flex: 0.35,
     backgroundColor: '#f7f8fa',
     height: 24,
     justifyContent: 'space-between',

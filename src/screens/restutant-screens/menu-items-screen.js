@@ -6,35 +6,35 @@ import { PageHeader } from '../../components/common/header';
 import ItemContainer from '../../containers/restaurant-containers/items-container';
 
 class MenuItemsScreen extends Component {
-    constructor(props) {
-        super(props);
-    }
+	constructor(props) {
+		super(props);
+	}
 
-    render () {
-        const { params } = this.props.navigation.state;
+	render () {
+		const { params } = this.props.navigation.state;
 
-        return (
-            <View style={{ flex: 1 }}>
-                <StatusBar hidden={false} />
-                <PageHeader
-                    navigation={this.props.navigation}
-                    title={'Menu Items'}
-                />
-                <ItemContainer
-                    parent={this}
-                    catId={params.catId}
-                    navigation={this.props.navigation}
-                    items={params && params.items ? params.items : []}
-                />
-                <Toast
-                    ref="toast"
-                    position='bottom'
-                    fadeOutDuration={3000}
-                    textStyle={{ color: '#fff' }}
-                />
-            </View>
-        )
-    }
+		return (
+			<View style={{ flex: 1 }}>
+				<StatusBar hidden={false} />
+				<PageHeader
+					navigation={this.props.navigation}
+					title={'Menu Items'}
+				/>
+				<ItemContainer
+					parent={this}
+					catId={params.catId}
+					navigation={this.props.navigation}
+					items={params && params.items ? params.items : []}
+				/>
+				<Toast
+					ref="toast"
+					position='bottom'
+					fadeOutDuration={3000}
+					textStyle={{ color: '#fff' }}
+				/>
+			</View>
+		)
+	}
 }
 
 export default MenuItemsScreen 

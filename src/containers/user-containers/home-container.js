@@ -5,10 +5,11 @@ import Toast from 'react-native-easy-toast';
 import Drawer from 'react-native-draggable-view';
 import { NavigationEvents } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Geolocation from 'react-native-geolocation-service';
 import MapView, { Marker, Callout, PROVIDER_GOOGLE } from 'react-native-maps';
 import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
 import {
-  View, Text, StyleSheet, Dimensions, StatusBar,
+  View, Text, StyleSheet, Dimensions, StatusBar, PermissionsAndroid,
   FlatList, Image, ActivityIndicator, TouchableOpacity,
   ScrollView, AsyncStorage, Platform, Linking, Alert
 } from 'react-native';
@@ -49,65 +50,103 @@ class HomeContainer extends Component {
     }
   }
 
-  getCurrentResPosition () {
-    const { fetchCollectingList } = this.props;
-    navigator.geolocation.getCurrentPosition((position) => {
-      this.setState({ isLoading: false });
-      const { latitude, longitude } = position.coords;
-      this.setState({
-        latitude: latitude,
-        longitude: longitude
-      })
-      console.log('lat: ', latitude, 'long: ', longitude);
-      AsyncStorage.setItem('location', { latitude, longitude });
-      initialValues = {
-        ...initialValues,
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude
-      };
-      this.setState({
-        region: {
-          ...this.state.region,
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        }
-      });
-      fetchCollectingList(`/user/nearby-restaurants/${latitude},${longitude}`);
-      // fetchCollectingList(`/user/nearby-restaurants/31.474241414107382, 74.24986490048468`);
-    },
-      (error) => {
-        this.setState({ error: error.message, isLoading: false });
-        if (error.message === "No location provider available." || error.code === 2) {
-          if (Platform.OS === 'android') {
-            RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({ interval: 10000, fastInterval: 5000 })
-              .then(data => {
-                console.log(data, '0-0-0-0-0-0-0-0');
-                this.getCurrentResPosition();
-              }).catch(error => {
-                console.log(error, '())()()()()')
-              });
-          } else {
-            return Alert.alert(
-              "",
-              'Please enable your device location',
-              [
-                {
-                  text: 'settings', onPress: () =>
-                    Linking.openURL('App-Prefs:root=LOCATION_SERVICES:')
-                },
-                {
-                  text: 'Cancel',
-                  onPress: () => console.log('Cancel Pressed'),
-                  style: 'cancel'
-                },
-              ],
-              { cancelable: false },
-            );
-          }
-        }
-      },
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+  hasLocationPermission = async () => {
+    if (Platform.OS === 'ios' ||
+      (Platform.OS === 'android' && Platform.Version < 23)) {
+      return true;
+    }
+
+    const hasPermission = await PermissionsAndroid.check(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
     );
+
+    if (hasPermission) return true;
+
+    const status = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+    );
+
+    if (status === PermissionsAndroid.RESULTS.GRANTED) return true;
+
+    if (status === PermissionsAndroid.RESULTS.DENIED) {
+      ToastAndroid.show('Location permission denied by user.', ToastAndroid.LONG);
+    } else if (status === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
+      ToastAndroid.show('Location permission revoked by user.', ToastAndroid.LONG);
+    }
+    return false;
+  }
+
+  getCurrentResPosition = async () => {
+    const { fetchCollectingList } = this.props;
+    const hasLocationPermission = await this.hasLocationPermission();
+
+    if (!hasLocationPermission) return;
+
+    this.setState({ loading: true }, () => {
+      Geolocation.getCurrentPosition(
+        (position) => {
+          console.log(position);
+          this.setState({ isLoading: false });
+          const { latitude, longitude } = position.coords;
+          this.setState({
+            latitude: latitude,
+            longitude: longitude
+          })
+          console.log('lat: ', latitude, 'long: ', longitude);
+          AsyncStorage.setItem('location', { latitude, longitude });
+          initialValues = {
+            ...initialValues,
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          };
+          this.setState({
+            region: {
+              ...this.state.region,
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            }
+          });
+          fetchCollectingList(`/user/nearby-restaurants/${latitude},${longitude}`);
+          // fetchCollectingList(`/user/nearby-restaurants/31.474241414107382, 74.24986490048468`);
+        },
+        (error) => {
+          console.log(error.code, error.message);
+          if (error.code === 3 || error.message === 'Location request timed out.') {
+            this.getCurrentResPosition();
+          }
+          this.setState({ error: error.message, isLoading: false });
+          if (error.message === "No location provider available." || error.code === 2) {
+            if (Platform.OS === 'android') {
+              RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({ interval: 10000, fastInterval: 5000 })
+                .then(data => {
+                  console.log(data, '0-0-0-0-0-0-0-0');
+                  this.getCurrentResPosition();
+                }).catch(error => {
+                  console.log(error, '())()()()()')
+                });
+            } else {
+              return Alert.alert(
+                "",
+                'Please enable your device location',
+                [
+                  {
+                    text: 'settings', onPress: () =>
+                      Linking.openURL('App-Prefs:root=LOCATION_SERVICES:')
+                  },
+                  {
+                    text: 'Cancel',
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel'
+                  },
+                ],
+                { cancelable: false },
+              );
+            }
+          }
+        },
+        { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+      );
+    });
   }
 
   componentDidMount () {

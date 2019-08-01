@@ -33,7 +33,7 @@ class OrderDetailScreen extends Component {
                     <Text style={{ color: '#cccccc', fontWeight: '400' }}>Delivery Fee</Text>
                     <View style={styles.priceStyle}>
                         <Text style={{ color: '#cccccc', fontWeight: '400' }}>
-                            {details.deliveringRestaurant.deliveryServiceCharges}%
+                            {details.deliveringRestaurant && details.deliveringRestaurant.deliveryServiceCharges || 0}%
                         </Text>
                     </View>
                 </View>
@@ -99,7 +99,8 @@ class OrderDetailScreen extends Component {
                             <Text style={styles.titleText}>
                                 ${(subTotal +
                                     (subTotal *
-                                        `.${params.details.deliveringRestaurant.deliveryServiceCharges}` +
+                                        `.${params.details.deliveringRestaurant && params.details.deliveringRestaurant.deliveryServiceCharges || 0
+                                        }` +
                                         (subTotal * 0.16))).toFixed(2)}
                             </Text>
                         </View>

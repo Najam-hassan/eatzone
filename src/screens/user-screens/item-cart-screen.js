@@ -328,17 +328,15 @@ class CartScreen extends Component {
                         flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
                       }}>
                         <Text numberOfLines={1} style={{
-                          flex: 8, color: '#000', fontSize: 16, fontWeight: '400',
+                          color: '#000', fontSize: 16, fontWeight: '400',
                         }}>Total</Text>
-                        <View style={{ flex: 2, justifyContent: 'space-between' }}>
-                          <Text style={{ color: '#000', fontWeight: '400', fontSize: 16, }}>
-                            ${(this.state.subTotal +
-                              (this.state.subTotal *
-                                `.${deliveryResturant.deliveryServiceCharges}` +
-                                (this.state.subTotal * 0.16))).toFixed(2)
-                            }
-                          </Text>
-                        </View>
+                        <Text style={{ color: '#000', fontWeight: '400', fontSize: 16, }}>
+                          ${(this.state.subTotal +
+                            (this.state.subTotal *
+                              `.${deliveryResturant.deliveryServiceCharges}` +
+                              (this.state.subTotal * 0.16))).toFixed(2)
+                          }
+                        </Text>
                       </View>
                     </View>
                   </View>
