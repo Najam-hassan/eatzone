@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import Toast from 'react-native-easy-toast';
 import Drawer from 'react-native-draggable-view';
 import { NavigationEvents } from 'react-navigation';
-import Icon from 'react-native-vector-icons/AntDesign';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import MapView, { Marker, Callout, PROVIDER_GOOGLE } from 'react-native-maps';
 import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
 import {
@@ -351,7 +351,7 @@ class HomeContainer extends Component {
               <TouchableOpacity
                 onPress={() => this.moveBack()}
                 style={{ position: 'relative', margin: 15 }}>
-                <Icon name="arrowleft" size={30} style={{ color: '#000' }} />
+                <Icon name="arrow-left" style={{ fontSize: 18, color: '#000' }} />
               </TouchableOpacity>
             </View>
             :

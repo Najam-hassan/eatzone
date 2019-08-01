@@ -47,8 +47,8 @@ class CartScreen extends Component {
     if (nextProps.response.message === "Order Placed") {
       this.setState({ showModal: true });
       this.props.resetState();
-    } else if (nextProps.response.code === 404) {
-      this.refs.toast.show(nextProps.response.message, 2000);
+    } else if (nextProps.response.code === 400) {
+      this.refs.toast.show(`Unable to place order ${nextProps.response.message}`, 2000);
       this.props.resetState();
     }
   }
