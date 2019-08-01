@@ -134,8 +134,8 @@ class RestaurantDetail extends Component {
       <View style={{ flex: 1 }}>
         {list && list.length ?
           <FlatList
-            data={list}
             extraData={this.state}
+            data={list.filter(row => row)}
             keyExtractor={(item, index) => index.toString()}
             renderItem={this._renderItem}
           /> : <View style={{
