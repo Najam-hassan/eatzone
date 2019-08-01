@@ -71,6 +71,7 @@ class RecentOrdersScreen extends Component {
               <OrdersContainer
                 isDelivery={true}
                 navigation={this.props.navigation}
+                fetchList={() => this.props.fetchList()}
                 list={deliveries && deliveries.filter(row => (
                   row.orderStatus === 'CONFIRMED' || row.orderStatus === 'PENDING')
                 )}
@@ -82,6 +83,7 @@ class RecentOrdersScreen extends Component {
                 isDelivery={false}
                 isCollecting={true}
                 navigation={this.props.navigation}
+                fetchList={() => this.props.fetchList()}
               />
             ),
           })}

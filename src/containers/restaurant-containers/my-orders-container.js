@@ -1,6 +1,8 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, FlatList, Image, Linking, Platform } from 'react-native';
+import {
+    View, Text, StyleSheet, FlatList, Image, Linking, Platform, RefreshControl, ScrollView
+} from 'react-native';
 
 import { calculateCost } from '../../utils/misc';
 import Button from '../../components/common/button';
@@ -112,18 +114,30 @@ class OrdersContainer extends Component {
         const { list } = this.props;
         return (
             <View style={[styles.scene]}>
-                {list && list.length ?
-                    <FlatList
-                        data={list}
-                        extraData={this.state}
-                        keyExtractor={(item, index) => index.toString()}
-                        renderItem={this.renderOrderCard}
-                    /> : <View style={styles.message}>
-                        <Text style={[styles.title, { fontWeight: '400' }]}>
-                            Don't have any order yet.
+                <ScrollView
+                    style={{ backgroundColor: '#fff' }}
+                    refreshControl={
+                        <RefreshControl
+                            onRefresh={() => this.props.fetchList()}
+                            progressBackgroundColor='#1BA2FC'
+                            tintColor="#1BA2FC"
+                            colors={["#1BA2FC", "#1BA2FC"]}
+                        />
+                    }
+                >
+                    {list && list.length ?
+                        <FlatList
+                            data={list}
+                            extraData={this.state}
+                            keyExtractor={(item, index) => index.toString()}
+                            renderItem={this.renderOrderCard}
+                        /> : <View style={styles.message}>
+                            <Text style={[styles.title, { fontWeight: '400' }]}>
+                                Don't have any order yet.
                         </Text>
-                    </View>
-                }
+                        </View>
+                    }
+                </ScrollView>
             </View>
         )
     }

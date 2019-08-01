@@ -46,6 +46,7 @@ class CompletedOrdersScreen extends Component {
                 <OrdersContainer
                     isCollecting={true}
                     navigation={this.props.navigation}
+                    fetchList={() => this.props.fetchList()}
                     list={deliveries && deliveries.filter(row => (
                         row.orderStatus === 'COMPLETED' || row.orderStatus === 'CANCELLED'
                     ))}
