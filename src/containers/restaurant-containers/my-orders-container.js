@@ -115,11 +115,11 @@ class OrdersContainer extends Component {
         return (
             <View style={[styles.scene]}>
                 <ScrollView
-                    style={{ backgroundColor: '#fff' }}
+                    style={{ backgroundColor: '#FFFFFF' }}
                     refreshControl={
                         <RefreshControl
                             onRefresh={() => this.props.fetchList()}
-                            progressBackgroundColor='#1BA2FC'
+                            progressBackgroundColor='#FFFFFF'
                             tintColor="#1BA2FC"
                             colors={["#1BA2FC", "#1BA2FC"]}
                         />
