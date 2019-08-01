@@ -4,9 +4,11 @@ import React, { Component } from 'react';
 import { NavigationEvents } from 'react-navigation';
 import {
     View, Text, StatusBar, TouchableOpacity, StyleSheet, RefreshControl,
-    Linking, ActivityIndicator, FlatList, Platform, ScrollView
+    Linking, ActivityIndicator, FlatList, Platform, ScrollView, Dimensions
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
+
+const { height } = Dimensions.get('screen');
 
 import { Header } from '../../components/common/header';
 import * as actions from '../../actions/user-actions/order-list-actions';
@@ -108,17 +110,21 @@ class OrderScreen extends Component {
                     }
                 >
                     {loading ?
-                        <ActivityIndicator
-                            size={'large'}
-                            color={'#1BA2FC'}
-                        /> : list && list.length ?
+                        <View style={[styles.contentCentered, { height: height - 50 }]}>
+                            <ActivityIndicator
+                                size={'large'}
+                                color={'#1BA2FC'}
+                            />
+                        </View> : list && list.length ?
                             <FlatList
                                 data={list}
                                 extraData={this.state}
                                 keyExtractor={(item, index) => index.toString()}
                                 renderItem={this.renderOrderCard}
-                            /> : <View>
-                                <Text>You haven't placed any order yet!!</Text>
+                            /> : <View style={[styles.contentCentered, {
+                                height: height - 50
+                            }]}>
+                                <Text style={{ fontSize: 16, fontWeight: '400' }}>You haven't placed any order yet!!</Text>
                             </View>
                     }
                 </ScrollView>
@@ -168,6 +174,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         marginTop: 6,
+    },
+    contentCentered: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
     }
 });
 

@@ -64,23 +64,26 @@ const AuthStack = createStackNavigator({
         initialRouteName: 'HomeScreen',
         // initialRouteName: 'RecentOrdersScreen',
         defaultNavigationOptions: {
+            gesturesEnabled: false,
             headerStyle: {
                 backgroundColor: '#edebed',
             }
-        }
+        },
     }
 );
 
 const Drawerstack = createDrawerNavigator({
     AuthStack: AuthStack,
-}, {
-        contentComponent: SidebarMenu,
-    }
-);
+}, { contentComponent: SidebarMenu });
 
 const Dashboard = createStackNavigator({
     Drawerstack: Drawerstack,
-}, { headerMode: 'none' });
+}, {
+        headerMode: 'none',
+        defaultNavigationOptions: {
+            gesturesEnabled: false
+        }
+    });
 
 const LoginStack = createStackNavigator({
     SignUpScreen: SignUpScreen,
@@ -90,6 +93,9 @@ const LoginStack = createStackNavigator({
 }, {
         headerMode: 'none',
         initialRouteName: 'WelcomeScreen',
+        defaultNavigationOptions: {
+            gesturesEnabled: false
+        }
     }
 );
 
