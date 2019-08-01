@@ -2,8 +2,9 @@ import { connect } from "react-redux";
 import React, { Component } from 'react';
 import Toast from 'react-native-easy-toast';
 import OneSignal from 'react-native-onesignal';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {
-	View, StyleSheet, ImageBackground, Dimensions, Text, AsyncStorage, ScrollView
+	View, StyleSheet, ImageBackground, Dimensions, Text, AsyncStorage, ScrollView, TouchableOpacity
 } from 'react-native';
 
 import * as actions from '../../actions/auth-actions'
@@ -93,6 +94,11 @@ class SignInScreen extends Component {
 						source={require('../../assets/images/auth-bg.jpg')}
 						style={styles.backgroundImage}
 					>
+						<TouchableOpacity
+							onPress={() => this.props.navigation.goBack()}
+							style={{ position: 'relative', margin: 15, zIndex: 9999 }}>
+							<Icon name="arrow-left" style={{ fontSize: 18, color: '#000' }} />
+						</TouchableOpacity>
 						<View style={styles.overlay}>
 							<View style={{
 								alignItems: 'center',

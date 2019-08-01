@@ -1,7 +1,10 @@
 import { connect } from "react-redux";
 import React, { Component } from 'react';
 import Toast from 'react-native-easy-toast';
-import { View, StyleSheet, ImageBackground, Dimensions, Text, ScrollView } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import {
+    View, StyleSheet, ImageBackground, Dimensions, Text, ScrollView, TouchableOpacity
+} from 'react-native';
 
 import ForgetPasswordForm from '../forms/forgot-password-form';
 
@@ -36,6 +39,11 @@ class ForgetPasswordScreen extends Component {
                     source={require('../../assets/images/auth-bg.jpg')}
                     style={styles.backgroundImage}
                 >
+                    <TouchableOpacity
+                        onPress={() => this.props.navigation.goBack()}
+                        style={{ position: 'relative', margin: 15, zIndex: 9999 }}>
+                        <Icon name="arrow-left" style={{ fontSize: 18, color: '#000' }} />
+                    </TouchableOpacity>
                     <View style={styles.overlay}>
                         <View style={styles.imageHeader}>
                             <Text style={styles.textStyle}>Forgot Password</Text>
