@@ -19,7 +19,7 @@ import TextAreaFiled from '../../components/common/text-area';
 
 class MenuItemForm extends Component {
 
-    state = { imageData: null };
+    state = { imageData: null, imageLoading: false };
 
     componentWillReceiveProps (nextProps) {
         const { categoryId } = this.props;
@@ -68,6 +68,7 @@ class MenuItemForm extends Component {
 
     render () {
         const { handleSubmit, submitting, loading, itemId, imageUrl } = this.props;
+        const { imageLoading } = this.state;
         return (
             <View style={styles.container}>
                 <Toast
@@ -78,11 +79,13 @@ class MenuItemForm extends Component {
                 />
                 <View>
                     <PhotoUpload
+                        onStart={() => this.setState({ imageLoading: true })}
                         onPhotoSelect={avatar => {
                             if (avatar) {
-                                this.setState({ imageData: avatar });
+                                this.setState({ imageData: avatar, imageLoading: false });
                             }
                         }}
+                        onCancel={() => this.setState({ imageLoading: false })}
                     >{imageUrl ?
                         <Image
                             style={{
@@ -100,6 +103,9 @@ class MenuItemForm extends Component {
                             source={require('../../assets/images/placeholder-img.png')}
                             resizeMode='cover'
                         />}
+                        {imageLoading ? <ActivityIndicator
+                            size="large" color="#000" style={styles.indicator}
+                        /> : null}
                     </PhotoUpload>
                     <View style={[styles.container, {
                         top: -20,
@@ -215,6 +221,13 @@ const styles = StyleSheet.create({
         width: width - 50,
         backgroundColor: '#F0F1F3'
     },
+    indicator: {
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        position: 'absolute',
+    }
 })
 
 export default connect(

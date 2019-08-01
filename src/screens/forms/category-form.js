@@ -17,7 +17,7 @@ import Button from '../../components/common/button';
 
 class CategoryForm extends Component {
 
-    state = { imageData: null };
+    state = { imageData: null, imageLoading: false };
 
     componentWillReceiveProps (nextProps) {
         if (nextProps.category && nextProps.category.name) {
@@ -64,6 +64,7 @@ class CategoryForm extends Component {
 
     render () {
         const { handleSubmit, submitting, loading, imageUrl } = this.props;
+        const { imageLoading } = this.state;
         return (
             <View style={styles.container}>
                 <Toast
@@ -74,11 +75,16 @@ class CategoryForm extends Component {
                 />
                 <View>
                     <PhotoUpload
+                        onStart={() => this.setState({ imageLoading: true })}
                         onPhotoSelect={avatar => {
                             if (avatar) {
-                                this.setState({ imageData: avatar });
+                                this.setState({
+                                    imageData: avatar,
+                                    imageLoading: false,
+                                });
                             }
                         }}
+                        onCancel={() => this.setState({ imageLoading: false })}
                     >{imageUrl ?
                         <Image
                             style={{
@@ -96,6 +102,9 @@ class CategoryForm extends Component {
                             source={require('../../assets/images/placeholder-img.png')}
                             resizeMode='cover'
                         />}
+                        {imageLoading ? <ActivityIndicator
+                            size="large" color="#000" style={styles.indicator}
+                        /> : null}
                     </PhotoUpload>
                     <View style={[styles.container, {
                         paddingTop: 35,
@@ -173,6 +182,13 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         width: width - 50,
         backgroundColor: '#F0F1F3'
+    },
+    indicator: {
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        position: 'absolute',
     },
 })
 

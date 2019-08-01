@@ -72,10 +72,8 @@ const styles = {
     inputStyle: {
         fontSize: 14,
         paddingHorizontal: 15,
-        // flex: 1,
-        // position: 'relative',
-        // top: 10,
         textAlign: "left",
+        height: 100,
         color: "#edebed"
     },
     errorContainerStyle: {
@@ -90,8 +88,4 @@ const styles = {
         fontSize: 12,
         fontWeight: '400'
     },
-    imageStyle: {
-        top: 14,
-        marginLeft: 5
-    }
 };
