@@ -42,6 +42,19 @@ class ProfileForm extends Component {
     editing: true,
   }
 
+  isUpdating = () => {
+    const { isEdit, isExisted } = this.props;
+    if (isEdit && isExisted && isExisted.code === 200) {
+      return true
+    } else if (isEdit && Object.keys(isExisted).length <= 0) {
+      return true
+    } else if (!isEdit && isExisted && isExisted.code == 200) {
+      return true
+    } else {
+      return false
+    }
+  }
+
   onSubmit = values => {
     const {
       canCollect, canDeliver, collect, deliver, sliderOneValue, region, location, googlePlaceId
@@ -55,9 +68,7 @@ class ProfileForm extends Component {
       googlePlaceId: googlePlaceId && googlePlaceId || null,
     }
 
-    const { isExisted } = this.props;
-
-    if (values && values.toJS() !== {} && isExisted.code === 200) {
+    if (values && values.toJS() !== {} && this.isUpdating()) {
       if (!canCollect && !canDeliver) {
         return Alert.alert(
           "Required",
