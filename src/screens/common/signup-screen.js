@@ -48,32 +48,32 @@ class SignInScreen extends Component {
         console.log(state.params, 'sign up screen');
         return (
             <View style={{ flex: 1 }}>
-                <ImageBackground
-                    source={require('../../assets/images/auth-bg.jpg')}
-                    style={styles.backgroundImage}
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    keyboardShouldPersistTaps="handled"
                 >
-                    <View style={styles.overlay}>
-                        <View style={{
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            flex: 0.4,
-                        }}>
-                            <Text style={styles.textStyle}>Sign Up</Text>
-                        </View>
-                        <View style={styles.formContainer}>
-                            <ScrollView
-                                showsVerticalScrollIndicator={false}
-                                keyboardShouldPersistTaps="handled"
-                            >
+                    <ImageBackground
+                        source={require('../../assets/images/auth-bg.jpg')}
+                        style={styles.backgroundImage}
+                    >
+                        <View style={styles.overlay}>
+                            <View style={{
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                flex: 0.4,
+                            }}>
+                                <Text style={styles.textStyle}>Sign Up</Text>
+                            </View>
+                            <View style={styles.formContainer}>
                                 <SignUpForm
                                     navigateTo={this.navigateTo}
                                     userType={state.params.type}
                                 />
-                            </ScrollView>
+                            </View>
                         </View>
-                    </View>
-                    <Toast ref="toast" position='bottom' />
-                </ImageBackground>
+                        <Toast ref="toast" position='bottom' />
+                    </ImageBackground>
+                </ScrollView>
             </View>
         )
     }
