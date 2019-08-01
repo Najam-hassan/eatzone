@@ -8,6 +8,7 @@ import Button from '../../components/common/button';
 class OrdersContainer extends Component {
 
     renderOrderCard = ({ item, index }) => {
+        const { isDelivery } = this.props;
         return (
             <View
                 key={`order-item-${index}`}
@@ -26,7 +27,6 @@ class OrdersContainer extends Component {
                             />}
                         <View style={styles.nameContainer}>
                             <Text style={styles.userName}>{item.user && item.user.name || 'Name Here'}</Text>
-                            <Text style={styles.userContact}>{item.user.phone}</Text>
                         </View>
                     </View>
                     <View style={styles.orderDetails}>
@@ -36,25 +36,32 @@ class OrdersContainer extends Component {
                         </Text>
                     </View>
                 </View>
-                <View style={{
-                    marginTop: 10,
-                    backgroundColor: '#fff',
-                    marginHorizontal: 20,
-                }}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <Text style={{ fontSize: 16, color: '#00000', fontWeight: '500' }}>
-                            Restaurant Name: </Text>
-                        <Text style={{ fontSize: 16, color: '#00000', fontWeight: '400' }}>
-                            {item.deliveringRestaurant.name}
+
+                {isDelivery && item.collectingRestaurant ?
+                    <View style={styles.restaurantContainer}>
+                        <Text style={{ textAlign: 'center', fontSize: 18, fontWeight: '500' }}>
+                            Restaurant: <Text style={{ fontSize: 16, paddingLeft: 20, fontWeight: '400' }}>
+                                {item.collectingRestaurant.name}
+                            </Text>
                         </Text>
-                    </View>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'wrap' }}>
-                        <Text style={{ fontSize: 16, color: '#00000', fontWeight: '500' }}>Restaurant Address: </Text>
-                        <Text style={{ fontSize: 16, color: '#00000', fontWeight: '400' }}>
-                            {item.deliveringRestaurant.address}
+                        <Text style={{ textAlign: 'center', fontSize: 18, fontWeight: '500' }}>
+                            Address: <Text style={{ fontSize: 16, paddingLeft: 20, fontWeight: '400' }}>
+                                {item.collectingRestaurant.address}
+                            </Text>
                         </Text>
-                    </View>
-                </View>
+                    </View> : null}
+                {!isDelivery && item.deliveringRestaurant ?
+                    <View style={styles.restaurantContainer}>
+                        <Text style={{ textAlign: 'center', fontSize: 18, fontWeight: '500' }}>
+                            Restaurant: <Text style={{ fontSize: 16, fontWeight: '400' }}>
+                                {item.deliveringRestaurant.name}</Text>
+                        </Text>
+                        <Text style={{ textAlign: 'center', fontSize: 18, fontWeight: '500' }}>
+                            Address: <Text style={{ fontSize: 16, fontWeight: '400' }}>
+                                {item.deliveringRestaurant.address}
+                            </Text>
+                        </Text>
+                    </View> : null}
                 <View style={styles.actionContainer}>
                     <Button
                         title={'Call Customer'}
@@ -125,6 +132,7 @@ class OrdersContainer extends Component {
 const styles = StyleSheet.create({
     container: {
         borderRadius: 10,
+        flex: 1,
         marginTop: 15,
         marginHorizontal: 15,
         flexDirection: 'column',
@@ -141,6 +149,12 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 10,
         backgroundColor: '#d9f1ff',
         justifyContent: 'space-between',
+    },
+    restaurantContainer: {
+        flex: 1,
+        width: '100%',
+        paddingBottom: 10,
+        backgroundColor: '#d9f1ff',
     },
     detailsContainer: {
         flex: .58,

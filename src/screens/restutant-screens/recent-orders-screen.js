@@ -69,6 +69,7 @@ class RecentOrdersScreen extends Component {
           renderScene={SceneMap({
             first: () => (
               <OrdersContainer
+                isDelivery={true}
                 navigation={this.props.navigation}
                 list={deliveries && deliveries.filter(row => (
                   row.orderStatus === 'CONFIRMED' || row.orderStatus === 'PENDING')
@@ -78,6 +79,7 @@ class RecentOrdersScreen extends Component {
             second: () => (
               <OrdersContainer
                 list={collections}
+                isDelivery={false}
                 isCollecting={true}
                 navigation={this.props.navigation}
               />
