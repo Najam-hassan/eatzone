@@ -69,7 +69,7 @@ class SignUpForm extends Component {
                             textStyle={{ /* styles for button title */ }}
                         />
                     }
-                    <View style={{ flex: 1, justifyContent: 'space-around', marginTop: 40 }}>
+                    <View style={{ flex: 1, marginTop: 0 }}>
                         <View style={styles.textView}>
                             <Text style={styles.textStyle}>
                                 Already have an account?

@@ -35,7 +35,7 @@ class Restaurents extends Component {
           <Image
             source={
               item && item.bannerUrl !== '' ?
-                { uri: item.bannerUrl } : require('../../assets/images/mcdonal.jpg')
+                { uri: item.bannerUrl } : require('../../assets/images/mcdonald.png')
             }
             style={styles.bannerStyle}
           />

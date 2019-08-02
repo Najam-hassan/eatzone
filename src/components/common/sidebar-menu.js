@@ -46,12 +46,13 @@ class SidebarMenu extends Component {
               !(type === 'admin') ?
                 <Image
                   source={
-                    (user && user.bannerUrl !== null)
+                    (user && user.bannerUrl !== null && user.avatarUrl !== '')
                       ? { uri: user.avatarUrl } : require('../../assets/images/account.png')
                   }
+                  resizeMode='contain'
                   style={{
-                    height: 100,
-                    width: 100,
+                    height: 80,
+                    width: 80,
                   }}
                 />
                 :
@@ -70,7 +71,7 @@ class SidebarMenu extends Component {
                       borderRadius: 75,
                       paddingVertical: 30,
                     }}
-                    resizeMode='cover'
+                    resizeMode='contain'
                     source={{ uri: user.bannerUrl }}
                   /> :
                   <Image
@@ -80,7 +81,7 @@ class SidebarMenu extends Component {
                       borderRadius: 75,
                       paddingVertical: 30,
                     }}
-                    resizeMode='cover'
+                    resizeMode='contain'
                     source={require('../../assets/images/account.png')}
                   />
                   }

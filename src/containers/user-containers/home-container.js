@@ -201,7 +201,7 @@ class HomeContainer extends Component {
         <Image
           source={
             item && item.bannerUrl !== '' ?
-              { uri: item.bannerUrl } : require('../../assets/images/mcdonal.jpg')
+              { uri: item.bannerUrl } : require('../../assets/images/mcdonald.png')
           }
           style={{ width: 70, height: 70, borderRadius: 10 }}
         />

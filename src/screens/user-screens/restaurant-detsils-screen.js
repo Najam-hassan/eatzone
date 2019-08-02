@@ -132,7 +132,7 @@ class RestaurantDetailScreen extends Component {
           <ImageBackground
             source={
               this.state.bannerUrl !== '' ?
-                { uri: this.state.bannerUrl } : require('../../assets/images/mcdonal.jpg')
+                { uri: this.state.bannerUrl } : require('../../assets/images/mcdonald.png')
             }
             style={styles.backgroundImage}
           >

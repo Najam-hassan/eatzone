@@ -61,15 +61,14 @@ class ForgetPasswordForm extends Component {
                             textStyle={{ /* styles for button title */ }}
                         />
                     }
-                    <TouchableOpacity
-                        activeOpacity={0.5}
-                        style={{ marginTop: 40 }}
-                        onPress={() => {
-                            this.props.navigateTo('SignInScreen')
-                        }}
-                    >
-                        <Text style={[styles.textStyle, {}]}>Back to login</Text>
-                    </TouchableOpacity>
+                    <View style={{ marginTop: 10 }}>
+                        <Text
+                            style={[styles.textStyle, {}]}
+                            onPress={() => {
+                                this.props.navigateTo('SignInScreen');
+                            }}
+                        >Back to login</Text>
+                    </View>
                 </View>
             </View >
         )

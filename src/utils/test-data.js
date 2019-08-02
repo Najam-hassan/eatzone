@@ -3,7 +3,7 @@ export const resturants = [
         id: 101,
         name: "McDonal's",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-        image: require('../assets/images/mcdonal.jpg'),
+        image: require('../assets/images/mcdonald.png'),
         menu: {
             pizzas: [
                 {
@@ -130,7 +130,7 @@ export const resturants = [
         id: 103,
         name: "McDonal's",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-        image: require('../assets/images/mcdonal.jpg'),
+        image: require('../assets/images/mcdonald.png'),
         menu: {
             pizzas: [
                 {
@@ -242,7 +242,7 @@ export const resturants = [
         id: 105,
         name: "McDonal's",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-        image: require('../assets/images/mcdonal.jpg'),
+        image: require('../assets/images/mcdonald.png'),
         menu: {
             pizzas: [
                 {
@@ -367,7 +367,7 @@ export const resturants = [
         id: 107,
         name: "McDonal's",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-        image: require('../assets/images/mcdonal.jpg'),
+        image: require('../assets/images/mcdonald.png'),
         menu: {
             pizzas: [
                 {
