@@ -62,7 +62,7 @@ class ForgetPasswordScreen extends Component {
                         </View>
                     </View>
                 </ImageBackground>
-                <Toast ref="toast" />
+                <Toast ref="toast" position='top' />
             </View>
         )
     }
