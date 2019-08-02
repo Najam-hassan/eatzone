@@ -66,20 +66,16 @@ class SidebarMenu extends Component {
                 >{user && user.bannerUrl !== '' ?
                   <Image
                     style={{
-                      width: 150,
-                      height: 150,
-                      borderRadius: 75,
-                      paddingVertical: 30,
+                      width: 130,
+                      height: 80,
                     }}
                     resizeMode='contain'
                     source={{ uri: user.bannerUrl }}
                   /> :
                   <Image
                     style={{
-                      width: 150,
-                      height: 150,
-                      borderRadius: 75,
-                      paddingVertical: 30,
+                      width: 130,
+                      height: 80,
                     }}
                     resizeMode='contain'
                     source={require('../../assets/images/account.png')}
