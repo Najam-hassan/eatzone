@@ -117,7 +117,6 @@ class OrdersContainer extends Component {
                 {list && list.length ?
 
                     <ScrollView
-                        style={{ backgroundColor: '#FFFFFF' }}
                         refreshControl={
                             <RefreshControl
                                 onRefresh={() => this.props.fetchList()}
@@ -135,7 +134,6 @@ class OrdersContainer extends Component {
                         />
                     </ScrollView> :
                     <ScrollView
-                        style={{ backgroundColor: '#FFFFFF' }}
                         contentContainerStyle={{ justifyContent: 'center', flex: 1 }}
                         refreshControl={
                             <RefreshControl

@@ -105,10 +105,9 @@ class OrderScreen extends Component {
                         />
                     </View> : list && list.length ?
                         <ScrollView
-                            style={{ backgroundColor: '#FFFFFF' }}
                             refreshControl={
                                 <RefreshControl
-                                    refreshing={loading}
+                                    refreshing={false}
                                     onRefresh={() => this.props.fetchList()}
                                     progressBackgroundColor='#FFFFFF'
                                     tintColor="#1BA2FC"
@@ -124,11 +123,10 @@ class OrderScreen extends Component {
                             />
                         </ScrollView> :
                         <ScrollView
-                            style={{ backgroundColor: '#FFFFFF' }}
                             contentContainerStyle={{ justifyContent: 'center', flex: 1 }}
                             refreshControl={
                                 <RefreshControl
-                                    refreshing={loading}
+                                    refreshing={false}
                                     onRefresh={() => this.props.fetchList()}
                                     progressBackgroundColor='#FFFFFF'
                                     tintColor="#1BA2FC"
