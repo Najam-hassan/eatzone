@@ -68,6 +68,17 @@ class ProfileForm extends Component {
       googlePlaceId: googlePlaceId && googlePlaceId || null,
     }
 
+    if (!this.isUpdating()) {
+      return Alert.alert(
+        "Required",
+        'Please add restaurant address to continue.',
+        [
+          { text: 'OK', onPress: () => console.log('OK Pressed') },
+        ],
+        { cancelable: false },
+      );
+    }
+
     if (values && values.toJS() !== {} && this.isUpdating()) {
       if (!canCollect && !canDeliver) {
         return Alert.alert(
