@@ -661,13 +661,13 @@ const validate = values => {
   }
   if (!values.get('collectionServiceCharges')) {
     errors.collectionServiceCharges = '*Required';
-  } else if (values.get('collectionServiceCharges') < 0) {
-    errors.collectionServiceCharges = "Must be greater the zero"
+  } else if (values.get('collectionServiceCharges') < 10) {
+    errors.collectionServiceCharges = "Must be greater or equal to 10"
   }
   if (!values.get('deliveryServiceCharges')) {
     errors.deliveryServiceCharges = '*Required';
-  } else if (values.get('deliveryServiceCharges') < 0) {
-    errors.deliveryServiceCharges = "Must be greater the zero"
+  } else if (values.get('deliveryServiceCharges') < 10) {
+    errors.deliveryServiceCharges = "Must be greater or equal to 10"
   }
 
   return errors;

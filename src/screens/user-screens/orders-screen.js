@@ -124,7 +124,9 @@ class OrderScreen extends Component {
                             /> : <View style={[styles.contentCentered, {
                                 height: height - 50
                             }]}>
-                                <Text style={{ fontSize: 16, fontWeight: '400' }}>You haven't placed any order yet!!</Text>
+                                <Text style={{
+                                    color: '#000000', fontSize: 16, fontWeight: '400', textAlign: 'center'
+                                }}>You haven't placed any order yet!!</Text>
                             </View>
                     }
                 </ScrollView>
@@ -177,7 +179,7 @@ const styles = StyleSheet.create({
     },
     contentCentered: {
         flex: 1,
-        alignItems: 'center',
+        // alignItems: 'center',
         justifyContent: 'center',
     }
 });
