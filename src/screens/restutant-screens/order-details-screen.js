@@ -109,7 +109,7 @@ class OrderDetailsScreen extends Component {
             }]}
             textStyle={{ color: '#fff', fontSize: 12, fontWeight: '400', }}
           /> : null}
-          {!params.orderConfirmed && (confirmed || completed) ? <Button
+          {!params.orderConfirmed && confirmed ? <Button
             title={'Cancel Order'}
             onPress={() => {
               const { details } = params;

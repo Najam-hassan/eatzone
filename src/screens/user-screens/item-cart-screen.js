@@ -75,12 +75,6 @@ class CartScreen extends Component {
                   </View>
 
                   <View style={{
-                    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'
-                  }}>
-                    <Text style={{ color: '#cccccc', fontSize: 14, marginTop: 4 }}>Meal (L)</Text>
-                  </View>
-
-                  <View style={{
                     flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center'
                   }}>
                     <Text numberOfLines={3} style={{

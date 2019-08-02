@@ -26,6 +26,7 @@ class RestaurantDetailScreen extends Component {
     distance: 0,
     bannerUrl: '',
     totalItems: 0,
+    websiteUrl: '',
     restaurantName: null
   }
 
@@ -47,6 +48,7 @@ class RestaurantDetailScreen extends Component {
     }
     if (nextProps.list && nextProps.list.distance) {
       this.setState({
+        websiteUrl: nextProps.list.websiteUrl,
         phone: nextProps.list.phone,
         distance: nextProps.list.distance,
         bannerUrl: nextProps.list.bannerUrl,
@@ -141,7 +143,7 @@ class RestaurantDetailScreen extends Component {
               <View style={styles.detailStyle}>
                 <View>
                   <Text style={styles.titleStyle}>{this.state.phone}</Text>
-                  <Text style={styles.titleStyle}>https://google.com</Text>
+                  <Text style={styles.titleStyle}>{this.state.websiteUrl}</Text>
                 </View>
                 <View style={{ flexDirection: 'column', alignItems: 'flex-end' }}>
                   <Text style={styles.serviceChargeText}>
