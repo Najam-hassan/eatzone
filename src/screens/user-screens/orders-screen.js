@@ -97,39 +97,52 @@ class OrderScreen extends Component {
                         this.props.fetchList();
                     }}
                 />
-                <ScrollView
-                    style={{ backgroundColor: '#FFFFFF' }}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={loading}
-                            onRefresh={() => this.props.fetchList()}
-                            progressBackgroundColor='#FFFFFF'
-                            tintColor="#1BA2FC"
-                            colors={["#1BA2FC", "#1BA2FC"]}
+                {loading ?
+                    <View style={[styles.contentCentered, { height: height - 50 }]}>
+                        <ActivityIndicator
+                            size={'large'}
+                            color={'#1BA2FC'}
                         />
-                    }
-                >
-                    {loading ?
-                        <View style={[styles.contentCentered, { height: height - 50 }]}>
-                            <ActivityIndicator
-                                size={'large'}
-                                color={'#1BA2FC'}
-                            />
-                        </View> : list && list.length ?
+                    </View> : list && list.length ?
+                        <ScrollView
+                            style={{ backgroundColor: '#FFFFFF' }}
+                            refreshControl={
+                                <RefreshControl
+                                    refreshing={loading}
+                                    onRefresh={() => this.props.fetchList()}
+                                    progressBackgroundColor='#FFFFFF'
+                                    tintColor="#1BA2FC"
+                                    colors={["#1BA2FC", "#1BA2FC"]}
+                                />
+                            }
+                        >
                             <FlatList
                                 data={list}
                                 extraData={this.state}
                                 keyExtractor={(item, index) => index.toString()}
                                 renderItem={this.renderOrderCard}
-                            /> : <View style={[styles.contentCentered, {
-                                height: height - 50
-                            }]}>
+                            />
+                        </ScrollView> :
+                        <ScrollView
+                            style={{ backgroundColor: '#FFFFFF' }}
+                            contentContainerStyle={{ justifyContent: 'center', flex: 1 }}
+                            refreshControl={
+                                <RefreshControl
+                                    refreshing={loading}
+                                    onRefresh={() => this.props.fetchList()}
+                                    progressBackgroundColor='#FFFFFF'
+                                    tintColor="#1BA2FC"
+                                    colors={["#1BA2FC", "#1BA2FC"]}
+                                />
+                            }
+                        >
+                            <View style={[styles.contentCentered]}>
                                 <Text style={{
                                     color: '#000000', fontSize: 16, fontWeight: '400', textAlign: 'center'
                                 }}>You haven't placed any order yet!!</Text>
                             </View>
-                    }
-                </ScrollView>
+                        </ScrollView>
+                }
             </View>
         )
     }

@@ -114,30 +114,45 @@ class OrdersContainer extends Component {
         const { list } = this.props;
         return (
             <View style={[styles.scene]}>
-                <ScrollView
-                    style={{ backgroundColor: '#FFFFFF' }}
-                    refreshControl={
-                        <RefreshControl
-                            onRefresh={() => this.props.fetchList()}
-                            progressBackgroundColor='#FFFFFF'
-                            tintColor="#1BA2FC"
-                            colors={["#1BA2FC", "#1BA2FC"]}
-                        />
-                    }
-                >
-                    {list && list.length ?
+                {list && list.length ?
+
+                    <ScrollView
+                        style={{ backgroundColor: '#FFFFFF' }}
+                        refreshControl={
+                            <RefreshControl
+                                onRefresh={() => this.props.fetchList()}
+                                progressBackgroundColor='#FFFFFF'
+                                tintColor="#1BA2FC"
+                                colors={["#1BA2FC", "#1BA2FC"]}
+                            />
+                        }
+                    >
                         <FlatList
                             data={list}
                             extraData={this.state}
                             keyExtractor={(item, index) => index.toString()}
                             renderItem={this.renderOrderCard}
-                        /> : <View style={styles.message}>
+                        />
+                    </ScrollView> :
+                    <ScrollView
+                        style={{ backgroundColor: '#FFFFFF' }}
+                        contentContainerStyle={{ justifyContent: 'center', flex: 1 }}
+                        refreshControl={
+                            <RefreshControl
+                                onRefresh={() => this.props.fetchList()}
+                                progressBackgroundColor='#FFFFFF'
+                                tintColor="#1BA2FC"
+                                colors={["#1BA2FC", "#1BA2FC"]}
+                            />
+                        }
+                    >
+                        <View style={styles.message}>
                             <Text style={[styles.title, { fontWeight: '400' }]}>
                                 Don't have any order yet.
                         </Text>
                         </View>
-                    }
-                </ScrollView>
+                    </ScrollView>
+                }
             </View>
         )
     }
