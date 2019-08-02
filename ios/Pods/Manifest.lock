@@ -23,8 +23,6 @@ PODS:
   - OneSignal (2.10.0)
   - React (0.59.8):
     - React/Core (= 0.59.8)
-  - react-native-geolocation (1.4.2):
-    - React
   - react-native-google-maps (0.24.2):
     - Google-Maps-iOS-Utils (= 2.1.0)
     - GoogleMaps (= 2.5.0)
@@ -49,8 +47,6 @@ PODS:
   - React/RCTAnimation (0.59.8):
     - React/Core
   - React/RCTBlob (0.59.8):
-    - React/Core
-  - React/RCTGeolocation (0.59.8):
     - React/Core
   - React/RCTImage (0.59.8):
     - React/Core
@@ -80,7 +76,6 @@ PODS:
 DEPENDENCIES:
   - Google-Maps-iOS-Utils
   - GoogleMaps
-  - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
   - react-native-google-maps (from `../node_modules/react-native-maps/`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-image-resizer (from `../node_modules/react-native-image-resizer`)
@@ -90,7 +85,6 @@ DEPENDENCIES:
   - React/DevSupport (from `../node_modules/react-native`)
   - React/RCTActionSheet (from `../node_modules/react-native`)
   - React/RCTAnimation (from `../node_modules/react-native`)
-  - React/RCTGeolocation (from `../node_modules/react-native`)
   - React/RCTImage (from `../node_modules/react-native`)
   - React/RCTLinkingIOS (from `../node_modules/react-native`)
   - React/RCTNetwork (from `../node_modules/react-native`)
@@ -112,8 +106,6 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   React:
     :path: "../node_modules/react-native"
-  react-native-geolocation:
-    :path: "../node_modules/@react-native-community/geolocation"
   react-native-google-maps:
     :path: "../node_modules/react-native-maps/"
   react-native-image-picker:
@@ -138,7 +130,6 @@ SPEC CHECKSUMS:
   GoogleMaps: c087b8e5dfe87ca6ebf59adb9b4894a4146bec4f
   OneSignal: 0f5ff711d9f25da54885e4ab06ef0abc221a46ef
   React: 1d605e098d69bdf08960787f3446f0a9dc2e2ccf
-  react-native-geolocation: 8710b1bae31e734191273344d52141151b94bb3f
   react-native-google-maps: 77af0fa3b5325c72c107d054677911f6e6170496
   react-native-image-picker: b303e31c3c4ada1d7cb1342423d328d2efb07fb3
   react-native-image-resizer: 04a3409e7d4ad646c4468671c69dec490def139c
@@ -149,6 +140,6 @@ SPEC CHECKSUMS:
   RNVectorIcons: 66af4d5c8ff4f584c7b7cd9c4b0780920f27fce2
   yoga: 128daf064cacaede0c3bb27424b6b4c71052e6cd
 
-PODFILE CHECKSUM: e057c5b67948417b32e1dd79cbf06cd990f4a5b0
+PODFILE CHECKSUM: 2b38863433a5fbedd211469fa73aa3cb8782d7b7
 
 COCOAPODS: 1.5.3

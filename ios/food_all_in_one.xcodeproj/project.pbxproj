@@ -13,6 +13,7 @@
 		00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
 		00E356F31AD99517003FC87E /* food_all_in_oneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* food_all_in_oneTests.m */; };
+		041229FB22F447F500ABA140 /* libRNCGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 041229F822F446E800ABA140 /* libRNCGeolocation.a */; };
 		04645C4E22E85BA000CB96D8 /* libRCTOneSignal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04645C3222E85B8400CB96D8 /* libRCTOneSignal.a */; };
 		0484803B22C4CCBA00608BB4 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0484803A22C4CCBA00608BB4 /* MapKit.framework */; };
 		04C337B222E8577200A16C38 /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C337B122E8577200A16C38 /* NotificationService.m */; };
@@ -118,6 +119,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
 			remoteInfo = food_all_in_one;
+		};
+		041229F722F446E800ABA140 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 041229CC22F446E800ABA140 /* RNCGeolocation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNCGeolocation;
 		};
 		04645C3122E85B8400CB96D8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -411,6 +419,7 @@
 		00E356EE1AD99517003FC87E /* food_all_in_oneTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = food_all_in_oneTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* food_all_in_oneTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = food_all_in_oneTests.m; sourceTree = "<group>"; };
+		041229CC22F446E800ABA140 /* RNCGeolocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNCGeolocation.xcodeproj; path = "../node_modules/@react-native-community/geolocation/ios/RNCGeolocation.xcodeproj"; sourceTree = "<group>"; };
 		04645C2022E85B8400CB96D8 /* RCTOneSignal.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTOneSignal.xcodeproj; path = "../node_modules/react-native-onesignal/ios/RCTOneSignal.xcodeproj"; sourceTree = "<group>"; };
 		0484803A22C4CCBA00608BB4 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		04C3379922E84FF300A16C38 /* food_all_in_one.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = food_all_in_one.entitlements; path = food_all_in_one/food_all_in_one.entitlements; sourceTree = "<group>"; };
@@ -498,6 +507,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				041229FB22F447F500ABA140 /* libRNCGeolocation.a in Frameworks */,
 				ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				0484803B22C4CCBA00608BB4 /* MapKit.framework in Frameworks */,
@@ -602,6 +612,14 @@
 				00E356F11AD99517003FC87E /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		041229CD22F446E800ABA140 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				041229F822F446E800ABA140 /* libRNCGeolocation.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		04645C2122E85B8400CB96D8 /* Products */ = {
@@ -743,6 +761,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				041229CC22F446E800ABA140 /* RNCGeolocation.xcodeproj */,
 				04645C2022E85B8400CB96D8 /* RCTOneSignal.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -1062,6 +1081,10 @@
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
 				{
+					ProductGroup = 041229CD22F446E800ABA140 /* Products */;
+					ProjectRef = 041229CC22F446E800ABA140 /* RNCGeolocation.xcodeproj */;
+				},
+				{
 					ProductGroup = 04FA60DA22AE7D3B00412046 /* Products */;
 					ProjectRef = BB20C38F4FAC447C8B12783B /* RNGestureHandler.xcodeproj */;
 				},
@@ -1111,6 +1134,13 @@
 			fileType = archive.ar;
 			path = libRCTVibration.a;
 			remoteRef = 00C302E31ABCB9EE00DB3ED1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		041229F822F446E800ABA140 /* libRNCGeolocation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNCGeolocation.a;
+			remoteRef = 041229F722F446E800ABA140 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		04645C3222E85B8400CB96D8 /* libRCTOneSignal.a */ = {

@@ -7,7 +7,6 @@ target 'food_all_in_one' do
     'Core',
     'RCTActionSheet',
     'RCTAnimation',
-    'RCTGeolocation',
     'RCTImage',
     'RCTLinkingIOS',
     'RCTNetwork',
@@ -34,8 +33,6 @@ target 'food_all_in_one' do
   pod 'react-native-onesignal', :path => '../node_modules/react-native-onesignal'
 
   pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
-
-  pod 'react-native-geolocation', :path => '../node_modules/@react-native-community/geolocation'
 
 end
 
