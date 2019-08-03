@@ -1,10 +1,13 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import PhotoUpload from 'react-native-photo-upload';
-import { StyleSheet, View, TouchableOpacity, Text, ScrollView, AsyncStorage, Image } from 'react-native';
+import {
+  StyleSheet, View, TouchableOpacity, Text, ScrollView, AsyncStorage, Image
+} from 'react-native';
 
 import { resetAuthState } from '../../actions/auth-actions'
 import { updateProfileAction } from '../../actions/restaurant-actions/profile-actions';
+import { makeSelectProfileData } from '../../selectors/user-selectors/profile-selectors';
 
 class SidebarMenu extends Component {
   state = { type: null, user: null, avatarUrl: '' }
@@ -12,6 +15,7 @@ class SidebarMenu extends Component {
   componentWillMount () {
     this.fetchUser()
   }
+
   componentDidMount () {
     AsyncStorage.getItem('user_type', (err, value) => {
       if (err) {
@@ -20,6 +24,18 @@ class SidebarMenu extends Component {
         this.setState({ type: value });
       }
     })
+  }
+
+  componentWillReceiveProps (nextProps) {
+    console.log(nextProps.user, 'store user');
+    if (nextProps.user &&
+      Object.keys(nextProps.user).length > 0 &&
+      nextProps.user.avatarUrl !== '') {
+      this.setState({ user: nextProps.user });
+      AsyncStorage.setItem(
+        'user', JSON.stringify(nextProps.user)
+      )
+    }
   }
 
   fetchUser () {
@@ -38,6 +54,7 @@ class SidebarMenu extends Component {
 
   render () {
     const { type, user } = this.state;
+    console.log(user, '0-0-0-0-0-0-0');
     return (
       <View style={{ flex: 1, paddingHorizontal: 30 }}>
         <View style={styles.topViewStyle}>
@@ -46,7 +63,7 @@ class SidebarMenu extends Component {
               !(type === 'admin') ?
                 <Image
                   source={
-                    (user && user.bannerUrl !== null && user.avatarUrl !== '')
+                    (user && user.avatarUrl !== null && user.avatarUrl !== '')
                       ? { uri: user.avatarUrl } : require('../../assets/images/account.png')
                   }
                   resizeMode='contain'
@@ -212,7 +229,10 @@ class SidebarMenu extends Component {
   }
 }
 
-const mapStateToProps = state => ({})
+const mapStateToProps = state => ({
+  user: makeSelectProfileData()(state)
+})
+
 const mapDispatchToProps = dispatch => {
   return {
     clearStore: () => dispatch(resetAuthState()),
