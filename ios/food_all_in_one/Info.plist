@@ -17,11 +17,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>2.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.5</string>
+	<string>2.1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -43,9 +43,9 @@
 	<string>Food all in one would like to use your location</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Food all in one would like to use your location</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Food all in one would like to use your location</string>
 	<key>NSLocationUsageDescription</key>
+	<string>Food all in one would like to use your location</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Food all in one would like to use your location</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Food all in one would like you user your camera</string>

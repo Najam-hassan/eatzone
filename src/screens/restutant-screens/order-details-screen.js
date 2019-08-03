@@ -47,7 +47,7 @@ class OrderDetailsScreen extends Component {
         >
           <Text style={styles.orderDescrip}>{item && item.menu_item.name || ''}</Text>
           <Text style={styles.orderQuantity}>Qty: {item && item.itemQuantity || ''}</Text>
-          <Text style={styles.orderPrice}>$ {item && item.menu_item.price || ''}</Text>
+          <Text style={styles.orderPrice}>${item && item.menu_item.price || ''}</Text>
         </View>
       </View>
     )
@@ -78,7 +78,7 @@ class OrderDetailsScreen extends Component {
           </View>
           <View style={styles.orderDetails}>
             <Text style={styles.userInfo}>Order Id: {params.details.id}</Text>
-            <Text style={styles.userInfo}>Total: {
+            <Text style={styles.userInfo}>Total: ${
               calculateCost(params.details.order_items, params.details.deliveringRestaurant)
             }</Text>
           </View>
