@@ -6,8 +6,6 @@
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
 	<string>Food - all in one</string>
-	<key>CFBundleDocumentTypes</key>
-	<array/>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -23,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.2</string>
+	<string>1.5</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -41,13 +39,13 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Food all in one would like you user your camera</string>
-    <key>NSLocationUsageDescription</key>
-    <string>Food all in one would like to use your location</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Food all in one would like to use your location</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Food all in one would like to use your location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-    <string>Food all in one would like to use your location</string>
-    <key>NSLocationAlwaysUsageDescription</key>
-    <string>Food all in one would like to use your location</string>
-    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Food all in one would like to use your location</string>
+	<key>NSLocationUsageDescription</key>
 	<string>Food all in one would like to use your location</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Food all in one would like you user your camera</string>
@@ -81,7 +79,6 @@
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>location</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
