@@ -69,6 +69,10 @@ PODS:
     - React/Core
     - React/fishhook
     - React/RCTBlob
+  - ReactNativePermissions (1.2.0):
+    - React
+  - RNCAsyncStorage (1.6.1):
+    - React
   - RNFS (2.13.3):
     - React
   - RNReanimated (1.1.0):
@@ -98,6 +102,8 @@ DEPENDENCIES:
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTVibration (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
+  - ReactNativePermissions (from `../node_modules/react-native-permissions`)
+  - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - RNFS (from `../node_modules/react-native-fs`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
@@ -124,6 +130,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-maps/"
   react-native-onesignal:
     :path: "../node_modules/react-native-onesignal"
+  ReactNativePermissions:
+    :path: "../node_modules/react-native-permissions"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-community/async-storage"
   RNFS:
     :path: "../node_modules/react-native-fs"
   RNReanimated:
@@ -144,11 +154,13 @@ SPEC CHECKSUMS:
   react-native-image-resizer: 04a3409e7d4ad646c4468671c69dec490def139c
   react-native-maps: bb480348a3fe1e5a811fed1ba3387b329161c5cc
   react-native-onesignal: 5bdaf1bd3141482b3376922aa0a854ad796f5683
+  ReactNativePermissions: a8da737c35e77bf4ea1d4102d881b406fb791125
+  RNCAsyncStorage: e99188b8a89ea0edddc82d8831cd5142f4550fdc
   RNFS: bbb1a64eb245763daf34aea86f97c97c4e85f74c
   RNReanimated: 45d9313b7a62318ed00d60a811937321e43e076e
   RNVectorIcons: 66af4d5c8ff4f584c7b7cd9c4b0780920f27fce2
   yoga: 128daf064cacaede0c3bb27424b6b4c71052e6cd
 
-PODFILE CHECKSUM: e057c5b67948417b32e1dd79cbf06cd990f4a5b0
+PODFILE CHECKSUM: f3f0aaf51d7bbb4dac1defefa3ce899e2d2fff89
 
 COCOAPODS: 1.5.3
