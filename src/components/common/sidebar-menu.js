@@ -54,7 +54,6 @@ class SidebarMenu extends Component {
 
   render () {
     const { type, user } = this.state;
-    console.log(user, '0-0-0-0-0-0-0');
     return (
       <View style={{ flex: 1, paddingHorizontal: 30 }}>
         <View style={styles.topViewStyle}>

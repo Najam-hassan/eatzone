@@ -4,8 +4,7 @@ import Permissions from 'react-native-permissions';
 import Geolocation from 'react-native-geolocation-service';
 
 import {
-	View, AsyncStorage, ActivityIndicator, StyleSheet, Platform,
-	Alert
+	View, AsyncStorage, ActivityIndicator, StyleSheet, Platform, Alert
 } from 'react-native';
 
 import { Header } from '../../components/common/header';
@@ -21,10 +20,15 @@ class HomeScreen extends Component {
 			type: null,
 			error: null,
 			loading: true,
-			latitude: null,
-			longitude: null,
+			region: {
+				latitude: null,
+				longitude: null,
+				latitudeDelta: 1,
+				longitudeDelta: 1
+			}
 		}
 	}
+
 
 	checkUserType = async () => {
 		this.setState({ loading: true });
@@ -32,18 +36,17 @@ class HomeScreen extends Component {
 		if (type === 'admin') {
 			this.setState({ type: 'admin' });
 		} else {
+			Platform.OS === 'ios' && await this.getCurrentPositionIos()
 			this.setState({ type: 'user' });
 		}
 	};
 
-	getCurrentLocation () {
+	getCurrentLocation = async () => {
 		const { fetchCollectingList } = this.props;
-		Geolocation.getCurrentPosition(position => {
-			this.setState({ loading: false });
+		await Geolocation.getCurrentPosition(position => {
 			const { latitude, longitude } = position.coords;
 			this.setState({
-				latitude: latitude,
-				longitude: longitude,
+				loading: false,
 				region: {
 					...this.state.region,
 					latitude: position.coords.latitude,
@@ -56,7 +59,10 @@ class HomeScreen extends Component {
 			if (error.code === 3 || error.message === 'Location request timed out.') {
 				this.getCurrentLocation();
 			}
-			this.setState({ error: error.message, loading: false });
+			this.setState({
+				error: error.message,
+				loading: false
+			});
 			if (error.message === "No location provider available." || error.code === 2) {
 				return Alert.alert(
 					"",
@@ -80,12 +86,11 @@ class HomeScreen extends Component {
 		);
 	}
 
-	getCurrentPositionIos2 () {
+	getCurrentPositionIos () {
 		Permissions.check('location', { type: 'always' })
 			.then(res => {
 				if (res === 'undetermined') {
 					Permissions.request('location', { type: 'always' }).then(res => {
-						Alert.alert('121212121', res);
 						this.getCurrentLocation()
 					}).catch(error => {
 						console.log(error);
@@ -93,62 +98,6 @@ class HomeScreen extends Component {
 				} else {
 					this.getCurrentLocation()
 				}
-			})
-	}
-
-	getCurrentPositionIos = async () => {
-		const { fetchCollectingList } = this.props;
-		Permissions.request('location', { type: 'always' })
-			.then(response => {
-				if (response === 'denied') return;
-				this.setState({ loading: true })
-				Geolocation.getCurrentPosition(
-					(position) => {
-						console.log(position);
-						this.setState({ loading: false });
-						const { latitude, longitude } = position.coords;
-						this.setState({
-							latitude: latitude,
-							longitude: longitude
-						})
-						console.log('lat: ', latitude, 'long: ', longitude);
-						AsyncStorage.setItem('location', { latitude, longitude });
-						this.setState({
-							region: {
-								...this.state.region,
-								latitude: position.coords.latitude,
-								longitude: position.coords.longitude,
-							}
-						});
-						fetchCollectingList(`/user/nearby-restaurants/${latitude},${longitude}`);
-					},
-					(error) => {
-						console.log(error.code, error.message);
-						if (error.code === 3 || error.message === 'Location request timed out.') {
-							this.getCurrentPositionIos();
-						}
-						this.setState({ error: error.message, loading: false });
-						if (error.message === "No location provider available." || error.code === 2) {
-							return Alert.alert(
-								"",
-								'Please enable your device location',
-								[
-									{
-										text: 'settings', onPress: () =>
-											Linking.openURL('App-Prefs:root=LOCATION_SERVICES:')
-									},
-									{
-										text: 'Cancel',
-										onPress: () => console.log('Cancel Pressed'),
-										style: 'cancel'
-									},
-								],
-								{ cancelable: false },
-							);
-						}
-					},
-					{ enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-				);
 			})
 	}
 
@@ -175,6 +124,7 @@ class HomeScreen extends Component {
 					/> :
 						type === 'user' && region && region.latitude !== null ?
 							<UserDashboard
+								region={this.state.region}
 								navigation={this.props.navigation}
 								type={this.state.type}
 							/> : null
