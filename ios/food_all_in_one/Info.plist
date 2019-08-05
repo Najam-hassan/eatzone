@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2.1</string>
+	<string>2.5.1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -37,8 +37,16 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Food all in one would</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Food all in one would like to use bluetooth service</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Food all in one would like you use calander</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Food all in one would like you user your camera</string>
+	<string>Food all in one would like you use your camera</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Food all in one would like you use contacts</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Food all in one would like to use your location</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -47,8 +55,12 @@
 	<string>Food all in one would like to use your location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Food all in one would like to use your location</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Food all in one would</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Food all in one would like you user your camera</string>
+	<string>Food all in one would like you use your camera</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Food all in one would</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

@@ -77,141 +77,134 @@ class HomeContainer extends Component {
     return false;
   }
 
-  getCurrentPositionIos = async () => {
-    const { fetchCollectingList } = this.props;
-    Permissions.request('location', { type: 'always' })
-      .then(response => {
-        if (response === 'denied') return;
-        this.setState({ loading: true }, () => {
-          Geolocation.getCurrentPosition(
-            (position) => {
-              console.log(position);
-              this.setState({ isLoading: false });
-              const { latitude, longitude } = position.coords;
-              this.setState({
-                latitude: latitude,
-                longitude: longitude
-              })
-              console.log('lat: ', latitude, 'long: ', longitude);
-              AsyncStorage.setItem('location', { latitude, longitude });
-              initialValues = {
-                ...initialValues,
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude
-              };
-              this.setState({
-                region: {
-                  ...this.state.region,
-                  latitude: position.coords.latitude,
-                  longitude: position.coords.longitude,
-                }
-              });
-              fetchCollectingList(`/user/nearby-restaurants/${latitude},${longitude}`);
-              // fetchCollectingList(`/user/nearby-restaurants/31.474241414107382, 74.24986490048468`);
-            },
-            (error) => {
-              console.log(error.code, error.message);
-              if (error.code === 3 || error.message === 'Location request timed out.') {
-                this.getCurrentPositionIos();
-              }
-              this.setState({ error: error.message, isLoading: false });
-              if (error.message === "No location provider available." || error.code === 2) {
-                return Alert.alert(
-                  "",
-                  'Please enable your device location',
-                  [
-                    {
-                      text: 'settings', onPress: () =>
-                        Linking.openURL('App-Prefs:root=LOCATION_SERVICES:')
-                    },
-                    {
-                      text: 'Cancel',
-                      onPress: () => console.log('Cancel Pressed'),
-                      style: 'cancel'
-                    },
-                  ],
-                  { cancelable: false },
-                );
-              }
-            },
-            { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-          );
-        });
-      })
-  }
+  // getCurrentPositionIos = async () => {
+  //   const { fetchCollectingList } = this.props;
+  //   Permissions.request('location', { type: 'always' })
+  //     .then(response => {
+  //       if (response === 'denied') return;
+  //       this.setState({ isLoading: true }, () => {
+  //         Geolocation.getCurrentPosition(
+  //           (position) => {
+  //             console.log(position);
+  //             this.setState({ isLoading: false });
+  //             const { latitude, longitude } = position.coords;
+  //             this.setState({
+  //               latitude: latitude,
+  //               longitude: longitude
+  //             })
+  //             console.log('lat: ', latitude, 'long: ', longitude);
+  //             AsyncStorage.setItem('location', { latitude, longitude });
+  //             initialValues = {
+  //               ...initialValues,
+  //               latitude: position.coords.latitude,
+  //               longitude: position.coords.longitude
+  //             };
+  //             this.setState({
+  //               region: {
+  //                 ...this.state.region,
+  //                 latitude: position.coords.latitude,
+  //                 longitude: position.coords.longitude,
+  //               }
+  //             });
+  //             fetchCollectingList(`/user/nearby-restaurants/${latitude},${longitude}`);
+  //             // fetchCollectingList(`/user/nearby-restaurants/31.474241414107382, 74.24986490048468`);
+  //           },
+  //           (error) => {
+  //             console.log(error.code, error.message);
+  //             if (error.code === 3 || error.message === 'Location request timed out.') {
+  //               this.getCurrentPositionIos();
+  //             }
+  //             this.setState({ error: error.message, isLoading: false });
+  //             if (error.message === "No location provider available." || error.code === 2) {
+  //               return Alert.alert(
+  //                 "",
+  //                 'Please enable your device location',
+  //                 [
+  //                   {
+  //                     text: 'settings', onPress: () =>
+  //                       Linking.openURL('App-Prefs:root=LOCATION_SERVICES:')
+  //                   },
+  //                   {
+  //                     text: 'Cancel',
+  //                     onPress: () => console.log('Cancel Pressed'),
+  //                     style: 'cancel'
+  //                   },
+  //                 ],
+  //                 { cancelable: false },
+  //               );
+  //             }
+  //           },
+  //           { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+  //         );
+  //       });
+  //     })
+  // }
 
   getCurrentResPosition = async () => {
     const { fetchCollectingList } = this.props;
-    const hasLocationPermission = Platform.OS === 'android' ?
-      await this.hasLocationPermission() : await this.getCurrentPositionIos();
-
+    const hasLocationPermission = await this.hasLocationPermission();
     if (!hasLocationPermission) return;
+    this.setState({ isLoading: true });
+    Geolocation.getCurrentPosition(position => {
+      console.log(position);
+      const { latitude, longitude } = position.coords;
+      console.log('lat: ', latitude, 'long: ', longitude);
+      initialValues = {
+        ...initialValues,
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      };
 
-    this.setState({ loading: true }, () => {
-      Geolocation.getCurrentPosition(
-        (position) => {
-          console.log(position);
-          this.setState({ isLoading: false });
-          const { latitude, longitude } = position.coords;
-          this.setState({
-            latitude: latitude,
-            longitude: longitude
-          })
-          console.log('lat: ', latitude, 'long: ', longitude);
-          AsyncStorage.setItem('location', { latitude, longitude });
-          initialValues = {
-            ...initialValues,
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude
-          };
-          this.setState({
-            region: {
-              ...this.state.region,
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-            }
-          });
-          fetchCollectingList(`/user/nearby-restaurants/${latitude},${longitude}`);
-          // fetchCollectingList(`/user/nearby-restaurants/31.474241414107382, 74.24986490048468`);
-        },
-        (error) => {
-          console.log(error.code, error.message);
-          if (error.code === 3 || error.message === 'Location request timed out.') {
-            this.getCurrentResPosition();
+      this.setState({
+        isLoading: false,
+        latitude: latitude,
+        longitude: longitude,
+        region: {
+          ...this.state.region,
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        }
+      })
+      fetchCollectingList(`/user/nearby-restaurants/${latitude},${longitude}`);
+      // fetchCollectingList(`/user/nearby-restaurants/31.474241414107382, 74.24986490048468`);
+    },
+      (error) => {
+        console.log(error.code, error.message);
+        if (error.code === 3 || error.message === 'Location request timed out.') {
+          this.getCurrentResPosition();
+        }
+        this.setState({ error: error.message, isLoading: false });
+        if (error.message === "No location provider available." || error.code === 2) {
+          if (Platform.OS === 'android') {
+            RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({ interval: 10000, fastInterval: 5000 })
+              .then(data => {
+                console.log(data, '0-0-0-0-0-0-0-0');
+                this.getCurrentResPosition();
+              }).catch(error => {
+                console.log(error, '())()()()()')
+              });
+          } else {
+            return Alert.alert(
+              "",
+              'Please enable your device location',
+              [
+                {
+                  text: 'settings', onPress: () =>
+                    Linking.openURL('App-Prefs:root=LOCATION_SERVICES:')
+                },
+                {
+                  text: 'Cancel',
+                  onPress: () => console.log('Cancel Pressed'),
+                  style: 'cancel'
+                },
+              ],
+              { cancelable: false },
+            );
           }
-          this.setState({ error: error.message, isLoading: false });
-          if (error.message === "No location provider available." || error.code === 2) {
-            if (Platform.OS === 'android') {
-              RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({ interval: 10000, fastInterval: 5000 })
-                .then(data => {
-                  console.log(data, '0-0-0-0-0-0-0-0');
-                  this.getCurrentResPosition();
-                }).catch(error => {
-                  console.log(error, '())()()()()')
-                });
-            } else {
-              return Alert.alert(
-                "",
-                'Please enable your device location',
-                [
-                  {
-                    text: 'settings', onPress: () =>
-                      Linking.openURL('App-Prefs:root=LOCATION_SERVICES:')
-                  },
-                  {
-                    text: 'Cancel',
-                    onPress: () => console.log('Cancel Pressed'),
-                    style: 'cancel'
-                  },
-                ],
-                { cancelable: false },
-              );
-            }
-          }
-        },
-        { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-      );
-    });
+        }
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+    );
   }
 
   async componentWillMount () {
