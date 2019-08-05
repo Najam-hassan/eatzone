@@ -13,5 +13,5 @@ const getAuthToken = async () => {
 
 // Network constants
 // export const baseURL = 'https://tranquil-anchorage-35603.herokuapp.com/api/v1';
-export const baseURL = 'http://foodallinone.com/api/v1';
+export const baseURL = 'https://foodallinone.com/api/v1';
 export const token = getAuthToken();
