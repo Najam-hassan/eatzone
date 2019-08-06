@@ -1,6 +1,10 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/EvilIcons';
-import { View, StyleSheet, TouchableOpacity, Image, Text, Keyboard } from 'react-native';
+import CallIcon from 'react-native-vector-icons/Feather';
+import {
+    View, StyleSheet, TouchableOpacity,
+    Image, Text, Keyboard, Platform, Linking
+} from 'react-native';
 
 const Header = ({ navigation, title, profile }) => {
     const { iconsViewStyle, navTitle, navRight } = styles;
@@ -29,7 +33,7 @@ const Header = ({ navigation, title, profile }) => {
     )
 }
 
-const PageHeader = ({ navigation, title, isCartScreen, id }) => {
+const PageHeader = ({ navigation, title, isCartScreen, id, phone }) => {
     const { iconsViewStyle, navTitle, navRight } = styles;
     return (
         <View style={{ backgroundColor: '#00a0ff', }}>
@@ -53,7 +57,27 @@ const PageHeader = ({ navigation, title, isCartScreen, id }) => {
                     <Text style={{ color: '#fff', fontSize: 18, fontWeight: '500', lineHeight: 24, }}>{title}</Text>
                 </View>
                 <View style={navRight}>
-                    {/* <Icon name="chevron-right" size={34} color={'#fff'} /> */}
+                    {phone ?
+                        <TouchableOpacity
+                            onPress={() => {
+                                if (Platform.OS === 'android') {
+                                    Linking.openURL(
+                                        `tel:${item.deliveringRestaurant ? item.deliveringRestaurant.phone : 123}`
+                                    );
+                                }
+                                else {
+                                    const url = `telprompt:${item.deliveringRestaurant ? item.deliveringRestaurant.phone : 123}`;
+                                    Linking.canOpenURL(url).then((supported) => {
+                                        if (supported) {
+                                            return Linking.openURL(url)
+                                                .catch(() => null);
+                                        }
+                                    });
+                                }
+                            }}
+                        >
+                            <CallIcon name="phone-call" size={18} color="#fff" />
+                        </TouchableOpacity> : null}
                 </View>
             </View>
         </View>

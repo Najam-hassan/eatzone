@@ -20,9 +20,10 @@ const { width, height } = Dimensions.get('screen');
 class RestaurantDetailScreen extends Component {
 
   state = {
-    phone: '',
     total: 0,
+    phone: '',
     charges: 0,
+    address: '',
     distance: 0,
     bannerUrl: '',
     totalItems: 0,
@@ -48,17 +49,18 @@ class RestaurantDetailScreen extends Component {
     }
     if (nextProps.list && nextProps.list.distance) {
       this.setState({
-        websiteUrl: nextProps.list.websiteUrl,
         phone: nextProps.list.phone,
+        address: nextProps.list.address,
         distance: nextProps.list.distance,
         bannerUrl: nextProps.list.bannerUrl,
+        websiteUrl: nextProps.list.websiteUrl,
         charges: nextProps.list.deliveryServiceCharges,
       })
     }
   }
 
   render () {
-    const { restaurantName } = this.state;
+    const { restaurantName, phone } = this.state;
     const { list, navigation, loading } = this.props;
     const listItems = list && Object.keys(list).length &&
       list.menu_categories.map(item => (
@@ -77,6 +79,7 @@ class RestaurantDetailScreen extends Component {
           <PageHeader
             navigation={this.props.navigation}
             title={restaurantName ? restaurantName : 'Restaurant Detail'}
+            phone={phone ? phone : '123'}
           />
           <View style={{
             justifyContent: 'center',
@@ -94,6 +97,7 @@ class RestaurantDetailScreen extends Component {
         <PageHeader
           navigation={this.props.navigation}
           title={restaurantName ? restaurantName : 'Restaurant Detail'}
+          phone={phone ? phone : '123'}
         />
         <NavigationEvents
           onWillFocus={payload => {
@@ -142,7 +146,7 @@ class RestaurantDetailScreen extends Component {
               <View style={{ flex: 1 }} />
               <View style={styles.detailStyle}>
                 <View>
-                  <Text style={styles.titleStyle}>{this.state.phone}</Text>
+                  <Text style={styles.titleStyle}>{this.state.address}</Text>
                   <Text style={styles.titleStyle}>{this.state.websiteUrl}</Text>
                 </View>
                 <View style={{ flexDirection: 'column', alignItems: 'flex-end' }}>

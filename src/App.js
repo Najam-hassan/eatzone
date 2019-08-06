@@ -11,7 +11,6 @@ const store = configureStore();
 
 export default class App extends Component {
 
-
   state = {
     connection_Status: "",
     isConnected: true,
