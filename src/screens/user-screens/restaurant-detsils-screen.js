@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import { NavigationEvents } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
-  View, Text, StatusBar, ImageBackground, StyleSheet, Dimensions, ActivityIndicator
+  View, Text, StatusBar, ImageBackground, StyleSheet,
+  Dimensions, ActivityIndicator, BackHandler
 } from 'react-native';
 
 import Button from '../../components/common/button';
@@ -19,16 +20,26 @@ const { width, height } = Dimensions.get('screen');
 
 class RestaurantDetailScreen extends Component {
 
-  state = {
-    total: 0,
-    phone: '',
-    charges: 0,
-    address: '',
-    distance: 0,
-    bannerUrl: '',
-    totalItems: 0,
-    websiteUrl: '',
-    restaurantName: null
+  constructor(props) {
+    super(props)
+    this.state = {
+      total: 0,
+      phone: '',
+      charges: 0,
+      address: '',
+      distance: 0,
+      bannerUrl: '',
+      totalItems: 0,
+      websiteUrl: '',
+      restaurantName: null
+    }
+
+    //Binding handleBackButtonClick function with this
+    this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
+  }
+
+  componentWillMount () {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
   }
 
   componentDidMount () {
@@ -57,6 +68,15 @@ class RestaurantDetailScreen extends Component {
         charges: nextProps.list.deliveryServiceCharges,
       })
     }
+  }
+
+  componentWillUnmount () {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
+  }
+
+  handleBackButtonClick () {
+    this.props.navigation.navigate('HomeScreen');
+    return true;
   }
 
   render () {

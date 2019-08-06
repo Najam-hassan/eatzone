@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import Toast from 'react-native-easy-toast';
 import { NavigationEvents } from 'react-navigation';
 import {
-  Image, View, Text, StatusBar, ScrollView,
+  Image, View, Text, StatusBar, ScrollView, BackHandler,
   StyleSheet, FlatList, Dimensions, ActivityIndicator
 } from 'react-native';
 
@@ -26,9 +26,15 @@ import FoodModal from '../../components/food-modal';
 class CartScreen extends Component {
   constructor(props) {
     super(props);
+    this.state = { subTotal: 0, showModal: false }
+
+    //Binding handleBackButtonClick function with this
+    this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
   }
 
-  state = { subTotal: 0, showModal: false }
+  componentWillMount () {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+  }
 
   componentDidMount () {
     const { cartItems } = this.props;
@@ -51,6 +57,15 @@ class CartScreen extends Component {
       this.refs.toast.show(`Unable to place order ${nextProps.response.message}`, 2000);
       this.props.resetState();
     }
+  }
+
+  componentWillUnmount () {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
+  }
+
+  handleBackButtonClick () {
+    this.props.navigation.navigate('HomeScreen');
+    return true;
   }
 
   _renderItem = ({ item }) => {

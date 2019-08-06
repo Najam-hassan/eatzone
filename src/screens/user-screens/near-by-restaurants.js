@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import { View, StatusBar } from 'react-native';
+import { View, StatusBar, BackHandler } from 'react-native';
 
 import { Header } from '../../components/common/header';
 import * as actions from '../../actions/user-actions/nearby-restaurants-actions';
@@ -10,6 +10,13 @@ import NearByRestaurant from '../../containers/user-containers/nearby-restaurent
 class RestaurantsScreen extends Component {
     constructor(props) {
         super(props);
+
+        //Binding handleBackButtonClick function with this
+        this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
+    }
+
+    componentWillMount () {
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
     }
 
     componentDidMount () {
@@ -17,6 +24,15 @@ class RestaurantsScreen extends Component {
         if (resturant) {
             fetchNearByList(resturant.id);
         }
+    }
+
+    componentWillUnmount () {
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
+    }
+
+    handleBackButtonClick () {
+        this.props.navigation.navigate('HomeScreen');
+        return true;
     }
 
     render () {

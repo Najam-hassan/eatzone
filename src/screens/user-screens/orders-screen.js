@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { NavigationEvents } from 'react-navigation';
 import {
-    View, Text, StatusBar, TouchableOpacity, StyleSheet, RefreshControl,
+    View, Text, StatusBar, TouchableOpacity, StyleSheet, RefreshControl, BackHandler,
     Linking, ActivityIndicator, FlatList, Platform, ScrollView, Dimensions
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
@@ -15,8 +15,26 @@ import * as actions from '../../actions/user-actions/order-list-actions';
 import * as selectors from '../../selectors/user-selectors/order-list-selectors';
 
 class OrderScreen extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { subTotal: 0 }
 
-    state = {};
+        //Binding handleBackButtonClick function with this
+        this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
+    }
+
+    componentWillMount () {
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+    }
+
+    componentWillUnmount () {
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
+    }
+
+    handleBackButtonClick () {
+        this.props.navigation.navigate('HomeScreen');
+        return true;
+    }
 
     renderOrderCard = ({ item, index }) => {
         return (

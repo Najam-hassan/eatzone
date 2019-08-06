@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import Toast from 'react-native-easy-toast';
-import { View, ScrollView, StatusBar } from 'react-native';
+import { View, ScrollView, StatusBar, BackHandler } from 'react-native';
 
 import { Header } from '../../components/common/header';
 import UserProfileForm from '../forms/user-profile-form';
@@ -12,6 +12,13 @@ import * as selectors from '../../selectors/user-selectors/profile-selectors';
 class ProfileScreen extends Component {
     constructor(props) {
         super(props);
+
+        //Binding handleBackButtonClick function with this
+        this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
+    }
+
+    componentWillMount () {
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
     }
 
     componentWillReceiveProps (nextProps) {
@@ -23,6 +30,15 @@ class ProfileScreen extends Component {
             // this.refs.toast.show('Profile update successfully!', 2000);
             // this.props.resetState();
         }
+    }
+
+    componentWillUnmount () {
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
+    }
+
+    handleBackButtonClick () {
+        this.props.navigation.navigate('HomeScreen');
+        return true;
     }
 
     render () {

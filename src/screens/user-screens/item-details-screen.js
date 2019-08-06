@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StatusBar, StyleSheet, Image } from 'react-native';
+import { View, Text, StatusBar, StyleSheet, Image, BackHandler } from 'react-native';
 
 import { PageHeader } from '../../components/common/header';
 import ItemDetailContainer from '../../containers/user-containers/item-details-container'
@@ -7,7 +7,25 @@ import ItemDetailContainer from '../../containers/user-containers/item-details-c
 class ItemDetailScreen extends Component {
     constructor(props) {
         super(props);
+        this.state = { subTotal: 0, showModal: false }
+
+        //Binding handleBackButtonClick function with this
+        this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
     }
+
+    componentWillMount () {
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+    }
+
+    componentWillUnmount () {
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
+    }
+
+    handleBackButtonClick () {
+        this.props.navigation.navigate('HomeScreen');
+        return true;
+    }
+
 
     render () {
         const { params } = this.props.navigation.state;

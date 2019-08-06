@@ -1,12 +1,21 @@
 import moment from 'moment';
 import React, { Component } from 'react';
-import { View, Text, StatusBar, StyleSheet } from 'react-native';
+import { View, Text, StatusBar, StyleSheet, BackHandler } from 'react-native';
 
 import { PageHeader } from '../../components/common/header';
 
 class OrderDetailScreen extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { subTotal: 0 }
 
-    state = { subTotal: 0 }
+        //Binding handleBackButtonClick function with this
+        this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
+    }
+
+    componentWillMount () {
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+    }
 
     componentDidMount () {
         const { params } = this.props.navigation.state;
@@ -14,6 +23,15 @@ class OrderDetailScreen extends Component {
             sum + (item.itemQuantity * item.menu_item.price)
         ), 0);
         this.setState({ subTotal: subTotal })
+    }
+
+    componentWillUnmount () {
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
+    }
+
+    handleBackButtonClick () {
+        this.props.navigation.navigate('HomeScreen');
+        return true;
     }
 
     renderSubTotals = () => {
