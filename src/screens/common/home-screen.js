@@ -31,7 +31,7 @@ class HomeScreen extends Component {
 
 
 	checkUserType = async () => {
-		this.setState({ loading: true });
+		this.setState({ loading: Platform.OS === 'ios' });
 		const type = await AsyncStorage.getItem('user_type');
 		if (type === 'admin') {
 			this.setState({ type: 'admin' });
