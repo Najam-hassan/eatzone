@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { NavigationEvents } from 'react-navigation';
-import { View, StatusBar, ActivityIndicator } from 'react-native';
+import { View, StatusBar, ActivityIndicator, BackHandler } from 'react-native';
 
 import { Header } from '../../components/common/header';
 
@@ -11,9 +11,24 @@ import * as selectors from '../../selectors/restaurant-selectors/order-list-sele
 import OrdersContainer from '../../containers/restaurant-containers/my-orders-container';
 
 class CompletedOrdersScreen extends Component {
+    constructor(props) {
+        super(props);
 
-    componentDidMount () {
-        // this.props.fetchList();
+        //Binding handleBackButtonClick function with this
+        this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
+    }
+
+    componentWillMount () {
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+    }
+
+    componentWillUnmount () {
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
+    }
+
+    handleBackButtonClick () {
+        this.props.navigation.navigate('HomeScreen');
+        return true;
     }
 
     render () {

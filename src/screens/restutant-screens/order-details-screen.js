@@ -1,7 +1,10 @@
 import moment from 'moment';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import { View, Text, StatusBar, StyleSheet, Image, ActivityIndicator } from 'react-native';
+import {
+  View, Text, StatusBar, StyleSheet,
+  Image, ActivityIndicator, BackHandler
+} from 'react-native';
 
 import Button from '../../components/common/button';
 import { PageHeader } from '../../components/common/header';
@@ -12,8 +15,26 @@ import * as actions from '../../actions/restaurant-actions/order-listing-actions
 import * as selectors from '../../selectors/restaurant-selectors/order-list-selectors';
 
 class OrderDetailsScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { confirmed: false, completed: false }
 
-  state = { confirmed: false, completed: false }
+    //Binding handleBackButtonClick function with this
+    this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
+  }
+
+  componentWillMount () {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+  }
+
+  componentWillUnmount () {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
+  }
+
+  handleBackButtonClick () {
+    this.props.navigation.navigate('HomeScreen');
+    return true;
+  }
 
   componentDidMount () {
     const { params } = this.props.navigation.state;

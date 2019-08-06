@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import Toast from 'react-native-easy-toast';
 import { change } from 'redux-form/immutable';
-import { View, StatusBar, ActivityIndicator } from 'react-native';
+import { View, StatusBar, ActivityIndicator, BackHandler } from 'react-native';
 
 import { Header } from '../../components/common/header';
 import ProfileForm from '../forms/restaurant-profile-form';
@@ -12,7 +12,17 @@ import * as selectors from '../../selectors/restaurant-selectors/profile-selecto
 
 class EditProfileScreen extends Component {
 
-    state = { profile: '' }
+    constructor(props) {
+        super(props);
+        this.state = { profile: '' }
+
+        //Binding handleBackButtonClick function with this
+        this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
+    }
+
+    componentWillMount () {
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+    }
 
     componentDidMount () {
         this.props.fetchDetails();
@@ -27,6 +37,15 @@ class EditProfileScreen extends Component {
             this.setState({ profile: nextProps.profile });
             this.props.resetState();
         }
+    }
+
+    componentWillUnmount () {
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
+    }
+
+    handleBackButtonClick () {
+        this.props.navigation.navigate('HomeScreen');
+        return true;
     }
 
     showToaster = message => {

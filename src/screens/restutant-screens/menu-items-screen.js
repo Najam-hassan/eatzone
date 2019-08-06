@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StatusBar } from 'react-native';
+import { View, StatusBar, BackHandler } from 'react-native';
 import Toast from 'react-native-easy-toast';
 
 import { PageHeader } from '../../components/common/header';
@@ -8,6 +8,22 @@ import ItemContainer from '../../containers/restaurant-containers/items-containe
 class MenuItemsScreen extends Component {
 	constructor(props) {
 		super(props);
+
+		//Binding handleBackButtonClick function with this
+		this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
+	}
+
+	componentWillMount () {
+		BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+	}
+
+	componentWillUnmount () {
+		BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
+	}
+
+	handleBackButtonClick () {
+		this.props.navigation.navigate('HomeScreen');
+		return true;
 	}
 
 	render () {

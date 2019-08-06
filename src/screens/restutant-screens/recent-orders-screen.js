@@ -14,17 +14,31 @@ import * as selectors from '../../selectors/restaurant-selectors/order-list-sele
 import OrdersContainer from '../../containers/restaurant-containers/my-orders-container';
 
 class RecentOrdersScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      index: 0,
+      routes: [
+        { key: 'first', title: 'My Orders' },
+        { key: 'second', title: 'Dine In Orders' },
+      ],
+    };
 
-  state = {
-    index: 0,
-    routes: [
-      { key: 'first', title: 'My Orders' },
-      { key: 'second', title: 'Dine In Orders' },
-    ],
-  };
+    //Binding handleBackButtonClick function with this
+    this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
+  }
 
-  componentDidMount () {
-    // this.props.fetchList();
+  componentWillMount () {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+  }
+
+  componentWillUnmount () {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
+  }
+
+  handleBackButtonClick () {
+    this.props.navigation.navigate('HomeScreen');
+    return true;
   }
 
   render () {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, StatusBar } from 'react-native';
+import { View, BackHandler, StatusBar } from 'react-native';
 
 import MenuItemForm from '../forms/menu-item-form';
 import { PageHeader } from '../../components/common/header';
@@ -7,6 +7,22 @@ import { PageHeader } from '../../components/common/header';
 class AddMenuItemScreen extends Component {
     constructor(props) {
         super(props);
+
+        //Binding handleBackButtonClick function with this
+        this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
+    }
+
+    componentWillMount () {
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+    }
+
+    componentWillUnmount () {
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
+    }
+
+    handleBackButtonClick () {
+        this.props.navigation.navigate('HomeScreen');
+        return true;
     }
 
     render () {
