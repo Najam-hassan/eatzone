@@ -62,7 +62,6 @@ export function deleteCategoryAction (list) {
         list.map(item => {
             return axios.delete(`/restaurant/menu-category/${item.id}`)
                 .then(response => {
-                    console.log(response, '-=-=-=-')
                     dispatch(deleteCategorySuccess(item.id));
                 }).catch(error => {
                     dispatch(deleteCategoryFailure(error));

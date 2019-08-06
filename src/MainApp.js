@@ -51,7 +51,6 @@ class MainApp extends Component {
 
     verifyUser = async () => {
         const user = await AsyncStorage.getItem('user');
-        console.log('user: ', user);
         this.props.navigation.navigate(user ? 'App' : 'Auth');
     };
 

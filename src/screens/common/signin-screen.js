@@ -26,7 +26,6 @@ class SignInScreen extends Component {
 		OneSignal.addEventListener("ids", this.onIds.bind(this));
 	}
 	onIds (device) {
-		console.log('Device info: ', device);
 		this.setState({ playerId: device.userId })
 	}
 
@@ -83,7 +82,6 @@ class SignInScreen extends Component {
 
 	render () {
 		const { state } = this.props.navigation;
-		console.log(state.params, 'sign in screen');
 		return (
 			<View style={{ flex: 1 }}>
 				<ScrollView

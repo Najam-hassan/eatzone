@@ -88,6 +88,8 @@ class RestaurantDetailScreen extends Component {
           row.quantity > 0))
       ));
 
+    console.log(phone, '0-0-0-0-0-0-0-0-0-0');
+
     let cardItems = listItems;
     if (cardItems.length > 1) {
       cardItems = listItems && listItems.length > 1 && listItems.reduce((a, b) => a.concat(b));
@@ -99,7 +101,7 @@ class RestaurantDetailScreen extends Component {
           <PageHeader
             navigation={this.props.navigation}
             title={restaurantName ? restaurantName : 'Restaurant Detail'}
-            phone={phone ? phone : '123'}
+            phone={phone ? phone : 123}
           />
           <View style={{
             justifyContent: 'center',
@@ -117,7 +119,7 @@ class RestaurantDetailScreen extends Component {
         <PageHeader
           navigation={this.props.navigation}
           title={restaurantName ? restaurantName : 'Restaurant Detail'}
-          phone={phone ? phone : '123'}
+          phone={phone ? phone : 123}
         />
         <NavigationEvents
           onWillFocus={payload => {

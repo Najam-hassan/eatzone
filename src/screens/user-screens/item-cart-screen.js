@@ -320,7 +320,7 @@ class CartScreen extends Component {
           this.state.subTotal > 0 ?
             <View style={{ flex: 1 }}>
               <ScrollView style={{ marginBottom: 10 }}>
-                <Text>{console.log(cartItems)}</Text>
+                {/* <Text>{console.log(cartItems)}</Text> */}
                 <View style={{ padding: 10, paddingTop: 30 }}>
                   <View style={styles.TotalOrder}>
                     <FlatList

@@ -54,7 +54,6 @@ class CompletedOrdersScreen extends Component {
                 />
                 <NavigationEvents
                     onWillFocus={payload => {
-                        console.log('will focus', payload)
                         this.props.fetchList();
                     }}
                 />

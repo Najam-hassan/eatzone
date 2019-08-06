@@ -27,7 +27,6 @@ class SidebarMenu extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    console.log(nextProps.user, 'store user');
     if (nextProps.user &&
       Object.keys(nextProps.user).length > 0 &&
       nextProps.user.avatarUrl !== '') {
@@ -75,7 +74,6 @@ class SidebarMenu extends Component {
                 <PhotoUpload
                   onPhotoSelect={avatar => {
                     if (avatar) {
-                      console.log('Image base64 string: ', avatar);
                       this.uploadPhoto(avatar)
                     }
                   }}

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { NavigationEvents } from 'react-navigation';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import {
-  View, StatusBar, ActivityIndicator, Dimensions
+  View, StatusBar, ActivityIndicator, Dimensions, BackHandler
 } from 'react-native';
 
 import { Header } from '../../components/common/header';
@@ -65,7 +65,6 @@ class RecentOrdersScreen extends Component {
         />
         <NavigationEvents
           onWillFocus={payload => {
-            console.log('will focus', payload)
             this.props.fetchList();
           }}
         />

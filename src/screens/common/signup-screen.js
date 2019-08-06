@@ -48,7 +48,6 @@ class SignInScreen extends Component {
 
     render () {
         const { state } = this.props.navigation;
-        console.log(state.params, 'sign up screen');
         return (
             <View style={{ flex: 1 }}>
                 <ScrollView

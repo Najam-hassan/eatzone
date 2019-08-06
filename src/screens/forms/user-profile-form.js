@@ -67,7 +67,6 @@ class UserProfileForm extends Component {
                 <PhotoUpload
                     onPhotoSelect={avatar => {
                         if (avatar) {
-                            console.log('Image base64 string: ', avatar);
                             this.setState({ avatarUrl: avatar })
                         }
                     }}

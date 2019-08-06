@@ -55,7 +55,6 @@ class HomeScreen extends Component {
 			});
 			fetchCollectingList(`/user/nearby-restaurants/${latitude},${longitude}`);
 		}, (error) => {
-			console.log(error.code, error.message);
 			if (error.code === 3 || error.message === 'Location request timed out.') {
 				this.getCurrentLocation();
 			}

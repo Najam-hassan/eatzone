@@ -88,7 +88,6 @@ class HomeContainer extends Component {
     if (!hasLocationPermission) return;
 
     Geolocation.getCurrentPosition(position => {
-      console.log(position);
       const { latitude, longitude } = position.coords;
       console.log('lat: ', latitude, 'long: ', longitude);
       initialValues = {
@@ -111,7 +110,6 @@ class HomeContainer extends Component {
       // fetchCollectingList(`/user/nearby-restaurants/31.474241414107382, 74.24986490048468`);
     },
       (error) => {
-        console.log(error.code, error.message);
         if (error.code === 3 || error.message === 'Location request timed out.') {
           this.getCurrentResPosition();
         }
@@ -120,7 +118,6 @@ class HomeContainer extends Component {
           if (Platform.OS === 'android') {
             RNAndroidLocationEnabler.promptForEnableLocationIfNeeded({ interval: 10000, fastInterval: 5000 })
               .then(data => {
-                console.log(data, '0-0-0-0-0-0-0-0');
                 this.getCurrentResPosition();
               }).catch(error => {
                 console.log(error, '())()()()()')
@@ -285,7 +282,6 @@ class HomeContainer extends Component {
           <ActivityIndicator size={'large'} color={'#1BA2FC'} />
           <NavigationEvents
             onWillFocus={payload => {
-              console.log('will focus', payload)
               this.moveBack();
             }}
           />
@@ -296,7 +292,6 @@ class HomeContainer extends Component {
       <View style={styles.container}>
         <NavigationEvents
           onWillFocus={payload => {
-            console.log('will focus', payload)
             this.moveBack();
           }}
         />

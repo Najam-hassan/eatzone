@@ -62,7 +62,6 @@ export function checkResturantExistFailure (error) {
 }
 
 export function checkResturantExistAction (id) {
-    console.log(id, 'places Id');
     return dispatch => {
         // dispatch(checkResturantExistRequest());
         return axios.get(`/restaurant/restaurant-exists/${id}`)
