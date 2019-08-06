@@ -28,6 +28,10 @@ class RecentOrdersScreen extends Component {
     this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
   }
 
+  componentDidMount () {
+    this.props.fetchList();
+  }
+
   componentWillMount () {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
   }
@@ -50,6 +54,11 @@ class RecentOrdersScreen extends Component {
           <Header
             navigation={this.props.navigation}
             title={'Recent Orders'}
+          />
+          <NavigationEvents
+            onWillFocus={payload => {
+              this.props.fetchList();
+            }}
           />
           <ActivityIndicator size={'large'} color={'#1BA2FC'} />
         </View>
@@ -86,13 +95,13 @@ class RecentOrdersScreen extends Component {
                 navigation={this.props.navigation}
                 fetchList={() => this.props.fetchList()}
                 list={deliveries && deliveries.filter(row => (
-                  row.orderStatus === 'CONFIRMED' || row.orderStatus === 'PENDING')
+                  (row.orderStatus === 'CONFIRMED' || row.orderStatus === 'PENDING')) && row.order_items.length > 0
                 )}
               />
             ),
             second: () => (
               <OrdersContainer
-                list={collections}
+                list={collections.filter(row => row.order_items.length > 0)}
                 isDelivery={false}
                 isCollecting={true}
                 navigation={this.props.navigation}

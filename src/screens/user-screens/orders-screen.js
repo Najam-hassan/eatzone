@@ -27,6 +27,10 @@ class OrderScreen extends Component {
         BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
     }
 
+    componentDidMount () {
+        this.props.fetchList();
+    }
+
     componentWillUnmount () {
         BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
     }
@@ -133,7 +137,7 @@ class OrderScreen extends Component {
                             }
                         >
                             <FlatList
-                                data={list}
+                                data={list.filter(row => row.order_items.length > 0)}
                                 extraData={this.state}
                                 keyExtractor={(item, index) => index.toString()}
                                 renderItem={this.renderOrderCard}

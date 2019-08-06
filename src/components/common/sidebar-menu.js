@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import PhotoUpload from 'react-native-photo-upload';
+import { DrawerActions } from 'react-navigation';
 import {
   StyleSheet, View, TouchableOpacity, Text, ScrollView, AsyncStorage, Image
 } from 'react-native';
@@ -53,6 +54,7 @@ class SidebarMenu extends Component {
 
   render () {
     const { type, user } = this.state;
+    const { navigation } = this.props;
     return (
       <View style={{ flex: 1, paddingHorizontal: 30 }}>
         <View style={styles.topViewStyle}>
@@ -108,7 +110,10 @@ class SidebarMenu extends Component {
               <View
                 style={[styles.menuText, { flexDirection: 'row', justifyContent: 'space-between' }]}>
                 <TouchableOpacity
-                  onPress={() => this.props.navigation.navigate("HomeScreen")}>
+                  onPress={() => {
+                    navigation.navigate("HomeScreen");
+                    navigation.dispatch(DrawerActions.closeDrawer());
+                  }}>
                   <Text style={{ color: '#333333', textTransform: 'uppercase' }}>
                     Menu
                                  </Text>
@@ -118,7 +123,10 @@ class SidebarMenu extends Component {
 
               <TouchableOpacity
                 style={styles.menuText}
-                onPress={() => this.props.navigation.navigate('RecentOrdersScreen')}
+                onPress={() => {
+                  navigation.dispatch(DrawerActions.closeDrawer());
+                  navigation.navigate('RecentOrdersScreen')
+                }}
               >
                 <Text style={{ color: '#333333', textTransform: 'uppercase' }}>
                   Recent Orders
@@ -128,7 +136,10 @@ class SidebarMenu extends Component {
 
               <TouchableOpacity
                 style={styles.menuText}
-                onPress={() => this.props.navigation.navigate('CompletedOrdersScreen')}
+                onPress={() => {
+                  navigation.dispatch(DrawerActions.closeDrawer());
+                  navigation.navigate('CompletedOrdersScreen')
+                }}
               >
                 <Text style={{ color: '#333333', textTransform: 'uppercase' }}>
                   Completed Orders
@@ -139,7 +150,8 @@ class SidebarMenu extends Component {
               <TouchableOpacity
                 style={styles.menuText}
                 onPress={() => {
-                  this.props.navigation.navigate('EditRestaurantProfile');
+                  navigation.dispatch(DrawerActions.closeDrawer());
+                  navigation.navigate('EditRestaurantProfile');
                 }}
               >
                 <Text style={{ color: '#333333', textTransform: 'uppercase' }}>
@@ -153,7 +165,8 @@ class SidebarMenu extends Component {
                 onPress={() => {
                   AsyncStorage.clear();
                   this.props.clearStore();
-                  this.props.navigation.navigate('WelcomeScreen')
+                  navigation.dispatch(DrawerActions.closeDrawer());
+                  navigation.navigate('WelcomeScreen')
                 }}
               >
                 <Text style={{ color: '#333333', textTransform: 'uppercase' }}>
@@ -162,12 +175,14 @@ class SidebarMenu extends Component {
               </TouchableOpacity>
             </View>
           </ScrollView> :
-          // null :
           <ScrollView style={{ flex: 1 }}>
             <View style={styles.menu}>
               <TouchableOpacity
                 style={styles.menuText}
-                onPress={() => this.props.navigation.navigate('HomeScreen')}
+                onPress={() => {
+                  navigation.dispatch(DrawerActions.closeDrawer());
+                  navigation.navigate('HomeScreen')
+                }}
               >
                 <Text style={{ color: '#333333', textTransform: 'uppercase' }}>
                   Home
@@ -178,7 +193,11 @@ class SidebarMenu extends Component {
               <View
                 style={[styles.menuText, { flexDirection: 'row', justifyContent: 'space-between' }]}>
                 <TouchableOpacity
-                  onPress={() => this.props.navigation.navigate("RestaurantsScreen")}>
+                  onPress={() => {
+                    navigation.dispatch(DrawerActions.closeDrawer());
+                    navigation.navigate("RestaurantsScreen")
+                  }}
+                >
                   <Text style={{ color: '#333333', textTransform: 'uppercase' }}>
                     Restaurants Near me
                                  </Text>
@@ -188,7 +207,10 @@ class SidebarMenu extends Component {
 
               <TouchableOpacity
                 style={styles.menuText}
-                onPress={() => this.props.navigation.navigate('OrderScreen')}
+                onPress={() => {
+                  navigation.dispatch(DrawerActions.closeDrawer());
+                  navigation.navigate('OrderScreen')
+                }}
               >
                 <Text style={{ color: '#333333', textTransform: 'uppercase' }}>
                   My Orders
@@ -198,7 +220,10 @@ class SidebarMenu extends Component {
 
               <TouchableOpacity
                 style={styles.menuText}
-                onPress={() => this.props.navigation.navigate('ProfileScreen')}
+                onPress={() => {
+                  navigation.dispatch(DrawerActions.closeDrawer());
+                  navigation.navigate('ProfileScreen')
+                }}
               >
                 <Text style={{ color: '#333333', textTransform: 'uppercase' }}>
                   Profile
@@ -211,7 +236,8 @@ class SidebarMenu extends Component {
                 onPress={() => {
                   AsyncStorage.clear();
                   this.props.clearStore();
-                  this.props.navigation.navigate('WelcomeScreen')
+                  navigation.dispatch(DrawerActions.closeDrawer());
+                  navigation.navigate('WelcomeScreen')
                 }}
               >
                 <Text style={{ color: '#333333', textTransform: 'uppercase' }}>

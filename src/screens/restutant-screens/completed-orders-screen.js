@@ -18,6 +18,10 @@ class CompletedOrdersScreen extends Component {
         this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
     }
 
+    componentDidMount () {
+        this.props.fetchList();
+    }
+
     componentWillMount () {
         BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
     }
@@ -62,7 +66,7 @@ class CompletedOrdersScreen extends Component {
                     navigation={this.props.navigation}
                     fetchList={() => this.props.fetchList()}
                     list={deliveries && deliveries.filter(row => (
-                        row.orderStatus === 'COMPLETED' || row.orderStatus === 'CANCELLED'
+                        (row.orderStatus === 'COMPLETED' || row.orderStatus === 'CANCELLED') && row.order_items.length > 0
                     ))}
                 />
             </View>
