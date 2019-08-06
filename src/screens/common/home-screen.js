@@ -122,7 +122,7 @@ class HomeScreen extends Component {
 					: type === 'admin' ? <OwnerDashboard
 						navigation={this.props.navigation}
 					/> :
-						type === 'user' && region && region.latitude !== null ?
+						type === 'user' ?
 							<UserDashboard
 								region={this.state.region}
 								navigation={this.props.navigation}
