@@ -49,12 +49,7 @@ class ProfileScreen extends Component {
                     navigation={this.props.navigation}
                     title={'Profile'}
                 />
-                <ScrollView
-                    showsVerticalScrollIndicator={false}
-                    keyboardShouldPersistTaps="handled"
-                >
-                    <UserProfileForm navigation={this.props.navigation} />
-                </ScrollView>
+                <UserProfileForm navigation={this.props.navigation} />
                 <Toast
                     ref="toast"
                     position='bottom'

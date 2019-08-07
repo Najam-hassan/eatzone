@@ -2,7 +2,10 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import PhotoUpload from 'react-native-photo-upload';
 import { Field, reduxForm, change } from 'redux-form/immutable';
-import { View, Image, StyleSheet, Dimensions, ActivityIndicator, Keyboard } from 'react-native';
+import {
+    View, Image, StyleSheet, Dimensions, Platform,
+    ActivityIndicator, Keyboard, ScrollView, KeyboardAvoidingView
+} from 'react-native';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -55,15 +58,13 @@ class UserProfileForm extends Component {
         }
     }
 
-    render () {
+    renderFormBody = () => {
         const { loading, submitting, handleSubmit } = this.props;
-        if (loading && !this.state.submitting) {
-            return <View>
-                <ActivityIndicator color={'#1BA2FC'} size={'large'} />
-            </View>
-        }
         return (
-            <View style={styles.container}>
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+                keyboardShouldPersistTaps="handled"
+            >
                 <PhotoUpload
                     onPhotoSelect={avatar => {
                         if (avatar) {
@@ -132,7 +133,35 @@ class UserProfileForm extends Component {
                         />
                     }
                 </View>
-            </View>
+            </ScrollView>
+        )
+    }
+
+    render () {
+        const { loading, submitting, handleSubmit } = this.props;
+        if (loading && !this.state.submitting) {
+            return (
+                <View>
+                    <ActivityIndicator color={'#1BA2FC'} size={'large'} />
+                </View>
+            )
+        }
+
+        if (Platform.OS === 'android') {
+            return (
+                <View style={styles.container}>
+                    {this.renderFormBody()}
+                </View>
+            )
+        }
+
+        return (
+            <KeyboardAvoidingView
+                behavior="padding"
+                style={[styles.container]}
+                keyboardVerticalOffset={60}>
+                {this.renderFormBody()}
+            </KeyboardAvoidingView>
         )
     }
 }
@@ -168,7 +197,7 @@ const styles = StyleSheet.create({
         paddingTop: 30,
         alignItems: 'center',
         flexDirection: 'column',
-        justifyContent: 'space-between',
+        // justifyContent: 'space-between',
     },
     input: {
         borderRadius: 50,

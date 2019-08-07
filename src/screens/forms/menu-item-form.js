@@ -4,7 +4,8 @@ import Toast from 'react-native-easy-toast';
 import PhotoUpload from 'react-native-photo-upload';
 import { Field, reduxForm } from 'redux-form/immutable';
 import {
-	View, ActivityIndicator, StyleSheet, Dimensions, Image, Alert, ScrollView
+	View, ActivityIndicator, StyleSheet, Dimensions,
+	Image, Alert, ScrollView, Platform, KeyboardAvoidingView
 } from 'react-native';
 
 const { width, height } = Dimensions.get('screen');
@@ -66,8 +67,64 @@ class MenuItemForm extends Component {
 		}
 	};
 
+	renderFormBody = () => {
+		const { handleSubmit, submitting, loading, itemId } = this.props;
+		return (
+			<ScrollView
+				showsVerticalScrollIndicator={false}
+				keyboardShouldPersistTaps="handled"
+			>
+				<View style={{
+					alignItems: 'center',
+					flex: 1
+				}}>
+					<Field
+						name='name'
+						errorTextColor="red"
+						keyboardType='default'
+						component={InputField}
+						placeholder='Enter Item Name'
+						customContainerStyle={styles.input}
+						customInputStyle={{ color: "#000" }}
+					/>
+					<Field
+						name='price'
+						errorTextColor="red"
+						keyboardType='number-pad'
+						component={InputField}
+						placeholder='Price $'
+						customContainerStyle={styles.input}
+						customInputStyle={{ color: "#000" }}
+					/>
+					<Field
+						name='description'
+						errorTextColor="red"
+						keyboardType='default'
+						component={TextAreaFiled}
+						placeholder='Enter Item Description'
+						customContainerStyle={[styles.input, {
+							height: 100,
+							borderRadius: 10
+						}]}
+						description={true}
+						customInputStyle={{ color: "#000" }}
+					/>
+					{submitting || loading ?
+						<ActivityIndicator size="large" color="#1BA2FC" /> :
+						<Button
+							title={itemId ? "Update" : "Save"}
+							onPress={handleSubmit(this.onSubmit)}
+							style={styles.button}
+							textStyle={{ /* styles for button title */ }}
+						/>
+					}
+				</View>
+			</ScrollView>
+		)
+	}
+
 	render () {
-		const { handleSubmit, submitting, loading, itemId, imageUrl } = this.props;
+		const { imageUrl } = this.props;
 		const { imageLoading } = this.state;
 		return (
 			<View style={styles.container}>
@@ -112,65 +169,29 @@ class MenuItemForm extends Component {
 						/> : null}
 					</PhotoUpload>
 				</View>
-				<View style={{
-					top: -20,
-					flex: 0.6,
-					paddingTop: 25,
-					backgroundColor: '#fff',
-					borderTopLeftRadius: 15,
-					borderTopRightRadius: 15,
-				}}>
-					<ScrollView
-						showsVerticalScrollIndicator={false}
-						keyboardShouldPersistTaps="handled"
-					>
-						<View style={{
-							alignItems: 'center',
-							flex: 1
+				{Platform.OS === 'android' ?
+					<View style={{
+						top: -20,
+						flex: 0.6,
+						paddingTop: 25,
+						backgroundColor: '#fff',
+						borderTopLeftRadius: 15,
+						borderTopRightRadius: 15,
+					}}>
+						{this.renderFormBody()}
+					</View> : <KeyboardAvoidingView
+						behavior="padding"
+						keyboardVerticalOffset={60}
+						style={{
+							top: -20,
+							flex: 0.6,
+							paddingTop: 25,
+							backgroundColor: '#fff',
+							borderTopLeftRadius: 15,
+							borderTopRightRadius: 15,
 						}}>
-							<Field
-								name='name'
-								errorTextColor="red"
-								keyboardType='default'
-								component={InputField}
-								placeholder='Enter Item Name'
-								customContainerStyle={styles.input}
-								customInputStyle={{ color: "#000" }}
-							/>
-							<Field
-								name='price'
-								errorTextColor="red"
-								keyboardType='number-pad'
-								component={InputField}
-								placeholder='Price $'
-								customContainerStyle={styles.input}
-								customInputStyle={{ color: "#000" }}
-							/>
-							<Field
-								name='description'
-								errorTextColor="red"
-								keyboardType='default'
-								component={TextAreaFiled}
-								placeholder='Enter Item Description'
-								customContainerStyle={[styles.input, {
-									height: 100,
-									borderRadius: 10
-								}]}
-								description={true}
-								customInputStyle={{ color: "#000" }}
-							/>
-							{submitting || loading ?
-								<ActivityIndicator size="large" color="#1BA2FC" /> :
-								<Button
-									title={itemId ? "Update" : "Save"}
-									onPress={handleSubmit(this.onSubmit)}
-									style={styles.button}
-									textStyle={{ /* styles for button title */ }}
-								/>
-							}
-						</View>
-					</ScrollView>
-				</View>
+						{this.renderFormBody()}
+					</KeyboardAvoidingView>}
 				{/* </View> */}
 			</View >
 		);
