@@ -29,12 +29,12 @@ class CreateProfileScreen extends Component {
     componentWillReceiveProps (nextProps) {
         if (nextProps.profile && nextProps.profile.name) {
             this.props.change('name', nextProps.profile.name);
-
             this.props.change("collectionServiceCharges", "10");
             this.props.change("deliveryServiceCharges", "10");
             if (nextProps.profile.phone !== null) {
                 this.props.navigation.navigate('HomeScreen');
             }
+            this.props.resetState();
         }
     }
 
@@ -89,6 +89,7 @@ const mapDispatchToProps = dispatch => {
             dispatch(change("RestaurantProfileForm", fieldName, value))
         },
         onSubmit: values => dispatch(actions.updateProfileAction(values)),
+        resetState: () => dispatch(actions.resetState())
     }
 };
 

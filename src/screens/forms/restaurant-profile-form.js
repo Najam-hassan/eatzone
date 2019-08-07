@@ -9,7 +9,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import {
-  View, Text, StyleSheet, Dimensions, ScrollView,
+  View, Text, StyleSheet, Dimensions, ScrollView, Platform,
   TouchableOpacity, ActivityIndicator, Alert, KeyboardAvoidingView
 } from 'react-native';
 
@@ -229,430 +229,444 @@ class ProfileForm extends Component {
     }
   }
 
-  render () {
+  renderFormBody = () => {
     const { handleSubmit, submitting, loading, isEdit, isExisted } = this.props;
+    return (
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+      >
+        <View>
+          <Field
+            name='name'
+            errorTextColor="red"
+            keyboardType='default'
+            component={InputField}
+            placeholder={'Restaurant Name'}
+            customContainerStyle={styles.input}
+            customInputStyle={[styles.inputField]}
+          />
+          <Field
+            name='phone'
+            errorTextColor="red"
+            style={styles.input}
+            keyboardType='numeric'
+            component={InputField}
+            placeholder='Restaurant Phone No'
+            customContainerStyle={styles.input}
+            customInputStyle={[styles.inputField]}
+          />
+          <GooglePlacesAutocomplete
+            minLength={2}
+            autoFocus={false}
+            fetchDetails={true}
+            returnKeyType={'default'}
+            listViewDisplayed={false}
+            placeholderTextColor={"#000"}
+            enablePoweredByContainer={false}
+            placeholder={this.state.location}
+            onPress={(data, details = null) => {
+              this.props.checkResturantExist(details.id);
+              this.mapView && this.mapView.animateToRegion(details.geometry.location, 500)
+              this.setState({
+                googlePlaceId: details.id,
+                location:
+                  details.name,
+                region: {
+                  ...this.state.region,
+                  latitude: details.geometry.location.lat,
+                  longitude: details.geometry.location.lng,
+                }
+              });
+            }}
+            query={{
+              key: 'AIzaSyBJX4U1PDcgBCoR6gL4mCVedWFApQ8MWTs',
+              language: 'en',
+              components: 'country:pk'
+            }}
+            styles={{
+              textInputContainer: {
+                borderTopWidth: 0,
+                borderBottomWidth: 0,
+                height: 50,
+              },
+              container: {
+                // width: width - 50,
+                paddingTop: 20,
+                borderColor: '#000',
+                borderBottomWidth: 1,
+                borderBottomColor: '#d9d9d9',
+              },
+              textInput: {
+                marginLeft: 0,
+                marginRight: 0,
+                paddingLeft: 0,
+                paddingRight: 0,
+                height: 50,
+                color: "#2b2b2b",
+                fontSize: 16,
+                marginTop: 0,
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                borderRadius: 0,
+              },
+              predefinedPlacesDescription: {
+                color: '#2b2b2b',
+              },
+            }}
+            currentLocation={false}
+            GooglePlacesDetailsQuery={{
+              fields: 'formatted_address',
+            }}
+            debounce={0}
+          />
+          {isExisted && isExisted.code === 400 ?
+            <Text style={styles.errorTextStyle}>
+              {isExisted.message}
+            </Text> : null}
+          <Field
+            name='addressDetails'
+            errorTextColor="red"
+            style={styles.input}
+            keyboardType='default'
+            component={InputField}
+            notRequired={true}
+            placeholder='Add More Details'
+            customContainerStyle={styles.input}
+            customInputStyle={[styles.inputField]}
+          />
+          <Field
+            name='websiteUrl'
+            errorTextColor="red"
+            style={styles.input}
+            keyboardType='default'
+            component={InputField}
+            notRequired={true}
+            placeholder='Website URL'
+            customContainerStyle={styles.input}
+            customInputStyle={[styles.inputField]}
+          />
+          <View style={styles.checkBoxRow}>
+            <CheckBox
+              checked={this.state.canCollect}
+              textStyle={styles.checkBoxText}
+              title='Allow other restaurant foods'
+              containerStyle={styles.checkBoxContainer}
+              onPress={() => {
+                const { canCollect } = this.state;
+                this.setState({ canCollect: !canCollect })
+              }}
+            />
+            <Text style={styles.checkBoxDescrip}>
+              Please take the bill from customer ordering restaurant and generate a new a new bill with your service charges.
+              </Text>
+          </View>
+          {this.state.canCollect ?
+            <View style={styles.permission}>
+              <Text style={[styles.timeText, {
+                marginTop: 16, fontSize: 16, fontWeight: '600'
+              }]}>
+                Select prefer time
+                                </Text>
+              <View style={styles.timeRange}>
+                <View>
+                  <TouchableOpacity
+                    onPress={() => this.collectStartTime.open()}
+                    style={styles.timeInput}
+                  >
+                    <Text style={styles.timeText}>Start Time *</Text>
+                  </TouchableOpacity>
+                  {this.state.collect.collectTimeStart !== '' ?
+                    <Text
+                      onPress={() => this.collectStartTime.open()}
+                      style={styles.text}
+                    >
+                      {moment(this.state.collect.collectTimeStart, "h:mm:ss").format("h:mm A")}
+                    </Text> : <Text
+                      onPress={() => this.collectStartTime.open()}
+                      style={styles.text}
+                    >
+                      Select Time
+                      </Text>}
+                  <TimePicker
+                    ref={ref => {
+                      this.collectStartTime = ref;
+                    }}
+                    onCancel={() => {
+                      this.collectStartTime.close();
+                    }}
+                    onConfirm={(hour, minute) => {
+                      this.setState({
+                        collect: {
+                          ...this.state.collect,
+                          collectTimeStart: `${hour}:${minute}`
+                        }
+                      });
+                      this.collectStartTime.close();
+                    }}
+                  />
+                </View>
+                <View>
+                  <TouchableOpacity
+                    onPress={() => this.collectEndTime.open()}
+                    style={styles.timeInput}
+                  >
+                    <Text style={styles.timeText}>End Time *</Text>
+                  </TouchableOpacity>
+                  {this.state.collect.collectTimeEnd !== '' ?
+                    <Text
+                      onPress={() => this.collectEndTime.open()}
+                      style={styles.text}
+                    >
+                      {moment(this.state.collect.collectTimeEnd, "h:mm:ss").format("h:mm A")}
+                    </Text> : <Text
+                      onPress={() => this.collectEndTime.open()}
+                      style={styles.text}
+                    >
+                      Select Time
+                      </Text>}
+                  <TimePicker
+                    ref={ref => {
+                      this.collectEndTime = ref;
+                    }}
+                    onCancel={() => this.onCancel()}
+                    onConfirm={(hour, minute) => {
+                      this.setState({
+                        collect: {
+                          ...this.state.collect,
+                          collectTimeEnd: `${hour}:${minute}`
+                        }
+                      });
+                      this.collectEndTime.close();
+                    }}
+                  />
+                </View>
+              </View>
+              <Field
+                name='collectionServiceCharges'
+                errorTextColor="red"
+                style={styles.input}
+                keyboardType='numeric'
+                component={InputField}
+                placeholder='Service Charges %'
+                customContainerStyle={styles.input}
+                customInputStyle={[styles.inputField, { paddingVertical: 22, }]}
+              />
+
+            </View> : null
+          }
+          <View style={styles.checkBoxRow}>
+            <CheckBox
+              checked={this.state.canDeliver}
+              textStyle={styles.checkBoxText}
+              containerStyle={styles.checkBoxContainer}
+              title='Offer your food to be served to other restaurants'
+              onPress={() => {
+                const { canDeliver } = this.state;
+                this.setState({ canDeliver: !canDeliver })
+              }}
+            />
+            <Text style={styles.checkBoxDescrip}>
+              You will receive orders through app notifications or directly (through phone #), customer who order from neighbouring restaurants, please deliver their order and give bill (including your service charges).
+              </Text>
+          </View>
+          {this.state.canDeliver ?
+            <View style={styles.multiSlider}>
+              <View style={styles.multiSliderRow}>
+                <View style={{
+                  flexDirection: 'row', justifyContent: 'space-between'
+                }}>
+                  <Text style={styles.radiusText}>1Km</Text>
+                  <Text style={styles.radiusText}>
+                    {this.state.sliderOneValue[0]}Km
+                                        </Text>
+                  <Text style={styles.radiusText}>20Km</Text>
+                </View>
+                <MultiSlider
+                  values={this.state.sliderOneValue}
+                  sliderLength={width - 55}
+                  onValuesChange={(values) => {
+                    this.sliderOneValuesChange(values)
+                  }}
+                  min={1}
+                  max={20}
+                  step={1}
+                  trackStyle={{
+                    backgroundColor: '#d9d9d9',
+                    height: 5,
+                    borderRadius: 10,
+                  }}
+                  selectedStyle={{
+                    backgroundColor: '#00a0ff'
+                  }}
+                  markerStyle={styles.markerStyle}
+                  containerStyle={{ padding: 12 }}
+                />
+              </View>
+              <View style={
+                {
+                  height: 340,
+                  marginTop: 10,
+                }}>
+                <MapView
+                  ref={'mapview'}
+                  region={this.state.region}
+                  style={{
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    position: 'absolute',
+                  }}
+                  // maxZoomLevel={8}
+                  zoomEnabled={false}
+                  pitchEnabled={true}
+                  rotateEnabled={true}
+                  scrollEnabled={false}
+                  loadingEnabled={true}
+                  loadingIndicatorColor={"#E6464D"}
+                  loadingBackgroundColor={'rgba(0,0,0,0.3)'}
+                >
+                  <MapView.Circle
+                    ref={'mapview'}
+                    strokeWidth={1}
+                    strokeColor="#95989A"
+                    key={this.state.region}
+                    center={this.state.region}
+                    fillColor={'rgba(255,255,255,0.6)'}
+                    radius={this.state.sliderOneValue[0] * 1000}
+                  />
+                  <Marker
+                    coordinate={this.state.region}
+                  >
+                    <Icon name="map-marker" size={40} color="#E6464D" />
+                  </Marker>
+                </MapView>
+              </View>
+              <Text style={[styles.timeText, {
+                marginTop: 16, fontSize: 16, fontWeight: '600'
+              }]}>
+                Select prefer time
+                                </Text>
+              <View style={styles.timeRange}>
+                <View>
+                  <TouchableOpacity
+                    onPress={() => this.deliverStartTime.open()}
+                    style={styles.timeInput}
+                  >
+                    <Text style={styles.timeText}>Start Time *</Text>
+                  </TouchableOpacity>
+
+                  {this.state.deliver.deliverTimeStart !== '' ?
+                    <Text
+                      onPress={() => this.deliverStartTime.open()}
+                      style={styles.text}
+                    >
+                      {moment(this.state.deliver.deliverTimeStart, "h:mm:ss").format("h:mm A")}
+                    </Text> : <Text
+                      onPress={() => this.deliverStartTime.open()}
+                      style={styles.text}
+                    >
+                      Select Time
+                      </Text>}
+                  <TimePicker
+                    ref={ref => {
+                      this.deliverStartTime = ref;
+                    }}
+                    onCancel={() => {
+                      this.deliverStartTime.close()
+                    }}
+                    onConfirm={(hour, minute) => {
+                      this.setState({
+                        deliver: {
+                          ...this.state.deliver,
+                          deliverTimeStart: `${hour}:${minute}`
+                        }
+                      });
+                      this.deliverStartTime.close();
+                    }}
+                  />
+                </View>
+                <View>
+                  <TouchableOpacity
+                    onPress={() => this.deliverEndTime.open()}
+                    style={styles.timeInput}
+                  >
+                    <Text style={styles.timeText}>End Time *</Text>
+                  </TouchableOpacity>
+
+                  {this.state.deliver.deliverTimeEnd !== '' ?
+                    <Text
+                      onPress={() => this.deliverEndTime.open()}
+                      style={styles.text}
+                    >
+                      {moment(this.state.deliver.deliverTimeEnd, "h:mm:ss").format("h:mm A")}
+                    </Text> : <Text
+                      onPress={() => this.deliverEndTime.open()}
+                      style={styles.text}
+                    >
+                      Select Time
+                      </Text>}
+                  <TimePicker
+                    ref={ref => {
+                      this.deliverEndTime = ref;
+                    }}
+                    onCancel={() => this.onCancel()}
+                    onConfirm={(hour, minute) => {
+                      this.setState({
+                        deliver: {
+                          ...this.state.deliver,
+                          deliverTimeEnd: `${hour}:${minute}`
+                        }
+                      });
+                      this.deliverEndTime.close();
+                    }}
+                  />
+                </View>
+              </View>
+              <Field
+                errorTextColor="red"
+                style={styles.input}
+                keyboardType='numeric'
+                component={InputField}
+                name='deliveryServiceCharges'
+                placeholder='Service Charges %'
+                customContainerStyle={styles.input}
+                customInputStyle={[styles.inputField, { paddingVertical: 22, }]}
+              />
+            </View> : null
+          }
+          {submitting || (!this.state.editing && loading) ?
+            <ActivityIndicator size="large" color="#1BA2FC" /> :
+            <Button
+              title={isEdit ? "Update" : "Continue"}
+              onPress={handleSubmit(this.onSubmit)}
+              style={styles.button}
+              textStyle={{ /* styles for button title */ }}
+            />
+          }
+        </View>
+      </ScrollView>
+    )
+  }
+
+
+  render () {
+    if (Platform.OS === 'android') {
+      return (
+        <View style={styles.container}>
+          {this.renderFormBody()}
+        </View>
+      )
+    }
     return (
       <KeyboardAvoidingView
         style={[styles.container]}
         behavior="padding"
         keyboardVerticalOffset={20}>
-        <ScrollView
-          keyboardShouldPersistTaps="handled"
-          showsVerticalScrollIndicator={false}
-        >
-          <View>
-            <Field
-              name='name'
-              errorTextColor="red"
-              keyboardType='default'
-              component={InputField}
-              placeholder={'Restaurant Name'}
-              customContainerStyle={styles.input}
-              customInputStyle={[styles.inputField]}
-            />
-            <Field
-              name='phone'
-              errorTextColor="red"
-              style={styles.input}
-              keyboardType='numeric'
-              component={InputField}
-              placeholder='Restaurant Phone No'
-              customContainerStyle={styles.input}
-              customInputStyle={[styles.inputField]}
-            />
-            <GooglePlacesAutocomplete
-              minLength={2}
-              autoFocus={false}
-              fetchDetails={true}
-              returnKeyType={'default'}
-              listViewDisplayed={false}
-              placeholderTextColor={"#000"}
-              enablePoweredByContainer={false}
-              placeholder={this.state.location}
-              onPress={(data, details = null) => {
-                this.props.checkResturantExist(details.id);
-                this.mapView && this.mapView.animateToRegion(details.geometry.location, 500)
-                this.setState({
-                  googlePlaceId: details.id,
-                  location:
-                    details.name,
-                  region: {
-                    ...this.state.region,
-                    latitude: details.geometry.location.lat,
-                    longitude: details.geometry.location.lng,
-                  }
-                });
-              }}
-              query={{
-                key: 'AIzaSyBJX4U1PDcgBCoR6gL4mCVedWFApQ8MWTs',
-                language: 'en',
-                components: 'country:pk'
-              }}
-              styles={{
-                textInputContainer: {
-                  borderTopWidth: 0,
-                  borderBottomWidth: 0,
-                  height: 50,
-                },
-                container: {
-                  // width: width - 50,
-                  paddingTop: 20,
-                  borderColor: '#000',
-                  borderBottomWidth: 1,
-                  borderBottomColor: '#d9d9d9',
-                },
-                textInput: {
-                  marginLeft: 0,
-                  marginRight: 0,
-                  paddingLeft: 0,
-                  paddingRight: 0,
-                  height: 50,
-                  color: "#2b2b2b",
-                  fontSize: 16,
-                  marginTop: 0,
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  borderRadius: 0,
-                },
-                predefinedPlacesDescription: {
-                  color: '#2b2b2b',
-                },
-              }}
-              currentLocation={false}
-              GooglePlacesDetailsQuery={{
-                fields: 'formatted_address',
-              }}
-              debounce={0}
-            />
-            {isExisted && isExisted.code === 400 ?
-              <Text style={styles.errorTextStyle}>
-                {isExisted.message}
-              </Text> : null}
-            <Field
-              name='addressDetails'
-              errorTextColor="red"
-              style={styles.input}
-              keyboardType='default'
-              component={InputField}
-              notRequired={true}
-              placeholder='Add More Details'
-              customContainerStyle={styles.input}
-              customInputStyle={[styles.inputField]}
-            />
-            <Field
-              name='websiteUrl'
-              errorTextColor="red"
-              style={styles.input}
-              keyboardType='default'
-              component={InputField}
-              notRequired={true}
-              placeholder='Website URL'
-              customContainerStyle={styles.input}
-              customInputStyle={[styles.inputField]}
-            />
-            <View style={styles.checkBoxRow}>
-              <CheckBox
-                checked={this.state.canCollect}
-                textStyle={styles.checkBoxText}
-                title='Allow other restaurant foods'
-                containerStyle={styles.checkBoxContainer}
-                onPress={() => {
-                  const { canCollect } = this.state;
-                  this.setState({ canCollect: !canCollect })
-                }}
-              />
-              <Text style={styles.checkBoxDescrip}>
-                Please take the bill from customer ordering restaurant and generate a new a new bill with your service charges.
-              </Text>
-            </View>
-            {this.state.canCollect ?
-              <View style={styles.permission}>
-                <Text style={[styles.timeText, {
-                  marginTop: 16, fontSize: 16, fontWeight: '600'
-                }]}>
-                  Select prefer time
-                                </Text>
-                <View style={styles.timeRange}>
-                  <View>
-                    <TouchableOpacity
-                      onPress={() => this.collectStartTime.open()}
-                      style={styles.timeInput}
-                    >
-                      <Text style={styles.timeText}>Start Time *</Text>
-                    </TouchableOpacity>
-                    {this.state.collect.collectTimeStart !== '' ?
-                      <Text
-                        onPress={() => this.collectStartTime.open()}
-                        style={styles.text}
-                      >
-                        {moment(this.state.collect.collectTimeStart, "h:mm:ss").format("h:mm A")}
-                      </Text> : <Text
-                        onPress={() => this.collectStartTime.open()}
-                        style={styles.text}
-                      >
-                        Select Time
-                      </Text>}
-                    <TimePicker
-                      ref={ref => {
-                        this.collectStartTime = ref;
-                      }}
-                      onCancel={() => {
-                        this.collectStartTime.close();
-                      }}
-                      onConfirm={(hour, minute) => {
-                        this.setState({
-                          collect: {
-                            ...this.state.collect,
-                            collectTimeStart: `${hour}:${minute}`
-                          }
-                        });
-                        this.collectStartTime.close();
-                      }}
-                    />
-                  </View>
-                  <View>
-                    <TouchableOpacity
-                      onPress={() => this.collectEndTime.open()}
-                      style={styles.timeInput}
-                    >
-                      <Text style={styles.timeText}>End Time *</Text>
-                    </TouchableOpacity>
-                    {this.state.collect.collectTimeEnd !== '' ?
-                      <Text
-                        onPress={() => this.collectEndTime.open()}
-                        style={styles.text}
-                      >
-                        {moment(this.state.collect.collectTimeEnd, "h:mm:ss").format("h:mm A")}
-                      </Text> : <Text
-                        onPress={() => this.collectEndTime.open()}
-                        style={styles.text}
-                      >
-                        Select Time
-                      </Text>}
-                    <TimePicker
-                      ref={ref => {
-                        this.collectEndTime = ref;
-                      }}
-                      onCancel={() => this.onCancel()}
-                      onConfirm={(hour, minute) => {
-                        this.setState({
-                          collect: {
-                            ...this.state.collect,
-                            collectTimeEnd: `${hour}:${minute}`
-                          }
-                        });
-                        this.collectEndTime.close();
-                      }}
-                    />
-                  </View>
-                </View>
-                <Field
-                  name='collectionServiceCharges'
-                  errorTextColor="red"
-                  style={styles.input}
-                  keyboardType='numeric'
-                  component={InputField}
-                  placeholder='Service Charges %'
-                  customContainerStyle={styles.input}
-                  customInputStyle={[styles.inputField, { paddingVertical: 22, }]}
-                />
-
-              </View> : null
-            }
-            <View style={styles.checkBoxRow}>
-              <CheckBox
-                checked={this.state.canDeliver}
-                textStyle={styles.checkBoxText}
-                containerStyle={styles.checkBoxContainer}
-                title='Want serve food outside of your restaurant'
-                onPress={() => {
-                  const { canDeliver } = this.state;
-                  this.setState({ canDeliver: !canDeliver })
-                }}
-              />
-              <Text style={styles.checkBoxDescrip}>
-                You will receive orders through app notifications or directly (through phone #). Customer who order from neighbouring restaurants, please deliver their order and give bill (including your service charges).
-              </Text>
-            </View>
-            {this.state.canDeliver ?
-              <View style={styles.multiSlider}>
-                <View style={styles.multiSliderRow}>
-                  <View style={{
-                    flexDirection: 'row', justifyContent: 'space-between'
-                  }}>
-                    <Text style={styles.radiusText}>1Km</Text>
-                    <Text style={styles.radiusText}>
-                      {this.state.sliderOneValue[0]}Km
-                                        </Text>
-                    <Text style={styles.radiusText}>20Km</Text>
-                  </View>
-                  <MultiSlider
-                    values={this.state.sliderOneValue}
-                    sliderLength={width - 55}
-                    onValuesChange={(values) => {
-                      this.sliderOneValuesChange(values)
-                    }}
-                    min={1}
-                    max={20}
-                    step={1}
-                    trackStyle={{
-                      backgroundColor: '#d9d9d9',
-                      height: 5,
-                      borderRadius: 10,
-                    }}
-                    selectedStyle={{
-                      backgroundColor: '#00a0ff'
-                    }}
-                    markerStyle={styles.markerStyle}
-                    containerStyle={{ padding: 12 }}
-                  />
-                </View>
-                <View style={
-                  {
-                    height: 340,
-                    marginTop: 10,
-                  }}>
-                  <MapView
-                    ref={'mapview'}
-                    region={this.state.region}
-                    style={{
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      position: 'absolute',
-                    }}
-                    // maxZoomLevel={8}
-                    zoomEnabled={false}
-                    pitchEnabled={true}
-                    rotateEnabled={true}
-                    scrollEnabled={false}
-                    loadingEnabled={true}
-                    loadingIndicatorColor={"#E6464D"}
-                    loadingBackgroundColor={'rgba(0,0,0,0.3)'}
-                  >
-                    <MapView.Circle
-                      ref={'mapview'}
-                      strokeWidth={1}
-                      strokeColor="#95989A"
-                      key={this.state.region}
-                      center={this.state.region}
-                      fillColor={'rgba(255,255,255,0.6)'}
-                      radius={this.state.sliderOneValue[0] * 1000}
-                    />
-                    <Marker
-                      coordinate={this.state.region}
-                    >
-                      <Icon name="map-marker" size={40} color="#E6464D" />
-                    </Marker>
-                  </MapView>
-                </View>
-                <Text style={[styles.timeText, {
-                  marginTop: 16, fontSize: 16, fontWeight: '600'
-                }]}>
-                  Select prefer time
-                                </Text>
-                <View style={styles.timeRange}>
-                  <View>
-                    <TouchableOpacity
-                      onPress={() => this.deliverStartTime.open()}
-                      style={styles.timeInput}
-                    >
-                      <Text style={styles.timeText}>Start Time *</Text>
-                    </TouchableOpacity>
-
-                    {this.state.deliver.deliverTimeStart !== '' ?
-                      <Text
-                        onPress={() => this.deliverStartTime.open()}
-                        style={styles.text}
-                      >
-                        {moment(this.state.deliver.deliverTimeStart, "h:mm:ss").format("h:mm A")}
-                      </Text> : <Text
-                        onPress={() => this.deliverStartTime.open()}
-                        style={styles.text}
-                      >
-                        Select Time
-                      </Text>}
-                    <TimePicker
-                      ref={ref => {
-                        this.deliverStartTime = ref;
-                      }}
-                      onCancel={() => {
-                        this.deliverStartTime.close()
-                      }}
-                      onConfirm={(hour, minute) => {
-                        this.setState({
-                          deliver: {
-                            ...this.state.deliver,
-                            deliverTimeStart: `${hour}:${minute}`
-                          }
-                        });
-                        this.deliverStartTime.close();
-                      }}
-                    />
-                  </View>
-                  <View>
-                    <TouchableOpacity
-                      onPress={() => this.deliverEndTime.open()}
-                      style={styles.timeInput}
-                    >
-                      <Text style={styles.timeText}>End Time *</Text>
-                    </TouchableOpacity>
-
-                    {this.state.deliver.deliverTimeEnd !== '' ?
-                      <Text
-                        onPress={() => this.deliverEndTime.open()}
-                        style={styles.text}
-                      >
-                        {moment(this.state.deliver.deliverTimeEnd, "h:mm:ss").format("h:mm A")}
-                      </Text> : <Text
-                        onPress={() => this.deliverEndTime.open()}
-                        style={styles.text}
-                      >
-                        Select Time
-                      </Text>}
-                    <TimePicker
-                      ref={ref => {
-                        this.deliverEndTime = ref;
-                      }}
-                      onCancel={() => this.onCancel()}
-                      onConfirm={(hour, minute) => {
-                        this.setState({
-                          deliver: {
-                            ...this.state.deliver,
-                            deliverTimeEnd: `${hour}:${minute}`
-                          }
-                        });
-                        this.deliverEndTime.close();
-                      }}
-                    />
-                  </View>
-                </View>
-                <Field
-                  errorTextColor="red"
-                  style={styles.input}
-                  keyboardType='numeric'
-                  component={InputField}
-                  name='deliveryServiceCharges'
-                  placeholder='Service Charges %'
-                  customContainerStyle={styles.input}
-                  customInputStyle={[styles.inputField, { paddingVertical: 22, }]}
-                />
-              </View> : null
-            }
-            {submitting || (!this.state.editing && loading) ?
-              <ActivityIndicator size="large" color="#1BA2FC" /> :
-              <Button
-                title={isEdit ? "Update" : "Continue"}
-                onPress={handleSubmit(this.onSubmit)}
-                style={styles.button}
-                textStyle={{ /* styles for button title */ }}
-              />
-            }
-          </View>
-        </ScrollView>
+        {this.renderFormBody()}
       </KeyboardAvoidingView>
     )
   }

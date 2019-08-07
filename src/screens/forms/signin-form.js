@@ -73,7 +73,7 @@ class SignInForm extends Component {
                 </View>
                 <View style={{ marginTop: 80 }}>
                     <Text style={styles.textStyle}>
-                        Doesn't have an account yet?
+                        Don't have an account yet?
                             <Text
                             style={styles.signUpTextStyle}
                             onPress={() => this.props.navigateTo('SignUpScreen')}

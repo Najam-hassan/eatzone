@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2.7</string>
+	<string>2.8</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -55,6 +55,10 @@
 	<string>Food all in one would like to use your location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Food all in one would like to use your location</string>
+	<key>NSMainNibFile</key>
+	<string>LaunchScreen</string>
+	<key>NSMainNibFile~ipad</key>
+	<string>LaunchScreen</string>
 	<key>NSMotionUsageDescription</key>
 	<string>Food all in one would</string>
 	<key>NSPhotoLibraryUsageDescription</key>

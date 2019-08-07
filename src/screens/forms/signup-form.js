@@ -27,13 +27,13 @@ class SignUpForm extends Component {
     }
 
     render () {
-        const { handleSubmit, submitting, loading } = this.props;
+        const { handleSubmit, submitting, loading, userType } = this.props;
         return (
             <View style={styles.container}>
                 <View>
                     <Field
                         name='name'
-                        placeholder='Name'
+                        placeholder={userType === 'admin' ? 'Restaurant Name' : 'Name'}
                         errorTextColor="red"
                         component={InputField}
                         keyboardType='default'
