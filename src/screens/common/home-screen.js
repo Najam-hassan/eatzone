@@ -34,7 +34,10 @@ class HomeScreen extends Component {
 		this.setState({ loading: Platform.OS === 'ios' });
 		const type = await AsyncStorage.getItem('user_type');
 		if (type === 'admin') {
-			this.setState({ type: 'admin' });
+			this.setState({
+				type: 'admin',
+				loading: false
+			});
 		} else {
 			Platform.OS === 'ios' && await this.getCurrentPositionIos()
 			this.setState({ type: 'user' });

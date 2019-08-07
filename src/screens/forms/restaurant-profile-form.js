@@ -9,7 +9,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import {
-  View, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity, ActivityIndicator, Alert
+  View, Text, StyleSheet, Dimensions, ScrollView,
+  TouchableOpacity, ActivityIndicator, Alert, KeyboardAvoidingView
 } from 'react-native';
 
 const { width, height } = Dimensions.get('screen');
@@ -231,7 +232,9 @@ class ProfileForm extends Component {
   render () {
     const { handleSubmit, submitting, loading, isEdit, isExisted } = this.props;
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={[styles.container, {
+        justifyContent: 'center',
+      }]} behavior="padding" enabled keyboardVerticalOffset={20}>
         <ScrollView
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
@@ -360,8 +363,8 @@ class ProfileForm extends Component {
                 }}
               />
               <Text style={styles.checkBoxDescrip}>
-                Please take the bill from customer ordering restatrant and generate a new a new bill with your service charges
-                            </Text>
+                Please take the bill from customer ordering restaurant and generate a new a new bill with your service charges.
+              </Text>
             </View>
             {this.state.canCollect ?
               <View style={styles.permission}>
@@ -469,8 +472,8 @@ class ProfileForm extends Component {
                 }}
               />
               <Text style={styles.checkBoxDescrip}>
-                You will receive orders through app notifications or directly (through phone #).Customer who order from neighboring resturants, please deleiver their order and give bill (including your service charges)
-                            </Text>
+                You will receive orders through app notifications or directly (through phone #). Customer who order from neighbouring restaurants, please deliver their order and give bill (including your service charges).
+              </Text>
             </View>
             {this.state.canDeliver ?
               <View style={styles.multiSlider}>
@@ -649,7 +652,7 @@ class ProfileForm extends Component {
             }
           </View>
         </ScrollView>
-      </View>
+      </KeyboardAvoidingView>
     )
   }
 }

@@ -43,7 +43,7 @@ class CompletedOrdersScreen extends Component {
                     <StatusBar hidden={false} />
                     <Header
                         navigation={this.props.navigation}
-                        title={'Recent Orders'}
+                        title={'Completed Orders'}
                     />
                     <ActivityIndicator size={'large'} color={'#1BA2FC'} />
                 </View>
