@@ -232,9 +232,10 @@ class ProfileForm extends Component {
   render () {
     const { handleSubmit, submitting, loading, isEdit, isExisted } = this.props;
     return (
-      <KeyboardAvoidingView style={[styles.container, {
-        justifyContent: 'center',
-      }]} behavior="padding" enabled keyboardVerticalOffset={20}>
+      <KeyboardAvoidingView
+        style={[styles.container]}
+        behavior="padding"
+        keyboardVerticalOffset={20}>
         <ScrollView
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
