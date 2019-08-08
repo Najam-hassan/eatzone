@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import PhotoUpload from 'react-native-photo-upload';
@@ -51,6 +52,8 @@ class SidebarMenu extends Component {
   uploadPhoto (avatar) {
     this.props.updateProfile({ bannerData: avatar });
   }
+
+  logout = (url) => (axios.post(url));
 
   render () {
     const { type, user } = this.state;
@@ -165,13 +168,14 @@ class SidebarMenu extends Component {
                 onPress={() => {
                   AsyncStorage.clear();
                   this.props.clearStore();
+                  this.logout('/restaurant/sign_out');
                   navigation.dispatch(DrawerActions.closeDrawer());
-                  navigation.navigate('WelcomeScreen')
+                  navigation.navigate('WelcomeScreen');
                 }}
               >
                 <Text style={{ color: '#333333', textTransform: 'uppercase' }}>
                   Logout
-                            </Text>
+                </Text>
               </TouchableOpacity>
             </View>
           </ScrollView> :
@@ -236,13 +240,14 @@ class SidebarMenu extends Component {
                 onPress={() => {
                   AsyncStorage.clear();
                   this.props.clearStore();
+                  this.logout('/user/sign_out');
                   navigation.dispatch(DrawerActions.closeDrawer());
                   navigation.navigate('WelcomeScreen')
                 }}
               >
                 <Text style={{ color: '#333333', textTransform: 'uppercase' }}>
                   Logout
-                            </Text>
+                </Text>
               </TouchableOpacity>
             </View>
           </ScrollView>
