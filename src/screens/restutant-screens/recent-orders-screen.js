@@ -95,13 +95,13 @@ class RecentOrdersScreen extends Component {
                 navigation={this.props.navigation}
                 fetchList={() => this.props.fetchList()}
                 list={deliveries && deliveries.filter(row => (
-                  (row.orderStatus === 'CONFIRMED' || row.orderStatus === 'PENDING')) && row.order_items.length > 0
-                )}
+                  row.orderStatus === 'CONFIRMED' || row.orderStatus === 'PENDING'
+                ))}
               />
             ),
             second: () => (
               <OrdersContainer
-                list={collections.filter(row => row.order_items.length > 0)}
+                list={collections}
                 isDelivery={false}
                 isCollecting={true}
                 navigation={this.props.navigation}

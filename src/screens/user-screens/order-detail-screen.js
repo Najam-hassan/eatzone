@@ -19,8 +19,8 @@ class OrderDetailScreen extends Component {
 
     componentDidMount () {
         const { params } = this.props.navigation.state;
-        const subTotal = params.details.order_items.reduce((sum, item) => (
-            sum + (item.itemQuantity * item.menu_item.price)
+        const subTotal = params.details.orderItinerary.reduce((sum, item) => (
+            sum + (item.itemQuantity * item.itemPrice)
         ), 0);
         this.setState({ subTotal: subTotal })
     }
@@ -99,10 +99,10 @@ class OrderDetailScreen extends Component {
                         <View style={styles.orderDetail}>
                             <Text style={styles.titleText}>Order Details</Text>
                             <View styles={{ flexDirection: 'column' }}>
-                                {params && params.details.order_items.map(item => (
+                                {params && params.details.orderItinerary.map(item => (
                                     <View style={styles.itemDetailsStyle}>
                                         <Text style={styles.descripText}>
-                                            {item.menu_item.name}
+                                            {item.itemName}
                                         </Text>
                                         <Text style={styles.descripText}>
                                             Qty: {item.itemQuantity}

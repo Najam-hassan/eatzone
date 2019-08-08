@@ -20,7 +20,7 @@ export function conversion (value) {
 export const calculateCost = (items, charges) => {
     let total = 0;
     items.forEach(item => {
-        total = total + item.itemQuantity * item.menu_item.price;
+        total = total + item.itemQuantity * item.itemPrice;
     });
     if (charges) {
         return (total + (total * 0.16) + (total * `0.${charges.deliveryServiceCharges}`)).toFixed(2);

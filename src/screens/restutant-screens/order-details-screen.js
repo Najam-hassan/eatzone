@@ -2,8 +2,8 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import {
-  View, Text, StatusBar, StyleSheet,
-  Image, ActivityIndicator, BackHandler
+  View, Text, StatusBar, StyleSheet, Platform,
+  Image, ActivityIndicator, BackHandler, Linking
 } from 'react-native';
 
 import Button from '../../components/common/button';
@@ -66,9 +66,9 @@ class OrderDetailsScreen extends Component {
           key={item.id}
           style={styles.orderItemContainer}
         >
-          <Text style={styles.orderDescrip}>{item && item.menu_item.name || ''}</Text>
+          <Text style={styles.orderDescrip}>{item && item.itemName || ''}</Text>
           <Text style={styles.orderQuantity}>Qty: {item && item.itemQuantity || ''}</Text>
-          <Text style={styles.orderPrice}>${item && item.menu_item.price || ''}</Text>
+          <Text style={styles.orderPrice}>${item && item.itemPrice || ''}</Text>
         </View>
       </View>
     )
@@ -100,11 +100,11 @@ class OrderDetailsScreen extends Component {
           <View style={styles.orderDetails}>
             <Text style={styles.userInfo}>Order Id: {params.details.id}</Text>
             <Text style={styles.userInfo}>Total: ${
-              calculateCost(params.details.order_items, params.details.deliveringRestaurant)
+              calculateCost(params.details.orderItinerary, params.details.deliveringRestaurant)
             }</Text>
           </View>
         </View>
-        {params.details.order_items.map((item, index) => (
+        {params.details.orderItinerary.map((item, index) => (
           this.renderOrderItems(item, index)
         ))}
         <View style={styles.actionContainer}>

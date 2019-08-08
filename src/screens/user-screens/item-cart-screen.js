@@ -267,9 +267,9 @@ class CartScreen extends Component {
     const orderArr = _.flatMap(cartItems, category =>
       _(category.menu_items)
         .map(menuItem => ({
-          menuCategoryId: category.id,
+          itemName: menuItem.name,
           itemQuantity: menuItem.quantity,
-          menuItemId: menuItem.id
+          itemPrice: menuItem.price
         })).value()
     );
 

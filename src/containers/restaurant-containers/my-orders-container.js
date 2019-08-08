@@ -34,7 +34,7 @@ class OrdersContainer extends Component {
 					<View style={styles.orderDetails}>
 						<Text style={styles.userInfo}>Order Id: {item.id}</Text>
 						<Text style={styles.userInfo}>
-							Total: ${calculateCost(item.order_items, item.deliveringRestaurant)}
+							Total: ${calculateCost(item.orderItinerary, item.deliveringRestaurant)}
 						</Text>
 					</View>
 				</View>
@@ -112,10 +112,10 @@ class OrdersContainer extends Component {
 
 	render () {
 		const { list } = this.props;
+		console.log(list, '-=-=-=-=-=-=-')
 		return (
 			<View style={[styles.scene]}>
 				{list && list.length ?
-
 					<ScrollView
 						refreshControl={
 							<RefreshControl
