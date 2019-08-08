@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import Toast from 'react-native-easy-toast';
 import Drawer from 'react-native-draggable-view';
-import Permissions from 'react-native-permissions';
 import { NavigationEvents } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Geolocation from 'react-native-geolocation-service';
@@ -20,7 +19,7 @@ const { height, width } = Dimensions.get('screen');
 import DragHeader from '../../components/drag-header';
 
 import { mapsProps } from '../../utils/utils';
-import { setInitialDrawerSize } from '../../utils/misc';
+import { setInitialDrawerSize, conversion } from '../../utils/misc';
 
 import * as actions from '../../actions/user-actions/home-actions';
 import * as selectors from '../../selectors/user-selectors/home-selectors';
@@ -213,9 +212,19 @@ class HomeContainer extends Component {
             <Text numberOfLines={2} style={styles.description}>
               {moment(item.collectTimeStart, "h:mm:ss").format("h:mm A")} to {moment(item.collectTimeEnd, "h:mm:ss").format("h:mm A")}
             </Text> :
-            <Text numberOfLines={2} style={styles.description}>
-              {moment(item.deliverTimeStart, "h:mm:ss").format("h:mm A")} to {moment(item.deliverTimeEnd, "h:mm:ss").format("h:mm A")}
-            </Text>}
+            <View style={{
+              flexDirection: 'row', justifyContent: 'space-between'
+            }}>
+              <Text numberOfLines={2} style={styles.description}>
+                {moment(item.deliverTimeStart, "h:mm:ss").format("h:mm A")} to {moment(item.deliverTimeEnd, "h:mm:ss").format("h:mm A")}
+              </Text>
+              <Text style={styles.description}>
+                <Icon
+                  name="map-marker"
+                  size={14} color="#cccccc"
+                /> {conversion(item.distance)} mi</Text>
+            </View>
+          }
         </View>
         {!this.state.firstClick && item && !item.isValid ?
           <View style={styles.bannerMessage}>
@@ -506,7 +515,7 @@ const styles = StyleSheet.create({
   loadingStyle: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
   bannerText: {
     color: '#fff',
