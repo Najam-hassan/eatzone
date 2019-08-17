@@ -32,11 +32,11 @@ class CartScreen extends Component {
     this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
   }
 
-  componentWillMount () {
+  componentWillMount() {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { cartItems } = this.props;
     let total = 0;
     cartItems && cartItems.length &&
@@ -49,7 +49,7 @@ class CartScreen extends Component {
     this.setState({ subTotal: total });
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.response.message === "Order Placed") {
       this.setState({ showModal: true });
       this.props.resetState();
@@ -59,11 +59,11 @@ class CartScreen extends Component {
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
   }
 
-  handleBackButtonClick () {
+  handleBackButtonClick() {
     this.props.navigation.navigate('HomeScreen');
     return true;
   }
@@ -190,7 +190,7 @@ class CartScreen extends Component {
           </View>
         </View>
 
-        <View style={{
+        {/* <View style={{
           flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 3,
         }}>
           <Text numberOfLines={1} style={{
@@ -203,7 +203,7 @@ class CartScreen extends Component {
               16%
             </Text>
           </View>
-        </View>
+        </View> */}
 
         <View style={{
           flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 3,
@@ -223,7 +223,7 @@ class CartScreen extends Component {
     )
   }
 
-  addQuantity (categoryId, itemId, price) {
+  addQuantity(categoryId, itemId, price) {
     let categoryIndex = this.props.cartItems.findIndex(e => e.id === categoryId);
     if (categoryIndex >= 0) {
       this.setState({
@@ -237,7 +237,7 @@ class CartScreen extends Component {
     this.props.addItemQuantity(this.props.cartItems);
   }
 
-  subtractQuantity (categoryId, itemId, quantity, price) {
+  subtractQuantity(categoryId, itemId, quantity, price) {
     if (quantity > 0) {
       let categoryIndex = this.props.cartItems.findIndex(e => e.id === categoryId);
       if (categoryIndex >= 0) {
@@ -281,7 +281,7 @@ class CartScreen extends Component {
     this.props.placeOrder(resultObj);
   };
 
-  render () {
+  render() {
     const { cartItems, collectingResturant, deliveryResturant, loadding } = this.props;
     const navTitle = deliveryResturant && deliveryResturant.name ? deliveryResturant.name : 'Your Cart'
     const serviceCharges =
@@ -343,7 +343,7 @@ class CartScreen extends Component {
                           ${(this.state.subTotal +
                             (this.state.subTotal *
                               `.${deliveryResturant.deliveryServiceCharges}` +
-                              (this.state.subTotal * 0.16))).toFixed(2)
+                              this.state.subTotal)).toFixed(2)
                           }
                         </Text>
                       </View>

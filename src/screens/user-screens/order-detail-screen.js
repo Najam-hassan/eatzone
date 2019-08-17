@@ -13,11 +13,11 @@ class OrderDetailScreen extends Component {
         this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
     }
 
-    componentWillMount () {
+    componentWillMount() {
         BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
     }
 
-    componentDidMount () {
+    componentDidMount() {
         const { params } = this.props.navigation.state;
         const subTotal = params.details.orderItinerary.reduce((sum, item) => (
             sum + (item.itemQuantity * item.itemPrice)
@@ -25,11 +25,11 @@ class OrderDetailScreen extends Component {
         this.setState({ subTotal: subTotal })
     }
 
-    componentWillUnmount () {
+    componentWillUnmount() {
         BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
     }
 
-    handleBackButtonClick () {
+    handleBackButtonClick() {
         this.props.navigation.navigate('HomeScreen');
         return true;
     }
@@ -56,14 +56,14 @@ class OrderDetailScreen extends Component {
                     </View>
                 </View>
 
-                <View style={styles.innerViewStyle}>
+                {/* <View style={styles.innerViewStyle}>
                     <Text style={{ color: '#cccccc', fontWeight: '400' }}>GST</Text>
                     <View style={styles.priceStyle}>
                         <Text style={{ color: '#cccccc', fontWeight: '400' }}>
                             16%
                         </Text>
                     </View>
-                </View>
+                </View> */}
 
                 {/* <View style={styles.innerViewStyle}>
                     <Text style={{ color: '#cccccc', fontWeight: '400' }}>Dine in Fee</Text>
@@ -77,7 +77,7 @@ class OrderDetailScreen extends Component {
         )
     }
 
-    render () {
+    render() {
         const { params } = this.props.navigation.state;
         const { subTotal } = this.state;
         return (
@@ -117,9 +117,9 @@ class OrderDetailScreen extends Component {
                             <Text style={styles.titleText}>
                                 ${(subTotal +
                                     (subTotal *
-                                        `.${params.details.deliveringRestaurant && params.details.deliveringRestaurant.deliveryServiceCharges || 0
-                                        }` +
-                                        (subTotal * 0.16))).toFixed(2)}
+                                        `.${params.details.deliveringRestaurant &&
+                                        params.details.deliveringRestaurant.deliveryServiceCharges || 0
+                                        }` + subTotal)).toFixed(2)}
                             </Text>
                         </View>
                     </View>

@@ -29,7 +29,6 @@ class ProfileForm extends Component {
     deliver: { deliverTimeStart: '', deliverTimeEnd: '' },
     message: '',
     googlePlaceId: null,
-    multiSliderValue: [5, 30],
     sliderOneValue: [1],
     location: 'Restaurant Address',
     region: {
@@ -164,7 +163,7 @@ class ProfileForm extends Component {
     });
   };
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     const { profile, isEdit } = this.props;
     if (isEdit && profile && profile.name && this.state.editing) {
       this.setState({ editing: false });
@@ -484,6 +483,15 @@ class ProfileForm extends Component {
                                         </Text>
                   <Text style={styles.radiusText}>20Km</Text>
                 </View>
+                <View style={{
+                  flexDirection: 'row', justifyContent: 'space-between'
+                }}>
+                  <Text style={styles.radiusText}>1Mi</Text>
+                  <Text style={styles.radiusText}>
+                    {(this.state.sliderOneValue[0] * 0.621371).toFixed(1)}Mi
+                                        </Text>
+                  <Text style={styles.radiusText}>20Mi</Text>
+                </View>
                 <MultiSlider
                   values={this.state.sliderOneValue}
                   sliderLength={width - 55}
@@ -653,7 +661,7 @@ class ProfileForm extends Component {
   }
 
 
-  render () {
+  render() {
     if (Platform.OS === 'android') {
       return (
         <View style={styles.container}>
