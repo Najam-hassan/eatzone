@@ -110,9 +110,8 @@ class OrdersContainer extends Component {
 		)
 	}
 
-	render () {
+	render() {
 		const { list } = this.props;
-		console.log(list, '-=-=-=-=-=-=-')
 		return (
 			<View style={[styles.scene]}>
 				{list && list.length ?

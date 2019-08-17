@@ -145,12 +145,12 @@ class HomeContainer extends Component {
     );
   }
 
-  async componentWillMount () {
+  async componentWillMount() {
     this.setState({ isLoading: true });
     await this.getCurrentResPosition();
   }
 
-  moveBack () {
+  moveBack() {
     this.setState({ firstClick: true });
     const { fetchCollectingList, region } = this.props;
     const { latitude, longitude } = this.state;
@@ -208,8 +208,10 @@ class HomeContainer extends Component {
         />
         <View style={{ flex: 1, flexDirection: 'column', marginLeft: 20, }}>
           <Text style={styles.title}>{item.name}</Text>
+          {this.state.firstClick}
           {this.state.firstClick ?
             <Text numberOfLines={2} style={styles.description}>
+              <Text>Outside food: </Text>
               {moment(item.collectTimeStart, "h:mm:ss").format("h:mm A")} to {moment(item.collectTimeEnd, "h:mm:ss").format("h:mm A")}
             </Text> :
             <View style={{
@@ -276,7 +278,7 @@ class HomeContainer extends Component {
       });
   }
 
-  render () {
+  render() {
     const { list, loading, collecting, region } = this.props;
     const initialRegion = region.latitude ? region : initialValues;
     const { isLoading, firstClick } = this.state;

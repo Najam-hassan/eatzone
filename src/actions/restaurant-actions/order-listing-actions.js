@@ -1,27 +1,33 @@
 import axios from 'axios';
 import * as constants from '../constants';
 
-function fetchOrderRrquest () {
+function fetchOrderRrquest() {
     return {
         type: constants.FETCH_RESTAURANT_ORDERS_REQUEST,
     }
 }
 
-function fetchOrderSuccess (data) {
+function fetchOrderSuccess(data) {
     return {
         type: constants.FETCH_RESTAURANT_ORDERS_SUCCESS,
         data,
     }
 }
 
-function fetchOrderFailure (error) {
+function fetchOrderFailure(error) {
     return {
         type: constants.FETCH_RESTAURANT_ORDERS_FAILURE,
         error,
     }
 }
 
-export function fetchOrdersAction () {
+export function resetOrderState() {
+    return {
+        type: constants.RESET_RESTAURANT_ORDERS_STATE,
+    }
+}
+
+export function fetchOrdersAction() {
     return dispatch => {
         dispatch(fetchOrderRrquest());
         return axios.get(`/restaurant/get-orders`)
@@ -34,34 +40,34 @@ export function fetchOrdersAction () {
     }
 }
 
-function updateOrderRequest () {
+function updateOrderRequest() {
     return {
         type: constants.UPDATE_RESTAURANT_ORDERS_REQUEST,
     }
 }
 
-function updateOrderSuccess (data) {
+function updateOrderSuccess(data) {
     return {
         type: constants.UPDATE_RESTAURANT_ORDERS_SUCCESS,
         data,
     }
 }
 
-function updateOrderFailure (error) {
+function updateOrderFailure(error) {
     return {
         type: constants.UPDATE_RESTAURANT_ORDERS_FAILURE,
         error,
     }
 }
 
-export function updateLocally (orderStatus) {
+export function updateLocally(orderStatus) {
     return {
         type: constants.UPDATE_STATUS_LOCALLY,
         orderStatus,
     }
 }
 
-export function updateOrderStatusAction (url, orderStatus) {
+export function updateOrderStatusAction(url, orderStatus) {
     return dispatch => {
         dispatch(updateOrderRequest());
         axios.put(url)

@@ -11,32 +11,33 @@ import { PageHeader } from '../../components/common/header';
 
 import { calculateCost } from '../../utils/misc';
 
+import FoodModal from '../../components/food-modal';
 import * as actions from '../../actions/restaurant-actions/order-listing-actions';
 import * as selectors from '../../selectors/restaurant-selectors/order-list-selectors';
 
 class OrderDetailsScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = { confirmed: false, completed: false }
+    this.state = { confirmed: false, completed: false, showModal: false }
 
     //Binding handleBackButtonClick function with this
     this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
   }
 
-  componentWillMount () {
+  componentWillMount() {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
   }
 
-  handleBackButtonClick () {
+  handleBackButtonClick() {
     this.props.navigation.navigate('HomeScreen');
     return true;
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { params } = this.props.navigation.state;
     if (params.details) {
       if (params.details.orderStatus === 'PENDING') {
@@ -47,15 +48,19 @@ class OrderDetailsScreen extends Component {
     }
   }
 
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.confirmed) {
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps, '0-0-0-0-0-0');
+    if (nextProps.confirmed && !nextProps.canceled) {
       this.setState({
         completed: true,
         confirmed: false,
-      })
+        showModal: true
+      });
+      this.props.resetState();
     }
     if (nextProps.completed || nextProps.canceled) {
-      this.props.navigation.navigate('CompletedOrdersScreen')
+      this.props.navigation.navigate('CompletedOrdersScreen');
+      this.props.resetState();
     }
   }
 
@@ -183,7 +188,7 @@ class OrderDetailsScreen extends Component {
     )
   }
 
-  render () {
+  render() {
     return (
       <View style={{ flex: 1, backgroundColor: '#e4e4e4' }}>
         <StatusBar hidden={false} />
@@ -192,6 +197,17 @@ class OrderDetailsScreen extends Component {
           title={'Order Details'}
         />
         {this.renderOrderCard()}
+        {this.state.showModal ?
+          <FoodModal
+            showModal={true}
+            heading={"Order Accepted"}
+            body={"Please take the bill and give it to the management of dine-in restaurant."}
+            closeModal={() => {
+              this.props.resetState();
+              this.setState({ showModal: false });
+            }}
+          /> : null
+        }
       </View>
     )
   }
@@ -322,6 +338,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(actions.updateOrderStatusAction(url, orderStatus));
       // dispatch(actions.updateLocally(type));
     },
+    resetState: () => dispatch(actions.resetOrderState())
   }
 }
 
