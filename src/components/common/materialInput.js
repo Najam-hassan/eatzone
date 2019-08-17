@@ -92,7 +92,7 @@ const styles = {
     },
     errorTextStyle: {
         position: 'absolute',
-        top: -8,
+        top: -10,
         right: 0,
         textAlign: 'right',
         color: '#fff',
