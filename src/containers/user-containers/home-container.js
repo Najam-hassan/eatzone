@@ -10,7 +10,7 @@ import MapView, { Marker, Callout, PROVIDER_GOOGLE } from 'react-native-maps';
 import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
 import {
   View, Text, StyleSheet, Dimensions, StatusBar, PermissionsAndroid,
-  FlatList, Image, ActivityIndicator, TouchableOpacity,
+  FlatList, Image, ActivityIndicator, TouchableOpacity, ToastAndroid,
   ScrollView, AsyncStorage, Platform, Linking, Alert
 } from 'react-native';
 

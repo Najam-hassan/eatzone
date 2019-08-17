@@ -38,11 +38,11 @@ class RestaurantDetailScreen extends Component {
     this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
   }
 
-  componentWillMount () {
+  componentWillMount() {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { params } = this.props.navigation.state;
     if (params.name) {
       this.setState({
@@ -51,7 +51,7 @@ class RestaurantDetailScreen extends Component {
     }
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.loading) {
       this.setState({
         total: 0,
@@ -70,16 +70,16 @@ class RestaurantDetailScreen extends Component {
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
   }
 
-  handleBackButtonClick () {
+  handleBackButtonClick() {
     this.props.navigation.navigate('HomeScreen');
     return true;
   }
 
-  render () {
+  render() {
     const { restaurantName, phone } = this.state;
     const { list, navigation, loading } = this.props;
     const listItems = list && Object.keys(list).length &&
@@ -87,8 +87,6 @@ class RestaurantDetailScreen extends Component {
         item.menu_items.filter(row => (
           row.quantity > 0))
       ));
-
-    console.log(phone, '0-0-0-0-0-0-0-0-0-0');
 
     let cardItems = listItems;
     if (cardItems.length > 1) {
@@ -173,7 +171,7 @@ class RestaurantDetailScreen extends Component {
                 </View>
                 <View style={{ flexDirection: 'column', alignItems: 'flex-end' }}>
                   <Text style={styles.serviceChargeText}>
-                    Service Charges: {this.state.charges}%
+                    Delivery Service Charges: {this.state.charges}%
                     {/* Service Charges: 10 % */}
                   </Text>
                   <View style={{ flexDirection: 'row' }}>
