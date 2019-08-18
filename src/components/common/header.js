@@ -21,7 +21,11 @@ const Header = ({ navigation, title, profile }) => {
 						}}
 					>
 						<Image source={require('../../assets/images/menuIcon.png')} />
-					</TouchableOpacity> : null}
+					</TouchableOpacity> : <TouchableOpacity
+						style={{ paddingHorizontal: 5, paddingVertical: 10, flex: 0.1, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', }}
+						hitSlop={{ top: 5, bottom: 5, right: 5, left: 5 }}
+					>
+					</TouchableOpacity>}
 				<View style={navTitle}>
 					<Text style={{ color: '#fff', fontSize: 18, fontWeight: '500', lineHeight: 24, }}>{title}</Text>
 				</View>

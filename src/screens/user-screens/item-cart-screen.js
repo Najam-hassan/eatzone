@@ -180,7 +180,7 @@ class CartScreen extends Component {
         }}>
           <Text numberOfLines={1} style={{
             flex: 8, color: '#cccccc', fontWeight: '400',
-          }}>Delivery Fee</Text>
+          }}>Delivery Restaurant Charges</Text>
           <View style={{
             flex: 2, alignItems: 'flex-end', justifyContent: 'flex-end'
           }}>
@@ -351,8 +351,9 @@ class CartScreen extends Component {
                   </View>
                   <View style={styles.dineInStyle}>
                     <Text style={{ color: '#cccccc', fontWeight: '400', }}>
-                      {collectingResturant.collectionServiceCharges}% Dine in fee will be charged from you
-              </Text>
+                      {collectingResturant.collectionServiceCharges}
+                      % Dine-in restaurant charges will be charged.
+                    </Text>
                   </View>
                 </View>
                 <View style={{ position: 'relative', left: 0, right: 0, bottom: 5 }}>
