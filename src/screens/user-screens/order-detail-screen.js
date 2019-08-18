@@ -119,7 +119,7 @@ class OrderDetailScreen extends Component {
                                     (subTotal *
                                         `.${params.details.deliveringRestaurant &&
                                         params.details.deliveringRestaurant.deliveryServiceCharges || 0
-                                        }` + subTotal)).toFixed(2)}
+                                        }`)).toFixed(2)}
                             </Text>
                         </View>
                     </View>
