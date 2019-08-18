@@ -696,16 +696,12 @@ const validate = values => {
   } else if (values.get('phone').length !== 10) {
     errors.phone = "must be 10 characters long"
   }
-  // if (!values.get('collectionServiceCharges')) {
-  //   errors.collectionServiceCharges = '*Required';
-  // } else if (values.get('collectionServiceCharges') >= 10) {
-  //   errors.collectionServiceCharges = "Must be greater or equal to 0"
-  // }
-  // if (!values.get('deliveryServiceCharges')) {
-  //   errors.deliveryServiceCharges = '*Required';
-  // } else if (values.get('deliveryServiceCharges') >= 10) {
-  //   errors.deliveryServiceCharges = "Must be greater or equal to 0"
-  // }
+  if (!values.get('collectionServiceCharges')) {
+    errors.collectionServiceCharges = "Please enter service charges."
+  } else if (values.get('collectionServiceCharges') >= 0) { }
+  if (!values.get('deliveryServiceCharges')) {
+    errors.deliveryServiceCharges = "Please enter service charges."
+  } else if (values.get('deliveryServiceCharges') >= 0) { }
 
   return errors;
 };
