@@ -342,8 +342,7 @@ class CartScreen extends Component {
                         <Text style={{ color: '#000', fontWeight: '400', fontSize: 16, }}>
                           ${(this.state.subTotal +
                             (this.state.subTotal *
-                              `.${deliveryResturant.deliveryServiceCharges}` +
-                              this.state.subTotal)).toFixed(2)
+                              `.${deliveryResturant.deliveryServiceCharges}`)).toFixed(2)
                           }
                         </Text>
                       </View>
