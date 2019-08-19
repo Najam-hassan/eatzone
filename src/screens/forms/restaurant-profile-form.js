@@ -188,10 +188,10 @@ class ProfileForm extends Component {
         profile.addressDetails : ''
       );
       this.props.change(
-        "collectionServiceCharges", profile.collectionServiceCharges ? profile.collectionServiceCharges.toString() : 10
+        "collectionServiceCharges", profile.collectionServiceCharges ? profile.collectionServiceCharges.toString() : '0'
       );
       this.props.change(
-        "deliveryServiceCharges", profile.deliveryServiceCharges ? profile.deliveryServiceCharges.toString() : 10
+        "deliveryServiceCharges", profile.deliveryServiceCharges ? profile.deliveryServiceCharges.toString() : '0'
       );
       if (profile.canCollect === true) {
         this.setState({
@@ -281,7 +281,7 @@ class ProfileForm extends Component {
             query={{
               key: 'AIzaSyBJX4U1PDcgBCoR6gL4mCVedWFApQ8MWTs',
               language: 'en',
-              components: 'country:pk'
+              components: 'country:us'
             }}
             styles={{
               textInputContainer: {
