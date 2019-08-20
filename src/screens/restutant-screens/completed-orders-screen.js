@@ -62,6 +62,7 @@ class CompletedOrdersScreen extends Component {
                     }}
                 />
                 <OrdersContainer
+                    isDelivery={true}
                     isCollecting={true}
                     navigation={this.props.navigation}
                     fetchList={() => this.props.fetchList()}

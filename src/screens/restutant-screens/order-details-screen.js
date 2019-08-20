@@ -49,14 +49,13 @@ class OrderDetailsScreen extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps, '0-0-0-0-0-0');
     if (nextProps.confirmed && !nextProps.canceled) {
       this.setState({
         completed: true,
         confirmed: false,
         showModal: true
       });
-      this.props.resetState();
+      // this.props.resetState();
     }
     if (nextProps.completed || nextProps.canceled) {
       this.props.navigation.navigate('CompletedOrdersScreen');
@@ -203,7 +202,7 @@ class OrderDetailsScreen extends Component {
             heading={"Order Accepted"}
             body={"Please take the bill and give it to the management of dine-in restaurant."}
             closeModal={() => {
-              this.props.resetState();
+              // this.props.resetState();
               this.setState({ showModal: false });
             }}
           /> : null

@@ -48,7 +48,7 @@ class OrderDetailScreen extends Component {
                 </View>
 
                 <View style={styles.innerViewStyle}>
-                    <Text style={{ color: '#cccccc', fontWeight: '400' }}>Delivery Restaurant Service Charge</Text>
+                    <Text style={{ color: '#cccccc', fontWeight: '400' }}>Delivery Restaurant Charges</Text>
                     <View style={styles.priceStyle}>
                         <Text style={{ color: '#cccccc', fontWeight: '400' }}>
                             {details.deliveringRestaurant && details.deliveringRestaurant.deliveryServiceCharges || 0}%
