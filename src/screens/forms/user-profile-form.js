@@ -24,11 +24,11 @@ class UserProfileForm extends Component {
         avatarUrl: '',
     }
 
-    componentDidMount () {
+    componentDidMount() {
         this.props.profileDetails();
     }
 
-    componentWillReceiveProps (nextProps) {
+    componentWillReceiveProps(nextProps) {
         if (nextProps.updating) {
             this.props.navigation.navigate('HomeScreen');
             this.props.resetState();
@@ -55,6 +55,7 @@ class UserProfileForm extends Component {
                 // avatarData: `data:image/jpeg;base64,${avatarUrl}`
                 avatarData: avatarUrl
             }, true);
+            this.setState({ avatarUrl: '' })
         }
     }
 
@@ -137,7 +138,7 @@ class UserProfileForm extends Component {
         )
     }
 
-    render () {
+    render() {
         const { loading, submitting, handleSubmit } = this.props;
         if (loading && !this.state.submitting) {
             return (
