@@ -51,7 +51,7 @@ class Restaurents extends Component {
           {!(item.isValid) ? <View style={styles.message}>
             <View style={{ flex: 1, marginHorizontal: 5 }}>
               <Text style={{ color: '#fff' }}>
-                This restaurant deliver food in between {moment(item.deliverTimeStart, "h:mm:ss").format("h:mm A")} to {moment(item.deliverTimeEnd, "h:mm:ss").format("h:mm A")}.
+                This restaurant delivers food between {moment(item.deliverTimeStart, "h:mm:ss").format("h:mm A")} to {moment(item.deliverTimeEnd, "h:mm:ss").format("h:mm A")}.
             </Text>
             </View>
           </View> : null}
@@ -99,9 +99,9 @@ const styles = StyleSheet.create({
   },
   titleStyle: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     marginTop: 15,
     marginBottom: 0
   },

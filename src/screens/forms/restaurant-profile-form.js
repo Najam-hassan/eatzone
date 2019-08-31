@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 import { CheckBox } from 'react-native-elements';
 import MapView, { Marker } from 'react-native-maps';
 import TimePicker from "react-native-24h-timepicker";
+import DateTimePicker from "react-native-modal-datetime-picker";
+
 import { Field, reduxForm } from 'redux-form/immutable';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
@@ -40,6 +42,10 @@ class ProfileForm extends Component {
     canCollect: false,
     canDeliver: false,
     editing: true,
+    collectTimeStartPicker: false,
+    collectTimeEndPicker: false,
+    deliverTimeStartPicker: false,
+    deliverTimeEndPicker: false
   }
 
   isUpdating = () => {
@@ -359,7 +365,7 @@ class ProfileForm extends Component {
               }}
             />
             <Text style={styles.checkBoxDescrip}>
-              Please take the bill from customer ordering restaurant and generate a new a new bill with your service charges.
+              Please take the bill from customer ordering restaurant and generate a new bill with your service charges.
               </Text>
           </View>
           {this.state.canCollect ?
@@ -372,74 +378,90 @@ class ProfileForm extends Component {
               <View style={styles.timeRange}>
                 <View>
                   <TouchableOpacity
-                    onPress={() => this.collectStartTime.open()}
+                    onPress={() => {
+                      this.setState({ collectTimeStartPicker: true })
+                    }}
                     style={styles.timeInput}
                   >
                     <Text style={styles.timeText}>Start Time *</Text>
                   </TouchableOpacity>
                   {this.state.collect.collectTimeStart !== '' ?
                     <Text
-                      onPress={() => this.collectStartTime.open()}
+                      onPress={() => {
+                        this.setState({ collectTimeStartPicker: true })
+                      }}
                       style={styles.text}
                     >
                       {moment(this.state.collect.collectTimeStart, "h:mm:ss").format("h:mm A")}
                     </Text> : <Text
-                      onPress={() => this.collectStartTime.open()}
+                      onPress={() => {
+                        this.setState({ collectTimeStartPicker: true })
+                      }}
                       style={styles.text}
                     >
                       Select Time
                       </Text>}
-                  <TimePicker
-                    ref={ref => {
-                      this.collectStartTime = ref;
-                    }}
-                    onCancel={() => {
-                      this.collectStartTime.close();
-                    }}
-                    onConfirm={(hour, minute) => {
+                  <DateTimePicker
+                    isVisible={this.state.collectTimeStartPicker}
+                    onConfirm={(date) => {
+                      parsedDate = moment(date, 'ddd MMM DD YYYY, HH:mm').format('HH:mm')
                       this.setState({
+                        collectTimeStartPicker: false,
                         collect: {
                           ...this.state.collect,
-                          collectTimeStart: `${hour}:${minute}`
+                          collectTimeStart: `${parsedDate}`
                         }
                       });
-                      this.collectStartTime.close();
                     }}
+                    onCancel={() => {
+                      this.setState({ collectTimeStartPicker: false })
+                    }}
+                    mode={'time'}
                   />
+
+
                 </View>
                 <View>
                   <TouchableOpacity
-                    onPress={() => this.collectEndTime.open()}
+                    onPress={() => {
+                      this.setState({ collectTimeEndPicker: true })
+                    }}
                     style={styles.timeInput}
                   >
                     <Text style={styles.timeText}>End Time *</Text>
                   </TouchableOpacity>
                   {this.state.collect.collectTimeEnd !== '' ?
                     <Text
-                      onPress={() => this.collectEndTime.open()}
+                      onPress={() => {
+                        this.setState({ collectTimeEndPicker: true })
+                      }}
                       style={styles.text}
                     >
                       {moment(this.state.collect.collectTimeEnd, "h:mm:ss").format("h:mm A")}
                     </Text> : <Text
-                      onPress={() => this.collectEndTime.open()}
+                      onPress={() => {
+                        this.setState({ collectTimeEndPicker: true })
+                      }}
                       style={styles.text}
                     >
                       Select Time
                       </Text>}
-                  <TimePicker
-                    ref={ref => {
-                      this.collectEndTime = ref;
-                    }}
-                    onCancel={() => this.onCancel()}
-                    onConfirm={(hour, minute) => {
+                  <DateTimePicker
+                    isVisible={this.state.collectTimeEndPicker}
+                    onConfirm={(date) => {
+                      parsedDate = moment(date, 'ddd MMM DD YYYY, HH:mm').format('HH:mm')
                       this.setState({
+                        collectTimeEndPicker: false,
                         collect: {
                           ...this.state.collect,
-                          collectTimeEnd: `${hour}:${minute}`
+                          collectTimeEnd: `${parsedDate}`
                         }
                       });
-                      this.collectEndTime.close();
                     }}
+                    onCancel={() => {
+                      this.setState({ collectTimeEndPicker: false })
+                    }}
+                    mode={'time'}
                   />
                 </View>
               </View>
@@ -561,7 +583,9 @@ class ProfileForm extends Component {
               <View style={styles.timeRange}>
                 <View>
                   <TouchableOpacity
-                    onPress={() => this.deliverStartTime.open()}
+                    onPress={() => {
+                      this.setState({ deliverTimeStartPicker: true })
+                    }}
                     style={styles.timeInput}
                   >
                     <Text style={styles.timeText}>Start Time *</Text>
@@ -569,37 +593,45 @@ class ProfileForm extends Component {
 
                   {this.state.deliver.deliverTimeStart !== '' ?
                     <Text
-                      onPress={() => this.deliverStartTime.open()}
+                      onPress={() => {
+                        this.setState({ deliverTimeStartPicker: true })
+                      }}
                       style={styles.text}
                     >
                       {moment(this.state.deliver.deliverTimeStart, "h:mm:ss").format("h:mm A")}
                     </Text> : <Text
-                      onPress={() => this.deliverStartTime.open()}
+                      onPress={() => {
+                        this.setState({ deliverTimeStartPicker: true })
+                      }}
                       style={styles.text}
                     >
                       Select Time
                       </Text>}
-                  <TimePicker
-                    ref={ref => {
-                      this.deliverStartTime = ref;
-                    }}
-                    onCancel={() => {
-                      this.deliverStartTime.close()
-                    }}
-                    onConfirm={(hour, minute) => {
+
+                  <DateTimePicker
+                    isVisible={this.state.deliverTimeStartPicker}
+                    onConfirm={(date) => {
+                      parsedDate = moment(date, 'ddd MMM DD YYYY, HH:mm').format('HH:mm')
                       this.setState({
+                        deliverTimeStartPicker: false,
                         deliver: {
                           ...this.state.deliver,
-                          deliverTimeStart: `${hour}:${minute}`
+                          deliverTimeStart: `${parsedDate}`
                         }
                       });
-                      this.deliverStartTime.close();
                     }}
+                    onCancel={() => {
+                      this.setState({ deliverTimeStartPicker: false })
+                    }}
+                    mode={'time'}
                   />
+
                 </View>
                 <View>
                   <TouchableOpacity
-                    onPress={() => this.deliverEndTime.open()}
+                    onPress={() => {
+                      this.setState({ deliverTimeEndPicker: true })
+                    }}
                     style={styles.timeInput}
                   >
                     <Text style={styles.timeText}>End Time *</Text>
@@ -607,30 +639,36 @@ class ProfileForm extends Component {
 
                   {this.state.deliver.deliverTimeEnd !== '' ?
                     <Text
-                      onPress={() => this.deliverEndTime.open()}
+                      onPress={() => {
+                        this.setState({ deliverTimeEndPicker: true })
+                      }}
                       style={styles.text}
                     >
                       {moment(this.state.deliver.deliverTimeEnd, "h:mm:ss").format("h:mm A")}
                     </Text> : <Text
-                      onPress={() => this.deliverEndTime.open()}
+                      onPress={() => {
+                        this.setState({ deliverTimeEndPicker: true })
+                      }}
                       style={styles.text}
                     >
                       Select Time
                       </Text>}
-                  <TimePicker
-                    ref={ref => {
-                      this.deliverEndTime = ref;
-                    }}
-                    onCancel={() => this.onCancel()}
-                    onConfirm={(hour, minute) => {
+                  <DateTimePicker
+                    isVisible={this.state.deliverTimeEndPicker}
+                    onConfirm={(date) => {
+                      parsedDate = moment(date, 'ddd MMM DD YYYY, HH:mm').format('HH:mm')
                       this.setState({
+                        deliverTimeEndPicker: false,
                         deliver: {
                           ...this.state.deliver,
-                          deliverTimeEnd: `${hour}:${minute}`
+                          deliverTimeEnd: `${parsedDate}`
                         }
                       });
-                      this.deliverEndTime.close();
                     }}
+                    onCancel={() => {
+                      this.setState({ deliverTimeEndPicker: false })
+                    }}
+                    mode={'time'}
                   />
                 </View>
               </View>
@@ -686,8 +724,8 @@ const validate = values => {
     errors.name = '*Required';
   } else if (isAlphabetsWithSpecialChar(values.get('name'))) {
     errors.name = 'numeric values not allowed'
-  } else if (values.get('name').length < 4 || values.get('name').length > 15) {
-    errors.name = 'name must be 4 to 15 charecters long!'
+  } else if (values.get('name').length < 4) {
+    errors.name = 'name must be 4 charecters long!'
   }
   if (!values.get('phone')) {
     errors.phone = '*Required';

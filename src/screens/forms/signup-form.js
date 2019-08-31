@@ -26,7 +26,7 @@ class SignUpForm extends Component {
         }
     }
 
-    render () {
+    render() {
         const { handleSubmit, submitting, loading, userType } = this.props;
         return (
             <View style={styles.container}>
@@ -79,8 +79,7 @@ class SignUpForm extends Component {
                                         this.props.resetState();
                                         this.props.navigateTo('SignInScreen');
                                     }}
-                                >
-                                    Sign In
+                                > Sign In
                                 </Text>
                             </Text>
                         </View>

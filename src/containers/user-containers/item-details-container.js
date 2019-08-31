@@ -11,14 +11,14 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 class ItemDetailsContainer extends Component {
   state = { value: null, quantity: 0 }
 
-  componentDidMount () {
+  componentDidMount() {
     const { detail } = this.props;
     if (detail) {
       this.setState({ quantity: detail.quantity && detail.quantity || 0 })
     }
   }
 
-  addQuantity (itemId) {
+  addQuantity(itemId) {
     const { catId } = this.props;
     let categoryIndex = this.props.data.findIndex(e => e.id === catId);
     if (categoryIndex >= 0) {
@@ -31,7 +31,7 @@ class ItemDetailsContainer extends Component {
     this.props.addItemQuantity(this.props.data);
   }
 
-  subtractQuantity (itemId, quantity) {
+  subtractQuantity(itemId, quantity) {
     const { catId } = this.props;
     if (quantity > 0 && catId) {
       let categoryIndex = this.props.data.findIndex(e => e.id === catId);
@@ -49,7 +49,7 @@ class ItemDetailsContainer extends Component {
     }
   }
 
-  render () {
+  render() {
     const { detail, navigation } = this.props;
     const { quantity } = this.state;
     return (
@@ -85,13 +85,6 @@ class ItemDetailsContainer extends Component {
                   this.subtractQuantity(detail.id, detail.quantity)
                 }}
               />
-              {/* <TouchableOpacity
-                onPress={() => {
-                  this.subtractQuantity(detail.id, detail.quantity)
-                }}
-              >
-                <Text style={styles.blueBtn}> - </Text>
-              </TouchableOpacity> */}
               <Text style={{ marginHorizontal: 10 }}>{quantity}</Text>
               <Button
                 buttonStyle={{
@@ -108,13 +101,6 @@ class ItemDetailsContainer extends Component {
                   this.addQuantity(detail.id)
                 }}
               />
-              {/* <TouchableOpacity
-                onPress={() => {
-                  this.addQuantity(detail.id)
-                }}
-              >
-                <Text style={[styles.blueBtn]}> + </Text>
-              </TouchableOpacity> */}
             </View>
           </View>
           <View style={styles.fixedRight}>
@@ -123,6 +109,7 @@ class ItemDetailsContainer extends Component {
               onPress={() => {
                 navigation.navigate('ItemCartScreen');
               }}
+              disabled={quantity <= 0}
               style={styles.button}
               textStyle={{ fontSize: 12 }}
             />

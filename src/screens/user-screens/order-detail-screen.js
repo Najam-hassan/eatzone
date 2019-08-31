@@ -1,197 +1,224 @@
 import moment from 'moment';
 import React, { Component } from 'react';
 import { View, Text, StatusBar, StyleSheet, BackHandler } from 'react-native';
-
+import { calculateCost, deliveryServiceC, collectionServiceC } from '../../utils/misc';
 import { PageHeader } from '../../components/common/header';
 
 class OrderDetailScreen extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { subTotal: 0 }
+  constructor(props) {
+    super(props);
+    this.state = { subTotal: 0 }
 
-        //Binding handleBackButtonClick function with this
-        this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
-    }
+    //Binding handleBackButtonClick function with this
+    this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
+  }
 
-    componentWillMount() {
-        BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
-    }
+  componentWillMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+  }
 
-    componentDidMount() {
-        const { params } = this.props.navigation.state;
-        const subTotal = params.details.orderItinerary.reduce((sum, item) => (
-            sum + (item.itemQuantity * item.itemPrice)
-        ), 0);
-        this.setState({ subTotal: subTotal })
-    }
+  componentDidMount() {
+    const { params } = this.props.navigation.state;
+    const subTotal = params.details.orderItinerary.reduce((sum, item) => (
+      sum + (item.itemQuantity * item.itemPrice)
+    ), 0);
+    this.setState({ subTotal: subTotal })
+  }
 
-    componentWillUnmount() {
-        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
-    }
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
+  }
 
-    handleBackButtonClick() {
-        this.props.navigation.navigate('HomeScreen');
-        return true;
-    }
+  handleBackButtonClick() {
+    this.props.navigation.navigate('HomeScreen');
+    return true;
+  }
 
-    renderSubTotals = () => {
-        const { details } = this.props.navigation.state.params;
-        return (
-            <View style={styles.subTotalOrder}>
-                <View style={styles.innerViewStyle}>
-                    <Text style={{ color: '#cccccc', fontWeight: '400' }}>SubTotal</Text>
-                    <View style={styles.priceStyle}>
-                        <Text style={{ color: '#cccccc', fontWeight: '400', }}>
-                            ${this.state.subTotal.toFixed(2)}
-                        </Text>
-                    </View>
-                </View>
+  renderSubTotals = () => {
+    const { details } = this.props.navigation.state.params;
+    return (
+      <View style={styles.subTotalOrder}>
+        <View style={styles.innerViewStyle}>
+          <Text style={{ color: '#cccccc', fontWeight: '400' }}>SubTotal</Text>
+          <View style={styles.priceStyle}>
+            <Text style={{ color: '#cccccc', fontWeight: '400', }}>
+              ${this.state.subTotal.toFixed(2)}
+            </Text>
+          </View>
+        </View>
 
-                <View style={styles.innerViewStyle}>
-                    <Text style={{ color: '#cccccc', fontWeight: '400' }}>Delivery Restaurant Charges</Text>
-                    <View style={styles.priceStyle}>
-                        <Text style={{ color: '#cccccc', fontWeight: '400' }}>
-                            {details.deliveringRestaurant && details.deliveringRestaurant.deliveryServiceCharges || 0}%
-                        </Text>
-                    </View>
-                </View>
+        <View style={styles.innerViewStyle}>
+          <Text style={{ color: '#cccccc', fontWeight: '400' }}>Delivery Restaurant Charges</Text>
+          <View style={styles.priceStyle}>
+            <Text style={{ color: '#cccccc', fontWeight: '400' }}>
+              {details.deliveringRestaurant.deliveryServiceCharges}% (${(this.state.subTotal * deliveryServiceC(details.deliveringRestaurant)).toFixed(2)}) </Text>
+          </View>
+        </View>
+        <View style={styles.innerViewStyle}>
+          <Text style={{ color: '#cccccc', fontWeight: '400' }}>Dine-in Restaurant Charges</Text>
+          <View style={styles.priceStyle}>
+            <Text style={{ color: '#cccccc', fontWeight: '400' }}>
+              {details.collectingRestaurant.collectionServiceCharges}% (${(this.state.subTotal * collectionServiceC(details.collectingRestaurant)).toFixed(2)})</Text>
+          </View>
+        </View>
+      </View>
+    )
+  }
 
-                {/* <View style={styles.innerViewStyle}>
-                    <Text style={{ color: '#cccccc', fontWeight: '400' }}>GST</Text>
-                    <View style={styles.priceStyle}>
-                        <Text style={{ color: '#cccccc', fontWeight: '400' }}>
-                            16%
-                        </Text>
-                    </View>
-                </View> */}
-
-                {/* <View style={styles.innerViewStyle}>
-                    <Text style={{ color: '#cccccc', fontWeight: '400' }}>Dine in Fee</Text>
-                    <View style={styles.priceStyle}>
-                        <Text style={{ color: '#cccccc', fontWeight: '400', }}>
-                            $10
-                        </Text>
-                    </View>
-                </View> */}
+  render() {
+    const { params } = this.props.navigation.state;
+    const { subTotal } = this.state;
+    return (
+      <View style={{ flex: 1, backgroundColor: '#ebebeb', }}>
+        <StatusBar hidden={false} />
+        <PageHeader
+          navigation={this.props.navigation}
+          title={'Order Details'}
+        />
+        <View style={styles.container}>
+          <View style={styles.orderContent}>
+            <View style={styles.orderNo}>
+              <Text style={styles.titleText}>Order No: {params.details.id}</Text>
+              <Text style={styles.descripText}>
+                Order Date: {moment(params.details.createdAt)
+                  .format(("LLL"))}
+              </Text>
             </View>
-        )
-    }
-
-    render() {
-        const { params } = this.props.navigation.state;
-        const { subTotal } = this.state;
-        return (
-            <View style={{ flex: 1, backgroundColor: '#ebebeb', }}>
-                <StatusBar hidden={false} />
-                <PageHeader
-                    navigation={this.props.navigation}
-                    title={'Order Details'}
-                />
-                <View style={styles.container}>
-                    <View style={styles.orderContent}>
-                        <View style={styles.orderNo}>
-                            <Text style={styles.titleText}>Order No: {params.details.id}</Text>
-                            <Text style={styles.descripText}>
-                                Order Date: {moment(params.details.createdAt)
-                                    .format(("LLL"))}
-                            </Text>
-                        </View>
-                        <View style={styles.orderDetail}>
-                            <Text style={styles.titleText}>Order Details</Text>
-                            <View styles={{ flexDirection: 'column' }}>
-                                {params && params.details.orderItinerary.map(item => (
-                                    <View style={styles.itemDetailsStyle}>
-                                        <Text style={styles.descripText}>
-                                            {item.itemName}
-                                        </Text>
-                                        <Text style={styles.descripText}>
-                                            Qty: {item.itemQuantity}
-                                        </Text>
-                                    </View>
-                                ))}
-                            </View>
-                        </View>
-                        {this.renderSubTotals()}
-                        <View style={styles.orderTotal}>
-                            <Text style={styles.titleText}>Total</Text>
-                            <Text style={styles.titleText}>
-                                ${(subTotal +
-                                    (subTotal *
-                                        `.${params.details.deliveringRestaurant &&
-                                        params.details.deliveringRestaurant.deliveryServiceCharges || 0
-                                        }`)).toFixed(2)}
-                            </Text>
-                        </View>
-                    </View>
+            <View style={styles.orderDetail}>
+              <Text style={styles.titleText}>Order Details</Text>
+              <View styles={{ flexDirection: 'column' }}>
+                <View style={styles.orderItemContainer}>
+                  <Text style={[styles.orderDescrip, { color: "#cccccc" }]}>
+                    Name
+                    </Text>
+                  <Text style={[styles.orderPrice, { color: "#cccccc" }]}>
+                    Unit Price
+                    </Text>
+                  <Text style={[styles.orderQuantity, { color: "#cccccc" }]}>
+                    Qty
+                    </Text>
                 </View>
+                {params && params.details.orderItinerary.map(item => (
+                  <View style={styles.orderItemContainer}>
+                    <Text style={styles.orderDescrip}>
+                      {item.itemName}
+                    </Text>
+                    <Text style={styles.orderPrice}>
+                      ${item.itemPrice}
+                    </Text>
+                    <Text style={styles.orderQuantity}>
+                      {item.itemQuantity}
+                    </Text>
+                  </View>
+                ))}
+              </View>
             </View>
-        )
-    }
+            {this.renderSubTotals()}
+            <View style={styles.orderTotal}>
+              <Text style={styles.titleText}>Total</Text>
+              <Text style={styles.titleText}> ${calculateCost(params.details.orderItinerary, params.details.deliveringRestaurant, params.details.collectingRestaurant)}
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    )
+  }
 }
 
 const styles = StyleSheet.create({
-    container: {
-    },
-    orderContent: {
-        marginVertical: 15,
-        marginHorizontal: 15,
-        backgroundColor: '#fff',
-        borderBottomWidth: 1,
-        borderBottomColor: '#e2e1e7',
-        borderRadius: 8,
-    },
-    orderNo: {
-        borderBottomWidth: 1,
-        borderBottomColor: '#e2e1e7',
-        paddingHorizontal: 15,
-        paddingVertical: 15,
-    },
-    orderDetail: {
-        borderBottomWidth: 1,
-        borderBottomColor: '#e2e1e7',
-        paddingHorizontal: 15,
-        paddingVertical: 15,
-    },
-    orderTotal: {
-        paddingVertical: 15,
-        flexDirection: 'row',
-        paddingHorizontal: 15,
-        justifyContent: 'space-between',
-    },
-    titleText: {
-        fontSize: 16,
-        color: '#000',
-        fontWeight: '400',
-        marginBottom: 2,
-    },
-    descripText: {
-        fontSize: 14,
-        color: '#cccccc',
-        fontWeight: '400'
-    },
-    itemDetailsStyle: {
-        flexDirection: 'row',
-        alignItems: 'flex-start',
-        justifyContent: 'space-between',
-    },
-    subTotalOrder: {
-        paddingVertical: 15,
-        borderBottomWidth: 1,
-        paddingHorizontal: 15,
-        backgroundColor: '#fff',
-        borderBottomColor: '#e2e1e7',
-    },
-    innerViewStyle: {
-        marginVertical: 3,
-        alignItems: 'center',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-    priceStyle: {
-        flex: 2,
-        alignItems: 'flex-end',
-        justifyContent: 'flex-end'
-    }
+  container: {
+  },
+  orderContent: {
+    marginVertical: 15,
+    marginHorizontal: 15,
+    backgroundColor: '#fff',
+    borderBottomWidth: 1,
+    borderBottomColor: '#e2e1e7',
+    borderRadius: 8,
+  },
+  orderNo: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#e2e1e7',
+    paddingHorizontal: 15,
+    paddingVertical: 15,
+  },
+  orderDetail: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#e2e1e7',
+    paddingHorizontal: 15,
+    paddingVertical: 15,
+  },
+  orderTotal: {
+    paddingVertical: 15,
+    flexDirection: 'row',
+    paddingHorizontal: 15,
+    justifyContent: 'space-between',
+  },
+  titleText: {
+    fontSize: 16,
+    color: '#000',
+    fontWeight: '400',
+    marginBottom: 2,
+  },
+  descripText: {
+    fontSize: 14,
+    color: '#cccccc',
+    fontWeight: '300'
+  },
+  itemDetailsStyle: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+  },
+  subTotalOrder: {
+    paddingVertical: 15,
+    borderBottomWidth: 1,
+    paddingHorizontal: 15,
+    backgroundColor: '#fff',
+    borderBottomColor: '#e2e1e7',
+  },
+  innerViewStyle: {
+    marginVertical: 3,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  priceStyle: {
+    flex: 2,
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end'
+  },
+  orderItemContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  orderDescrip: {
+    color: '#cccccc',
+    fontSize: 15,
+    fontWeight: '300',
+    flex: 0.25,
+    flexWrap: 'wrap',
+  },
+  orderQuantity: {
+    color: '#cccccc',
+    fontSize: 15,
+    fontWeight: '300',
+    flex: 0.25,
+    flexWrap: 'wrap',
+    textAlign: 'right',
+    paddingRight: 5,
+    paddingLeft: 5,
+  },
+  orderPrice: {
+    color: '#cccccc',
+    fontSize: 15,
+    fontWeight: '300',
+    flex: 0.25,
+    textAlign: 'right',
+    flexWrap: 'nowrap',
+  },
 });
 
 export default OrderDetailScreen

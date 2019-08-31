@@ -28,24 +28,24 @@ class RecentOrdersScreen extends Component {
     this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.fetchList();
   }
 
-  componentWillMount () {
+  componentWillMount() {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
   }
 
-  handleBackButtonClick () {
+  handleBackButtonClick() {
     this.props.navigation.navigate('HomeScreen');
     return true;
   }
 
-  render () {
+  render() {
     const { loading, collections, deliveries } = this.props;
     if (loading) {
       return (
@@ -66,7 +66,7 @@ class RecentOrdersScreen extends Component {
     }
 
     return (
-      <View style={{ flex: 1, backgroundColor: '#e4e4e4', paddingBottom: 15, }}>
+      <View style={{ flex: 1, backgroundColor: '#e4e4e4', }}>
         <StatusBar hidden={false} />
         <Header
           navigation={this.props.navigation}

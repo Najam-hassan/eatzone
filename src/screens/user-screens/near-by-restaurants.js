@@ -8,67 +8,67 @@ import { makeSelectCollectingResturant } from '../../selectors/user-selectors/ho
 import NearByRestaurant from '../../containers/user-containers/nearby-restaurents-container'
 
 class RestaurantsScreen extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        //Binding handleBackButtonClick function with this
-        this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
-    }
+    //Binding handleBackButtonClick function with this
+    this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
+  }
 
-    componentWillMount () {
-        BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
-    }
+  componentWillMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+  }
 
-    componentDidMount () {
-        const { resturant, fetchNearByList } = this.props;
-        if (resturant) {
-            fetchNearByList(resturant.id);
-        }
+  componentDidMount() {
+    const { resturant, fetchNearByList } = this.props;
+    if (resturant) {
+      fetchNearByList(resturant.id);
     }
+  }
 
-    componentWillUnmount () {
-        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
-    }
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
+  }
 
-    handleBackButtonClick () {
-        this.props.navigation.navigate('HomeScreen');
-        return true;
-    }
+  handleBackButtonClick() {
+    this.props.navigation.navigate('HomeScreen');
+    return true;
+  }
 
-    render () {
-        return (
-            <View style={{ flex: 1, }}>
-                <StatusBar hidden={false} />
-                <Header
-                    navigation={this.props.navigation}
-                    title={'Restaurants Nearby'}
-                />
-                <NearByRestaurant
-                    navigateTo={(item) => {
-                        this.props.navigation.navigate(
-                            'RestaurantDetailScreen', {
-                                restaurantId: item.id,
-                                name: item.name
-                            }
-                        )
-                    }}
-                />
-            </View>
-        )
-    }
+  render() {
+    return (
+      <View style={{ flex: 1, }}>
+        <StatusBar hidden={false} />
+        <Header
+          navigation={this.props.navigation}
+          title={'Restaurants Nearby'}
+        />
+        <NearByRestaurant
+          navigateTo={(item) => {
+            this.props.navigation.navigate(
+              'RestaurantDetailScreen', {
+                restaurantId: item.id,
+                name: item.name
+              }
+            )
+          }}
+        />
+      </View>
+    )
+  }
 }
 
 const mapStateToProps = state => ({
-    resturant: makeSelectCollectingResturant()(state),
+  resturant: makeSelectCollectingResturant()(state),
 })
 
 const mapDispatchToProps = dispatch => {
-    return {
-        fetchNearByList: (id) => dispatch(actions.fetchNearByListAction(id)),
-    }
+  return {
+    fetchNearByList: (id) => dispatch(actions.fetchNearByListAction(id)),
+  }
 }
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(RestaurantsScreen)

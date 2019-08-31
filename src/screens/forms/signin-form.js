@@ -26,7 +26,7 @@ class SignInForm extends Component {
         }
     }
 
-    render () {
+    render() {
         const { handleSubmit, submitting, loading } = this.props;
         return (
             <View style={styles.container}>

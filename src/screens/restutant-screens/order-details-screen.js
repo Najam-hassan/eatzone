@@ -1,15 +1,17 @@
 import moment from 'moment';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
+import { NavigationEvents } from 'react-navigation';
 import {
   View, Text, StatusBar, StyleSheet, Platform,
-  Image, ActivityIndicator, BackHandler, Linking
+  Image, ActivityIndicator, BackHandler, Linking, ScrollView
 } from 'react-native';
 
 import Button from '../../components/common/button';
 import { PageHeader } from '../../components/common/header';
+import { AppText } from '../../components/common/typography';
 
-import { calculateCost } from '../../utils/misc';
+import { calculateCost, deliveryServiceC, collectionServiceC } from '../../utils/misc';
 
 import FoodModal from '../../components/food-modal';
 import * as actions from '../../actions/restaurant-actions/order-listing-actions';
@@ -18,10 +20,8 @@ import * as selectors from '../../selectors/restaurant-selectors/order-list-sele
 class OrderDetailsScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = { confirmed: false, completed: false, showModal: false }
-
-    //Binding handleBackButtonClick function with this
-    this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
+    this.state = { subTotal: 0, confirmed: false, completed: false, showModal: false }
+    console.log(props.navigation.state.params);
   }
 
   componentWillMount() {
@@ -39,27 +39,38 @@ class OrderDetailsScreen extends Component {
 
   componentDidMount() {
     const { params } = this.props.navigation.state;
-    if (params.details) {
-      if (params.details.orderStatus === 'PENDING') {
-        this.setState({ confirmed: true });
-      } else if (params.details && params.details.orderStatus === 'CONFIRMED') {
-        this.setState({ completed: true })
+    const subTotal = params.details.orderItinerary.reduce((sum, item) => (
+      sum + (item.itemQuantity * item.itemPrice)
+    ), 0);
+    this.setState({ subTotal: subTotal })
+    if (!params.dineIn) {
+      if (params.details) {
+        if (params.details.orderStatus === 'PENDING') {
+          this.setState({ confirmed: true });
+        } else if (params.details && params.details.orderStatus === 'CONFIRMED') {
+          this.setState({ completed: true })
+        }
       }
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.confirmed && !nextProps.canceled) {
-      this.setState({
-        completed: true,
-        confirmed: false,
-        showModal: true
-      });
-      // this.props.resetState();
-    }
-    if (nextProps.completed || nextProps.canceled) {
-      this.props.navigation.navigate('CompletedOrdersScreen');
-      this.props.resetState();
+  componentWillReceiveProps(nextProps, prevProps) {
+    const { params } = this.props.navigation.state;
+    if (!params.dineIn) {
+      if (nextProps.confirmed && !nextProps.canceled) {
+        if (!this.state.completed) {
+          this.setState({
+            completed: true,
+            confirmed: false,
+            showModal: true
+          });
+        }
+        // this.props.resetState();
+      }
+      if (nextProps.completed || nextProps.canceled) {
+        this.props.navigation.navigate('CompletedOrdersScreen');
+        this.props.resetState();
+      }
     }
   }
 
@@ -70,120 +81,196 @@ class OrderDetailsScreen extends Component {
           key={item.id}
           style={styles.orderItemContainer}
         >
-          <Text style={styles.orderDescrip}>{item && item.itemName || ''}</Text>
-          <Text style={styles.orderQuantity}>Qty: {item && item.itemQuantity || ''}</Text>
-          <Text style={styles.orderPrice}>${item && item.itemPrice || ''}</Text>
+          <AppText style={styles.orderDescrip}>{item && item.itemName || ''} </AppText>
+          <AppText style={styles.orderQuantity}>Qty: {item && item.itemQuantity || ''} </AppText>
+          <AppText style={styles.orderPrice}>${item && item.itemPrice || ''} </AppText>
         </View>
       </View>
     )
   }
+  renderSubTotals = () => {
+    const { details } = this.props.navigation.state.params;
+    return (
+      <View style={styles.subTotalOrder}>
+        <View style={styles.innerViewStyle}>
+          <Text style={{ color: '#cccccc', fontWeight: '400' }}>SubTotal</Text>
+          <View style={styles.priceStyle}>
+            <Text style={{ color: '#cccccc', fontWeight: '400', }}>
+              ${this.state.subTotal.toFixed(2)}
+            </Text>
+          </View>
+        </View>
+
+        <View style={styles.innerViewStyle}>
+          <Text style={{ color: '#cccccc', fontWeight: '400' }}>Delivery Restaurant Charges</Text>
+          <View style={styles.priceStyle}>
+            <Text style={{ color: '#cccccc', fontWeight: '400' }}>
+              {details.deliveringRestaurant.deliveryServiceCharges}% (${(this.state.subTotal * deliveryServiceC(details.deliveringRestaurant)).toFixed(2)
+              })
+            </Text>
+          </View>
+        </View>
+        <View style={styles.innerViewStyle}>
+          <Text style={{ color: '#cccccc', fontWeight: '400' }}>Dine-in Restaurant Charges</Text>
+          <View style={styles.priceStyle}>
+            <Text style={{ color: '#cccccc', fontWeight: '400' }}>
+              {details.collectingRestaurant.collectionServiceCharges}% (${(this.state.subTotal * collectionServiceC(details.collectingRestaurant)).toFixed(2)
+              })
+            </Text>
+          </View>
+        </View>
+      </View>
+    )
+  }
+
 
   renderOrderCard = () => {
     const { params } = this.props.navigation.state;
     const { completed, confirmed } = this.state
     const { loading } = this.props;
     return (
-      <View style={styles.container}>
-        <View style={styles.orderCardContainer}>
-          <View style={styles.detailsContainer}>
-            {params && params.details.user.avatarUrl ?
-              <Image
-                source={{ uri: params.details.user.avatarUrl }}
-                style={{ height: 60, width: 60, borderRadius: 30 }}
-              /> :
-              <Image
-                source={require('../../assets/images/account.png')}
-                style={{ height: 60, width: 60, borderRadius: 30 }}
-              />}
-            <View style={styles.nameContainer}>
-              <Text style={styles.userName}>{params.details.user.name}</Text>
-              <Text style={styles.userContact}>{moment(params.details.createdAt).format("ddd, LT")}</Text>
-              {/* <Text>Location: Lahore</Text> */}
+      <ScrollView>
+        <View style={styles.container}>
+          <View style={styles.orderCardContainer}>
+            <View style={styles.detailsContainer}>
+              {params && params.details.user.avatarUrl ?
+                <Image
+                  source={{ uri: params.details.user.avatarUrl }}
+                  style={{ height: 60, width: 60, borderRadius: 30 }}
+                /> :
+                <Image
+                  source={require('../../assets/images/account.png')}
+                  style={{ height: 60, width: 60, borderRadius: 30 }}
+                />}
+              <View style={styles.nameContainer}>
+                <Text style={styles.userName}>{params.details.user.name}</Text>
+                <Text style={styles.userContact}>{moment(params.details.createdAt).format("ddd, LT")}</Text>
+              </View>
+            </View>
+            <View style={styles.orderDetails}>
+              <Text style={styles.userInfo}>Order Id: {params.details.id}</Text>
             </View>
           </View>
-          <View style={styles.orderDetails}>
-            <Text style={styles.userInfo}>Order Id: {params.details.id}</Text>
-            <Text style={styles.userInfo}>Total: ${
-              calculateCost(params.details.orderItinerary, params.details.deliveringRestaurant)
-            }</Text>
-          </View>
-        </View>
-        {params.details.orderItinerary.map((item, index) => (
-          this.renderOrderItems(item, index)
-        ))}
-        <View style={styles.actionContainer}>
-          {params.orderConfirmed ? <Button
-            title={'Call Customer'}
-            onPress={() => {
-              if (Platform.OS === 'android') {
-                Linking.openURL(`tel:${params.details.user.phone}`);
-              }
-              else {
-                const url = `telprompt:${params.details.user.phone}`;
-                Linking.canOpenURL(url)
-                  .then((supported) => {
-                    if (supported) {
-                      return Linking.openURL(url)
-                        .catch(() => null);
+          <View style={[styles.orderContent]}>
+            <View style={styles.orderDetail}>
+              <Text style={styles.titleText}>Order Details</Text>
+              <View styles={{ flexDirection: 'column' }}>
+                <View style={styles.orderItemContainer}>
+                  <Text style={[styles.orderDescrip, { color: "#cccccc" }]}>
+                    Name
+                    </Text>
+                  <Text style={[styles.orderPrice, { color: "#cccccc" }]}>
+                    Unit Price
+                    </Text>
+                  <Text style={[styles.orderQuantity, { color: "#cccccc" }]}>
+                    Qty
+                    </Text>
+                </View>
+                {params && params.details.orderItinerary.map(item => (
+                  <View style={styles.orderItemContainer}>
+                    <Text style={styles.orderDescrip}>
+                      {item.itemName}
+                    </Text>
+                    <Text style={styles.orderPrice}>
+                      ${item.itemPrice}
+                    </Text>
+                    <Text style={styles.orderQuantity}>
+                      {item.itemQuantity}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            </View>
+            {this.renderSubTotals()}
+            <View style={styles.orderTotal}>
+              <Text style={styles.titleText}>Total</Text>
+              <Text style={styles.titleText}> ${calculateCost(params.details.orderItinerary, params.details.deliveringRestaurant, params.details.collectingRestaurant)}
+              </Text>
+            </View>
+            < View style={[styles.actionContainer, { paddingBottom: 0 }]} >
+              {
+                params.orderConfirmed ? <Button
+                  title={'Call Customer'}
+                  onPress={() => {
+                    if (Platform.OS === 'android') {
+                      Linking.openURL(`tel:${params.details.user.phone}`);
                     }
-                  });
+                    else {
+                      const url = `telprompt:${params.details.user.phone}`;
+                      Linking.canOpenURL(url)
+                        .then((supported) => {
+                          if (supported) {
+                            return Linking.openURL(url)
+                              .catch(() => null);
+                          }
+                        });
+                    }
+                  }}
+                  style={[styles.button, {
+                    backgroundColor: '#00a0ff',
+                  }]}
+                  textStyle={{ color: '#fff', fontSize: 12, fontWeight: '400', }}
+                /> : null
               }
-            }}
-            style={[styles.button, {
-              backgroundColor: '#00a0ff',
-            }]}
-            textStyle={{ color: '#fff', fontSize: 12, fontWeight: '400', }}
-          /> : null}
-          {!params.orderConfirmed && confirmed ? <Button
-            title={'Cancel Order'}
-            onPress={() => {
-              const { details } = params;
-              this.props.updateOrder(
-                `/restaurant/cancel-order/${details.id}`, 'canceled'
-              );
-            }}
-            style={[styles.button, {
-              borderWidth: 1,
-              borderColor: '#ff0000',
-              backgroundColor: '#fff',
-            }]}
-            textStyle={{ color: '#ff0000', fontSize: 14, fontWeight: '400', }}
-          /> : null}
-          {loading ?
-            <ActivityIndicator size={'large'} color={'#1BA2FC'} /> :
-            !params.orderConfirmed && confirmed ? <Button
-              title={'Accept Order'}
-              onPress={() => {
-                const { details } = params;
-                this.props.updateOrder(
-                  `/restaurant/confirm-order/${details.id}`, 'accepted'
-                );
-              }}
-              style={[styles.button, {
-                borderWidth: 1,
-                borderColor: '#17820c',
-                backgroundColor: '#fff',
-              }]}
-              textStyle={{ color: '#17820c', fontSize: 14, fontWeight: '400', }}
-            /> : null}
-          {!params.orderConfirmed && !loading && completed ? <Button
-            title={'Complete Order'}
-            onPress={() => {
-              const { details } = params;
-              this.props.updateOrder(
-                `/restaurant/complete-order/${details.id}`, 'completed'
-              );
-            }}
-            style={[styles.button, {
-              width: '40%',
-              borderWidth: 1,
-              borderColor: '#17820c',
-              backgroundColor: '#fff',
-            }]}
-            textStyle={{ color: '#17820c', fontSize: 14, fontWeight: '400', }}
-          /> : null}
+
+              {
+                !params.dineIn && !params.orderConfirmed && confirmed ? <Button
+                  title={'Cancel Order'}
+                  onPress={() => {
+                    const { details } = params;
+                    this.props.updateOrder(
+                      `/restaurant/cancel-order/${details.id}`, 'canceled'
+                    );
+                  }}
+                  style={[styles.button, {
+                    borderWidth: 1,
+                    borderColor: '#ff0000',
+                    backgroundColor: '#fff',
+                  }]}
+                  textStyle={{ color: '#ff0000', fontSize: 14, fontWeight: '400', }}
+                /> : null
+              }
+              {
+                loading ?
+                  <ActivityIndicator size={'large'} color={'#1BA2FC'} /> :
+                  !params.orderConfirmed && confirmed ? <Button
+                    title={'Accept Order'}
+                    onPress={() => {
+                      const { details } = params;
+                      this.props.updateOrder(
+                        `/restaurant/confirm-order/${details.id}`, 'accepted'
+                      );
+                    }}
+                    style={[styles.button, {
+                      borderWidth: 1,
+                      borderColor: '#17820c',
+                      backgroundColor: '#fff',
+                    }]}
+                    textStyle={{ color: '#17820c', fontSize: 14, fontWeight: '400', }}
+                  /> : null
+              }
+              {
+                !params.dineIn && !params.orderConfirmed && !loading && completed ? <Button
+                  title={'Complete Order'}
+                  onPress={() => {
+                    const { details } = params;
+                    this.props.updateOrder(
+                      `/restaurant/complete-order/${details.id}`, 'completed'
+                    );
+                  }}
+                  style={[styles.button, {
+                    width: '40%',
+                    borderWidth: 1,
+                    borderColor: '#17820c',
+                    backgroundColor: '#fff',
+                  }]}
+                  textStyle={{ color: '#17820c', fontSize: 14, fontWeight: '400', }}
+                /> : null
+              }
+            </View >
+          </View >
         </View>
-      </View>
+      </ScrollView>
     )
   }
 
@@ -195,6 +282,13 @@ class OrderDetailsScreen extends Component {
           navigation={this.props.navigation}
           title={'Order Details'}
         />
+        <NavigationEvents
+          onWillFocus={(payload) => {
+            const { params } = this.props.navigation;
+            console.log(params, 'params');
+            console.log(payload, '-=-=-=-=-=-=');
+          }}
+        />
         {this.renderOrderCard()}
         {this.state.showModal ?
           <FoodModal
@@ -202,7 +296,6 @@ class OrderDetailsScreen extends Component {
             heading={"Order Accepted"}
             body={"Please take the bill and give it to the management of dine-in restaurant."}
             closeModal={() => {
-              // this.props.resetState();
               this.setState({ showModal: false });
             }}
           /> : null
@@ -214,13 +307,65 @@ class OrderDetailsScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 10,
-    marginVertical: 15,
-    marginHorizontal: 15,
-    flexDirection: 'column',
+    padding: 15
+  },
+  orderContent: {
     backgroundColor: '#fff',
+    borderBottomLeftRadius: 8,
+    borderBottomRightRadius: 8
+  },
+  orderNo: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#e2e1e7',
+    paddingHorizontal: 15,
+    paddingVertical: 15,
+  },
+  orderDetail: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#e2e1e7',
+    paddingHorizontal: 15,
+    paddingVertical: 15,
+  },
+  orderTotal: {
+    paddingVertical: 15,
+    paddingBottom: 0,
+    flexDirection: 'row',
+    paddingHorizontal: 15,
+    justifyContent: 'space-between',
+  },
+  titleText: {
+    fontSize: 16,
+    color: '#000',
+    fontWeight: '400',
+    marginBottom: 7,
+  },
+  descripText: {
+    fontSize: 14,
+    color: '#cccccc',
+    fontWeight: '300'
+  },
+  itemDetailsStyle: {
+    flexDirection: 'row',
     alignItems: 'flex-start',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
+  },
+  subTotalOrder: {
+    paddingVertical: 15,
+    borderBottomWidth: 1,
+    paddingHorizontal: 15,
+    backgroundColor: '#fff',
+    borderBottomColor: '#e2e1e7',
+  },
+  innerViewStyle: {
+    marginVertical: 3,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  priceStyle: {
+    flex: 2,
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end'
   },
   orderCardContainer: {
     paddingVertical: 15,
@@ -299,25 +444,26 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   orderDescrip: {
-    color: '#000000',
+    color: '#cccccc',
     fontSize: 15,
-    fontWeight: '400',
-    flex: 0.50,
+    fontWeight: '300',
+    flex: 0.25,
     flexWrap: 'wrap',
   },
   orderQuantity: {
-    color: '#000000',
+    color: '#cccccc',
     fontSize: 15,
-    fontWeight: '400',
+    fontWeight: '300',
     flex: 0.25,
     flexWrap: 'wrap',
+    textAlign: 'right',
     paddingRight: 5,
     paddingLeft: 5,
   },
   orderPrice: {
-    color: '#000000',
+    color: '#cccccc',
     fontSize: 15,
-    fontWeight: '400',
+    fontWeight: '300',
     flex: 0.25,
     textAlign: 'right',
     flexWrap: 'nowrap',

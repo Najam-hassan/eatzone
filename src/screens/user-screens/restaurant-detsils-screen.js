@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { NavigationEvents } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
-  View, Text, StatusBar, ImageBackground, StyleSheet,
+  View, Text, StatusBar, ImageBackground, StyleSheet, Linking,
   Dimensions, ActivityIndicator, BackHandler
 } from 'react-native';
 
@@ -112,7 +112,7 @@ class RestaurantDetailScreen extends Component {
     }
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, position: 'relative' }}>
         <StatusBar hidden={false} />
         <PageHeader
           navigation={this.props.navigation}
@@ -165,11 +165,8 @@ class RestaurantDetailScreen extends Component {
             <View style={[styles.overlay]}>
               <View style={{ flex: 1 }} />
               <View style={styles.detailStyle}>
-                <View>
+                <View style={{ width: "100%" }}>
                   <Text style={styles.titleStyle}>{this.state.address}</Text>
-                  <Text style={styles.titleStyle}>{this.state.websiteUrl}</Text>
-                </View>
-                <View style={{ flexDirection: 'column', alignItems: 'flex-end' }}>
                   <Text style={styles.serviceChargeText}>
                     Delivery Service Charges: {this.state.charges}%
                     {/* Service Charges: 10 % */}
@@ -183,8 +180,11 @@ class RestaurantDetailScreen extends Component {
                     </View>
                     <Text style={{ color: '#fff' }}>
                       {conversion(this.state.distance)} miles away
-                    </Text>
+                        </Text>
                   </View>
+                  <Text style={{ color: '#fff' }}>
+                    {this.state.websiteUrl}
+                  </Text>
                 </View>
               </View>
             </View>
@@ -239,7 +239,7 @@ class RestaurantDetailScreen extends Component {
             />
           </View>
         </View>
-      </View>
+      </View >
     )
   }
 }

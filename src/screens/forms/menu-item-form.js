@@ -22,7 +22,7 @@ class MenuItemForm extends Component {
 
 	state = { imageData: null, imageLoading: false };
 
-	componentWillReceiveProps (nextProps) {
+	componentWillReceiveProps(nextProps) {
 		const { categoryId } = this.props;
 		if (nextProps.categoryItem && nextProps.categoryItem.name) {
 			this.refs.toast.show('Category created successfully', 1500);
@@ -123,7 +123,7 @@ class MenuItemForm extends Component {
 		)
 	}
 
-	render () {
+	render() {
 		const { imageUrl } = this.props;
 		const { imageLoading } = this.state;
 		return (
@@ -204,11 +204,6 @@ const validate = values => {
 		errors.name = '*Required';
 	} else if (values.get('name').length < 5) {
 		errors.name = "must be at least 5 characters long"
-	}
-	if (!values.get('description')) {
-		errors.description = '*Required';
-	} else if (values.get('description').length < 10) {
-		errors.description = "must be at least 10 characters long"
 	}
 	if (!values.get('price')) {
 		errors.price = '*Required';

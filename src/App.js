@@ -1,14 +1,18 @@
 import { Provider } from 'react-redux'
 import React, { Component } from 'react';
-import { StyleSheet, SafeAreaView, NetInfo, Alert } from 'react-native';
+import { StyleSheet, SafeAreaView, NetInfo, Alert, Text } from 'react-native';
 
 import AppContainer from './navigators';
 import configureStore from './store';
+import { opoFontFix } from './utils/utils'
+
 
 import { axiosClient } from './utils/config'
 
 const store = configureStore();
-
+Text.defaultProps = Text.defaultProps || {};
+Text.defaultProps.allowFontScaling = false;
+opoFontFix()
 export default class App extends Component {
 
   state = {
@@ -16,7 +20,7 @@ export default class App extends Component {
     isConnected: true,
   }
 
-  componentDidMount () {
+  componentDidMount() {
     NetInfo.isConnected.addEventListener(
       'connectionChange',
       this._handleConnectivityChange
@@ -27,7 +31,7 @@ export default class App extends Component {
     this.setState({ isConnected });
   };
 
-  render () {
+  render() {
     return (
       <Provider store={store}>
         <SafeAreaView style={{ flex: 1 }}>

@@ -4,15 +4,15 @@ import React, { Component } from 'react';
 import Toast from 'react-native-easy-toast';
 import { NavigationEvents } from 'react-navigation';
 import {
-  Image, View, Text, StatusBar, ScrollView, BackHandler,
+  Image, View, TouchableOpacity, Text, StatusBar, ScrollView, BackHandler,
   StyleSheet, FlatList, Dimensions, ActivityIndicator
 } from 'react-native';
 
 const { width, height } = Dimensions.get('screen');
 
 import { PageHeader } from '../../components/common/header';
-
-import { Button } from 'react-native-elements';
+import { calculateCost, deliveryServiceC, collectionServiceC } from '../../utils/misc';
+import { Button, CheckBox } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import ButtonCom from '../../components/common/button';
@@ -22,11 +22,11 @@ import * as actions from '../../actions/user-actions/resturant-detail-actions';
 import * as orderSelectors from '../../selectors/user-selectors/place-order-selectors';
 import * as selectors from '../../selectors/user-selectors/restaurent-detail-selectors';
 import FoodModal from '../../components/food-modal';
-
+import TermsModal from '../../components/terms-modal';
 class CartScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = { subTotal: 0, showModal: false }
+    this.state = { subTotal: 0, showModal: false, terms: false, termsModal: false }
 
     //Binding handleBackButtonClick function with this
     this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
@@ -170,8 +170,7 @@ class CartScreen extends Component {
             flex: 2, alignItems: 'flex-end', justifyContent: 'flex-end'
           }}>
             <Text style={{ color: '#cccccc', fontWeight: '400', }}>
-              ${parseFloat(this.state.subTotal).toFixed(2)}
-            </Text>
+              ${parseFloat(this.state.subTotal).toFixed(2)} </Text>
           </View>
         </View>
 
@@ -179,16 +178,31 @@ class CartScreen extends Component {
           flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 3,
         }}>
           <Text numberOfLines={1} style={{
-            flex: 8, color: '#cccccc', fontWeight: '400',
+            flex: 7, color: '#cccccc', fontWeight: '400',
           }}>Delivery Restaurant Charges</Text>
           <View style={{
-            flex: 2, alignItems: 'flex-end', justifyContent: 'flex-end'
+            flex: 3, alignItems: 'flex-end', justifyContent: 'flex-end'
           }}>
             <Text style={{ color: '#cccccc', fontWeight: '400' }}>
-              {deliveryResturant.deliveryServiceCharges}%
-            </Text>
+              {deliveryResturant.deliveryServiceCharges}% (${(this.state.subTotal * deliveryServiceC(deliveryResturant)).toFixed(2)
+              }) </Text>
           </View>
         </View>
+
+        <View style={{
+          flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 3,
+        }}>
+          <Text numberOfLines={1} style={{
+            flex: 7, color: '#cccccc', fontWeight: '400',
+          }}>Dine-in Restaurant Charges</Text>
+          <View style={{
+            flex: 3, alignItems: 'flex-end', justifyContent: 'flex-end'
+          }}>
+            <Text style={{ color: '#cccccc', fontWeight: '400' }}>
+              {collectingResturant.collectionServiceCharges}% (${(this.state.subTotal * collectionServiceC(collectingResturant)).toFixed(2)})</Text>
+          </View>
+        </View>
+
 
         {/* <View style={{
           flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 3,
@@ -237,6 +251,7 @@ class CartScreen extends Component {
     this.props.addItemQuantity(this.props.cartItems);
   }
 
+
   subtractQuantity(categoryId, itemId, quantity, price) {
     if (quantity > 0) {
       let categoryIndex = this.props.cartItems.findIndex(e => e.id === categoryId);
@@ -262,23 +277,31 @@ class CartScreen extends Component {
     this.props.navigation.navigate('OrderScreen');
   }
 
+  closeTermsModal() {
+    this.setState({ termsModal: false })
+  }
+
   onSubmit = () => {
     const { cartItems, deliveryResturant, collectingResturant } = this.props;
-    const orderArr = _.flatMap(cartItems, category =>
-      _(category.menu_items)
-        .map(menuItem => ({
-          itemName: menuItem.name,
-          itemQuantity: menuItem.quantity,
-          itemPrice: menuItem.price
-        })).value()
-    );
+    if (this.state.terms) {
+      const orderArr = _.flatMap(cartItems, category =>
+        _(category.menu_items)
+          .map(menuItem => ({
+            itemName: menuItem.name,
+            itemQuantity: menuItem.quantity,
+            itemPrice: menuItem.price
+          })).value()
+      );
 
-    const resultObj = {
-      orderArr: orderArr.filter(row => row.itemQuantity > 0),
-      collectingRestaurantId: collectingResturant.id,
-      deliveringRestaurantId: deliveryResturant.id,
+      const resultObj = {
+        orderArr: orderArr.filter(row => row.itemQuantity > 0),
+        collectingRestaurantId: collectingResturant.id,
+        deliveringRestaurantId: deliveryResturant.id,
+      }
+      this.props.placeOrder(resultObj);
+    } else {
+      this.refs.toast.show(`Please accept the terms and conditions first`, 2000);
     }
-    this.props.placeOrder(resultObj);
   };
 
   render() {
@@ -319,9 +342,15 @@ class CartScreen extends Component {
         {
           this.state.subTotal > 0 ?
             <View style={{ flex: 1 }}>
-              <ScrollView style={{ marginBottom: 10 }}>
+              <ScrollView>
                 {/* <Text>{console.log(cartItems)}</Text> */}
-                <View style={{ padding: 10, paddingTop: 30 }}>
+                <View style={styles.dineInStyle}>
+                  <Text style={{ color: '#cccccc', fontWeight: '400', marginVertical: 20, textAlign: 'center' }}>
+                    {collectingResturant.collectionServiceCharges}
+                    % Dine-in restaurant service charges will be added.
+                    </Text>
+                </View>
+                <View style={{ padding: 10, paddingTop: 0 }}>
                   <View style={styles.TotalOrder}>
                     <FlatList
                       data={cartItems}
@@ -342,20 +371,27 @@ class CartScreen extends Component {
                         <Text style={{ color: '#000', fontWeight: '400', fontSize: 16, }}>
                           ${(this.state.subTotal +
                             (this.state.subTotal *
-                              `.${deliveryResturant.deliveryServiceCharges}`)).toFixed(2)
+                              `.${deliveryResturant.deliveryServiceCharges}`) + (this.state.subTotal * `.${collectingResturant.collectionServiceCharges}`)).toFixed(2)
                           }
                         </Text>
                       </View>
                     </View>
                   </View>
-                  <View style={styles.dineInStyle}>
-                    <Text style={{ color: '#cccccc', fontWeight: '400', }}>
-                      {collectingResturant.collectionServiceCharges}
-                      % Dine-in restaurant charges will be charged.
-                    </Text>
-                  </View>
                 </View>
                 <View style={{ position: 'relative', left: 0, right: 0, bottom: 5 }}>
+                  <CheckBox
+                    checked={this.state.terms}
+                    textStyle={styles.checkBoxText}
+                    title='I have read and agree to the terms and services'
+                    containerStyle={styles.checkBoxContainer}
+                    onPress={() => {
+                      const { terms } = this.state;
+                      if (terms) {
+                        this.setState({ terms: false })
+                      }
+                      terms ? this.setState({ termsModal: false }) : this.setState({ termsModal: true })
+                    }}
+                  />
                   {loadding ?
                     <ActivityIndicator
                       size={'large'}
@@ -378,6 +414,15 @@ class CartScreen extends Component {
                   heading={"Congratulations"}
                   body={"Your order has been placed."}
                   closeModal={() => this.navigateToOrderHistoryScreenAndCloseModal()}
+                /> : null
+              }
+              {this.state.termsModal ?
+                <TermsModal
+                  showModal={true}
+                  closeModal={() => this.closeTermsModal()}
+                  acceptTermAndCond={() => {
+                    this.setState({ terms: true, termsModal: false })
+                  }}
                 /> : null
               }
             </View> :
@@ -486,24 +531,32 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderBottomColor: 'grey',
   },
+  checkBoxContainer: {
+    backgroundColor: 'transparent',
+    paddingVertical: 15,
+    marginTop: 0,
+    marginLeft: 0,
+    borderWidth: 0,
+    marginRight: 0,
+    borderRadius: 0,
+    marginBottom: 0,
+  },
+  checkBoxText: {
+    fontSize: 16,
+    color: '#2b2b2b',
+    fontWeight: '400',
+  },
+  checkBoxDescrip: {
+    color: '#aaa1a1',
+    fontSize: 15,
+    marginTop: 6,
+    marginLeft: 34,
+  },
   button: {
     height: 50,
     width: width - 50,
     marginVertical: 20,
     marginHorizontal: 20,
-  },
-  dineInStyle: {
-    top: 0,
-    left: 0,
-    flex: 1,
-    right: 0,
-    bottom: 0,
-    height: 30,
-    marginVertical: 8,
-    marginHorizontal: 20,
-    alignItems: 'center',
-    position: 'absolute',
-    justifyContent: 'space-between',
   }
 });
 

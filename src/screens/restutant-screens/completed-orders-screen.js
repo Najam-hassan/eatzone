@@ -11,83 +11,83 @@ import * as selectors from '../../selectors/restaurant-selectors/order-list-sele
 import OrdersContainer from '../../containers/restaurant-containers/my-orders-container';
 
 class CompletedOrdersScreen extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        //Binding handleBackButtonClick function with this
-        this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
-    }
+    //Binding handleBackButtonClick function with this
+    this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
+  }
 
-    componentDidMount () {
-        this.props.fetchList();
-    }
+  componentDidMount() {
+    this.props.fetchList();
+  }
 
-    componentWillMount () {
-        BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
-    }
+  componentWillMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+  }
 
-    componentWillUnmount () {
-        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
-    }
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
+  }
 
-    handleBackButtonClick () {
-        this.props.navigation.navigate('HomeScreen');
-        return true;
-    }
+  handleBackButtonClick() {
+    this.props.navigation.navigate('HomeScreen');
+    return true;
+  }
 
-    render () {
-        const { loading, deliveries } = this.props;
-        if (loading) {
-            return (
-                <View style={{ flex: 1, backgroundColor: '#e4e4e4' }}>
-                    <StatusBar hidden={false} />
-                    <Header
-                        navigation={this.props.navigation}
-                        title={'Completed Orders'}
-                    />
-                    <ActivityIndicator size={'large'} color={'#1BA2FC'} />
-                </View>
-            )
-        }
-        return (
-            <View style={{ flex: 1, backgroundColor: '#e4e4e4' }}>
-                <StatusBar hidden={false} />
-                <Header
-                    navigation={this.props.navigation}
-                    title={'Completed Orders'}
-                />
-                <NavigationEvents
-                    onWillFocus={payload => {
-                        this.props.fetchList();
-                    }}
-                />
-                <OrdersContainer
-                    isDelivery={true}
-                    isCollecting={true}
-                    navigation={this.props.navigation}
-                    fetchList={() => this.props.fetchList()}
-                    list={deliveries && deliveries.filter(row => (
-                        row.orderStatus === 'COMPLETED' || row.orderStatus === 'CANCELLED'
-                    ))}
-                />
-            </View>
-        )
+  render() {
+    const { loading, deliveries } = this.props;
+    if (loading) {
+      return (
+        <View style={{ flex: 1, backgroundColor: '#e4e4e4' }}>
+          <StatusBar hidden={false} />
+          <Header
+            navigation={this.props.navigation}
+            title={'Completed Orders'}
+          />
+          <ActivityIndicator size={'large'} color={'#1BA2FC'} />
+        </View>
+      )
     }
+    return (
+      <View style={{ flex: 1, backgroundColor: '#e4e4e4' }}>
+        <StatusBar hidden={false} />
+        <Header
+          navigation={this.props.navigation}
+          title={'Completed Orders'}
+        />
+        <NavigationEvents
+          onWillFocus={payload => {
+            this.props.fetchList();
+          }}
+        />
+        <OrdersContainer
+          isDelivery={true}
+          isCollecting={true}
+          navigation={this.props.navigation}
+          fetchList={() => this.props.fetchList()}
+          list={deliveries && deliveries.filter(row => (
+            row.orderStatus === 'COMPLETED' || row.orderStatus === 'CANCELLED'
+          ))}
+        />
+      </View>
+    )
+  }
 }
 
 const mapStateToProps = state => ({
-    deliveries: selectors.makeSelectDeliveryOrderList()(state),
-    loading: selectors.makeSelectOrderListLoading()(state),
-    error: selectors.makeSelectOrderListError()(state),
+  deliveries: selectors.makeSelectDeliveryOrderList()(state),
+  loading: selectors.makeSelectOrderListLoading()(state),
+  error: selectors.makeSelectOrderListError()(state),
 });
 
 const mapDispatchToProps = dispatch => {
-    return {
-        fetchList: () => dispatch(actions.fetchOrdersAction()),
-    }
+  return {
+    fetchList: () => dispatch(actions.fetchOrdersAction()),
+  }
 }
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(CompletedOrdersScreen); 

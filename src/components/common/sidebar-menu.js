@@ -14,11 +14,11 @@ import { makeSelectProfileData } from '../../selectors/user-selectors/profile-se
 class SidebarMenu extends Component {
   state = { type: null, user: null, avatarUrl: '' }
 
-  componentWillMount () {
+  componentWillMount() {
     this.fetchUser()
   }
 
-  componentDidMount () {
+  componentDidMount() {
     AsyncStorage.getItem('user_type', (err, value) => {
       if (err) {
         console.log(err)
@@ -28,7 +28,14 @@ class SidebarMenu extends Component {
     })
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
+    AsyncStorage.getItem('user')
+      .then(data => {
+        data = JSON.parse(data);
+        if (!(data.name === this.state.user.name)) {
+          this.setState({ user: data });
+        }
+      });
     if (nextProps.user &&
       Object.keys(nextProps.user).length > 0 &&
       nextProps.user.avatarUrl !== '') {
@@ -39,7 +46,7 @@ class SidebarMenu extends Component {
     }
   }
 
-  fetchUser () {
+  fetchUser() {
     AsyncStorage.getItem('user', (err, user) => {
       if (user !== null) {
         this.setState({
@@ -49,13 +56,13 @@ class SidebarMenu extends Component {
     });
   }
 
-  uploadPhoto (avatar) {
+  uploadPhoto(avatar) {
     this.props.updateProfile({ bannerData: avatar });
   }
 
   logout = (url) => (axios.post(url));
 
-  render () {
+  render() {
     const { type, user } = this.state;
     const { navigation } = this.props;
     return (
@@ -258,7 +265,7 @@ class SidebarMenu extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: makeSelectProfileData()(state)
+  user: makeSelectProfileData()(state),
 })
 
 const mapDispatchToProps = dispatch => {

@@ -178,6 +178,7 @@ class HomeContainer extends Component {
     < TouchableOpacity
       key={item.id}
       activeOpacity={0.7}
+      disabled={!item.isValid}
       onPress={() => {
         const { firstClick } = this.state;
         const { location } = item;
@@ -228,7 +229,7 @@ class HomeContainer extends Component {
             </View>
           }
         </View>
-        {!this.state.firstClick && item && !item.isValid ?
+        {item && !item.isValid ?
           <View style={styles.bannerMessage}>
             <Text style={styles.bannerText}>Temporarily unavailable</Text>
           </View> : null}
@@ -385,7 +386,7 @@ class HomeContainer extends Component {
                           <Text style={[styles.title, {
                             fontWeight: '400', color: '#999'
                           }]}>
-                            No Restaurant found in your location
+                            No Restaurant found at your location
                         </Text>
                         </View>
                     }
@@ -465,9 +466,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderBottomWidth: 0,
     borderColor: '#cccccc',
-    backgroundColor: '#f7f8fa',
-    // borderTopLeftRadius: 60,
-    // borderTopRightRadius: 60,
+    backgroundColor: '#f7f8fa'
   },
   itemStyling: {
     flex: 1,
@@ -521,7 +520,7 @@ const styles = StyleSheet.create({
   },
   bannerText: {
     color: '#fff',
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '600',
     textAlign: 'center',
   },
@@ -529,6 +528,8 @@ const styles = StyleSheet.create({
     top: 5,
     right: 5,
     padding: 3,
+    paddingHorizontal: 3,
+    paddingVertical: 0,
     borderRadius: 5,
     position: 'absolute',
     backgroundColor: '#00a0ff',

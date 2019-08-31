@@ -1,13 +1,13 @@
 import axios from 'axios';
 import * as constants from '../constants';
 
-export function updateProfileRequest () {
+export function updateProfileRequest() {
     return {
         type: constants.UPDATE_RESATURANT_PROFILE_REQUEST,
     }
 }
 
-export function updateProfileSuccess (profile, updating) {
+export function updateProfileSuccess(profile, updating) {
     return {
         type: constants.UPDATE_RESATURANT_PROFILE_SUCCESS,
         profile,
@@ -15,20 +15,20 @@ export function updateProfileSuccess (profile, updating) {
     }
 }
 
-export function updateProfileFailure (error) {
+export function updateProfileFailure(error) {
     return {
         type: constants.UPDATE_RESATURANT_PROFILE_FAILURE,
         error,
     }
 }
 
-export function resetState () {
+export function resetState() {
     return {
         type: constants.RESET_RESATURANT_PROFILE_STATE,
     }
 }
 
-export function updateProfileAction (data, updating) {
+export function updateProfileAction(data, updating) {
     return dispatch => {
         dispatch(updateProfileRequest());
         return axios.put(`/restaurant/edit-profile`, data)
@@ -41,27 +41,27 @@ export function updateProfileAction (data, updating) {
     }
 }
 
-export function checkResturantExistRequest () {
+export function checkResturantExistRequest() {
     return {
         type: constants.CHECK_RESTAURANT_EXIST_REQUEST,
     }
 }
 
-export function checkResturantExistSuccess (data) {
+export function checkResturantExistSuccess(data) {
     return {
         type: constants.CHECK_RESTAURANT_EXIST_SUCCESS,
         data
     }
 }
 
-export function checkResturantExistFailure (error) {
+export function checkResturantExistFailure(error) {
     return {
         type: constants.CHECK_RESTAURANT_EXIST_FAILURE,
         error,
     }
 }
 
-export function checkResturantExistAction (id) {
+export function checkResturantExistAction(id) {
     return dispatch => {
         // dispatch(checkResturantExistRequest());
         return axios.get(`/restaurant/restaurant-exists/${id}`)

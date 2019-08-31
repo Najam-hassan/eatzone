@@ -17,31 +17,33 @@ class ProfileScreen extends Component {
         this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
     }
 
-    componentWillMount () {
+    componentWillMount() {
         BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
     }
 
-    componentWillReceiveProps (nextProps) {
+    componentWillReceiveProps(nextProps) {
+        debugger
         if (nextProps.error) {
             this.refs.toast.show(nextProps.error.message, 2000);
             this.props.resetState();
         }
         if (nextProps.success) {
+
             // this.refs.toast.show('Profile update successfully!', 2000);
             // this.props.resetState();
         }
     }
 
-    componentWillUnmount () {
+    componentWillUnmount() {
         BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
     }
 
-    handleBackButtonClick () {
+    handleBackButtonClick() {
         this.props.navigation.navigate('HomeScreen');
         return true;
     }
 
-    render () {
+    render() {
         return (
             <View style={{ flex: 1 }}>
                 <StatusBar hidden={false} />
@@ -64,6 +66,7 @@ class ProfileScreen extends Component {
 const mapStateToProps = state => ({
     error: selectors.makeSelectProfileError()(state),
     success: selectors.makeSelectUpdateStatue()(state),
+    profile: selectors.makeSelectProfileData()(state),
 });
 
 const mapDispatchToProps = dispatch => {
