@@ -74,6 +74,7 @@ class UserProfileForm extends Component {
           }}
         >{this.state.avatarUrl !== '' ?
           <Image
+            key={new Date().getTime()}
             style={{
               width: 150,
               height: 150,
@@ -82,7 +83,9 @@ class UserProfileForm extends Component {
             }}
             key={new Date().getTime()}
             resizeMode='cover'
-            source={{ uri: this.state.avatarUrl }}
+            source={{
+              uri: `${this.state.avatarUrl}??${new Date().getTime()}`
+            }}
           /> :
           <Image
             style={{

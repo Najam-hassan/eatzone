@@ -22,7 +22,6 @@ class ProfileScreen extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        debugger
         if (nextProps.error) {
             this.refs.toast.show(nextProps.error.message, 2000);
             this.props.resetState();

@@ -37,9 +37,11 @@ export function profileDetailsAction(data, updating) {
             .then(response => {
                 AsyncStorage.getItem('user')
                     .then(data => {
-                        data = JSON.parse(data);
-                        data.avatarUrl = response.data.avatarUrl;
-                        AsyncStorage.setItem('user', JSON.stringify(data),
+                        const user = JSON.parse(data);
+                        AsyncStorage.setItem('user', JSON.stringify({
+                            ...user,
+                            avatarUrl: response.data.avatarUrl
+                        }),
                             () => {
                                 dispatch(profileDetailsSuccess(response.data, updating));
                             });
