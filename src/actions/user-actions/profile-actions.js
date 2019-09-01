@@ -35,13 +35,15 @@ export function profileDetailsAction(data, updating) {
         dispatch(profileDetailsRequest());
         return axios.put(`/user/edit-profile`, data)
             .then(response => {
-                AsyncStorage.setItem(
-                    'user',
-                    JSON.stringify(response.data),
-                    () => {
-                        dispatch(profileDetailsSuccess(response.data, updating));
-                    }
-                );
+                AsyncStorage.getItem('user')
+                    .then(data => {
+                        data = JSON.parse(data);
+                        data.avatarUrl = response.data.avatarUrl;
+                        AsyncStorage.setItem('user', JSON.stringify(data),
+                            () => {
+                                dispatch(profileDetailsSuccess(response.data, updating));
+                            });
+                    }).done();
             }).catch(error => {
                 dispatch(profileDetailsFailure(error.response.data))
             });

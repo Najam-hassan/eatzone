@@ -80,6 +80,7 @@ class UserProfileForm extends Component {
               borderRadius: 75,
               paddingVertical: 30,
             }}
+            key={new Date().getTime()}
             resizeMode='cover'
             source={{ uri: this.state.avatarUrl }}
           /> :
