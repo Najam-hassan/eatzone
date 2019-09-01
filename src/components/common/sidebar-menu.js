@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { isEmpty } from 'lodash';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import PhotoUpload from 'react-native-photo-upload';
@@ -56,6 +57,39 @@ class SidebarMenu extends Component {
     });
   }
 
+  renderUserImage = () => {
+    const { user } = this.state;
+    console.log(this.props.user);
+    if (!isEmpty(this.props.user) && this.props.user.avatarUrl != '') {
+      return (
+        <Image
+          key={new Date().getTime()}
+          source={{ uri: `${user.avatarUrl}?${new Date().getTime()}` }}
+          resizeMode='cover'
+          style={{
+            height: 80,
+            width: 80,
+          }}
+        />
+      )
+    }
+
+    return (
+      <Image
+        key={new Date().getTime()}
+        source={
+          (user && user.avatarUrl !== null && user.avatarUrl !== '')
+            ? { uri: `${user.avatarUrl}?${new Date().getTime()}` } : require('../../assets/images/account.png')
+        }
+        resizeMode='cover'
+        style={{
+          height: 80,
+          width: 80,
+        }}
+      />
+    )
+  }
+
   uploadPhoto(avatar) {
     this.props.updateProfile({ bannerData: avatar });
   }
@@ -71,17 +105,7 @@ class SidebarMenu extends Component {
           <View style={styles.UserImg}>
             {
               !(type === 'admin') ?
-                <Image
-                  source={
-                    (user && user.avatarUrl !== null && user.avatarUrl !== '')
-                      ? { uri: user.avatarUrl } : require('../../assets/images/account.png')
-                  }
-                  resizeMode='contain'
-                  style={{
-                    height: 80,
-                    width: 80,
-                  }}
-                />
+                this.renderUserImage()
                 :
                 <PhotoUpload
                   onPhotoSelect={avatar => {

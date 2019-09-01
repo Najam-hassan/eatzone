@@ -13,7 +13,7 @@ export const initialState = fromJS({
     },
 });
 
-export default function profileReducer (state = initialState, action) {
+export default function profileReducer(state = initialState, action) {
     switch (action.type) {
         case constants.PROFILE_DATEILS_REQUEST:
             return state
