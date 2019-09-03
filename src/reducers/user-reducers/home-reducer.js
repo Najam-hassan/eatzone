@@ -16,7 +16,7 @@ export const initialState = fromJS({
   restaurant: { collectingResturant: {}, deliveryResturant: {} }
 });
 
-export default function homeReducer (state = initialState, action) {
+export default function homeReducer(state = initialState, action) {
   switch (action.type) {
     case constants.FETCH_COLLECTING_LIST_REQUEST:
       return state.setIn(['list', 'loading'], true);
@@ -26,8 +26,8 @@ export default function homeReducer (state = initialState, action) {
         action.data.map(item => {
           const date = new Date();
           const time = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds}`;
-          const isValid = moment(time, "h:mm:ss").format("HH:mm:ss") < item.collectTimeEnd &&
-            moment(time, "h:mm:ss").format("HH:mm:ss") >= item.collectTimeStart;
+          const isValid = (moment(item.collectTimeEnd, "h:mm:ss").diff(moment(item.collectTimeStart, "h:mm:ss")) > 0) ? ((moment(time, "h:mm:ss").format("HH:mm:ss") < item.collectTimeEnd &&
+            moment(time, "h:mm:ss").format("HH:mm:ss") >= item.collectTimeStart)) : true;
           return (
             Map({
               ...item,
@@ -57,8 +57,8 @@ export default function homeReducer (state = initialState, action) {
         action.data.map(item => {
           const date = new Date();
           const time = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds}`;
-          const isValid = moment(time, "h:mm:ss").format("HH:mm:ss") < item.deliverTimeEnd &&
-            moment(time, "h:mm:ss").format("HH:mm:ss") >= item.deliverTimeStart;
+          const isValid = (moment(item.deliverTimeEnd, "h:mm:ss").diff(moment(item.deliverTimeStart, "h:mm:ss")) > 0) ? (moment(time, "h:mm:ss").format("HH:mm:ss") < item.deliverTimeEnd &&
+            moment(time, "h:mm:ss").format("HH:mm:ss") >= item.deliverTimeStart) : true;
           return (
             Map({
               ...item,

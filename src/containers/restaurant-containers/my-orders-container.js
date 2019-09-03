@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Feather';
-import { calculateCost } from '../../utils/misc';
+import { calculateCostSub2 } from '../../utils/misc';
 import Button from '../../components/common/button';
 
 class OrdersContainer extends Component {
@@ -40,7 +40,7 @@ class OrdersContainer extends Component {
           <View style={styles.orderDetails}>
             <Text style={styles.userInfo}>Order Id: {item.id}</Text>
             <Text style={styles.userInfo}>
-              Total: ${calculateCost(item.orderItinerary, item.deliveringRestaurant, item.collectingRestaurant)}
+              Total: ${calculateCostSub2(item.orderItinerary.items, item.orderItinerary.deliveryServiceCharges, item.orderItinerary.collectingServiceCharge)}
             </Text>
           </View>
         </View>
