@@ -59,7 +59,6 @@ class SidebarMenu extends Component {
 
   renderUserImage = () => {
     const { user } = this.state;
-    console.log(this.props.user);
     if (!isEmpty(this.props.user) && this.props.user.avatarUrl != '') {
       return (
         <Image

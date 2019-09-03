@@ -20,8 +20,10 @@ import { isValidWebUrl } from '../../utils/regex';
 class UserProfileForm extends Component {
 
   state = {
-    submitting: false,
     avatarUrl: '',
+    loading: false,
+    submitting: false,
+    imageLoading: false
   }
 
   componentDidMount() {
@@ -67,11 +69,16 @@ class UserProfileForm extends Component {
         keyboardShouldPersistTaps="handled"
       >
         <PhotoUpload
+          onStart={() => this.setState({ imageLoading: true })}
           onPhotoSelect={avatar => {
             if (avatar) {
-              this.setState({ avatarUrl: avatar })
+              this.setState({
+                avatarUrl: avatar,
+                imageLoading: false,
+              })
             }
           }}
+          onCancel={() => this.setState({ imageLoading: false })}
         >{this.state.avatarUrl !== '' ?
           <Image
             key={new Date().getTime()}
@@ -96,8 +103,10 @@ class UserProfileForm extends Component {
             }}
             resizeMode='cover'
             source={require('../../assets/images/account.png')}
-          />
-          }
+          />}
+          {this.state.imageLoading ? <ActivityIndicator
+            size="large" color="#000" style={styles.indicator}
+          /> : null}
         </PhotoUpload>
         <View style={{ marginTop: 20 }}>
           <Field
@@ -217,6 +226,13 @@ const styles = StyleSheet.create({
     lineHeight: 37,
     borderRadius: 50,
     textAlign: 'center',
+  },
+  indicator: {
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    position: 'absolute',
   },
 });
 
