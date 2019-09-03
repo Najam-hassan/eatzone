@@ -1,7 +1,7 @@
 import moment from 'moment';
 import React, { Component } from 'react';
 import { View, Text, StatusBar, StyleSheet, BackHandler } from 'react-native';
-import { calculateCost, deliveryServiceC, collectionServiceC } from '../../utils/misc';
+import { calculateCostSub2, serviceCharges } from '../../utils/misc';
 import { PageHeader } from '../../components/common/header';
 
 class OrderDetailScreen extends Component {
@@ -9,7 +9,6 @@ class OrderDetailScreen extends Component {
     super(props);
     this.state = { subTotal: 0 }
 
-    //Binding handleBackButtonClick function with this
     this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
   }
 
@@ -19,7 +18,7 @@ class OrderDetailScreen extends Component {
 
   componentDidMount() {
     const { params } = this.props.navigation.state;
-    const subTotal = params.details.orderItinerary.reduce((sum, item) => (
+    const subTotal = params.details.orderItinerary.items.reduce((sum, item) => (
       sum + (item.itemQuantity * item.itemPrice)
     ), 0);
     this.setState({ subTotal: subTotal })
@@ -51,14 +50,14 @@ class OrderDetailScreen extends Component {
           <Text style={{ color: '#cccccc', fontWeight: '400' }}>Delivery Restaurant Charges</Text>
           <View style={styles.priceStyle}>
             <Text style={{ color: '#cccccc', fontWeight: '400' }}>
-              {details.deliveringRestaurant.deliveryServiceCharges}% (${(this.state.subTotal * deliveryServiceC(details.deliveringRestaurant)).toFixed(2)}) </Text>
+              {details.orderItinerary.deliveryServiceCharges}% (${(this.state.subTotal * serviceCharges(details.orderItinerary.deliveryServiceCharges)).toFixed(2)}) </Text>
           </View>
         </View>
         <View style={styles.innerViewStyle}>
           <Text style={{ color: '#cccccc', fontWeight: '400' }}>Dine-in Restaurant Charges</Text>
           <View style={styles.priceStyle}>
             <Text style={{ color: '#cccccc', fontWeight: '400' }}>
-              {details.collectingRestaurant.collectionServiceCharges}% (${(this.state.subTotal * collectionServiceC(details.collectingRestaurant)).toFixed(2)})</Text>
+              {details.orderItinerary.collectingServiceCharge}% (${(this.state.subTotal * serviceCharges(details.orderItinerary.collectingServiceCharge)).toFixed(2)})</Text>
           </View>
         </View>
       </View>
@@ -98,7 +97,7 @@ class OrderDetailScreen extends Component {
                     Qty
                     </Text>
                 </View>
-                {params && params.details.orderItinerary.map(item => (
+                {params && params.details.orderItinerary.items.map(item => (
                   <View style={styles.orderItemContainer}>
                     <Text style={styles.orderDescrip}>
                       {item.itemName}
@@ -116,7 +115,7 @@ class OrderDetailScreen extends Component {
             {this.renderSubTotals()}
             <View style={styles.orderTotal}>
               <Text style={styles.titleText}>Total</Text>
-              <Text style={styles.titleText}> ${calculateCost(params.details.orderItinerary, params.details.deliveringRestaurant, params.details.collectingRestaurant)}
+              <Text style={styles.titleText}> ${calculateCostSub2(params.details.orderItinerary.items, params.details.orderItinerary.deliveryServiceCharges, params.details.orderItinerary.collectingServiceCharge)}
               </Text>
             </View>
           </View>

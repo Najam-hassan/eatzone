@@ -137,7 +137,7 @@ class OrderScreen extends Component {
               }
             >
               <FlatList
-                data={list.filter(row => row.orderItinerary.length > 0)}
+                data={list.filter(row => (row.orderItinerary.items.length > 0))}
                 extraData={this.state}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={this.renderOrderCard}

@@ -17,15 +17,9 @@ export function conversion(value) {
   return (km * 0.62137).toFixed(2)
 }
 
-export const collectionServiceC = (service) => {
+export const serviceCharges = (service) => {
   if (service) {
-    return parseFloat((service.collectionServiceCharges / 100).toFixed(2))
-  }
-}
-
-export const deliveryServiceC = (service) => {
-  if (service) {
-    return parseFloat((service.deliveryServiceCharges / 100).toFixed(2))
+    return parseFloat((service / 100).toFixed(2))
   }
 }
 
@@ -40,10 +34,38 @@ export const calculateCost = (items, charges, dineCharges) => {
   if (charges) {
     delivery = total * parseFloat((charges.deliveryServiceCharges / 100).toFixed(2))
   }
-  if (dinein) {
+  if (dineCharges) {
     dinein = total * parseFloat((dineCharges.collectionServiceCharges / 100).toFixed(2))
   }
   amount = total + parseFloat((delivery).toFixed(2)) + parseFloat((dinein).toFixed(2))
+  return amount.toFixed(2);
+}
+export const calculateCostSub2 = (items, charges, dineCharges) => {
+  let total = 0;
+  let delivery = 0;
+  let dinein = 0;
+  items.forEach(item => {
+    total = total + item.itemQuantity * item.itemPrice;
+  });
+  if (charges) {
+    delivery = total * parseFloat((charges / 100).toFixed(2))
+  }
+  if (dineCharges) {
+    dinein = total * parseFloat((dineCharges / 100).toFixed(2))
+  }
+  amount = parseFloat(total) + parseFloat((delivery).toFixed(2)) + parseFloat((dinein).toFixed(2))
+  return amount.toFixed(2);
+}
+export const calculateCostSub = (subTotal, charges, dineCharges) => {
+  let delivery = 0;
+  let dinein = 0;
+  if (charges) {
+    delivery = subTotal * parseFloat((charges / 100).toFixed(2))
+  }
+  if (dineCharges) {
+    dinein = subTotal * parseFloat((dineCharges / 100).toFixed(2))
+  }
+  amount = parseFloat(subTotal) + parseFloat((delivery).toFixed(2)) + parseFloat((dinein).toFixed(2))
   return amount.toFixed(2);
 }
 

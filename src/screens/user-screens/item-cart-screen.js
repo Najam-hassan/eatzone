@@ -11,7 +11,7 @@ import {
 const { width, height } = Dimensions.get('screen');
 
 import { PageHeader } from '../../components/common/header';
-import { calculateCost, deliveryServiceC, collectionServiceC } from '../../utils/misc';
+import { calculateCostSub, serviceCharges } from '../../utils/misc';
 import { Button, CheckBox } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -184,7 +184,7 @@ class CartScreen extends Component {
             flex: 3, alignItems: 'flex-end', justifyContent: 'flex-end'
           }}>
             <Text style={{ color: '#cccccc', fontWeight: '400' }}>
-              {deliveryResturant.deliveryServiceCharges}% (${(this.state.subTotal * deliveryServiceC(deliveryResturant)).toFixed(2)
+              {deliveryResturant.deliveryServiceCharges}% (${(this.state.subTotal * serviceCharges(deliveryResturant.deliveryServiceCharges)).toFixed(2)
               }) </Text>
           </View>
         </View>
@@ -199,7 +199,7 @@ class CartScreen extends Component {
             flex: 3, alignItems: 'flex-end', justifyContent: 'flex-end'
           }}>
             <Text style={{ color: '#cccccc', fontWeight: '400' }}>
-              {collectingResturant.collectionServiceCharges}% (${(this.state.subTotal * collectionServiceC(collectingResturant)).toFixed(2)})</Text>
+              {collectingResturant.collectionServiceCharges}% (${(this.state.subTotal * serviceCharges(collectingResturant.collectionServiceCharges)).toFixed(2)})</Text>
           </View>
         </View>
 
@@ -294,7 +294,11 @@ class CartScreen extends Component {
       );
 
       const resultObj = {
-        orderArr: orderArr.filter(row => row.itemQuantity > 0),
+        orderArr: {
+          items: orderArr.filter(row => row.itemQuantity > 0),
+          collectingServiceCharge: collectingResturant.collectionServiceCharges,
+          deliveryServiceCharges: deliveryResturant.deliveryServiceCharges,
+        },
         collectingRestaurantId: collectingResturant.id,
         deliveringRestaurantId: deliveryResturant.id,
       }
@@ -369,10 +373,7 @@ class CartScreen extends Component {
                           color: '#000', fontSize: 16, fontWeight: '400',
                         }}>Total</Text>
                         <Text style={{ color: '#000', fontWeight: '400', fontSize: 16, }}>
-                          ${(this.state.subTotal +
-                            (this.state.subTotal *
-                              `.${deliveryResturant.deliveryServiceCharges}`) + (this.state.subTotal * `.${collectingResturant.collectionServiceCharges}`)).toFixed(2)
-                          }
+                          ${calculateCostSub(this.state.subTotal, deliveryResturant.deliveryServiceCharges, collectingResturant.collectionServiceCharges)}
                         </Text>
                       </View>
                     </View>
