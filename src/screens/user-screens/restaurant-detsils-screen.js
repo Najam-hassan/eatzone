@@ -31,7 +31,7 @@ class RestaurantDetailScreen extends Component {
       bannerUrl: '',
       totalItems: 0,
       websiteUrl: '',
-      restaurantName: null
+      restaurantName: null,
     }
 
     //Binding handleBackButtonClick function with this

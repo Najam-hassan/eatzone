@@ -40,8 +40,9 @@ class MainApp extends Component {
           if (value === 'user') {
             navigation.navigate('OrderScreen');
           } else if (value === 'admin') {
+            debugger
             navigation.navigate('ResturantOrderDetailsScreen', {
-              details: details && details.newOrder ? details.newOrder : {},
+              details: details && (details.newOrder ? details.newOrder : (details.updatedNewMenuOrder ? details.updatedNewMenuOrder : {})),
               orderConfirmed: details.orderConfirmed
             });
           }
