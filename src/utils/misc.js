@@ -28,7 +28,7 @@ export const calculateCost = (items, charges, dineCharges) => {
   let delivery = 0;
   let dinein = 0;
 
-  items.forEach(item => {
+  items.length > 0 && items.forEach(item => {
     total = total + item.itemQuantity * item.itemPrice;
   });
   if (charges) {
@@ -44,7 +44,7 @@ export const calculateCostSub2 = (items, charges, dineCharges) => {
   let total = 0;
   let delivery = 0;
   let dinein = 0;
-  items.forEach(item => {
+  items && items.length > 0 && items.forEach(item => {
     total = total + item.itemQuantity * item.itemPrice;
   });
   if (charges) {
