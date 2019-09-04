@@ -58,8 +58,13 @@ class OrderDetailsScreen extends Component {
 
   componentWillReceiveProps(nextProps, prevProps) {
     const { params } = this.props.navigation.state;
+    console.log('0:', this.props.navigation.state.params);
+    if (params.details.orderStatus === 'PENDING') {
+      this.props.navigation.state.params.dineIn = false;
+    }
     if (!params.dineIn) {
       if (nextProps.confirmed && !nextProps.canceled) {
+        this.props.navigation.state.params.details.orderStatus = 'CONFIRMED';
         if (!this.state.completed) {
           this.setState({
             completed: true,
@@ -70,10 +75,18 @@ class OrderDetailsScreen extends Component {
         // this.props.resetState();
       }
       if (nextProps.completed || nextProps.canceled) {
-        this.props.navigation.navigate('CompletedOrdersScreen');
+        console.log('naviggggggg: ', nextProps);
+        // this.props.navigation.navigate('CompletedOrdersScreen');
         this.props.resetState();
+        this.props.navigation.replace('CompletedOrdersScreen');
       }
     }
+    // if (nextProps.confirmed && !nextProps.canceled) {
+    //   this.props.navigation.state.params.details.orderStatus = 'CONFIRMED';
+    //   this.setState({ completed: true, showModal: true, confirmed: false, })
+    //   console.log('confirmmmmmmmm:', !params.dineIn, !params.orderConfirmed, !this.props.loading, this.state.completed,
+    //     this.props.navigation.state.params.details);
+    // }
   }
 
   renderOrderItems = (item, index) => {
@@ -107,8 +120,10 @@ class OrderDetailsScreen extends Component {
           <Text style={{ color: '#cccccc', fontWeight: '400' }}>Delivery Restaurant Charges</Text>
           <View style={styles.priceStyle}>
             <Text style={{ color: '#cccccc', fontWeight: '400' }}>
-              {details.orderItinerary.deliveryServiceCharges}% (${(this.state.subTotal * serviceCharges(details.orderItinerary.deliveryServiceCharges)).toFixed(2)
-              })
+              {details.orderItinerary.deliveryServiceCharges}%
+              {details.orderItinerary.deliveryServiceCharges ?
+                <Text>(${(this.state.subTotal * serviceCharges(details.orderItinerary.deliveryServiceCharges)).toFixed(2)})</Text>
+                : <Text>($0)</Text>}
             </Text>
           </View>
         </View>
@@ -132,8 +147,12 @@ class OrderDetailsScreen extends Component {
 
   renderOrderCard = () => {
     const { params } = this.props.navigation.state;
+    const pendingNotification = params.details ?
+      params.details.orderStatus === 'PENDING' ? 'show' : 'hide'
+      : false;
     const { completed, confirmed } = this.state
     const { loading } = this.props;
+
     return (
       <ScrollView>
         <View style={styles.container}>
@@ -195,83 +214,87 @@ class OrderDetailsScreen extends Component {
             </View>
             < View style={[styles.actionContainer, { paddingBottom: 0 }]} >
               {
-                params.orderConfirmed ? <Button
-                  title={'Call Customer'}
-                  onPress={() => {
-                    if (Platform.OS === 'android') {
-                      Linking.openURL(`tel:${params.details.user.phone}`);
-                    }
-                    else {
-                      const url = `telprompt:${params.details.user.phone}`;
-                      Linking.canOpenURL(url)
-                        .then((supported) => {
-                          if (supported) {
-                            return Linking.openURL(url)
-                              .catch(() => null);
-                          }
-                        });
-                    }
-                  }}
-                  style={[styles.button, {
-                    backgroundColor: '#00a0ff',
-                  }]}
-                  textStyle={{ color: '#fff', fontSize: 12, fontWeight: '400', }}
-                /> : null
+                params.orderConfirmed ?
+                  <Button
+                    title={'Call Customer'}
+                    onPress={() => {
+                      if (Platform.OS === 'android') {
+                        Linking.openURL(`tel:${params.details.user.phone}`);
+                      }
+                      else {
+                        const url = `telprompt:${params.details.user.phone}`;
+                        Linking.canOpenURL(url)
+                          .then((supported) => {
+                            if (supported) {
+                              return Linking.openURL(url)
+                                .catch(() => null);
+                            }
+                          });
+                      }
+                    }}
+                    style={[styles.button, {
+                      backgroundColor: '#00a0ff',
+                    }]}
+                    textStyle={{ color: '#fff', fontSize: 12, fontWeight: '400', }}
+                  /> : null
               }
 
               {
-                !params.dineIn && !params.orderConfirmed && confirmed ? <Button
-                  title={'Cancel Order'}
-                  onPress={() => {
-                    const { details } = params;
-                    this.props.updateOrder(
-                      `/restaurant/cancel-order/${details.id}`, 'canceled'
-                    );
-                  }}
-                  style={[styles.button, {
-                    borderWidth: 1,
-                    borderColor: '#ff0000',
-                    backgroundColor: '#fff',
-                  }]}
-                  textStyle={{ color: '#ff0000', fontSize: 14, fontWeight: '400', }}
-                /> : null
+                (!params.dineIn && !params.orderConfirmed && confirmed) || pendingNotification === 'show' ?
+                  <Button
+                    title={'Cancel Order'}
+                    onPress={() => {
+                      const { details } = params;
+                      this.props.updateOrder(
+                        `/restaurant/cancel-order/${details.id}`, 'canceled'
+                      );
+                    }}
+                    style={[styles.button, {
+                      borderWidth: 1,
+                      borderColor: '#ff0000',
+                      backgroundColor: '#fff',
+                    }]}
+                    textStyle={{ color: '#ff0000', fontSize: 14, fontWeight: '400', }}
+                  /> : null
               }
               {
                 loading ?
                   <ActivityIndicator size={'large'} color={'#1BA2FC'} /> :
-                  !params.orderConfirmed && confirmed ? <Button
-                    title={'Accept Order'}
+                  (!params.orderConfirmed && confirmed) || pendingNotification === 'show' ?
+                    <Button
+                      title={'Accept Order'}
+                      onPress={() => {
+                        const { details } = params;
+                        this.props.updateOrder(
+                          `/restaurant/confirm-order/${details.id}`, 'accepted'
+                        );
+                      }}
+                      style={[styles.button, {
+                        borderWidth: 1,
+                        borderColor: '#17820c',
+                        backgroundColor: '#fff',
+                      }]}
+                      textStyle={{ color: '#17820c', fontSize: 14, fontWeight: '400', }}
+                    /> : null
+              }
+              {
+                !params.dineIn && !params.orderConfirmed && !loading && completed ?
+                  <Button
+                    title={'Complete Order'}
                     onPress={() => {
                       const { details } = params;
                       this.props.updateOrder(
-                        `/restaurant/confirm-order/${details.id}`, 'accepted'
+                        `/restaurant/complete-order/${details.id}`, 'completed'
                       );
                     }}
                     style={[styles.button, {
+                      width: '40%',
                       borderWidth: 1,
                       borderColor: '#17820c',
                       backgroundColor: '#fff',
                     }]}
                     textStyle={{ color: '#17820c', fontSize: 14, fontWeight: '400', }}
                   /> : null
-              }
-              {
-                !params.dineIn && !params.orderConfirmed && !loading && completed ? <Button
-                  title={'Complete Order'}
-                  onPress={() => {
-                    const { details } = params;
-                    this.props.updateOrder(
-                      `/restaurant/complete-order/${details.id}`, 'completed'
-                    );
-                  }}
-                  style={[styles.button, {
-                    width: '40%',
-                    borderWidth: 1,
-                    borderColor: '#17820c',
-                    backgroundColor: '#fff',
-                  }]}
-                  textStyle={{ color: '#17820c', fontSize: 14, fontWeight: '400', }}
-                /> : null
               }
             </View >
           </View >

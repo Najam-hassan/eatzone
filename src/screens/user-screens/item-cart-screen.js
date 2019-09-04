@@ -184,8 +184,11 @@ class CartScreen extends Component {
             flex: 3, alignItems: 'flex-end', justifyContent: 'flex-end'
           }}>
             <Text style={{ color: '#cccccc', fontWeight: '400' }}>
-              {deliveryResturant.deliveryServiceCharges}% (${(this.state.subTotal * serviceCharges(deliveryResturant.deliveryServiceCharges)).toFixed(2)
-              }) </Text>
+              {deliveryResturant.deliveryServiceCharges}%
+              {deliveryResturant.deliveryServiceCharges ?
+                <Text>(${(this.state.subTotal * serviceCharges(deliveryResturant.deliveryServiceCharges)).toFixed(2)})</Text>
+                : <Text>($0)</Text>}
+            </Text>
           </View>
         </View>
 

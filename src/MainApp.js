@@ -27,10 +27,10 @@ class MainApp extends Component {
   }
 
   onOpened(openResult) {
-    console.log('Message: ', openResult.notification.payload.body);
-    console.log('Data: ', openResult.notification.payload.additionalData);
-    console.log('isActive: ', openResult.notification.isAppInFocus);
-    console.log('openResult: ', openResult);
+    // console.log('Message: ', openResult.notification.payload.body);
+    // console.log('Data: ', openResult.notification.payload.additionalData);
+    // console.log('isActive: ', openResult.notification.isAppInFocus);
+    // console.log('openResult: ', openResult);
 
     const details = openResult.notification.payload.additionalData;
     if (details) {
@@ -40,7 +40,7 @@ class MainApp extends Component {
           if (value === 'user') {
             navigation.navigate('OrderScreen');
           } else if (value === 'admin') {
-            debugger
+            console.log('notttttttt: ', details);
             navigation.navigate('ResturantOrderDetailsScreen', {
               details: details && (details.newOrder ? details.newOrder : (details.updatedNewMenuOrder ? details.updatedNewMenuOrder : {})),
               orderConfirmed: details.orderConfirmed
