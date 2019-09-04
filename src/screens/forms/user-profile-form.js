@@ -81,17 +81,15 @@ class UserProfileForm extends Component {
           onCancel={() => this.setState({ imageLoading: false })}
         >{this.state.avatarUrl !== '' ?
           <Image
-            key={new Date().getTime()}
             style={{
               width: 150,
               height: 150,
               borderRadius: 75,
               paddingVertical: 30,
             }}
-            key={new Date().getTime()}
             resizeMode='cover'
             source={{
-              uri: `${this.state.avatarUrl}??${new Date().getTime()}`
+              uri: this.state.avatarUrl
             }}
           /> :
           <Image

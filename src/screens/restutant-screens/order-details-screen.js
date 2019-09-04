@@ -256,7 +256,7 @@ class OrderDetailsScreen extends Component {
                   /> : null
               }
               {
-                !params.dineIn && !params.orderConfirmed && params.orderStatus == 'COMPLETED' && !loading && completed ? <Button
+                !params.dineIn && !params.orderConfirmed && !loading && completed ? <Button
                   title={'Complete Order'}
                   onPress={() => {
                     const { details } = params;

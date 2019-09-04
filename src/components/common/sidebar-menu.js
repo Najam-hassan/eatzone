@@ -41,9 +41,9 @@ class SidebarMenu extends Component {
       Object.keys(nextProps.user).length > 0 &&
       nextProps.user.avatarUrl !== '') {
       this.setState({ user: nextProps.user });
-      AsyncStorage.setItem(
-        'user', JSON.stringify(nextProps.user)
-      )
+      // AsyncStorage.setItem(
+      //   'user', JSON.stringify(nextProps.user)
+      // )
     }
   }
 
@@ -62,8 +62,7 @@ class SidebarMenu extends Component {
     if (!isEmpty(this.props.user) && this.props.user.avatarUrl != '') {
       return (
         <Image
-          key={new Date().getTime()}
-          source={{ uri: `${user.avatarUrl}?${new Date().getTime()}` }}
+          source={{ uri: user.avatarUrl }}
           resizeMode='cover'
           style={{
             height: 80,
@@ -75,10 +74,9 @@ class SidebarMenu extends Component {
 
     return (
       <Image
-        key={new Date().getTime()}
         source={
           (user && user.avatarUrl !== null && user.avatarUrl !== '')
-            ? { uri: `${user.avatarUrl}?${new Date().getTime()}` } : require('../../assets/images/account.png')
+            ? { uri: user.avatarUrl } : require('../../assets/images/account.png')
         }
         resizeMode='cover'
         style={{

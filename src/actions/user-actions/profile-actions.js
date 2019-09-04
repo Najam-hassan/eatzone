@@ -36,12 +36,11 @@ export function profileDetailsAction(data, updating) {
         return axios.put(`/user/edit-profile`, data)
             .then(response => {
                 AsyncStorage.getItem('user')
-                    .then(data => {
-                        const user = JSON.parse(data);
-                        AsyncStorage.setItem('user', JSON.stringify({
-                            ...user,
-                            avatarUrl: response.data.avatarUrl
-                        }),
+                    .then(userData => {
+                        let user = JSON.parse(userData);
+                        user.token = JSON.parse(userData).token;
+                        user.avatarUrl = response.data.avatarUrl;
+                        AsyncStorage.setItem('user', JSON.stringify(user),
                             () => {
                                 dispatch(profileDetailsSuccess(response.data, updating));
                             });
