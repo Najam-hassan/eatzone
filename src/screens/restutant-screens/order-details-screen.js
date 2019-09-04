@@ -265,6 +265,7 @@ class OrderDetailsScreen extends Component {
                       title={'Accept Order'}
                       onPress={() => {
                         const { details } = params;
+                        this.setState({ completed: false })
                         this.props.updateOrder(
                           `/restaurant/confirm-order/${details.id}`, 'accepted'
                         );

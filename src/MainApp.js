@@ -1,6 +1,9 @@
+import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import OneSignal from 'react-native-onesignal';
 import { View, ActivityIndicator, AsyncStorage } from 'react-native';
+
+import * as constants from './actions/constants';
 
 class MainApp extends Component {
 
@@ -40,7 +43,9 @@ class MainApp extends Component {
           if (value === 'user') {
             navigation.navigate('OrderScreen');
           } else if (value === 'admin') {
-            console.log('notttttttt: ', details);
+            this.props.dispatch({
+              type: constants.RESET_RESTAURANT_ORDERS_STATE,
+            })
             navigation.navigate('ResturantOrderDetailsScreen', {
               details: details && (details.newOrder ? details.newOrder : (details.updatedNewMenuOrder ? details.updatedNewMenuOrder : {})),
               orderConfirmed: details.orderConfirmed
@@ -64,4 +69,4 @@ class MainApp extends Component {
   }
 }
 
-export default MainApp;
+export default connect(null, null)(MainApp);
