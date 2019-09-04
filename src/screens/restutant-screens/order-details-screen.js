@@ -116,8 +116,12 @@ class OrderDetailsScreen extends Component {
           <Text style={{ color: '#cccccc', fontWeight: '400' }}>Dine-in Restaurant Charges</Text>
           <View style={styles.priceStyle}>
             <Text style={{ color: '#cccccc', fontWeight: '400' }}>
-              {details.orderItinerary.collectingServiceCharge}% (${(this.state.subTotal * serviceCharges(details.orderItinerary.collectingServiceCharge)).toFixed(2)
-              })
+              {details.orderItinerary.collectingServiceCharge}%
+              {details.orderItinerary.collectingServiceCharge ?
+                <Text>(${(this.state.subTotal * serviceCharges(details.orderItinerary.collectingServiceCharge)).toFixed(2)})</Text>
+                :
+                <Text>($0)</Text>
+              }
             </Text>
           </View>
         </View>

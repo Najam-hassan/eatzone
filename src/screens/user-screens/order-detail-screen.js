@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React, { Component } from 'react';
-import { View, Text, StatusBar, StyleSheet, BackHandler } from 'react-native';
+import { View, Text, StatusBar, StyleSheet, BackHandler, ScrollView } from 'react-native';
 import { calculateCostSub2, serviceCharges } from '../../utils/misc';
 import { PageHeader } from '../../components/common/header';
 
@@ -57,7 +57,13 @@ class OrderDetailScreen extends Component {
           <Text style={{ color: '#cccccc', fontWeight: '400' }}>Dine-in Restaurant Charges</Text>
           <View style={styles.priceStyle}>
             <Text style={{ color: '#cccccc', fontWeight: '400' }}>
-              {details.orderItinerary.collectingServiceCharge}% (${(this.state.subTotal * serviceCharges(details.orderItinerary.collectingServiceCharge)).toFixed(2)})</Text>
+              {details.orderItinerary.collectingServiceCharge}%
+              {details.orderItinerary.collectingServiceCharge ?
+                <Text>(${(this.state.subTotal * serviceCharges(details.orderItinerary.collectingServiceCharge)).toFixed(2)})</Text>
+                :
+                <Text>($0)</Text>
+              }
+            </Text>
           </View>
         </View>
       </View>
@@ -68,58 +74,61 @@ class OrderDetailScreen extends Component {
     const { params } = this.props.navigation.state;
     const { subTotal } = this.state;
     return (
+
       <View style={{ flex: 1, backgroundColor: '#ebebeb', }}>
         <StatusBar hidden={false} />
         <PageHeader
           navigation={this.props.navigation}
           title={'Order Details'}
         />
-        <View style={styles.container}>
-          <View style={styles.orderContent}>
-            <View style={styles.orderNo}>
-              <Text style={styles.titleText}>Order No: {params.details.id}</Text>
-              <Text style={styles.descripText}>
-                Order Date: {moment(params.details.createdAt)
-                  .format(("LLL"))}
-              </Text>
-            </View>
-            <View style={styles.orderDetail}>
-              <Text style={styles.titleText}>Order Details</Text>
-              <View styles={{ flexDirection: 'column' }}>
-                <View style={styles.orderItemContainer}>
-                  <Text style={[styles.orderDescrip, { color: "#cccccc" }]}>
-                    Name
-                    </Text>
-                  <Text style={[styles.orderPrice, { color: "#cccccc" }]}>
-                    Unit Price
-                    </Text>
-                  <Text style={[styles.orderQuantity, { color: "#cccccc" }]}>
-                    Qty
-                    </Text>
-                </View>
-                {params && params.details.orderItinerary.items.map(item => (
+        <ScrollView>
+          <View style={styles.container}>
+            <View style={styles.orderContent}>
+              <View style={styles.orderNo}>
+                <Text style={styles.titleText}>Order No: {params.details.id}</Text>
+                <Text style={styles.descripText}>
+                  Order Date: {moment(params.details.createdAt)
+                    .format(("LLL"))}
+                </Text>
+              </View>
+              <View style={styles.orderDetail}>
+                <Text style={styles.titleText}>Order Details</Text>
+                <View styles={{ flexDirection: 'column' }}>
                   <View style={styles.orderItemContainer}>
-                    <Text style={styles.orderDescrip}>
-                      {item.itemName}
+                    <Text style={[styles.orderDescrip, { color: "#cccccc" }]}>
+                      Name
                     </Text>
-                    <Text style={styles.orderPrice}>
-                      ${item.itemPrice}
+                    <Text style={[styles.orderPrice, { color: "#cccccc" }]}>
+                      Unit Price
                     </Text>
-                    <Text style={styles.orderQuantity}>
-                      {item.itemQuantity}
+                    <Text style={[styles.orderQuantity, { color: "#cccccc" }]}>
+                      Qty
                     </Text>
                   </View>
-                ))}
+                  {params && params.details.orderItinerary.items.map(item => (
+                    <View style={styles.orderItemContainer}>
+                      <Text style={styles.orderDescrip}>
+                        {item.itemName}
+                      </Text>
+                      <Text style={styles.orderPrice}>
+                        ${item.itemPrice}
+                      </Text>
+                      <Text style={styles.orderQuantity}>
+                        {item.itemQuantity}
+                      </Text>
+                    </View>
+                  ))}
+                </View>
+              </View>
+              {this.renderSubTotals()}
+              <View style={styles.orderTotal}>
+                <Text style={styles.titleText}>Total</Text>
+                <Text style={styles.titleText}> ${calculateCostSub2(params.details.orderItinerary.items, params.details.orderItinerary.deliveryServiceCharges, params.details.orderItinerary.collectingServiceCharge)}
+                </Text>
               </View>
             </View>
-            {this.renderSubTotals()}
-            <View style={styles.orderTotal}>
-              <Text style={styles.titleText}>Total</Text>
-              <Text style={styles.titleText}> ${calculateCostSub2(params.details.orderItinerary.items, params.details.orderItinerary.deliveryServiceCharges, params.details.orderItinerary.collectingServiceCharge)}
-              </Text>
-            </View>
           </View>
-        </View>
+        </ScrollView>
       </View>
     )
   }
