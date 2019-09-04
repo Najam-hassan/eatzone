@@ -48,6 +48,7 @@ export default function MyTextArea (props) {
                     onChangeText={onChangeText}
                     placeholder={placeholder}
                     maxLength={maxLength}
+                    scrollEnabled={true}
                     editable={editable}
                     multiline={true}
                     value={value}
@@ -80,12 +81,12 @@ const styles = {
         // flex: 1,
     },
     errorTextStyle: {
-        position: 'absolute',
-        top: 52,
+        top: 0,
         right: 20,
-        textAlign: 'right',
-        color: '#fff',
         fontSize: 12,
-        fontWeight: '400'
+        color: '#fff',
+        fontWeight: '400',
+        textAlign: 'right',
+        position: 'absolute',
     },
 };
