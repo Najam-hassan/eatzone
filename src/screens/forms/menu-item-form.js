@@ -42,7 +42,6 @@ class MenuItemForm extends Component {
 				if (imageData) {
 					this.props.updateItem({
 						...values.toJS(),
-						// imageData: `data:image/jpeg;base64,${imageData}`
 						imageData: imageData
 					}, categoryId, itemId);
 				} else {
@@ -51,7 +50,6 @@ class MenuItemForm extends Component {
 			} else if (imageData) {
 				this.props.onSubmit(categoryId, {
 					...values.toJS(),
-					// imageData: `data:image/jpeg;base64,${imageData}`
 					imageData: imageData
 				});
 			} else {
@@ -209,6 +207,9 @@ const validate = values => {
 		errors.price = '*Required';
 	} else if (!/^[+]?([.]\d+|\d+[.]?\d*)$/i.test(values.get('price'))) {
 		errors.price = "Price must be greater than 0"
+	}
+	if (values.get('description') && values.get('description').length > 250) {
+		errors.description = "Not be greater the 250 characters."
 	}
 
 	return errors;
