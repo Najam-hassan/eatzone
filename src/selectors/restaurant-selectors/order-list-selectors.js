@@ -35,10 +35,15 @@ const makeSelectOrderLoading = () => createSelector(
     selectOrderListState, state => state.getIn(['orders', 'updating'])
 );
 
+const makeSelectGetOrders = () => createSelector(
+    selectOrderListState, state => state.get('orders').toJS()
+);
+
 export {
     makeSelectCanceled,
     makeSelectCompleted,
     makeSelectConfirmed,
+    makeSelectGetOrders,
     selectOrderListState,
     makeSelectOrderLoading,
     makeSelectOrderListError,

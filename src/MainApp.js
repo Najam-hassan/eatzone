@@ -43,6 +43,7 @@ class MainApp extends Component {
           if (value === 'user') {
             navigation.navigate('OrderScreen');
           } else if (value === 'admin') {
+            console.log('notttttttt: ', details);
             this.props.dispatch({
               type: constants.RESET_RESTAURANT_ORDERS_STATE,
             })

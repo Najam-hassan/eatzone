@@ -88,6 +88,50 @@ const PageHeader = ({ navigation, title, isCartScreen, id, phone }) => {
   )
 }
 
+const OrderDetailHeader = ({ navigation, title, isCartScreen, id, phone, navScreen }) => {
+  const { iconsViewStyle, navTitle, navRight } = styles;
+  return (
+    <View style={{ backgroundColor: '#00a0ff', }}>
+      <View style={[iconsViewStyle, { backgroundColor: '#00a0ff' }]}>
+        <TouchableOpacity
+          style={{ paddingHorizontal: 5, paddingVertical: 10, flex: 0.1, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', }}
+          onPress={() => {
+            navigation.replace(navScreen);
+          }}
+        >
+          <Icon name="chevron-left" size={34} color={'#fff'} />
+        </TouchableOpacity>
+        <View style={navTitle}>
+          <Text numberOfLines={1} style={{ color: '#fff', fontSize: 18, fontWeight: '500', lineHeight: 24, textAlign: "center" }}>{title}</Text>
+        </View>
+        <View style={navRight}>
+          {phone ?
+            <TouchableOpacity
+              onPress={() => {
+                if (Platform.OS === 'android') {
+                  Linking.openURL(
+                    `tel:${phone ? phone : 123}`
+                  );
+                }
+                else {
+                  const url = `telprompt:${phone ? phone : 123}`;
+                  Linking.canOpenURL(url).then((supported) => {
+                    if (supported) {
+                      return Linking.openURL(url)
+                        .catch(() => null);
+                    }
+                  });
+                }
+              }}
+            >
+              <CallIcon name="phone-call" size={18} color="#fff" />
+            </TouchableOpacity> : null}
+        </View>
+      </View>
+    </View>
+  )
+}
+
 const styles = StyleSheet.create({
   iconsViewStyle: {
     justifyContent: 'space-between',
@@ -111,4 +155,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export { Header, PageHeader };
+export { Header, PageHeader, OrderDetailHeader };

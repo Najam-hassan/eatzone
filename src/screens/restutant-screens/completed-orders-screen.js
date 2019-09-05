@@ -62,6 +62,7 @@ class CompletedOrdersScreen extends Component {
           }}
         />
         <OrdersContainer
+          navScreen="CompletedOrdersScreen"
           isDelivery={true}
           isCollecting={true}
           navigation={this.props.navigation}

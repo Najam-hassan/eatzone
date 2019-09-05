@@ -91,6 +91,7 @@ class RecentOrdersScreen extends Component {
           renderScene={SceneMap({
             first: () => (
               <OrdersContainer
+                navScreen="RecentOrdersScreen"
                 isDelivery={true}
                 navigation={this.props.navigation}
                 fetchList={() => this.props.fetchList()}
@@ -101,6 +102,7 @@ class RecentOrdersScreen extends Component {
             ),
             second: () => (
               <OrdersContainer
+                navScreen="RecentOrdersScreen"
                 list={collections}
                 isDelivery={false}
                 isCollecting={true}

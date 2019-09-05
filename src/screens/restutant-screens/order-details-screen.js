@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 import Button from '../../components/common/button';
-import { PageHeader } from '../../components/common/header';
+import { OrderDetailHeader } from '../../components/common/header';
 import { AppText } from '../../components/common/typography';
 
 import { calculateCostSub2, serviceCharges, subTotalForOrders } from '../../utils/misc';
@@ -21,7 +21,7 @@ class OrderDetailsScreen extends Component {
   constructor(props) {
     super(props);
     this.state = { subTotal: 0, confirmed: false, completed: false, showModal: false }
-    console.log(props.navigation.state.params);
+    console.log('params: ',props.navigation.state.params, 'sss',this.props.orders);
 
     this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
   }
@@ -81,12 +81,7 @@ class OrderDetailsScreen extends Component {
         this.props.navigation.replace('CompletedOrdersScreen');
       }
     }
-    // if (nextProps.confirmed && !nextProps.canceled) {
-    //   this.props.navigation.state.params.details.orderStatus = 'CONFIRMED';
-    //   this.setState({ completed: true, showModal: true, confirmed: false, })
-    //   console.log('confirmmmmmmmm:', !params.dineIn, !params.orderConfirmed, !this.props.loading, this.state.completed,
-    //     this.props.navigation.state.params.details);
-    // }
+
   }
 
   renderOrderItems = (item, index) => {
@@ -191,8 +186,8 @@ class OrderDetailsScreen extends Component {
                     Qty
                     </Text>
                 </View>
-                {params && params.details.orderItinerary.items.map(item => (
-                  <View style={styles.orderItemContainer}>
+                {params && params.details.orderItinerary.items.map((item, index) => (
+                  <View key={item+index} style={styles.orderItemContainer}>
                     <Text style={styles.orderDescrip}>
                       {item.itemName}
                     </Text>
@@ -279,7 +274,7 @@ class OrderDetailsScreen extends Component {
                     /> : null
               }
               {
-                !params.dineIn && !params.orderConfirmed && !loading && completed ?
+                !params.dineIn && !params.orderConfirmed && !loading && completed && params.details.orderStatus === "CONFIRMED" ?
                   <Button
                     title={'Complete Order'}
                     onPress={() => {
@@ -305,10 +300,12 @@ class OrderDetailsScreen extends Component {
   }
 
   render() {
+    const { params } = this.props.navigation.state;
     return (
       <View style={{ flex: 1, backgroundColor: '#e4e4e4' }}>
         <StatusBar hidden={false} />
-        <PageHeader
+        <OrderDetailHeader
+          navScreen={params.navScreen}
           navigation={this.props.navigation}
           title={'Order Details'}
         />
@@ -505,6 +502,7 @@ const mapStateToProps = state => ({
   confirmed: selectors.makeSelectConfirmed()(state),
   completed: selectors.makeSelectCompleted()(state),
   canceled: selectors.makeSelectCanceled()(state),
+  orders: selectors.makeSelectGetOrders()(state)
 });
 
 const mapDispatchToProps = dispatch => {

@@ -120,10 +120,11 @@ class OrdersContainer extends Component {
           <Button
             title={'View Details'}
             onPress={() => {
-              const { navigation } = this.props;
+              const { navigation, navScreen } = this.props;
               navigation.navigate('ResturantOrderDetailsScreen', {
                 details: item,
-                dineIn: this.props.isCollecting
+                dineIn: this.props.isCollecting,
+                navScreen: navScreen
               });
             }}
             style={[styles.button, {
