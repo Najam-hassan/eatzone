@@ -19,9 +19,9 @@ class OrdersContainer extends Component {
       >
 
         <View style={styles.orderCardContainer}>
-          {!isDelivery && item.deliveringRestaurant && item.orderStatus === "COMPLETED" ?
+          {!isDelivery && item.deliveringRestaurant && (item.orderStatus === "COMPLETED" || item.orderStatus == "CANCELLED") ?
             <View style={styles.bannerMessage}>
-              <Text style={styles.bannerText}>Delivery Completed</Text>
+              <Text style={styles.bannerText}>DELIVERY {`${item.orderStatus}`}</Text>
             </View> : null}
           <View style={styles.detailsContainer}>
             {item && item.user.avatarUrl ?
@@ -57,6 +57,14 @@ class OrdersContainer extends Component {
                 {item.collectingRestaurant.address}
               </Text>
             </Text>
+            {
+              item.collectingRestaurant.addressDetails.length > 0 ?
+                <Text style={{ textAlign: 'left', fontSize: 16, fontWeight: '500', marginTop: 10 }}>
+                  Address Details: <Text style={{ fontSize: 16, paddingRight: 20, paddingLeft: 20, fontWeight: '400' }}>
+                    {item.collectingRestaurant.addressDetails}
+                  </Text>
+                </Text> : null
+            }
           </View> : null}
 
         {!isDelivery && item.deliveringRestaurant ?
@@ -90,9 +98,18 @@ class OrdersContainer extends Component {
             </View>
             <Text style={{ textAlign: 'left', fontSize: 16, fontWeight: '500', marginTop: 10 }}>
               Address: <Text style={{ fontSize: 16, paddingLeft: 20, fontWeight: '400' }}>
-                {item.collectingRestaurant.address}
+                {item.deliveringRestaurant.address}
               </Text>
             </Text>
+            {
+              item.deliveringRestaurant.addressDetails.length > 0 ?
+                <Text style={{ textAlign: 'left', fontSize: 16, fontWeight: '500', marginTop: 10 }}>
+                  Address Details: <Text style={{ fontSize: 16, paddingRight: 20, paddingLeft: 20, fontWeight: '400' }}>
+                    {item.deliveringRestaurant.addressDetails}
+                  </Text>
+                </Text> : null
+            }
+
           </View> : null}
         <View style={styles.actionContainer}>
           <Button
@@ -211,7 +228,9 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingBottom: 10,
     backgroundColor: '#d9f1ff',
-    paddingLeft: 15
+    paddingLeft: 15,
+    paddingRight: 15
+
   },
   detailsContainer: {
     flex: .58,

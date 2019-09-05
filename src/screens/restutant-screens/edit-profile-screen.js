@@ -102,7 +102,9 @@ const mapDispatchToProps = dispatch => {
       dispatch(change("RestaurantProfileForm", fieldName, value))
     },
     onSubmit: (values) => {
-      dispatch(actions.updateProfileAction(values, true))
+      console.log(values, '0-0-0-0-0')
+
+      dispatch(actions.updateProfileAction({ ...values, addressDetails: values.addressDetails || "" }, true))
     },
   }
 };

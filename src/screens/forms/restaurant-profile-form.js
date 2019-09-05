@@ -67,6 +67,8 @@ class ProfileForm extends Component {
     } = this.state;
     const formValues = {
       ...values.toJS(),
+      addressDetails: values.get('addressDetails') !== '' ?
+        values.get('addressDetails') : " ",
       address: location,
       canDeliver: canDeliver,
       canCollect: canCollect,
