@@ -200,8 +200,8 @@ const validate = values => {
 	const errors = {};
 	if (!values.get('name')) {
 		errors.name = '*Required';
-	} else if (values.get('name').length < 5) {
-		errors.name = "must be at least 5 characters long"
+	} else if (values.get('name').length < 3) {
+		errors.name = "must be at least 3 characters long"
 	}
 	if (!values.get('price')) {
 		errors.price = '*Required';

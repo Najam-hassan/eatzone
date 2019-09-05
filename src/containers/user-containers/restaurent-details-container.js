@@ -32,8 +32,12 @@ class RestaurantDetail extends Component {
                 <Image source={{ uri: item.imageUrl }} style={{ width: 70, height: 70, borderRadius: 10 }} />
                 <View style={{ flex: 1, flexDirection: 'column', marginLeft: 15, }}>
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 }}>
-                    <Text style={styles.title}>{item.name}</Text>
-                    <Text style={styles.price}>${item.price.toFixed(2)}</Text>
+                    <View style={{ flex:1, }} >
+                      <Text style={styles.title}>{item.name}</Text>
+                    </View>
+                    <View style={{ flex:0.3, alignItems:'flex-end',}} >
+                      <Text style={styles.price}>${item.price.toFixed(2)}</Text>
+                    </View>
                   </View>
                   <View style={{
                     flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'wrap', marginTop: 4,
