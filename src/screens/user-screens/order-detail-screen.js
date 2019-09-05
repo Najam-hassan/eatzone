@@ -115,7 +115,7 @@ class OrderDetailScreen extends Component {
                         {item.itemName}
                       </Text>
                       <Text style={styles.orderPrice}>
-                        ${item.itemPrice}
+                        ${item.itemPrice.toFixed(2)}
                       </Text>
                       <Text style={styles.orderQuantity}>
                         {item.itemQuantity}

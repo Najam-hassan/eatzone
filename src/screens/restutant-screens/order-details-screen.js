@@ -11,7 +11,7 @@ import Button from '../../components/common/button';
 import { PageHeader } from '../../components/common/header';
 import { AppText } from '../../components/common/typography';
 
-import { calculateCostSub2, serviceCharges } from '../../utils/misc';
+import { calculateCostSub2, serviceCharges, subTotalForOrders } from '../../utils/misc';
 
 import FoodModal from '../../components/food-modal';
 import * as actions from '../../actions/restaurant-actions/order-listing-actions';
@@ -98,7 +98,7 @@ class OrderDetailsScreen extends Component {
         >
           <AppText style={styles.orderDescrip}>{item && item.itemName || ''} </AppText>
           <AppText style={styles.orderQuantity}>Qty: {item && item.itemQuantity || ''} </AppText>
-          <AppText style={styles.orderPrice}>${item && item.itemPrice || ''} </AppText>
+          <AppText style={styles.orderPrice}>${item && item.itemPrice.toFixed(2) || ''} </AppText>
         </View>
       </View>
     )
@@ -111,7 +111,7 @@ class OrderDetailsScreen extends Component {
           <Text style={{ color: '#cccccc', fontWeight: '400' }}>SubTotal</Text>
           <View style={styles.priceStyle}>
             <Text style={{ color: '#cccccc', fontWeight: '400', }}>
-              ${this.state.subTotal.toFixed(2)}
+              ${subTotalForOrders(details.orderItinerary).toFixed(2)}
             </Text>
           </View>
         </View>
@@ -122,7 +122,7 @@ class OrderDetailsScreen extends Component {
             <Text style={{ color: '#cccccc', fontWeight: '400' }}>
               {details.orderItinerary.deliveryServiceCharges}%
               {details.orderItinerary.deliveryServiceCharges ?
-                <Text>(${(this.state.subTotal * serviceCharges(details.orderItinerary.deliveryServiceCharges)).toFixed(2)})</Text>
+                <Text>(${(subTotalForOrders(details.orderItinerary) * serviceCharges(details.orderItinerary.deliveryServiceCharges)).toFixed(2)})</Text>
                 : <Text>($0)</Text>}
             </Text>
           </View>
@@ -133,7 +133,7 @@ class OrderDetailsScreen extends Component {
             <Text style={{ color: '#cccccc', fontWeight: '400' }}>
               {details.orderItinerary.collectingServiceCharge}%
               {details.orderItinerary.collectingServiceCharge ?
-                <Text>(${(this.state.subTotal * serviceCharges(details.orderItinerary.collectingServiceCharge)).toFixed(2)})</Text>
+                <Text>(${(subTotalForOrders(details.orderItinerary) * serviceCharges(details.orderItinerary.collectingServiceCharge)).toFixed(2)})</Text>
                 :
                 <Text>($0)</Text>
               }
@@ -197,7 +197,7 @@ class OrderDetailsScreen extends Component {
                       {item.itemName}
                     </Text>
                     <Text style={styles.orderPrice}>
-                      ${item.itemPrice}
+                      ${item.itemPrice.toFixed(2)}
                     </Text>
                     <Text style={styles.orderQuantity}>
                       {item.itemQuantity}

@@ -69,6 +69,13 @@ export const calculateCostSub = (subTotal, charges, dineCharges) => {
   return amount.toFixed(2);
 }
 
+export const subTotalForOrders = (itinerary) => {
+  const subTotal = itinerary.items.reduce((sum, item) => (
+    sum + (item.itemQuantity * item.itemPrice)
+  ), 0);
+  return subTotal;
+}
+
 export function setInitialDrawerSize() {
   return Platform.OS === 'ios' && (isIPhoneXSize(dim) || isIPhoneXrSize(dim)) ? 0.23 : 0.15
 }

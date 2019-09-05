@@ -27,7 +27,7 @@ export default function homeReducer(state = initialState, action) {
           const date = new Date();
           const time = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds}`;
           const isValid = (moment(item.collectTimeEnd, "h:mm:ss").diff(moment(item.collectTimeStart, "h:mm:ss")) > 0) ? ((moment(time, "h:mm:ss").format("HH:mm:ss") < item.collectTimeEnd &&
-            moment(time, "h:mm:ss").format("HH:mm:ss") >= item.collectTimeStart)) : true;
+            moment(time, "h:mm:ss").format("HH:mm:ss") >= item.collectTimeStart)) : moment(time, "h:mm:ss").format("HH:mm:ss") > item.collectTimeStart;
           return (
             Map({
               ...item,
@@ -57,8 +57,8 @@ export default function homeReducer(state = initialState, action) {
         action.data.map(item => {
           const date = new Date();
           const time = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds}`;
-          const isValid = (moment(item.deliverTimeEnd, "h:mm:ss").diff(moment(item.deliverTimeStart, "h:mm:ss")) > 0) ? (moment(time, "h:mm:ss").format("HH:mm:ss") < item.deliverTimeEnd &&
-            moment(time, "h:mm:ss").format("HH:mm:ss") >= item.deliverTimeStart) : true;
+          const isValid = (moment(time, "h:mm:ss").diff(item.deliverTimeEnd, "h:mm:ss") > 0) ? (moment(time, "h:mm:ss").format("HH:mm:ss") < item.deliverTimeEnd &&
+            moment(time, "h:mm:ss").format("HH:mm:ss") >= item.deliverTimeStart) : moment(time, "h:mm:ss").format("HH:mm:ss") > item.collectTimeStart;
           return (
             Map({
               ...item,
