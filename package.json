@@ -46,7 +46,8 @@
     "redux-form": "8.2.3",
     "redux-immutable": "4.0.0",
     "redux-thunk": "2.3.0",
-    "reselect": "4.0.0"
+    "reselect": "4.0.0",
+    "tipsi-stripe": "^7.5.1"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",

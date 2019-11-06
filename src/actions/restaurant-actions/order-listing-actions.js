@@ -32,6 +32,7 @@ export function fetchOrdersAction() {
         dispatch(fetchOrderRrquest());
         return axios.get(`/restaurant/get-orders`)
             .then(response => {
+                // console.log('Recent Orders=====>>',response.data);
                 dispatch(fetchOrderSuccess(response.data));
             })
             .catch(error => {

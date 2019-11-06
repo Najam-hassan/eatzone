@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import Toast from 'react-native-easy-toast';
+import stripe from 'tipsi-stripe';
 import { NavigationEvents } from 'react-navigation';
 import {
   Image, View, TouchableOpacity, Text, StatusBar, ScrollView, BackHandler,
@@ -23,6 +24,16 @@ import * as orderSelectors from '../../selectors/user-selectors/place-order-sele
 import * as selectors from '../../selectors/user-selectors/restaurent-detail-selectors';
 import FoodModal from '../../components/food-modal';
 import TermsModal from '../../components/terms-modal';
+
+const theme = {
+  primaryBackgroundColor: 'white',
+  secondaryBackgroundColor: 'white',
+  primaryForegroundColor: 'blue',
+  secondaryForegroundColor: 'orange',
+  accentColor: 'green',
+  errorColor: 'red'
+};
+
 class CartScreen extends Component {
   constructor(props) {
     super(props);
@@ -63,9 +74,48 @@ class CartScreen extends Component {
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
   }
 
+  // findDeliveryResp = () => {
+  //   const { deliveryResturant, collectingResturant } = this.props;
+
+  //   if (collectingResturant.canPickup == true) {
+  //     if (deliveryResturant.canDeliver == true && ( deliveryResturant.distance <= deliveryResturant.deliverRadius )) {
+  //       return deliveryResturant.id;
+  //     }else {
+  //       return collectingResturant.id;
+  //     }
+  //   } else {
+  //     return deliveryResturant.id;
+  //   }
+  // }
+
   handleBackButtonClick() {
     this.props.navigation.navigate('HomeScreen');
     return true;
+  }
+
+  stripPayment(itemValue, pkgId, pkgType, amount, currency) {
+    if (this.state.terms) {
+      stripe.setOptions({
+        publishableKey: 'pk_test_BV2QYPsCZMyUd78QJVixfzQI00VSUK33GG',
+      });
+      const options = {
+        smsAutofillDisabled: true,
+        requiredBillingAddressFields: 'zip', // or 'full'
+        theme
+      };
+      stripe.paymentRequestWithCardForm(options)
+        .then(response => {
+          // Get the token from the response, and send to your server
+          this.onSubmit(response.tokenId)
+          // console.log('token:', response);
+        })
+        .catch(error => {
+          this.setState({ loading: false })
+          // Handle error
+        });
+    } else {
+      this.refs.toast.show(`Please accept the terms and conditions first`, 2000);
+    }
   }
 
   _renderItem = ({ item }) => {
@@ -158,6 +208,7 @@ class CartScreen extends Component {
 
   renderTaxes = () => {
     const { collectingResturant, deliveryResturant } = this.props;
+
     return (
       <View style={styles.subTotalOrder}>
         <View style={{
@@ -174,7 +225,7 @@ class CartScreen extends Component {
           </View>
         </View>
 
-        <View style={{
+        {/* <View style={{
           flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 3,
         }}>
           <Text numberOfLines={1} style={{
@@ -187,6 +238,24 @@ class CartScreen extends Component {
               {deliveryResturant.deliveryServiceCharges}%
               {deliveryResturant.deliveryServiceCharges ?
                 <Text>(${(this.state.subTotal * serviceCharges(deliveryResturant.deliveryServiceCharges)).toFixed(2)})</Text>
+                : <Text>($0)</Text>}
+            </Text>
+          </View>
+        </View> */}
+
+        <View style={{
+          flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 3,
+        }}>
+          <Text numberOfLines={1} style={{
+            flex: 7, color: '#cccccc', fontWeight: '400',
+          }}>GST Charges</Text>
+          <View style={{
+            flex: 3, alignItems: 'flex-end', justifyContent: 'flex-end'
+          }}>
+            <Text style={{ color: '#cccccc', fontWeight: '400' }}>
+              {deliveryResturant.taxRate}%
+              {deliveryResturant.deliveryServiceCharges ?
+                <Text>(${(this.state.subTotal * serviceCharges(deliveryResturant.taxRate)).toFixed(2)})</Text>
                 : <Text>($0)</Text>}
             </Text>
           </View>
@@ -289,7 +358,7 @@ class CartScreen extends Component {
     this.setState({ termsModal: false })
   }
 
-  onSubmit = () => {
+  onSubmit = (stripeToken) => {
     const { cartItems, deliveryResturant, collectingResturant } = this.props;
     if (this.state.terms) {
       const orderArr = _.flatMap(cartItems, category =>
@@ -309,7 +378,11 @@ class CartScreen extends Component {
         },
         collectingRestaurantId: collectingResturant.id,
         deliveringRestaurantId: deliveryResturant.id,
+        transportResponsibility: deliveryResturant.transportResponsibility,
+        customerStripeToken: stripeToken,
+        billAmount: calculateCostSub(this.state.subTotal, deliveryResturant.taxRate, collectingResturant.collectionServiceCharges),
       }
+      console.log('object===>>>', resultObj);
       this.props.placeOrder(resultObj);
     } else {
       this.refs.toast.show(`Please accept the terms and conditions first`, 2000);
@@ -381,7 +454,7 @@ class CartScreen extends Component {
                           color: '#000', fontSize: 16, fontWeight: '400',
                         }}>Total</Text>
                         <Text style={{ color: '#000', fontWeight: '400', fontSize: 16, }}>
-                          ${calculateCostSub(this.state.subTotal, deliveryResturant.deliveryServiceCharges, collectingResturant.collectionServiceCharges)}
+                          ${calculateCostSub(this.state.subTotal, deliveryResturant.taxRate, collectingResturant.collectionServiceCharges)}
                         </Text>
                       </View>
                     </View>
@@ -409,7 +482,8 @@ class CartScreen extends Component {
                     <ButtonCom
                       title={'Place Order'}
                       onPress={() => {
-                        this.onSubmit();
+                        // this.onSubmit();
+                        this.stripPayment()
                       }}
                       style={styles.button}
                       textStyle={{ /* styles for button title */ }}

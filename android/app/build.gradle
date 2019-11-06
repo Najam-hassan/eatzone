@@ -103,7 +103,7 @@ def enableSeparateBuildPerCPUArchitecture = true
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
-def enableProguardInReleaseBuilds = true
+def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -120,12 +120,15 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+
+        // manifestPlaceholders = [onesignal_app_id: "f63350e4-f498-494f-9a3d-6d691518b83c",
+        //                         onesignal_google_project_number: "REMOTE"]
     }
     splits {
         abi {
             reset()
             enable enableSeparateBuildPerCPUArchitecture
-            universalApk true  // If true, also generate a universal APK
+            universalApk false  // If true, also generate a universal APK
             // include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
             include "armeabi-v7a", "x86"
         }
@@ -143,7 +146,7 @@ android {
     buildTypes {
         release {
             minifyEnabled enableProguardInReleaseBuilds
-            shrinkResources true 
+            // shrinkResources true 
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
         }
@@ -164,6 +167,7 @@ android {
 }
 
 dependencies {
+    implementation project(':tipsi-stripe')
     implementation project(':@react-native-community_async-storage')
     implementation project(':@react-native-community_geolocation')
     implementation project(':react-native-geolocation-service')
@@ -181,7 +185,7 @@ dependencies {
 //    }
     implementation project(':react-native-gesture-handler')
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
+    implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation 'com.google.firebase:firebase-core:16.0.9'
 //    implementation "com.google.android.gms:play-services-base:16.0.0"

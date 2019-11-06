@@ -63,7 +63,8 @@ class CategoryForm extends Component {
     };
 
     render () {
-        const { handleSubmit, submitting, loading, imageUrl } = this.props;
+        const { handleSubmit, submitting, loading, imageUrl, error } = this.props;
+        // console.warn('error===>>>',error);
         const { imageLoading } = this.state;
         return (
             <View style={styles.container}>

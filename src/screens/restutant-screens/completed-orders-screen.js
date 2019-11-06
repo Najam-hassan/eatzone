@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { NavigationEvents } from 'react-navigation';
-import { View, StatusBar, ActivityIndicator, BackHandler } from 'react-native';
+import { View, StatusBar, ActivityIndicator, BackHandler, AsyncStorage } from 'react-native';
 
 import { Header } from '../../components/common/header';
 
@@ -13,13 +13,14 @@ import OrdersContainer from '../../containers/restaurant-containers/my-orders-co
 class CompletedOrdersScreen extends Component {
   constructor(props) {
     super(props);
-
+    this.state = { user: null }
     //Binding handleBackButtonClick function with this
     this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.props.fetchList();
+    await this._retrieveData()
   }
 
   componentWillMount() {
@@ -34,7 +35,18 @@ class CompletedOrdersScreen extends Component {
     this.props.navigation.navigate('HomeScreen');
     return true;
   }
-
+  _retrieveData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('userRes');
+      if (value !== null) {
+        // We have data!!
+        await this.setState({ user: JSON.parse(value) })
+        console.log('userRes====>>>>',JSON.parse(value));
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
+  };
   render() {
     const { loading, deliveries } = this.props;
     if (loading) {
@@ -65,6 +77,7 @@ class CompletedOrdersScreen extends Component {
           navScreen="CompletedOrdersScreen"
           isDelivery={true}
           isCollecting={true}
+          userRes= {this.state.user}
           navigation={this.props.navigation}
           fetchList={() => this.props.fetchList()}
           list={deliveries && deliveries.filter(row => (

@@ -18,8 +18,10 @@ export function conversion(value) {
 }
 
 export const serviceCharges = (service) => {
+  // console.warn('service===>',service);
   if (service) {
-    return parseFloat((service / 100).toFixed(2))
+    // console.warn((service / 100));
+    return (service / 100)
   }
 }
 
@@ -48,7 +50,7 @@ export const calculateCostSub2 = (items, charges, dineCharges) => {
     total = total + item.itemQuantity * item.itemPrice;
   });
   if (charges) {
-    delivery = total * parseFloat((charges / 100).toFixed(2))
+    delivery = total * parseFloat((charges / 100));
   }
   if (dineCharges) {
     dinein = total * parseFloat((dineCharges / 100).toFixed(2))
@@ -57,15 +59,15 @@ export const calculateCostSub2 = (items, charges, dineCharges) => {
   return amount.toFixed(2);
 }
 export const calculateCostSub = (subTotal, charges, dineCharges) => {
-  let delivery = 0;
+  let gst = 0;
   let dinein = 0;
   if (charges) {
-    delivery = subTotal * parseFloat((charges / 100).toFixed(2))
+    gst = subTotal * parseFloat((charges / 100))
   }
   if (dineCharges) {
-    dinein = subTotal * parseFloat((dineCharges / 100).toFixed(2))
+    dinein = subTotal * parseFloat((dineCharges / 100))
   }
-  amount = parseFloat(subTotal) + parseFloat((delivery).toFixed(2)) + parseFloat((dinein).toFixed(2))
+  amount = parseFloat(subTotal) + parseFloat((gst)) + parseFloat((dinein))
   return amount.toFixed(2);
 }
 

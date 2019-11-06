@@ -2,6 +2,7 @@
 platform :ios, '9.0'
 
 target 'food_all_in_one' do
+  pod 'Stripe', '~> 14.0.0'
   pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
     pod 'React', path: '../node_modules/react-native', :subspecs => [
     'Core',
@@ -40,6 +41,8 @@ target 'food_all_in_one' do
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
 
   pod 'ReactNativePermissions', :path => '../node_modules/react-native-permissions'
+
+  pod 'tipsi-stripe', :path => '../node_modules/tipsi-stripe'
 
 end
 

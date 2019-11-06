@@ -7,17 +7,16 @@ import {
 import Icon from 'react-native-vector-icons/Feather';
 import { calculateCostSub2 } from '../../utils/misc';
 import Button from '../../components/common/button';
-
+// calculateCostSub2(item.orderItinerary.items, item.orderItinerary.deliveryServiceCharges, item.orderItinerary.collectingServiceCharge)
 class OrdersContainer extends Component {
 
-  renderOrderCard = ({ item, index }) => {
+  renderOrderCard = ( item, index ) => {
     const { isDelivery } = this.props;
     return (
       <View
         key={`order-item-${index}`}
         style={styles.container}
       >
-
         <View style={styles.orderCardContainer}>
           {!isDelivery && item.deliveringRestaurant && (item.orderStatus === "COMPLETED" || item.orderStatus == "CANCELLED") ?
             <View style={styles.bannerMessage}>
@@ -40,7 +39,7 @@ class OrdersContainer extends Component {
           <View style={styles.orderDetails}>
             <Text style={styles.userInfo}>Order Id: {item.id}</Text>
             <Text style={styles.userInfo}>
-              Total: ${calculateCostSub2(item.orderItinerary.items, item.orderItinerary.deliveryServiceCharges, item.orderItinerary.collectingServiceCharge)}
+              Total: ${(item.billAmount).toFixed(2)}
             </Text>
           </View>
         </View>
@@ -52,7 +51,7 @@ class OrdersContainer extends Component {
                 {item.collectingRestaurant.name}
               </Text>
             </Text>
-            <Text style={{ textAlign: 'left', fontSize: 16, fontWeight: '500' }}>
+            <Text style={{ textAlign: 'left', fontSize: 16, fontWeight: '500', marginTop: 10 }}>
               Address: <Text style={{ fontSize: 16, paddingLeft: 20, fontWeight: '400' }}>
                 {item.collectingRestaurant.address}
               </Text>
@@ -137,11 +136,12 @@ class OrdersContainer extends Component {
           <Button
             title={'View Details'}
             onPress={() => {
-              const { navigation, navScreen } = this.props;
+              const { navigation, navScreen, userRes } = this.props;
               navigation.navigate('ResturantOrderDetailsScreen', {
+                userRes: userRes,
                 details: item,
-                dineIn: this.props.isCollecting,
-                navScreen: navScreen
+                dineIn: this.props.isCollecting || false,
+                navScreen: navScreen,
               });
             }}
             style={[styles.button, {
@@ -155,9 +155,8 @@ class OrdersContainer extends Component {
       </View>
     )
   }
-
   render() {
-    const { list } = this.props;
+    const { list, isDelivery } = this.props;  
     return (
       <View style={[styles.scene]}>
         {list && list.length ?
@@ -174,9 +173,16 @@ class OrdersContainer extends Component {
           >
             <FlatList
               data={list}
+              initialNumToRender={list.length}
               extraData={this.state}
               keyExtractor={(item, index) => index.toString()}
-              renderItem={this.renderOrderCard}
+              // renderItem={this.renderOrderCard}
+              renderItem={({ item, index }) => 
+                isDelivery ?
+                  item.currentOrderStep !== '0' ? 
+                    this.renderOrderCard(item,index) : null 
+                  : this.renderOrderCard(item,index)
+              }
             />
           </ScrollView> :
           <ScrollView

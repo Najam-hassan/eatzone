@@ -82,6 +82,7 @@ class RestaurantDetailScreen extends Component {
   render() {
     const { restaurantName, phone } = this.state;
     const { list, navigation, loading } = this.props;
+    console.log('list:',list);
     const listItems = list && Object.keys(list).length &&
       list.menu_categories.map(item => (
         item.menu_items.filter(row => (
@@ -92,14 +93,14 @@ class RestaurantDetailScreen extends Component {
     if (cardItems.length > 1) {
       cardItems = listItems && listItems.length > 1 && listItems.reduce((a, b) => a.concat(b));
     }
-    if (loading) {
+    if (loading) {      
       return (
         <View style={{ flex: 1 }}>
           <StatusBar hidden={false} />
           <PageHeader
             navigation={this.props.navigation}
             title={restaurantName ? restaurantName : 'Restaurant Detail'}
-            phone={phone ? phone : 123}
+            phone={phone ? phone : list.phone}
           />
           <View style={{
             justifyContent: 'center',
@@ -117,7 +118,7 @@ class RestaurantDetailScreen extends Component {
         <PageHeader
           navigation={this.props.navigation}
           title={restaurantName ? restaurantName : 'Restaurant Detail'}
-          phone={phone ? phone : 123}
+          phone={phone ? phone : list.phone}
         />
         <NavigationEvents
           onWillFocus={payload => {

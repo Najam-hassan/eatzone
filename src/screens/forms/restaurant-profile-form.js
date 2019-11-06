@@ -32,6 +32,7 @@ class ProfileForm extends Component {
     message: '',
     googlePlaceId: null,
     sliderOneValue: [1],
+    sliderTwoValue: [1],
     location: 'Restaurant Address',
     region: {
       latitude: 31.47427313,
@@ -40,7 +41,9 @@ class ProfileForm extends Component {
       longitudeDelta: 0.38
     },
     canCollect: false,
+    canPickcollect: false,
     canDeliver: false,
+    canDelDeliver: false,
     editing: true,
     collectTimeStartPicker: false,
     collectTimeEndPicker: false,
@@ -63,14 +66,15 @@ class ProfileForm extends Component {
 
   onSubmit = values => {
     const {
-      canCollect, canDeliver, collect, deliver, sliderOneValue, region, location, googlePlaceId
+      canCollect, canPickcollect, canDeliver, canDelDeliver, collect, deliver, sliderOneValue, sliderTwoValue, region, location, googlePlaceId
     } = this.state;
     const formValues = {
       ...values.toJS(),
       addressDetails: values.get('addressDetails') !== '' ?
         values.get('addressDetails') : " ",
       address: location,
-      canDeliver: canDeliver,
+      // canOrderFood: canDeliver,
+      canOrderFood: canDeliver,
       canCollect: canCollect,
       location: `${region.latitude}, ${region.longitude}`,
       googlePlaceId: googlePlaceId && googlePlaceId || null,
@@ -104,6 +108,9 @@ class ProfileForm extends Component {
             deliver.deliverTimeEnd !== '')) {
           this.props.onSubmitForm({
             ...formValues,
+            canPickup: canPickcollect,
+            canDeliver: canDelDeliver,
+            pickupRadius: sliderTwoValue[0] * 1000,
             deliverRadius: sliderOneValue[0] * 1000,
             collectTimeEnd: collect.collectTimeEnd,
             deliverTimeEnd: deliver.deliverTimeEnd,
@@ -125,6 +132,9 @@ class ProfileForm extends Component {
           collect.collectTimeEnd !== '')) {
           this.props.onSubmitForm({
             ...formValues,
+            canPickup: canPickcollect,
+            canDeliver: canDelDeliver,
+            pickupRadius: sliderTwoValue[0] * 1000,
             deliverRadius: sliderOneValue[0] * 1000,
             collectTimeEnd: collect.collectTimeEnd,
             collectTimeStart: collect.collectTimeStart,
@@ -142,6 +152,9 @@ class ProfileForm extends Component {
           deliver.deliverTimeEnd !== '')) {
           this.props.onSubmitForm({
             ...formValues,
+            canDeliver: canDelDeliver,
+            canPickup: canPickcollect,
+            pickupRadius: sliderTwoValue[0] * 1000,
             deliverRadius: sliderOneValue[0] * 1000,
             deliverTimeEnd: deliver.deliverTimeEnd,
             deliverTimeStart: deliver.deliverTimeStart,
@@ -163,20 +176,30 @@ class ProfileForm extends Component {
     this.setState({ googlePlaceId: null });
   };
 
-  sliderOneValuesChange = values => {
-    let newValues = [0];
-    newValues[0] = values[0];
-    this.setState({
-      sliderOneValue: newValues,
-    });
+  sliderOneValuesChange = (values, slider) => {
+    if (slider === 'one') {
+      let newValues = [0];
+      newValues[0] = values[0];
+      this.setState({
+        sliderOneValue: newValues,
+      });
+    } else {
+      let newValues = [0];
+      newValues[0] = values[0];
+      this.setState({
+        sliderTwoValue: newValues,
+      });
+    }
   };
 
   componentWillReceiveProps(nextProps) {
     const { profile, isEdit } = this.props;
+    console.log('Profile=====>>>>>', profile);
+
     if (isEdit && profile && profile.name && this.state.editing) {
       this.setState({ editing: false });
-      let newValues = [0];
       if (profile.deliverRadius) {
+        let newValues = [0];
         newValues[0] = profile.deliverRadius / 1000;
         if (newValues[0] > 20) {
           newValues[0] = 20;
@@ -189,11 +212,28 @@ class ProfileForm extends Component {
           });
         }
       }
+      if (profile.pickupRadius) {
+        let newValues = [0];
+        newValues[0] = profile.pickupRadius / 1000;
+        if (newValues[0] > 20) {
+          newValues[0] = 20;
+          this.setState({
+            sliderTwoValue: newValues
+          });
+        } else {
+          this.setState({
+            sliderTwoValue: newValues
+          });
+        }
+      }
       this.props.change("name", profile.name ? profile.name : '');
       this.props.change("phone", profile.phone ? profile.phone : '');
       this.props.change("websiteUrl", profile.websiteUrl ? profile.websiteUrl : '');
       this.props.change("addressDetails", profile.addressDetails ?
         profile.addressDetails : ''
+      );
+      this.props.change("taxRate", profile.taxRate ?
+        profile.taxRate.toString() : ''
       );
       this.props.change(
         "collectionServiceCharges", profile.collectionServiceCharges ? profile.collectionServiceCharges.toString() : '0'
@@ -201,7 +241,11 @@ class ProfileForm extends Component {
       this.props.change(
         "deliveryServiceCharges", profile.deliveryServiceCharges ? profile.deliveryServiceCharges.toString() : '0'
       );
+      //working point*********************************
       if (profile.canCollect === true) {
+        if (profile.canPickup) {
+          this.setState({ canPickcollect: true })
+        }
         this.setState({
           canCollect: true,
           collect: {
@@ -211,7 +255,10 @@ class ProfileForm extends Component {
           }
         });
       }
-      if (profile.canDeliver === true) {
+      if (profile.canOrderFood === true) {
+        if (profile.canDeliver) {
+          this.setState({ canDelDeliver: true })
+        }
         this.setState({
           canDeliver: true,
           deliver: {
@@ -289,7 +336,7 @@ class ProfileForm extends Component {
             query={{
               key: 'AIzaSyBJX4U1PDcgBCoR6gL4mCVedWFApQ8MWTs',
               language: 'en',
-              components: 'country:us'
+              components: 'country:pk'
             }}
             styles={{
               textInputContainer: {
@@ -355,6 +402,17 @@ class ProfileForm extends Component {
             customContainerStyle={styles.input}
             customInputStyle={[styles.inputField]}
           />
+          <Field
+            name='taxRate'
+            errorTextColor="red"
+            style={styles.input}
+            keyboardType='default'
+            component={InputField}
+            placeholder='GST %'
+            customContainerStyle={styles.input}
+            customInputStyle={[styles.inputField]}
+          />
+
           <View style={styles.checkBoxRow}>
             <CheckBox
               checked={this.state.canCollect}
@@ -367,11 +425,100 @@ class ProfileForm extends Component {
               }}
             />
             <Text style={styles.checkBoxDescrip}>
-              Please take the bill from customer ordering restaurant and generate a new bill with your service charges.
-              </Text>
+              Please take the food from delivery restaurant and serve it to the customer at your location.
+            </Text>
           </View>
           {this.state.canCollect ?
             <View style={styles.permission}>
+              <View style={{ width: width, marginVertical: 10 }}>
+                <CheckBox
+                  checked={this.state.canPickcollect}
+                  textStyle={styles.checkBoxText}
+                  title='Willing to manage Delivery'
+                  containerStyle={[styles.checkBoxContainer, { marginTop: 10, marginBottom: 10, marginLeft: 34 }]}
+                  onPress={() => {
+                    const { canPickcollect } = this.state;
+                    this.setState({ canPickcollect: !canPickcollect })
+                  }}
+                />
+                <View style={{ marginLeft: 34 }}>
+                  {
+                    this.state.canPickcollect ?
+                      <View style={styles.multiSlider}>
+                        <View style={styles.multiSliderRow}>
+                          <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: width - 70 }}>
+                            <Text style={styles.radiusText}>1Km</Text>
+                            <Text style={styles.radiusText}>{this.state.sliderTwoValue[0]}Km</Text>
+                            <Text style={styles.radiusText}>5Km</Text>
+                          </View>
+                          <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: width - 70 }}>
+                            <Text style={styles.radiusText}>0.6Mi</Text>
+                            <Text style={styles.radiusText}>{(this.state.sliderTwoValue[0] * 0.621371).toFixed(1)}Mi</Text>
+                            <Text style={styles.radiusText}>3.1Mi</Text>
+                          </View>
+                          <MultiSlider
+                            values={this.state.sliderTwoValue}
+                            sliderLength={width - 75}
+                            onValuesChange={(values) => {
+                              this.sliderOneValuesChange(values, 'two')
+                            }}
+                            min={1}
+                            max={5}
+                            step={1}
+                            trackStyle={{
+                              backgroundColor: '#d9d9d9',
+                              height: 5,
+                              borderRadius: 10,
+                            }}
+                            selectedStyle={{
+                              backgroundColor: '#00a0ff'
+                            }}
+                            markerStyle={styles.markerStyle}
+                            containerStyle={{ paddingVertical: 12, marginRight: 5 }}
+                          />
+                        </View>
+                        <View style={{ height: 340, width: width - 70, marginTop: 10, marginBottom: 20 }}>
+                          <MapView
+                            ref={'mapview'}
+                            region={this.state.region}
+                            style={{
+                              top: 0,
+                              left: 0,
+                              right: 0,
+                              bottom: 0,
+                              position: 'absolute',
+                            }}
+                            // maxZoomLevel={8}
+                            zoomEnabled={false}
+                            pitchEnabled={true}
+                            rotateEnabled={true}
+                            scrollEnabled={false}
+                            loadingEnabled={true}
+                            loadingIndicatorColor={"#E6464D"}
+                            loadingBackgroundColor={'rgba(0,0,0,0.3)'}
+                          >
+                            <MapView.Circle
+                              ref={'mapview'}
+                              strokeWidth={1}
+                              strokeColor="#95989A"
+                              key={this.state.region}
+                              center={this.state.region}
+                              fillColor={'rgba(255,255,255,0.6)'}
+                              radius={this.state.sliderTwoValue[0] * 1000}
+                            />
+                            <Marker
+                              coordinate={this.state.region}
+                            >
+                              <Icon name="map-marker" size={40} color="#E6464D" />
+                            </Marker>
+                          </MapView>
+                        </View>
+                      </View>
+                      :
+                      null
+                  }
+                </View>
+              </View>
               <Text style={[styles.timeText, {
                 marginTop: 16, fontSize: 16, fontWeight: '600'
               }]}>
@@ -485,97 +632,104 @@ class ProfileForm extends Component {
               checked={this.state.canDeliver}
               textStyle={styles.checkBoxText}
               containerStyle={styles.checkBoxContainer}
-              title='Offer your food to be served to other restaurants'
+              title='Offer your food to be served to nearby restaurants'
               onPress={() => {
                 const { canDeliver } = this.state;
                 this.setState({ canDeliver: !canDeliver })
               }}
             />
             <Text style={styles.checkBoxDescrip}>
-              You will receive orders through app notifications or directly (through phone #), customer who order from neighbouring restaurants, please deliver their order and give bill (including your service charges).
+              your food will be served to the customers in nearby restaurants.
               </Text>
           </View>
           {this.state.canDeliver ?
             <View style={styles.multiSlider}>
-              <View style={styles.multiSliderRow}>
-                <View style={{
-                  flexDirection: 'row', justifyContent: 'space-between'
-                }}>
-                  <Text style={styles.radiusText}>1Km</Text>
-                  <Text style={styles.radiusText}>
-                    {this.state.sliderOneValue[0]}Km
-                                        </Text>
-                  <Text style={styles.radiusText}>20Km</Text>
-                </View>
-                <View style={{
-                  flexDirection: 'row', justifyContent: 'space-between'
-                }}>
-                  <Text style={styles.radiusText}>1Mi</Text>
-                  <Text style={styles.radiusText}>
-                    {(this.state.sliderOneValue[0] * 0.621371).toFixed(1)}Mi
-                                        </Text>
-                  <Text style={styles.radiusText}>20Mi</Text>
-                </View>
-                <MultiSlider
-                  values={this.state.sliderOneValue}
-                  sliderLength={width - 55}
-                  onValuesChange={(values) => {
-                    this.sliderOneValuesChange(values)
-                  }}
-                  min={1}
-                  max={20}
-                  step={1}
-                  trackStyle={{
-                    backgroundColor: '#d9d9d9',
-                    height: 5,
-                    borderRadius: 10,
-                  }}
-                  selectedStyle={{
-                    backgroundColor: '#00a0ff'
-                  }}
-                  markerStyle={styles.markerStyle}
-                  containerStyle={{ padding: 12 }}
-                />
-              </View>
-              <View style={
+              <CheckBox
+                checked={this.state.canDelDeliver}
+                textStyle={styles.checkBoxText}
+                title='Willing to manage Delivery'
+                containerStyle={[styles.checkBoxContainer, { marginTop: 10, marginBottom: 10, marginLeft: 34 }]}
+                onPress={() => {
+                  const { canDelDeliver } = this.state;
+                  this.setState({ canDelDeliver: !canDelDeliver })
+                }}
+              />
+              <View style={{ marginLeft: 34 }}>
                 {
-                  height: 340,
-                  marginTop: 10,
-                }}>
-                <MapView
-                  ref={'mapview'}
-                  region={this.state.region}
-                  style={{
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    position: 'absolute',
-                  }}
-                  // maxZoomLevel={8}
-                  zoomEnabled={false}
-                  pitchEnabled={true}
-                  rotateEnabled={true}
-                  scrollEnabled={false}
-                  loadingEnabled={true}
-                  loadingIndicatorColor={"#E6464D"}
-                  loadingBackgroundColor={'rgba(0,0,0,0.3)'}
-                >
-                  <MapView.Circle
-                    ref={'mapview'}
-                    strokeWidth={1}
-                    strokeColor="#95989A"
-                    key={this.state.region}
-                    center={this.state.region}
-                    fillColor={'rgba(255,255,255,0.6)'}
-                    radius={this.state.sliderOneValue[0] * 1000}
-                  />
-                  <Marker
-                    coordinate={this.state.region}
-                  >
-                    <Icon name="map-marker" size={40} color="#E6464D" />
-                  </Marker>
-                </MapView>
+                  this.state.canDelDeliver ?
+                    <View style={styles.multiSlider}>
+                      <View style={styles.multiSliderRow}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: width - 70 }}>
+                          <Text style={styles.radiusText}>1Km</Text>
+                          <Text style={styles.radiusText}>{this.state.sliderTwoValue[0]}Km</Text>
+                          <Text style={styles.radiusText}>5Km</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: width - 70 }}>
+                          <Text style={styles.radiusText}>0.6Mi</Text>
+                          <Text style={styles.radiusText}>{(this.state.sliderTwoValue[0] * 0.621371).toFixed(1)}Mi</Text>
+                          <Text style={styles.radiusText}>3.1Mi</Text>
+                        </View>
+                        <MultiSlider
+                          values={this.state.sliderOneValue}
+                          sliderLength={width - 77}
+                          onValuesChange={(values) => {
+                            this.sliderOneValuesChange(values, 'one')
+                          }}
+                          min={1}
+                          max={5}
+                          step={1}
+                          trackStyle={{
+                            backgroundColor: '#d9d9d9',
+                            height: 5,
+                            borderRadius: 10,
+                          }}
+                          selectedStyle={{
+                            backgroundColor: '#00a0ff'
+                          }}
+                          markerStyle={styles.markerStyle}
+                          containerStyle={{ paddingVertical: 12, marginLeft: 5 }}
+                        />
+                      </View>
+                      <View style={{ height: 340, width: width - 70, marginTop: 10, alignSelf: 'flex-end' }}>
+                        <MapView
+                          ref={'mapview'}
+                          region={this.state.region}
+                          style={{
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            position: 'absolute',
+                          }}
+                          // maxZoomLevel={8}
+                          zoomEnabled={false}
+                          pitchEnabled={true}
+                          rotateEnabled={true}
+                          scrollEnabled={false}
+                          loadingEnabled={true}
+                          loadingIndicatorColor={"#E6464D"}
+                          loadingBackgroundColor={'rgba(0,0,0,0.3)'}
+                        >
+                          <MapView.Circle
+                            ref={'mapview'}
+                            strokeWidth={1}
+                            strokeColor="#95989A"
+                            key={this.state.region}
+                            center={this.state.region}
+                            fillColor={'rgba(255,255,255,0.6)'}
+                            radius={this.state.sliderOneValue[0] * 1000}
+                          />
+                          <Marker
+                            coordinate={this.state.region}
+                          >
+                            <Icon name="map-marker" size={40} color="#E6464D" />
+                          </Marker>
+                        </MapView>
+                      </View>
+                    </View>
+                    :
+                    null
+                }
               </View>
               <Text style={[styles.timeText, {
                 marginTop: 16, fontSize: 16, fontWeight: '600'
@@ -674,6 +828,7 @@ class ProfileForm extends Component {
                   />
                 </View>
               </View>
+              {/*Service Charges=======================================================**********************************************/}
               <Field
                 errorTextColor="red"
                 style={styles.input}
@@ -708,15 +863,16 @@ class ProfileForm extends Component {
           {this.renderFormBody()}
         </View>
       )
+    } else {
+      return (
+        <KeyboardAvoidingView
+          style={[styles.container]}
+          behavior="padding"
+          keyboardVerticalOffset={20}>
+          {this.renderFormBody()}
+        </KeyboardAvoidingView>
+      )
     }
-    return (
-      <KeyboardAvoidingView
-        style={[styles.container]}
-        behavior="padding"
-        keyboardVerticalOffset={20}>
-        {this.renderFormBody()}
-      </KeyboardAvoidingView>
-    )
   }
 }
 
@@ -744,6 +900,10 @@ const validate = values => {
   if (!values.get('deliveryServiceCharges')) {
     errors.deliveryServiceCharges = "Please enter service charges."
   } else if (values.get('deliveryServiceCharges') >= 0) { }
+
+  if (!values.get('taxRate')) {
+    errors.taxRate = "Please enter GST charges."
+  } else if (values.get('taxRate') >= 0) { }
 
   return errors;
 };

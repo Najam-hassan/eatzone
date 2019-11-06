@@ -10,7 +10,7 @@ function placeOrderRrquest () {
 function placeOrderSuccess (data) {
     return {
         type: constants.PLACE_ORDER_SUCCESS,
-        data,
+        data
     }
 }
 
@@ -32,9 +32,11 @@ export function placeOrderAction (data) {
         dispatch(placeOrderRrquest());
         return axios.post(`/user/place-order`, data)
             .then(response => {
+                console.log('orderResponse ===>>>',response);
                 dispatch(placeOrderSuccess(response.data));
             })
             .catch(error => {
+                console.log('orderResponse ===>>>',response);
                 dispatch(placeOrderFailure(error))
             })
     }

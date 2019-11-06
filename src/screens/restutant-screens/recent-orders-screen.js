@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { NavigationEvents } from 'react-navigation';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import {
-  View, StatusBar, ActivityIndicator, Dimensions, BackHandler
+  View, StatusBar, ActivityIndicator, Dimensions, BackHandler, AsyncStorage
 } from 'react-native';
 
 import { Header } from '../../components/common/header';
@@ -17,6 +17,7 @@ class RecentOrdersScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      user: null,
       index: 0,
       routes: [
         { key: 'first', title: 'My Orders' },
@@ -28,11 +29,22 @@ class RecentOrdersScreen extends Component {
     this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
   }
 
-  componentDidMount() {
-    this.props.fetchList();
+  async componentDidMount() {
+    await this.props.fetchList();
+    await this._retrieveData();
+    // console.log('OrdersDelivered===========>>>>',this.props.deliveries,'Dine-in=====>>>>',this.props.collections);
   }
 
-  componentWillMount() {
+  async componentWillMount() {
+    let { params } = this.props.navigation.state;
+    // console.warn('nextProps',params);
+    try {
+      if (params.nextProps.canceled) {
+        await this.setState({ index: 1 })
+      } 
+    } catch (error) {
+      // console.log(error);
+    }
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
   }
 
@@ -44,6 +56,20 @@ class RecentOrdersScreen extends Component {
     this.props.navigation.navigate('HomeScreen');
     return true;
   }
+
+  _retrieveData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('userRes');
+      if (value !== null) {
+        // We have data!!
+        await this.setState({ user: JSON.parse(value) })
+        // console.log('userRes====>>>>',JSON.parse(value));
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
+  };
+
 
   render() {
     const { loading, collections, deliveries } = this.props;
@@ -93,10 +119,11 @@ class RecentOrdersScreen extends Component {
               <OrdersContainer
                 navScreen="RecentOrdersScreen"
                 isDelivery={true}
+                userRes= {this.state.user}
                 navigation={this.props.navigation}
                 fetchList={() => this.props.fetchList()}
                 list={deliveries && deliveries.filter(row => (
-                  row.orderStatus === 'CONFIRMED' || row.orderStatus === 'PENDING'
+                  (row.orderStatus === 'CONFIRMED' || row.orderStatus === 'PENDING') && row.currentOrderStep !== '0'
                 ))}
               />
             ),
@@ -106,6 +133,7 @@ class RecentOrdersScreen extends Component {
                 list={collections}
                 isDelivery={false}
                 isCollecting={true}
+                userRes= {this.state.user}
                 navigation={this.props.navigation}
                 fetchList={() => this.props.fetchList()}
               />

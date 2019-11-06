@@ -182,6 +182,32 @@ class SidebarMenu extends Component {
                 style={styles.menuText}
                 onPress={() => {
                   navigation.dispatch(DrawerActions.closeDrawer());
+                  navigation.navigate('StripDashboard')
+                }}
+              >
+                <Text style={{ color: '#333333', textTransform: 'uppercase' }}>
+                  Stripe Dashboard
+                             </Text>
+                <Text style={styles.borderBottom}></Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.menuText}
+                onPress={() => {
+                  navigation.dispatch(DrawerActions.closeDrawer());
+                  navigation.navigate('TransactionHistoryScreen')
+                }}
+              >
+                <Text style={{ color: '#333333', textTransform: 'uppercase' }}>
+                  Payment History
+                            </Text>
+                <Text style={styles.borderBottom}></Text>
+              </TouchableOpacity>
+              
+              <TouchableOpacity
+                style={styles.menuText}
+                onPress={() => {
+                  navigation.dispatch(DrawerActions.closeDrawer());
                   navigation.navigate('EditRestaurantProfile');
                 }}
               >

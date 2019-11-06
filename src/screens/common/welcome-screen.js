@@ -27,15 +27,15 @@ class WelcomeScreen extends Component {
                             </View>
                             <View style={{ marginTop: 30 }}>
                                 <Text style={styles.description}>
-                                    Set exact location to find the right
+                                    Different cuisine’s food at your
                                 </Text>
-                                <Text style={styles.description}>restaurant near you</Text>
+                                <Text style={styles.description}>dine-in restaurant table</Text>
                             </View>
                         </View>
                         <View>
                             <View style={{ marginBottom: 50 }}>
                                 <Button
-                                    title="Restaurant Owner"
+                                    title= "Restaurant Management" //"Restaurant Owner"
                                     onPress={() => {
                                         AsyncStorage.setItem('user_type', 'admin');
                                         this.props.navigation.navigate('SignInScreen', {

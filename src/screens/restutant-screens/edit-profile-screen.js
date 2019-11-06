@@ -29,6 +29,7 @@ class EditProfileScreen extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    // console.log('updateSuccess===>>',nextProps.updateSuccess, 'nextProps.profile=========>>',nextProps.profile);
     if (nextProps.updateSuccess) {
       AsyncStorage.getItem('user')
         .then(data => {
@@ -102,8 +103,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(change("RestaurantProfileForm", fieldName, value))
     },
     onSubmit: (values) => {
-      console.log(values, '0-0-0-0-0')
-
+      // console.log('values==============>>>',values)
       dispatch(actions.updateProfileAction({ ...values, addressDetails: values.addressDetails || "" }, true))
     },
   }

@@ -62,9 +62,15 @@ class OrderScreen extends Component {
                 <View style={[styles.statueText, {
                   backgroundColor:
                     item.orderStatus === 'PENDING' ?
-                      '#ff0000' : '#00a651'
+                      'rgb(253,198,68)' 
+                      : item.orderStatus === 'COMPLETED' ? 
+                        '#00a651' 
+                        : item.orderStatus === 'CANCELLED' ?
+                          '#ff0000' 
+                          : item.orderStatus === 'CONFIRMED' ?
+                            'rgb(105,55,145)' : null
                 }]}>
-                  <Text style={{ color: '#fff', fontSize: 12, }}>
+                  <Text style={{ color:'#fff', fontSize: 12, }}>
                     {item.orderStatus}
                   </Text>
                 </View>

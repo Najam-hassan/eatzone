@@ -33,7 +33,7 @@ class OwnerDashboard extends Component {
 		if (nextProps.profile &&
 			Object.keys(nextProps.profile).length &&
 			!nextProps.profile.phone) {
-			this.props.navigation.navigate('CreateRestaurantProfile');
+			this.props.navigation.navigate('EditRestaurantProfile');
 		}
 	}
 

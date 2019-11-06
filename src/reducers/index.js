@@ -17,6 +17,8 @@ import profileReducer from './restaurant-reducers/profile-reducer';
 import categoryReducer from './restaurant-reducers/category-reducer';
 import restaurantOrderList from './restaurant-reducers/order-list-reducer';
 import categoryItemReducer from './restaurant-reducers/category-item-reducer';
+import stripeDashboardReducer from './restaurant-reducers/stripe-dashboard-reducer';
+import paymentHistoryReducer from './restaurant-reducers/payment_history_reducer';
 
 export default function index () {
     return combineReducers({
@@ -35,5 +37,7 @@ export default function index () {
         restaurantCategory: categoryReducer,
         categoryItemReducer: categoryItemReducer,
         restaurantOrderList: restaurantOrderList,
+        stripeDashboardReducer: stripeDashboardReducer,
+        paymentHistoryReducer: paymentHistoryReducer,
     });
 }

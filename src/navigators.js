@@ -6,6 +6,8 @@ import {
 } from 'react-navigation';
 
 import MainApp from './MainApp';
+import Switcher from './Switcher';
+
 // App Screens (Commons Screens)
 import HomeScreen from './screens/common/home-screen';
 import SignInScreen from './screens/common/signin-screen';
@@ -28,6 +30,7 @@ import CategoryScreen from './screens/restutant-screens/category-screen';
 import MenuItemsScreen from './screens/restutant-screens/menu-items-screen';
 import CreateItemScreen from './screens/restutant-screens/add-menu-item-screen';
 import RecentOrdersScreen from './screens/restutant-screens/recent-orders-screen'
+import TransactionHistoryScreen from './screens/restutant-screens/transaction-history-screen';
 import EditRestaurantProfile from './screens/restutant-screens/edit-profile-screen';
 import CreateRestaurantProfile from './screens/restutant-screens/create-profile-screen';
 import CompletedOrdersScreen from './screens/restutant-screens/completed-orders-screen';
@@ -35,6 +38,11 @@ import ResturantOrderDetailsScreen from './screens/restutant-screens/order-detai
 
 // Side Drawer (Side Navigation component)
 import SidebarMenu from './components/common/sidebar-menu';
+
+//Stripe
+import StripDashboard from './screens/stripe/strip-dashboard';
+import StripeConnectHome from './screens/stripe/stripe-home-screen';
+import StripeConnectWebview from './screens/stripe/stripe-connect-webview';
 
 const AuthStack = createStackNavigator({
     // Common Screens will goo here
@@ -57,8 +65,12 @@ const AuthStack = createStackNavigator({
     RecentOrdersScreen: RecentOrdersScreen,
     EditRestaurantProfile: EditRestaurantProfile,
     CompletedOrdersScreen: CompletedOrdersScreen,
-    CreateRestaurantProfile: CreateRestaurantProfile,
+    // CreateRestaurantProfile: CreateRestaurantProfile,
     ResturantOrderDetailsScreen: ResturantOrderDetailsScreen,
+    TransactionHistoryScreen: TransactionHistoryScreen,
+    StripeSignUp: StripeConnectWebview,
+    StripeConnectHome: StripeConnectHome,
+    StripDashboard: StripDashboard
 }, {
         headerMode: 'none',
         initialRouteName: 'HomeScreen',
@@ -103,6 +115,7 @@ export default AppContainer = createAppContainer(
     createSwitchNavigator(
         {
             AuthLoading: MainApp,
+            Switcher: Switcher,
             App: Dashboard,
             Auth: LoginStack,
         },

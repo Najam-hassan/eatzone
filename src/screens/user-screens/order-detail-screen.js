@@ -47,12 +47,12 @@ class OrderDetailScreen extends Component {
         </View>
 
         <View style={styles.innerViewStyle}>
-          <Text style={{ color: '#cccccc', fontWeight: '400' }}>Delivery Restaurant Charges</Text>
+          <Text style={{ color: '#cccccc', fontWeight: '400' }}>GST Charges</Text>
           <View style={styles.priceStyle}>
             <Text style={{ color: '#cccccc', fontWeight: '400' }}>
-              {details.orderItinerary.deliveryServiceCharges}%
-              {details.orderItinerary.deliveryServiceCharges ?
-                <Text>(${(this.state.subTotal * serviceCharges(details.orderItinerary.deliveryServiceCharges)).toFixed(2)})</Text>
+              {details.deliveringRestaurant.taxRate}%
+              {details.deliveringRestaurant.taxRate ?
+                <Text>(${(this.state.subTotal * serviceCharges(details.deliveringRestaurant.taxRate)).toFixed(2)})</Text>
                 : <Text>($0)</Text>}
             </Text>
           </View>
@@ -77,6 +77,7 @@ class OrderDetailScreen extends Component {
   render() {
     const { params } = this.props.navigation.state;
     const { subTotal } = this.state;
+    console.log('collectingResturant============>>>>',params.details);
     return (
 
       <View style={{ flex: 1, backgroundColor: '#ebebeb', }}>
@@ -127,7 +128,7 @@ class OrderDetailScreen extends Component {
               {this.renderSubTotals()}
               <View style={styles.orderTotal}>
                 <Text style={styles.titleText}>Total</Text>
-                <Text style={styles.titleText}> ${calculateCostSub2(params.details.orderItinerary.items, params.details.orderItinerary.deliveryServiceCharges, params.details.orderItinerary.collectingServiceCharge)}
+                <Text style={styles.titleText}> ${calculateCostSub2(params.details.orderItinerary.items, params.details.deliveringRestaurant.taxRate, params.details.orderItinerary.collectingServiceCharge)}
                 </Text>
               </View>
             </View>

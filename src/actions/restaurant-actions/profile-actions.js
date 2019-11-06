@@ -33,6 +33,7 @@ export function updateProfileAction(data, updating) {
         dispatch(updateProfileRequest());
         return axios.put(`/restaurant/edit-profile`, data)
             .then(response => {
+                // console.log('updateProfileAction Response===========>>',response);
                 dispatch(updateProfileSuccess(response.data, updating));
             })
             .catch(error => {
@@ -66,6 +67,7 @@ export function checkResturantExistAction(id) {
         // dispatch(checkResturantExistRequest());
         return axios.get(`/restaurant/restaurant-exists/${id}`)
             .then(response => {
+                console.log('restaurant exist==================>>>>>',response);
                 dispatch(checkResturantExistSuccess(response.data));
             })
             .catch(error => {

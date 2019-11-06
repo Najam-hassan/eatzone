@@ -38,16 +38,21 @@ class SignInScreen extends Component {
 			);
 		}
 		if (nextProps.user !== null) {
+			// console.log('nextProps=======>>>>',nextProps.user);
 			try {
 				AsyncStorage.setItem(
 					'user',
 					JSON.stringify(nextProps.user),
 					() => {
-						if (params && params.type === 'user') {
-							this.props.navigation.navigate('HomeScreen');
-						} else {
-							this.props.navigation.navigate('CreateRestaurantProfile');
-						}
+							if (params && params.type === 'user') {
+								this.props.navigation.navigate('HomeScreen');
+							} else {
+								if (nextProps.user.stripeId) {
+									this.props.navigation.navigate('EditRestaurantProfile'); //('CreateRestaurantProfile');
+								} else {
+									this.props.navigation.navigate('StripeConnectHome',{ user: nextProps.user });
+								}
+							}
 						this.forceUpdate();
 					}
 				);

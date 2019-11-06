@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as constants from './constants';
+import { AsyncStorage } from 'react-native';
 
 export function loginRequest () {
     return {
@@ -51,8 +52,10 @@ export function loginAction (url, user) {
     return dispatch => {
         dispatch(loginRequest())
         return axios.post(url, user)
-            .then(response => {
+            .then(async(response) => {
                 axios.defaults.headers.Authorization = `Bearer ${response.data.token}`;
+                await AsyncStorage.setItem('userRes', JSON.stringify(response.data)) || null ;
+                console.log('loginRes===>>>',response.data);
                 dispatch(loginSuccess(response.data));
             })
             .catch(error => {

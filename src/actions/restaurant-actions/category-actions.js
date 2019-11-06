@@ -40,11 +40,15 @@ export function addCategoryAction (data) {
         dispatch(addCategoryRequest());
         return axios.post(`/restaurant/menu-category`, data)
             .then(response => {
+                // console.warn('response===>>>',response);
                 dispatch(addCategorySuccess(response.data));
                 dispatch(addCategoryLocally(response.data));
                 dispatch(fetchCategoryListAction());
             })
             .catch(error => {
+                if (error.message === 'Request failed with status code 500') {
+                    alert('A category with the same name is exists, Please try again with a different name')
+                }
                 dispatch(addCategoryFailure(error.response.data));
             });
     }
@@ -59,6 +63,7 @@ export function updateCategoryAction (data, id) {
                 dispatch(fetchCategoryListAction());
             })
             .catch(error => {
+                console.warn('error===>>>',error);
                 dispatch(addCategoryFailure(error.response.data));
             });
     }

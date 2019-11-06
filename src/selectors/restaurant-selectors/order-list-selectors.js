@@ -15,6 +15,10 @@ const makeSelectCollectionOrderList = () => createSelector(
     selectOrderListState, state => state.getIn(['orders', 'collections']).toJS()
 );
 
+const makeSelectPaymentHistory = () => createSelector(
+    selectOrderListState, state => state.getIn(['orders', 'payment']).toJS()
+);
+
 const makeSelectOrderListError = () => createSelector(
     selectOrderListState, state => state.getIn(['orders', 'error'])
 );
@@ -46,6 +50,7 @@ export {
     makeSelectGetOrders,
     selectOrderListState,
     makeSelectOrderLoading,
+    makeSelectPaymentHistory,
     makeSelectOrderListError,
     makeSelectOrderListLoading,
     makeSelectDeliveryOrderList,
