@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { NavigationEvents } from 'react-navigation';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import {
-    View, StatusBar, ActivityIndicator, Dimensions, BackHandler, AsyncStorage, Text, StyleSheet, FlatList, ScrollView
+    View, StatusBar, ActivityIndicator, Dimensions, BackHandler, AsyncStorage, Text, StyleSheet, FlatList, ScrollView, RefreshControl
 } from 'react-native';
 
 import { Header } from '../../components/common/header';
@@ -22,7 +22,8 @@ class TransactionHistoryScreen extends Component {
                 { key: 'second', title: 'Dine In Orders' },
                 { key: 'second', title: 'Dine In Orders' }
             ],
-            user: null
+            user: null,
+            refreshing: false
         };
 
         //Binding handleBackButtonClick function with this
@@ -38,30 +39,7 @@ class TransactionHistoryScreen extends Component {
         // console.log('paymentData============>>>>', this.props.paymentData);
     }
 
-    sortingPayments = async () => {
-        const { loading, collections, deliveries } = this.props;
-        var date = new Date().getDate(); //Current Date
-        if (deliveries.length) {
-            const obj = {};
-            let currentIndex = 0;
-            obj[currentIndex] = [];
-            let dateString = deliveries[0].createdAt.substring(0, 10);
-            let payDate = dateString.split('-');
-            let currentDate = payDate[2];
-            for (let i = 0; i < deliveries.length; i++) {
-                let dateStringitem = deliveries[i].createdAt.substring(0, 10);
-                let payDateitem = dateStringitem.split('-')[2];
-                if (currentDate === payDateitem) {
-                    obj[currentIndex].push(deliveries[i]);
-                } else {
-                    currentIndex = currentIndex + 1;
-                    currentDate = payDateitem;
-                    obj[currentIndex] = [];
-                    obj[currentIndex].push(deliveries[i]);
-                }
-            }
-        }
-    }
+    pullToRefresh = async() => await this.props.fetchList();
 
     componentWillMount() {
         BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
@@ -96,7 +74,7 @@ class TransactionHistoryScreen extends Component {
                                                 user.id === item.collectingRestaurant.id ?
                                                     'Dine-in'
                                                     :
-                                                    'Delivery'
+                                                    'Ordering'
                                                 : '...'
                                         }
                                         </Text>
@@ -149,7 +127,17 @@ class TransactionHistoryScreen extends Component {
                     title={'Payment History'}
                 />
                 <ScrollView
-                    contentContainerStyle={{ paddingBottom: 15 }}>
+                    contentContainerStyle={{ paddingBottom: 15 }}
+                    refreshControl={
+                        <RefreshControl
+                          colors={['white']}
+                          progressBackgroundColor={'white'}
+                          tintColor={'#1BA2FC'}
+                          refreshing={loading}
+                          onRefresh={this.pullToRefresh}
+                        />
+                    }
+                >
                     {
                         paymentData !== null ?
                             <FlatList
@@ -160,7 +148,8 @@ class TransactionHistoryScreen extends Component {
                                     this.RenderPaymentCard
                                 }
                             />
-                            : null
+                            : 
+                            <Text style={{ alignSelf:'center', fontSize: 16, marginTop: '90%' }}>No Record!</Text>
                     }
                 </ScrollView>
             </View>

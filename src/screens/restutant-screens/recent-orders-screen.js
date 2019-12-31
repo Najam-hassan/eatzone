@@ -32,7 +32,7 @@ class RecentOrdersScreen extends Component {
   async componentDidMount() {
     await this.props.fetchList();
     await this._retrieveData();
-    // console.log('OrdersDelivered===========>>>>',this.props.deliveries,'Dine-in=====>>>>',this.props.collections);
+    console.log('OrdersDelivered===========>>>>',this.props.deliveries,'Dine-in=====>>>>',this.props.collections);
   }
 
   async componentWillMount() {

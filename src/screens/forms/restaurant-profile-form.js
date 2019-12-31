@@ -336,7 +336,7 @@ class ProfileForm extends Component {
             query={{
               key: 'AIzaSyBJX4U1PDcgBCoR6gL4mCVedWFApQ8MWTs',
               language: 'en',
-              components: 'country:pk'
+              components: 'country:us'
             }}
             styles={{
               textInputContainer: {
@@ -408,24 +408,27 @@ class ProfileForm extends Component {
             style={styles.input}
             keyboardType='default'
             component={InputField}
-            placeholder='GST %'
+            placeholder='Combined sales tax%'
             customContainerStyle={styles.input}
             customInputStyle={[styles.inputField]}
           />
 
           <View style={styles.checkBoxRow}>
-            <CheckBox
-              checked={this.state.canCollect}
-              textStyle={styles.checkBoxText}
-              title='Allow other restaurant foods'
-              containerStyle={styles.checkBoxContainer}
-              onPress={() => {
-                const { canCollect } = this.state;
-                this.setState({ canCollect: !canCollect })
-              }}
-            />
+            <View style={{ flexDirection: 'row' }}>
+              <CheckBox
+                checked={this.state.canCollect}
+                textStyle={styles.checkBoxText}
+                // title=''
+                containerStyle={styles.checkBoxContainer}
+                onPress={() => {
+                  const { canCollect } = this.state;
+                  this.setState({ canCollect: !canCollect })
+                }}
+              />
+              <Text style={[styles.checkBoxTitle,{ width: width - 60 }]}>Dine-in Restaurant <Text style={styles.checkBoxText}>(Allow other restaurant foods)</Text></Text>
+            </View>
             <Text style={styles.checkBoxDescrip}>
-              Please take the food from delivery restaurant and serve it to the customer at your location.
+              Please take the food from Ordering Restaurant and serve it to your dine-in customer.
             </Text>
           </View>
           {this.state.canCollect ?
@@ -434,7 +437,7 @@ class ProfileForm extends Component {
                 <CheckBox
                   checked={this.state.canPickcollect}
                   textStyle={styles.checkBoxText}
-                  title='Willing to manage Delivery'
+                  title='Willing to manage Order Deliveries'
                   containerStyle={[styles.checkBoxContainer, { marginTop: 10, marginBottom: 10, marginLeft: 34 }]}
                   onPress={() => {
                     const { canPickcollect } = this.state;
@@ -447,24 +450,25 @@ class ProfileForm extends Component {
                       <View style={styles.multiSlider}>
                         <View style={styles.multiSliderRow}>
                           <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: width - 70 }}>
-                            <Text style={styles.radiusText}>1Km</Text>
-                            <Text style={styles.radiusText}>{this.state.sliderTwoValue[0]}Km</Text>
-                            <Text style={styles.radiusText}>5Km</Text>
+                            <Text style={styles.radiusText}>0.2Km</Text>
+                            <Text style={styles.radiusText}>{(this.state.sliderTwoValue[0].toFixed(1))}Km</Text>
+                            <Text style={styles.radiusText}>3.3Km</Text>
                           </View>
                           <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: width - 70 }}>
-                            <Text style={styles.radiusText}>0.6Mi</Text>
+                            <Text style={styles.radiusText}>0.1Mi</Text>
                             <Text style={styles.radiusText}>{(this.state.sliderTwoValue[0] * 0.621371).toFixed(1)}Mi</Text>
-                            <Text style={styles.radiusText}>3.1Mi</Text>
+                            <Text style={styles.radiusText}>2.0Mi</Text>
                           </View>
                           <MultiSlider
                             values={this.state.sliderTwoValue}
                             sliderLength={width - 75}
                             onValuesChange={(values) => {
+                              // console.warn('value=',values),
                               this.sliderOneValuesChange(values, 'two')
                             }}
-                            min={1}
-                            max={5}
-                            step={1}
+                            min={0.16}
+                            max={3.22}
+                            step={0.1}
                             trackStyle={{
                               backgroundColor: '#d9d9d9',
                               height: 5,
@@ -628,26 +632,29 @@ class ProfileForm extends Component {
             </View> : null
           }
           <View style={styles.checkBoxRow}>
-            <CheckBox
-              checked={this.state.canDeliver}
-              textStyle={styles.checkBoxText}
-              containerStyle={styles.checkBoxContainer}
-              title='Offer your food to be served to nearby restaurants'
-              onPress={() => {
-                const { canDeliver } = this.state;
-                this.setState({ canDeliver: !canDeliver })
-              }}
-            />
+            <View style={{ flexDirection: 'row' }}>
+              <CheckBox
+                checked={this.state.canDeliver}
+                // textStyle={styles.checkBoxText}
+                containerStyle={styles.checkBoxContainer}
+                // title='Offer your food to be served to nearby restaurants'
+                onPress={() => {
+                  const { canDeliver } = this.state;
+                  this.setState({ canDeliver: !canDeliver })
+                }}
+              />
+              <Text style={[styles.checkBoxTitle,{ width: width - 60 }]}>Ordering Restaurant <Text style={styles.checkBoxText}>(Offer your food to be served to nearby restaurants)</Text></Text>
+            </View>
             <Text style={styles.checkBoxDescrip}>
               your food will be served to the customers in nearby restaurants.
-              </Text>
+            </Text>
           </View>
           {this.state.canDeliver ?
             <View style={styles.multiSlider}>
               <CheckBox
                 checked={this.state.canDelDeliver}
                 textStyle={styles.checkBoxText}
-                title='Willing to manage Delivery'
+                title='Willing to manage Order Deliveries (Food All-In-One will charge 50% less service fee)'
                 containerStyle={[styles.checkBoxContainer, { marginTop: 10, marginBottom: 10, marginLeft: 34 }]}
                 onPress={() => {
                   const { canDelDeliver } = this.state;
@@ -660,14 +667,14 @@ class ProfileForm extends Component {
                     <View style={styles.multiSlider}>
                       <View style={styles.multiSliderRow}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: width - 70 }}>
-                          <Text style={styles.radiusText}>1Km</Text>
-                          <Text style={styles.radiusText}>{this.state.sliderTwoValue[0]}Km</Text>
-                          <Text style={styles.radiusText}>5Km</Text>
+                          <Text style={styles.radiusText}>0.2Km</Text>
+                          <Text style={styles.radiusText}>{(this.state.sliderOneValue[0].toFixed(1))}Km</Text>
+                          <Text style={styles.radiusText}>3.3Km</Text>
                         </View>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: width - 70 }}>
-                          <Text style={styles.radiusText}>0.6Mi</Text>
-                          <Text style={styles.radiusText}>{(this.state.sliderTwoValue[0] * 0.621371).toFixed(1)}Mi</Text>
-                          <Text style={styles.radiusText}>3.1Mi</Text>
+                          <Text style={styles.radiusText}>0.1Mi</Text>
+                          <Text style={styles.radiusText}>{(this.state.sliderOneValue[0] * 0.621371).toFixed(1)}Mi</Text>
+                          <Text style={styles.radiusText}>2.0Mi</Text>
                         </View>
                         <MultiSlider
                           values={this.state.sliderOneValue}
@@ -675,9 +682,9 @@ class ProfileForm extends Component {
                           onValuesChange={(values) => {
                             this.sliderOneValuesChange(values, 'one')
                           }}
-                          min={1}
-                          max={5}
-                          step={1}
+                          min={0.16}
+                          max={3.22}
+                          step={0.1}
                           trackStyle={{
                             backgroundColor: '#d9d9d9',
                             height: 5,
@@ -828,8 +835,7 @@ class ProfileForm extends Component {
                   />
                 </View>
               </View>
-              {/*Service Charges=======================================================**********************************************/}
-              <Field
+              {/* <Field
                 errorTextColor="red"
                 style={styles.input}
                 keyboardType='numeric'
@@ -838,8 +844,9 @@ class ProfileForm extends Component {
                 placeholder='Service Charges %'
                 customContainerStyle={styles.input}
                 customInputStyle={[styles.inputField, { paddingVertical: 22, }]}
-              />
-            </View> : null
+              /> */}
+            </View> 
+            : null
           }
           {submitting || (!this.state.editing && loading) ?
             <ActivityIndicator size="large" color="#1BA2FC" /> :
@@ -902,7 +909,7 @@ const validate = values => {
   } else if (values.get('deliveryServiceCharges') >= 0) { }
 
   if (!values.get('taxRate')) {
-    errors.taxRate = "Please enter GST charges."
+    errors.taxRate = "Please enter Combined sales tax."
   } else if (values.get('taxRate') >= 0) { }
 
   return errors;
@@ -935,7 +942,6 @@ const styles = StyleSheet.create({
   timeInput: {
   },
   checkBoxContainer: {
-    backgroundColor: 'transparent',
     marginTop: 0,
     paddingTop: 0,
     marginLeft: 0,
@@ -951,10 +957,16 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#d9d9d9',
   },
+  checkBoxTitle: {
+    fontSize: 16,
+    color: '#000',
+    fontWeight: 'bold',
+  },
   checkBoxText: {
     fontSize: 16,
     color: '#2b2b2b',
     fontWeight: '400',
+    marginRight: 5
   },
   checkBoxDescrip: {
     color: '#aaa1a1',

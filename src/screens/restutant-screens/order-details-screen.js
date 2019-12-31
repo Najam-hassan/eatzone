@@ -21,7 +21,7 @@ import * as authSelectors from '../../selectors/auth-selectors';
 class OrderDetailsScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = { subTotal: 0, confirmed: false, completed: false, showModal: false, user: null }
+    this.state = { subTotal: 0, confirmed: false, completed: false, showModal: false, user: null, isCanceled: false }
     // console.log('params: ', props.navigation.state.params, 'sss', this.props.orders, 'UserData', this.state.auth);
 
     this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
@@ -89,6 +89,16 @@ class OrderDetailsScreen extends Component {
           });
         }
         // this.props.resetState();
+      } else {
+        //new added
+        this.props.navigation.state.params.details.orderStatus = 'CANCELED';
+        if (!this.state.completed) {
+          this.setState({
+            completed: false,
+            confirmed: false,
+            showModal: true
+          });
+        }
       }
       if (nextProps.completed ) {
         console.log('naviggggggg: ', nextProps);
@@ -138,18 +148,18 @@ class OrderDetailsScreen extends Component {
         </View>
 
         <View style={styles.innerViewStyle}>
-          <Text style={{ color: '#cccccc', fontWeight: '400' }}>GST Charges</Text>
+          <Text style={{ color: '#cccccc', fontWeight: '400' }}>Taxes</Text>
           <View style={styles.priceStyle}>
             <Text style={{ color: '#cccccc', fontWeight: '400' }}>
-              {details.deliveringRestaurant.taxRate}%
+              {/* {details.deliveringRestaurant.taxRate}% */}
               {details.deliveringRestaurant.taxRate ?
-                <Text>(${(subTotalForOrders(details.orderItinerary) * serviceCharges(details.deliveringRestaurant.taxRate)).toFixed(2)})</Text>
+                <Text>${(subTotalForOrders(details.orderItinerary) * serviceCharges(details.deliveringRestaurant.taxRate)).toFixed(2)}</Text>
                 : <Text>($0)</Text>}
             </Text>
           </View>
         </View>
         <View style={styles.innerViewStyle}>
-          <Text style={{ color: '#cccccc', fontWeight: '400' }}>Dine-in Restaurant Charges</Text>
+          <Text style={{ color: '#cccccc', fontWeight: '400' }}>Dine-in Service Charges</Text>
           <View style={styles.priceStyle}>
             <Text style={{ color: '#cccccc', fontWeight: '400' }}>
               {details.orderItinerary.collectingServiceCharge}%
@@ -173,8 +183,6 @@ class OrderDetailsScreen extends Component {
       : false;
     const { completed, confirmed, user } = this.state
     const { loading, auth } = this.props;
-    // console.log('auth===>>>', params.userRes.id,params.details);
-
     return (
       <ScrollView>
         <View style={styles.container}>
@@ -266,9 +274,10 @@ class OrderDetailsScreen extends Component {
                     (!params.dineIn && !params.orderConfirmed && confirmed) || pendingNotification === 'show' ?
                       <Button
                         title={'Cancel Order'}
-                        onPress={() => {
+                        onPress={async() => {
                           const { details } = params;
-                          this.props.updateOrder(
+                          this.setState({ isCanceled: true })
+                          await this.props.updateOrder(
                             `/restaurant/cancel-order/${details.id}`, 'canceled'
                           );
                         }}
@@ -286,12 +295,13 @@ class OrderDetailsScreen extends Component {
                       (!params.orderConfirmed && confirmed) || pendingNotification === 'show' ?
                         <Button
                           title={'Accept Order'}
-                          onPress={() => {
+                          onPress={async() => {
                             const { details } = params;
                             this.setState({ completed: false })
-                            this.props.updateOrder(
+                            await this.props.updateOrder(
                               `/restaurant/confirm-order/${details.id}`, 'accepted'
                             );
+                            await this.setState({ isCanceled: false })
                           }}
                           style={[styles.button, {
                             borderWidth: 1,
@@ -305,9 +315,9 @@ class OrderDetailsScreen extends Component {
                     !params.dineIn && !params.orderConfirmed && !loading && completed && params.details.orderStatus === "CONFIRMED" ?
                       <Button
                         title={'Complete Order'}
-                        onPress={() => {
+                        onPress={async() => {
                           const { details } = params;
-                          this.props.updateOrder(
+                          await this.props.updateOrder(
                             `/restaurant/complete-order/${details.id}`, 'completed'
                           );
                         }}
@@ -329,11 +339,14 @@ class OrderDetailsScreen extends Component {
                     (!params.dineIn && !params.orderConfirmed && confirmed) || pendingNotification === 'show' ?
                       <Button
                         title={'Cancel Order'}
-                        onPress={() => {
+                        onPress={async() => {
                           const { details } = params;
-                          this.props.updateOrder(
+                          await this.setState({ isCanceled: true })
+                          await this.props.updateOrder(
                             `/restaurant/cancel-order/${details.id}`, 'canceled'
                           );
+                          console.warn('isCanceled',this.state.isCanceled);
+                          
                         }}
                         style={[styles.button, {
                           borderWidth: 1,
@@ -350,12 +363,13 @@ class OrderDetailsScreen extends Component {
                         (!params.orderConfirmed && confirmed) || pendingNotification === 'show' ?
                           <Button
                             title={'Accept Order'}
-                            onPress={() => {
+                            onPress={async() => {
                               const { details } = params;
                               this.setState({ completed: false })
-                              this.props.updateOrder(
+                              await this.props.updateOrder(
                                 `/restaurant/confirm-order/${details.id}`, 'accepted'
                               );
+                              await this.setState({ isCanceled: false })
                             }}
                             style={[styles.button, {
                               borderWidth: 1,
@@ -396,10 +410,13 @@ class OrderDetailsScreen extends Component {
 
   render() {
     const { params } = this.props.navigation.state;
+    // console.log('paramsss=====>>>>>',params);
+    
     return (
       <View style={{ flex: 1, backgroundColor: '#e4e4e4' }}>
         <StatusBar hidden={false} />
         <OrderDetailHeader
+          isNotif={params.isNotif}
           navScreen={params.navScreen}
           navNotif={this.handleBackButtonClick}
           navigation={this.props.navigation}
@@ -418,14 +435,17 @@ class OrderDetailsScreen extends Component {
         {this.state.showModal ?
           <FoodModal
             showModal={true}
-            heading={"Order Accepted"}
+            heading={this.state.isCanceled ? "Order Canceled" : "Order Accepted"}
             body={params.details? 
-                    params.details.currentOrderStep === '0' ? 
-                      "Please receive the food from delivery restaurant and serve it to the customer."
+                    params.details.currentOrderStep === '0' && this.state.isCanceled === false ? 
+                      "Please take the food from Ordering Restaurant and serve to your dine-in customer."
                       :
-                      params.details.currentOrderStep === '1' ?
+                      params.details.currentOrderStep === '1' && this.state.isCanceled === false ?
                         "Please take the bill and give it to the management of dine-in restaurant."
-                        : null
+                        : 
+                        params.details.currentOrderStep === '0' || '1' && this.state.isCanceled ?
+                          "Your Order is canceled."
+                          : null
                     : null  
                   }
             closeModal={() => {

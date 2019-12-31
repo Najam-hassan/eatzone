@@ -167,13 +167,13 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-onesignal')
     implementation project(':tipsi-stripe')
     implementation project(':@react-native-community_async-storage')
     implementation project(':@react-native-community_geolocation')
     implementation project(':react-native-geolocation-service')
     implementation project(':react-native-android-location-enabler')
     implementation project(':react-native-reanimated')
-    implementation project(':react-native-onesignal')
     implementation project(':react-native-fs')
     implementation project(':react-native-image-resizer')
     implementation project(':react-native-image-picker')

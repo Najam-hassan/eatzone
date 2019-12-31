@@ -14,15 +14,13 @@ class StripeConnectHome extends Component {
         return (
             <View style={{
                 flex: 1,
-                // alignItems: 'center',
                 backgroundColor: '#f9f9f9',
-                // justifyContent: 'center',
             }}>
                 <StatusBar hidden={false} />
                 <Header
                     navigation={this.props.navigation}
                     title={'Stripe Connect'}
-                    profile={true}
+                    // profile={true}
                 />
                 <View style={{ flex: 1, alignItems: 'center' }}>
                     <View style={{ height: 110, width: 100, backgroundColor: '#00a0ff', alignSelf: 'center', marginTop: 150, borderRadius: 10, marginBottom: 10 }}>

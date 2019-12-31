@@ -53,9 +53,9 @@ export const calculateCostSub2 = (items, charges, dineCharges) => {
     delivery = total * parseFloat((charges / 100));
   }
   if (dineCharges) {
-    dinein = total * parseFloat((dineCharges / 100).toFixed(2))
+    dinein = total * parseFloat((dineCharges / 100))
   }
-  amount = parseFloat(total) + parseFloat((delivery).toFixed(2)) + parseFloat((dinein).toFixed(2))
+  amount = parseFloat(total) + parseFloat((delivery)) + parseFloat((dinein))
   return amount.toFixed(2);
 }
 export const calculateCostSub = (subTotal, charges, dineCharges) => {

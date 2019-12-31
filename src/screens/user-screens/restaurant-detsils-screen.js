@@ -82,7 +82,7 @@ class RestaurantDetailScreen extends Component {
   render() {
     const { restaurantName, phone } = this.state;
     const { list, navigation, loading } = this.props;
-    console.log('list:',list);
+    // console.log('Dishes list:',list);
     const listItems = list && Object.keys(list).length &&
       list.menu_categories.map(item => (
         item.menu_items.filter(row => (

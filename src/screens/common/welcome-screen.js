@@ -35,22 +35,22 @@ class WelcomeScreen extends Component {
                         <View>
                             <View style={{ marginBottom: 50 }}>
                                 <Button
-                                    title= "Restaurant Management" //"Restaurant Owner"
+                                    title="My Dine-in Options"
                                     onPress={() => {
-                                        AsyncStorage.setItem('user_type', 'admin');
+                                        AsyncStorage.setItem('user_type', 'user');
                                         this.props.navigation.navigate('SignInScreen', {
-                                            type: 'admin'
+                                            type: 'user'
                                         });
                                     }}
                                     style={{ /* some styles for button */ }}
                                     textStyle={{ /* styles for button title */ }}
                                 />
                                 <Button
-                                    title="Restaurant Nearby"
+                                    title= "Restaurant Management" //"Restaurant Owner"
                                     onPress={() => {
-                                        AsyncStorage.setItem('user_type', 'user');
+                                        AsyncStorage.setItem('user_type', 'admin');
                                         this.props.navigation.navigate('SignInScreen', {
-                                            type: 'user'
+                                            type: 'admin'
                                         });
                                     }}
                                     style={{ /* some styles for button */ }}

@@ -88,7 +88,7 @@ class HomeContainer extends Component {
 
     Geolocation.getCurrentPosition(position => {
       const { latitude, longitude } = position.coords;
-      console.log('lat: ', latitude, 'long: ', longitude);
+      // console.log('lat: ', latitude, 'long: ', longitude);
       initialValues = {
         ...initialValues,
         latitude: position.coords.latitude,
@@ -186,7 +186,7 @@ class HomeContainer extends Component {
           this.setLocation(location);
           this.props.fetchList(`/user/eligible-restaurants/${item.id}`);
           this.props.collectingResturant(item);
-        } else {
+        } else {          
           const { resturant } = this.props;
           if (item.isValid) {
             this.props.delivertRestaurant(item);
@@ -352,12 +352,15 @@ class HomeContainer extends Component {
                 <View style={{
                   marginBottom: -50, backgroundColor: '#f7f8fa', flex: .5,
                 }}>
-                  <Text style={{ color: '#000000', textAlign: "center", padding: 6 }}>
-                    {firstClick ?
-                      `Please select your dine in restaurant` :
-                      `Please select your delivery restaurant`
+                  {firstClick ?
+                      <Text style={{ color: '#000000', textAlign: "center", padding: 6 }}>Please select your 
+                        <Text style={{ fontWeight: 'bold' }}> Dine-in Restaurant</Text>
+                      </Text> 
+                    :
+                      <Text style={{ color: '#000000', textAlign: "center", padding: 6 }}>Please select your 
+                        <Text style={{ fontWeight: 'bold' }}> Ordering Restaurant</Text>
+                      </Text>
                     }
-                  </Text>
                   <ScrollView>
                     {collecting && collecting.length ?
                       <FlatList

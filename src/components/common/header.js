@@ -88,7 +88,7 @@ const PageHeader = ({ navigation, title, isCartScreen, id, phone }) => {
   )
 }
 
-const OrderDetailHeader = ({ navigation, title, isCartScreen, id, phone, navScreen }) => {
+const OrderDetailHeader = ({ navigation, title, isCartScreen, id, phone, navScreen, isNotif }) => {
   const { iconsViewStyle, navTitle, navRight } = styles;
   return (
     <View style={{ backgroundColor: '#00a0ff', }}>
@@ -96,7 +96,12 @@ const OrderDetailHeader = ({ navigation, title, isCartScreen, id, phone, navScre
         <TouchableOpacity
           style={{ paddingHorizontal: 5, paddingVertical: 10, flex: 0.1, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', }}
           onPress={() => {
-            navigation.replace(navScreen);
+            if (isNotif) {
+              navigation.replace('RecentOrdersScreen');
+            } else {
+              navigation.replace(navScreen);
+            }
+            // navigation.replace(navScreen);
           }}
         >
           <Icon name="chevron-left" size={34} color={'#fff'} />

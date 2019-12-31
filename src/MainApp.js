@@ -53,6 +53,7 @@ class MainApp extends Component {
               type: constants.RESET_RESTAURANT_ORDERS_STATE,
             })
             navigation.navigate('ResturantOrderDetailsScreen', {
+              isNotif: true,
               userRes: user,
               details: details && (details.newOrder ? details.newOrder : (details.updatedNewMenuOrder ? details.updatedNewMenuOrder : {})),
               orderConfirmed: details.orderConfirmed

@@ -47,18 +47,18 @@ class OrderDetailScreen extends Component {
         </View>
 
         <View style={styles.innerViewStyle}>
-          <Text style={{ color: '#cccccc', fontWeight: '400' }}>GST Charges</Text>
+          <Text style={{ color: '#cccccc', fontWeight: '400' }}>Taxes</Text>
           <View style={styles.priceStyle}>
             <Text style={{ color: '#cccccc', fontWeight: '400' }}>
-              {details.deliveringRestaurant.taxRate}%
+              {/* {details.deliveringRestaurant.taxRate}% */}
               {details.deliveringRestaurant.taxRate ?
-                <Text>(${(this.state.subTotal * serviceCharges(details.deliveringRestaurant.taxRate)).toFixed(2)})</Text>
-                : <Text>($0)</Text>}
+                <Text>${(this.state.subTotal * serviceCharges(details.deliveringRestaurant.taxRate)).toFixed(2)}</Text>
+                : <Text>$0</Text>}
             </Text>
           </View>
         </View>
         <View style={styles.innerViewStyle}>
-          <Text style={{ color: '#cccccc', fontWeight: '400' }}>Dine-in Restaurant Charges</Text>
+          <Text style={{ color: '#cccccc', fontWeight: '400' }}>Dine-in Service Charges</Text>
           <View style={styles.priceStyle}>
             <Text style={{ color: '#cccccc', fontWeight: '400' }}>
               {details.orderItinerary.collectingServiceCharge}%

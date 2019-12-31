@@ -20,7 +20,7 @@ PODS:
   - GoogleMaps/Base (2.5.0)
   - GoogleMaps/Maps (2.5.0):
     - GoogleMaps/Base
-  - OneSignal (2.10.0)
+  - OneSignal (2.11.2)
   - React (0.59.8):
     - React/Core (= 0.59.8)
   - react-native-geolocation (1.4.2):
@@ -35,9 +35,9 @@ PODS:
     - React
   - react-native-maps (0.24.2):
     - React
-  - react-native-onesignal (3.2.14):
-    - OneSignal (= 2.10.0)
-    - React
+  - react-native-onesignal (3.5.0):
+    - OneSignal (= 2.11.2)
+    - React (< 1.0.0, >= 0.13.0)
   - React/Core (0.59.8):
     - yoga (= 0.59.8.React)
   - React/DevSupport (0.59.8):
@@ -88,6 +88,7 @@ PODS:
 DEPENDENCIES:
   - Google-Maps-iOS-Utils
   - GoogleMaps
+  - OneSignal (< 3.0, >= 2.9.3)
   - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
   - react-native-google-maps (from `../node_modules/react-native-maps/`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
@@ -155,14 +156,14 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Google-Maps-iOS-Utils: c32891ff472eaaa1fca032beedafa1a013af7875
   GoogleMaps: c087b8e5dfe87ca6ebf59adb9b4894a4146bec4f
-  OneSignal: 0f5ff711d9f25da54885e4ab06ef0abc221a46ef
+  OneSignal: 4e3e68bb6c29975286a2fa910cb49132bc6e20bb
   React: 76e6aa2b87d05eb6cccb6926d72685c9a07df152
   react-native-geolocation: 79c743ad7a2e86617811ef23f49308824e92520c
   react-native-google-maps: 568cb03d0eae7fef93626f65d05be55642404ed4
   react-native-image-picker: 3693786b3d5958c8f71deed66ec068b323565e0d
   react-native-image-resizer: ecae22b577b0425cd7803eb8145243038dd4b6bd
   react-native-maps: 0316ed017dbb64b33b227751fa810e2454fcfa39
-  react-native-onesignal: 4d16f59736eb92e892fb009cb66a7c508fdeead0
+  react-native-onesignal: 50f5a70d2b8a94e0eda8c4e1b9ba0b82dec29a7a
   ReactNativePermissions: f0aec11433d43d45953c678b6982921d83ad94c8
   RNCAsyncStorage: 621bad7a889b5bf1583a52547f2dcd3a4d1ff15e
   RNFS: c9bbde46b0d59619f8e7b735991c60e0f73d22c1
@@ -172,6 +173,6 @@ SPEC CHECKSUMS:
   tipsi-stripe: 3e0073c7eec0b2bfd1d1d5736d843c22e3024485
   yoga: 92b2102c3d373d1a790db4ab761d2b0ffc634f64
 
-PODFILE CHECKSUM: 835764890a310eabed7981a5732a5ffcbab4c527
+PODFILE CHECKSUM: 87319a0e9791f303d3bbbbf769cb774279abb9bc
 
-COCOAPODS: 1.8.1
+COCOAPODS: 1.8.3

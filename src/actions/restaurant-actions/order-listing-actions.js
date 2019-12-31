@@ -73,6 +73,7 @@ export function updateOrderStatusAction(url, orderStatus) {
         dispatch(updateOrderRequest());
         axios.put(url)
             .then(response => {
+                console.log('response====>>>',response);
                 // dispatch(updateOrderSuccess(response.data));
                 dispatch(updateLocally(orderStatus))
             })

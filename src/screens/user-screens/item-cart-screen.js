@@ -220,8 +220,8 @@ class CartScreen extends Component {
           <View style={{
             flex: 2, alignItems: 'flex-end', justifyContent: 'flex-end'
           }}>
-            <Text style={{ color: '#cccccc', fontWeight: '400', }}>
-              ${parseFloat(this.state.subTotal).toFixed(2)} </Text>
+            <Text style={{ color: '#cccccc', fontWeight: '400'}}>
+              ${parseFloat(this.state.subTotal).toFixed(2)}</Text>
           </View>
         </View>
 
@@ -248,15 +248,15 @@ class CartScreen extends Component {
         }}>
           <Text numberOfLines={1} style={{
             flex: 7, color: '#cccccc', fontWeight: '400',
-          }}>GST Charges</Text>
+          }}>Taxes</Text>
           <View style={{
             flex: 3, alignItems: 'flex-end', justifyContent: 'flex-end'
           }}>
             <Text style={{ color: '#cccccc', fontWeight: '400' }}>
-              {deliveryResturant.taxRate}%
+              {/* {deliveryResturant.taxRate}% */}
               {deliveryResturant.deliveryServiceCharges ?
-                <Text>(${(this.state.subTotal * serviceCharges(deliveryResturant.taxRate)).toFixed(2)})</Text>
-                : <Text>($0)</Text>}
+                <Text>${(this.state.subTotal * serviceCharges(deliveryResturant.taxRate)).toFixed(2)}</Text>
+                : <Text>$0</Text>}
             </Text>
           </View>
         </View>
@@ -266,7 +266,7 @@ class CartScreen extends Component {
         }}>
           <Text numberOfLines={1} style={{
             flex: 7, color: '#cccccc', fontWeight: '400',
-          }}>Dine-in Restaurant Charges</Text>
+          }}>Dine-in Service Charges</Text>
           <View style={{
             flex: 3, alignItems: 'flex-end', justifyContent: 'flex-end'
           }}>

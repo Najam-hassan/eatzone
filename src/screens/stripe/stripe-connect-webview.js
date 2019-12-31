@@ -26,15 +26,13 @@ class StripeConnectWebview extends Component {
         return (
             <View style={{
                 flex: 1,
-                // alignItems: 'center',
                 backgroundColor: '#f9f9f9',
-                // justifyContent: 'center',
             }}>
                 <StatusBar hidden={false} />
                 <Header
                     navigation={this.props.navigation}
                     title={'Stripe Connect'}
-                    profile={true}
+                    // profile={true}
                 />
                 <WebView
                     useWebKit={false}

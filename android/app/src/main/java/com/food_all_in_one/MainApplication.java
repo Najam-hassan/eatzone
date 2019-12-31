@@ -3,13 +3,13 @@ package com.food_all_in_one;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
 import com.gettipsi.stripe.StripeReactPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactnativecommunity.geolocation.GeolocationPackage;
 import com.agontuk.RNFusedLocation.RNFusedLocationPackage;
 import com.heanoria.library.reactnative.locationenabler.RNAndroidLocationEnablerPackage;
 import com.swmansion.reanimated.ReanimatedPackage;
-import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
 import com.rnfs.RNFSPackage;
 import fr.bamlab.rnimageresizer.ImageResizerPackage;
 import com.imagepicker.ImagePickerPackage;
@@ -36,13 +36,13 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
+            new ReactNativeOneSignalPackage(),
             new StripeReactPackage(),
             new AsyncStoragePackage(),
             new GeolocationPackage(),
             new RNFusedLocationPackage(),
             new RNAndroidLocationEnablerPackage(),
             new ReanimatedPackage(),
-            new ReactNativeOneSignalPackage(),
             new RNFSPackage(),
             new ImageResizerPackage(),
             new ImagePickerPackage(), new VectorIconsPackage(), new MapsPackage(),

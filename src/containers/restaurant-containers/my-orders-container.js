@@ -18,10 +18,21 @@ class OrdersContainer extends Component {
         style={styles.container}
       >
         <View style={styles.orderCardContainer}>
-          {!isDelivery && item.deliveringRestaurant && (item.orderStatus === "COMPLETED" || item.orderStatus == "CANCELLED") ?
-            <View style={styles.bannerMessage}>
-              <Text style={styles.bannerText}>DELIVERY {`${item.orderStatus}`}</Text>
-            </View> : null}
+          {/* {!isDelivery && item.deliveringRestaurant && (item.orderStatus === "COMPLETED" || item.orderStatus == "CANCELLED") ? */}
+            <View style={[styles.bannerMessage,{
+                  backgroundColor:
+                    item.orderStatus === 'PENDING' ?
+                      'rgb(253,198,68)' 
+                      : item.orderStatus === 'COMPLETED' ? 
+                        '#00a651' 
+                        : item.orderStatus === 'CANCELLED' ?
+                          '#ff0000' 
+                          : item.orderStatus === 'CONFIRMED' ?
+                            'rgb(105,55,145)' : null
+                }]}>
+              <Text style={styles.bannerText}>{`${item.orderStatus}`}</Text>
+            </View> 
+             {/* : null} */}
           <View style={styles.detailsContainer}>
             {item && item.user.avatarUrl ?
               <Image
