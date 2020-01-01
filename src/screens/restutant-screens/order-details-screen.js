@@ -441,7 +441,7 @@ class OrderDetailsScreen extends Component {
                       "Please take the food from Ordering Restaurant and serve to your dine-in customer."
                       :
                       params.details.currentOrderStep === '1' && this.state.isCanceled === false ?
-                        "Please take the bill and give it to the management of dine-in restaurant."
+                        "Please start preparing the order."
                         : 
                         params.details.currentOrderStep === '0' || '1' && this.state.isCanceled ?
                           "Your Order is canceled."

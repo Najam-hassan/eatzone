@@ -437,7 +437,7 @@ class ProfileForm extends Component {
                 <CheckBox
                   checked={this.state.canPickcollect}
                   textStyle={styles.checkBoxText}
-                  title='Willing to manage Order Deliveries'
+                  title='Willing to manage Order Deliveries (you will have more business & profit)'
                   containerStyle={[styles.checkBoxContainer, { marginTop: 10, marginBottom: 10, marginLeft: 34 }]}
                   onPress={() => {
                     const { canPickcollect } = this.state;
