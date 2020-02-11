@@ -14,9 +14,9 @@ class TestScreen extends Component {
                 backgroundColor: 'red',
                 justifyContent: 'center',
             }}>
-                <Text> Test screen details will go here!!!!</Text>
+                <Text>screen details will go here!!!!</Text>
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('WelcomeScreen')}>
-                    <Text>Test Navigation</Text>
+                    <Text>Navigation</Text>
                 </TouchableOpacity>
             </View>
         )

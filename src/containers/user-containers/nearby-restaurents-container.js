@@ -59,9 +59,9 @@ class Restaurents extends Component {
         <View style={{ flex: 1 }}>
           <View style={styles.titleStyle}>
             <Text style={{ fontSize: 20, fontWeight: '500', color: '#000' }}>{item.name}</Text>
-            <Text style={{ color: '#00a0ff' }}>
-              {`Delivery Service Charges: ${item.deliveryServiceCharges}%`}
-            </Text>
+            {/* <Text style={{ color: '#00a0ff' }}>
+              {`Ordering Service Charges: ${item.deliveryServiceCharges}%`}
+            </Text> */}
           </View>
           <Text style={{ fontSize: 16, fontWeight: '300', color: '#5e5a5a' }}>{item.description}</Text>
         </View>

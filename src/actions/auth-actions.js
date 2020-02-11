@@ -65,6 +65,8 @@ export function loginAction (url, user) {
 }
 
 export function registerAction (url, user) {
+    console.log('param',url,user);
+    
     return dispatch => {
         dispatch(registerRequest())
         return axios.post(url, user)
@@ -72,6 +74,7 @@ export function registerAction (url, user) {
                 dispatch(registerSuccess(response.data));
             })
             .catch(error => {
+                console.log('error====>>>>',error);
                 dispatch(registerFailure(error.response ? error.response.data : null));
             });
     }

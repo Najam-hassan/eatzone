@@ -161,7 +161,7 @@ class ProfileForm extends Component {
           });
         } else return Alert.alert(
           "Required",
-          'Please select delivery start and end time',
+          'Please select ordering start and end time',
           [
             { text: 'OK', onPress: () => console.log('OK Pressed') },
           ],

@@ -168,10 +168,9 @@ class RestaurantDetailScreen extends Component {
               <View style={styles.detailStyle}>
                 <View style={{ width: "100%" }}>
                   <Text style={styles.titleStyle}>{this.state.address}</Text>
-                  <Text style={styles.serviceChargeText}>
-                    Delivery Service Charges: {this.state.charges}%
-                    {/* Service Charges: 10 % */}
-                  </Text>
+                  {/* <Text style={styles.serviceChargeText}>
+                    Ordering Service Charges: {this.state.charges}%
+                  </Text> */}
                   <View style={{ flexDirection: 'row' }}>
                     <View style={{ marginRight: 6 }}>
                       <Icon

@@ -42,19 +42,19 @@
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>Food all in one would like to use bluetooth service</string>
 	<key>NSCalendarsUsageDescription</key>
-	<string>Food all in one would like you use calander</string>
+	<string>Food all in one would like to use calander</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Food all in one would like you use your camera</string>
+	<string>Food all in one would like to use your camera</string>
 	<key>NSContactsUsageDescription</key>
-	<string>Food all in one would like you use contacts</string>
+	<string>Food all in one would like to use your contacts</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Food all in one would like to use your location</string>
+	<string>Food all in one would like to use your location to find nearest restaurants</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Food all in one would like to use your location</string>
+	<string>Food all in one would like to use your location to find nearest restaurants</string>
 	<key>NSLocationUsageDescription</key>
-	<string>Food all in one would like to use your location</string>
+	<string>Food all in one would like to use your location to find nearest restaurants</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Food all in one would like to use your location</string>
+	<string>Food all in one would like to use your location to find nearest restaurants</string>
 	<key>NSMainNibFile</key>
 	<string>LaunchScreen</string>
 	<key>NSMainNibFile~ipad</key>
@@ -62,7 +62,7 @@
 	<key>NSMotionUsageDescription</key>
 	<string>Food all in one would</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Food all in one would like you use your camera</string>
+	<string>Food all in one would like to use your camera</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>Food all in one would</string>
 	<key>UIAppFonts</key>
