@@ -50,7 +50,7 @@ class OrdersContainer extends Component {
           <View style={styles.orderDetails}>
             <Text style={styles.userInfo}>Order Id: {item.id}</Text>
             <Text style={styles.userInfo}>
-              Total: ${(item.billAmount).toFixed(2)}
+              Total:   ${item.billAmount ? (item.billAmount).toFixed(2) : null}
             </Text>
           </View>
         </View>

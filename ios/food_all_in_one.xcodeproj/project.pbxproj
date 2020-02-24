@@ -1430,7 +1430,7 @@
 				CODE_SIGN_ENTITLEMENTS = food_all_in_one/food_all_in_one.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 14;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 34464VVR3W;
 				ENABLE_BITCODE = NO;
@@ -1465,7 +1465,7 @@
 				CODE_SIGN_ENTITLEMENTS = food_all_in_one/food_all_in_one.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_TEAM = 34464VVR3W;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (

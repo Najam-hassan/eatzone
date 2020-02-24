@@ -36,7 +36,8 @@ class StripeConnectWebview extends Component {
                 />
                 <WebView
                     useWebKit={false}
-                    source={{ uri: 'https://connect.stripe.com/express/oauth/authorize?redirect_uri=https://connect.stripe.com/connect/default_new/oauth/test&client_id=ca_FsNIRisYyOsfWi3YQ68vnOK7B1TsYXEa&state=' + params.user.id }}
+                    // source={{ uri: 'https://connect.stripe.com/express/oauth/authorize?redirect_uri=https://connect.stripe.com/connect/default_new/oauth/test&client_id=ca_GaCo9nikqYziRwMNcndbsdgz86oxL33A&state=' + params.user.id }} //ca_FsNIRisYyOsfWi3YQ68vnOK7B1TsYXEa
+                    source={{ uri: 'https://connect.stripe.com/express/oauth/authorize?redirect_uri=https://www.foodallinone.com/api/v1/restaurant/stripe-register&client_id=ca_GaCo9nikqYziRwMNcndbsdgz86oxL33A&state=' + params.user.id }} //ca_FsNIRisYyOsfWi3YQ68vnOK7B1TsYXEa                    
                     style={{ height: height, width: width }}
                     // scalesPageToFit={true}
                     startInLoadingState={true}

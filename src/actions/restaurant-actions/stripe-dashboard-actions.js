@@ -26,7 +26,7 @@ export function fetchDashboardURLAction () {
         dispatch(fetchDashboadRequest());
         return axios.get('/restaurant/stripe-dashboard')
             .then(response => {
-                // console.log('response===========>>>>>',response.data);
+                console.log('response===========>>>>>',response.data);
                 dispatch(fetchDashboadSuccess(response.data));
             })
             .catch(error => {
