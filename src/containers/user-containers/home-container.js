@@ -151,6 +151,7 @@ class HomeContainer extends Component {
   }
 
   moveBack() {
+    console.log('[MOVE BACK] ...')
     this.setState({ firstClick: true });
     const { fetchCollectingList, region } = this.props;
     const { latitude, longitude } = this.state;
@@ -175,7 +176,7 @@ class HomeContainer extends Component {
   }
 
   _renderItem = ({ item, index }) => (
-    < TouchableOpacity
+    <TouchableOpacity
       key={item.id}
       activeOpacity={0.7}
       disabled={!item.isValid}
@@ -186,7 +187,7 @@ class HomeContainer extends Component {
           this.setLocation(location);
           this.props.fetchList(`/user/eligible-restaurants/${item.id}`);
           this.props.collectingResturant(item);
-        } else {          
+        } else {
           const { resturant } = this.props;
           if (item.isValid) {
             this.props.delivertRestaurant(item);
@@ -328,8 +329,7 @@ class HomeContainer extends Component {
                 initialRegion={initialRegion}
                 key={Platform.OS !== 'android' && Date.now()}
                 region={region.latitude !== null ?
-                  this.state.region : initialRegion}
-              >
+                  this.state.region : initialRegion}>
                 <View>
                   {!firstClick && list && list.length ?
                     this.renderMarkers(list, true) : null}
@@ -353,14 +353,14 @@ class HomeContainer extends Component {
                   marginBottom: -50, backgroundColor: '#f7f8fa', flex: .5,
                 }}>
                   {firstClick ?
-                      <Text style={{ color: '#000000', textAlign: "center", padding: 6 }}>Please select your 
+                    <Text style={{ color: '#000000', textAlign: "center", padding: 6 }}>Please select your
                         <Text style={{ fontWeight: 'bold' }}> Dine-in Restaurant</Text>
-                      </Text> 
+                    </Text>
                     :
-                      <Text style={{ color: '#000000', textAlign: "center", padding: 6 }}>Please select your 
+                    <Text style={{ color: '#000000', textAlign: "center", padding: 6 }}>Please select your
                         <Text style={{ fontWeight: 'bold' }}> Ordering Restaurant</Text>
-                      </Text>
-                    }
+                    </Text>
+                  }
                   <ScrollView>
                     {collecting && collecting.length ?
                       <FlatList

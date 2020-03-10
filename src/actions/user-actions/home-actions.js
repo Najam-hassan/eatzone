@@ -69,6 +69,7 @@ export function fetchListCollectingFailure (error) {
 }
 
 export function fetchCollectingListAction (url) {
+    console.log('[FETCHING COLLECTING LIST] action triggerred')
     return dispatch => {
         dispatch(fetchCollectingListRequest());
         return axios.get(url)
