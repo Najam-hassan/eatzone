@@ -118,8 +118,8 @@ android {
         applicationId "com.food_all_in_one"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2
-        versionName "1.0.2"
+        versionCode 3
+        versionName "1.0.3"
 
         // manifestPlaceholders = [onesignal_app_id: "f63350e4-f498-494f-9a3d-6d691518b83c",
         //                         onesignal_google_project_number: "REMOTE"]
