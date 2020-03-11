@@ -11,7 +11,7 @@ import RNAndroidLocationEnabler from 'react-native-android-location-enabler';
 import {
   View, Text, StyleSheet, Dimensions, StatusBar, PermissionsAndroid,
   FlatList, Image, ActivityIndicator, TouchableOpacity, ToastAndroid,
-  ScrollView, AsyncStorage, Platform, Linking, Alert
+  ScrollView, AsyncStorage, Platform, Linking, Alert, RefreshControl
 } from 'react-native';
 
 const { height, width } = Dimensions.get('screen');
@@ -361,7 +361,11 @@ class HomeContainer extends Component {
                         <Text style={{ fontWeight: 'bold' }}> Ordering Restaurant</Text>
                     </Text>
                   }
-                  <ScrollView>
+                  <ScrollView
+                    scrollEnabled={false}
+                    refreshControl={
+                      <RefreshControl refreshing={loading} onRefresh={this.moveBack.bind(this)} />
+                    }>
                     {collecting && collecting.length ?
                       <FlatList
                         data={collecting}
@@ -391,6 +395,11 @@ class HomeContainer extends Component {
                           }]}>
                             No Restaurant found at your location
                         </Text>
+                          <TouchableOpacity onPress={this.moveBack.bind(this)}>
+                            <Text style={{ paddingHorizontal: 10, paddingVertical: 5, margin: 10, borderWidth: 1, borderColor: '#aaa', borderRadius: 100 }}>
+                              Tap to retry
+                            </Text>
+                          </TouchableOpacity>
                         </View>
                     }
                   </ScrollView>
