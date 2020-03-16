@@ -96,7 +96,8 @@ class CartScreen extends Component {
   stripPayment(itemValue, pkgId, pkgType, amount, currency) {
     if (this.state.terms) {
       stripe.setOptions({
-        publishableKey: 'pk_test_BV2QYPsCZMyUd78QJVixfzQI00VSUK33GG',
+        // publishableKey: 'pk_test_BV2QYPsCZMyUd78QJVixfzQI00VSUK33GG',
+        publishableKey: 'pk_live_AEBfd2Uo76EMG1RTvkwmCCx500jexvIIoc',
       });
       const options = {
         smsAutofillDisabled: true,
