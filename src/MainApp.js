@@ -60,7 +60,8 @@ class MainApp extends Component {
             });
             if (openResult.notification.payload.body.includes('has been cancelled by Ordering restaurant')) {
               console.log('Order cancel detected');
-              navigation.navigate({routeName: 'CompletedOrdersScreen'});
+              
+              navigation.navigate({routeName: 'RecentOrdersScreen'});
               console.log('Moved to completed orders screen');
             }
             else {
