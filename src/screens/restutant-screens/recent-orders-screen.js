@@ -30,6 +30,11 @@ class RecentOrdersScreen extends Component {
   }
 
   async componentDidMount() {
+    setInterval(async ()=>{
+      await this.props.fetchList();
+      await this._retrieveData();
+    },120000)
+
     await this.props.fetchList();
     await this._retrieveData();
     console.log('OrdersDelivered===========>>>>',this.props.deliveries,'Dine-in=====>>>>',this.props.collections);

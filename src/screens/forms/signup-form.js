@@ -2,20 +2,27 @@ import { Text } from 'react-native';
 import { connect } from "react-redux";
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form/immutable'
-
+import TermsModal from '../../components/terms-modal';
 import { View, StyleSheet, Dimensions, ActivityIndicator, Keyboard } from 'react-native'
-
 const { width, height } = Dimensions.get('screen');
-
 import Button from '../../components/common/button';
 import * as actions from '../../actions/auth-actions';
 import InputField from '../../components/common/input';
 import { isAlphabetsWithSpecialChar } from '../../utils/regex';
 import * as selectors from '../../selectors/auth-selectors';
+import {CheckBox } from 'react-native-elements';
 
 class SignUpForm extends Component {
-
+    constructor(props) {
+        super(props);
+        this.state = { subTotal: 0, showModal: false, terms: false, termsModal: false }
+        //Binding handleBackButtonClick function with this
+      }
+      closeTermsModal() {
+        this.setState({ termsModal: false })
+      }
     onSubmit = (values) => {
+        console.warn(this.props.userType)
         if (values) {
             Keyboard.dismiss();
             if (this.props.userType === 'admin') {
@@ -60,6 +67,24 @@ class SignUpForm extends Component {
                         customContainerStyle={styles.input}
                         customInputStyle={{ color: "#000" }}
                     />
+                        {
+                        userType == 'user' ?
+                           <CheckBox
+                    checked={this.state.terms}
+                    textStyle={styles.checkBoxText}
+                    title='I have read and agree to the terms and services'
+                    containerStyle={styles.checkBoxContainer}
+                    onPress={() => {
+                      const { terms } = this.state;
+                      if (terms) {
+                        this.setState({ terms: false })
+                      }
+                      terms ? this.setState({ termsModal: false }) : this.setState({ termsModal: true })
+                    }}
+                  /> 
+                        :
+                        null
+                    }
                     {submitting || loading ?
                         <ActivityIndicator size="large" color="#1BA2FC" /> :
                         <Button
@@ -85,6 +110,16 @@ class SignUpForm extends Component {
                         </View>
                     </View>
                 </View>
+                
+                {this.state.termsModal ?
+                <TermsModal
+                  showModal={true}
+                  closeModal={() => this.closeTermsModal()}
+                  acceptTermAndCond={() => {
+                    this.setState({ terms: true, termsModal: false })
+                  }}
+                /> : null
+              }
             </View>
         )
     }
@@ -164,6 +199,15 @@ const styles = StyleSheet.create({
         color: '#1BA2FC',
         fontWeight: "800"
     },
+    checkBoxText: {
+        fontSize: 16,
+        color: '#2b2b2b',
+        fontWeight: '400',
+      },
+      checkBoxContainer: {
+        backgroundColor: 'transparent',
+        width:'80%',
+      },
 });
 
 export default connect(

@@ -336,7 +336,9 @@ class ProfileForm extends Component {
             query={{
               key: 'AIzaSyBJX4U1PDcgBCoR6gL4mCVedWFApQ8MWTs',
               language: 'en',
-              components: 'country:us' //us, pk
+              // components: 'country:us' //us, pk
+              components: 'country:pk' //us, pk
+
             }}
             styles={{
               textInputContainer: {

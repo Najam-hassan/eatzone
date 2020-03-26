@@ -51,7 +51,6 @@ class CartScreen extends Component {
       ));
     this.setState({ subTotal: total });
   }
-
   componentWillReceiveProps(nextProps) {
     if (nextProps.response.message === "Order Placed") {
       this.setState({ showModal: true });
@@ -61,7 +60,6 @@ class CartScreen extends Component {
       this.props.resetState();
     }
   }
-
   componentWillUnmount() {
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
   }
@@ -454,7 +452,7 @@ class CartScreen extends Component {
                   </View>
                 </View>
                 <View style={{ position: 'relative', left: 0, right: 0, bottom: 5 }}>
-                  <CheckBox
+                  {/* <CheckBox
                     checked={this.state.terms}
                     textStyle={styles.checkBoxText}
                     title='I have read and agree to the terms and services'
@@ -466,7 +464,7 @@ class CartScreen extends Component {
                       }
                       terms ? this.setState({ termsModal: false }) : this.setState({ termsModal: true })
                     }}
-                  />
+                  /> */}
                   {loadding ?
                     <ActivityIndicator
                       size={'large'}

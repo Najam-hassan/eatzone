@@ -19,7 +19,7 @@ class SignInScreen extends Component {
 		super(props);
 		this.state = { playerId: '' }
 
-		OneSignal.configure()
+		// OneSignal.configure()
 	}
 
 	componentDidMount () {
