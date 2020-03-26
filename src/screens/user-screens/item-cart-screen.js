@@ -8,14 +8,11 @@ import {
   Image, View, TouchableOpacity, Text, StatusBar, ScrollView, BackHandler,
   StyleSheet, FlatList, Dimensions, ActivityIndicator
 } from 'react-native';
-
 const { width, height } = Dimensions.get('screen');
-
 import { PageHeader } from '../../components/common/header';
 import { calculateCostSub, serviceCharges } from '../../utils/misc';
 import { Button, CheckBox } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
 import ButtonCom from '../../components/common/button';
 import * as retaurant from '../../selectors/user-selectors/home-selectors';
 import * as orderActions from '../../actions/user-actions/place-order-actions';
@@ -24,7 +21,6 @@ import * as orderSelectors from '../../selectors/user-selectors/place-order-sele
 import * as selectors from '../../selectors/user-selectors/restaurent-detail-selectors';
 import FoodModal from '../../components/food-modal';
 import TermsModal from '../../components/terms-modal';
-
 const theme = {
   primaryBackgroundColor: 'white',
   secondaryBackgroundColor: 'white',
@@ -33,20 +29,16 @@ const theme = {
   accentColor: 'green',
   errorColor: 'red'
 };
-
 class CartScreen extends Component {
   constructor(props) {
     super(props);
     this.state = { subTotal: 0, showModal: false, terms: false, termsModal: false }
-
     //Binding handleBackButtonClick function with this
     this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
   }
-
   componentWillMount() {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
   }
-
   componentDidMount() {
     const { cartItems } = this.props;
     let total = 0;
