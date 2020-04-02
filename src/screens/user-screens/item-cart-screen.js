@@ -84,7 +84,7 @@ class CartScreen extends Component {
   }
 
   stripPayment(itemValue, pkgId, pkgType, amount, currency) {
-    if (this.state.terms) {
+    // if (this.state.terms) {
       stripe.setOptions({
         // publishableKey: 'pk_test_BV2QYPsCZMyUd78QJVixfzQI00VSUK33GG',
         publishableKey: 'pk_live_AEBfd2Uo76EMG1RTvkwmCCx500jexvIIoc',
@@ -104,9 +104,9 @@ class CartScreen extends Component {
           this.setState({ loading: false })
           // Handle error
         });
-    } else {
-      this.refs.toast.show(`Please accept the terms and conditions first`, 2000);
-    }
+    // } else {
+    //   this.refs.toast.show(`Please accept the terms and conditions first`, 2000);
+    // }
   }
 
   _renderItem = ({ item }) => {
@@ -351,7 +351,7 @@ class CartScreen extends Component {
 
   onSubmit = (stripeToken) => {
     const { cartItems, deliveryResturant, collectingResturant } = this.props;
-    if (this.state.terms) {
+    // if (this.state.terms) {
       const orderArr = _.flatMap(cartItems, category =>
         _(category.menu_items)
           .map(menuItem => ({
@@ -375,9 +375,9 @@ class CartScreen extends Component {
       }
       console.log('object===>>>', resultObj);
       this.props.placeOrder(resultObj);
-    } else {
-      this.refs.toast.show(`Please accept the terms and conditions first`, 2000);
-    }
+    // } else {
+    //   this.refs.toast.show(`Please accept the terms and conditions first`, 2000);
+    // }
   };
 
   render() {

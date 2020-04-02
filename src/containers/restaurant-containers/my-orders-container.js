@@ -17,7 +17,19 @@ class OrdersContainer extends Component {
         key={`order-item-${index}`}
         style={styles.container}
       >
-        <View style={styles.orderCardContainer}>
+        <Text>Pickup</Text>
+        <View style={[styles.orderCardContainer,{
+                  backgroundColor:
+                    item.orderStatus === 'PENDING' ?
+                      'rgb(85,176,252)' 
+                      : item.orderStatus === 'COMPLETED' ? 
+                        '#d9f1ff' 
+                        : item.orderStatus === 'CANCELLED' ?
+                          '#d9f1ff' 
+                          : item.orderStatus === 'CONFIRMED' ?
+                            '#d9f1ff' : null
+                }]}>
+
           {/* {!isDelivery && item.deliveringRestaurant && (item.orderStatus === "COMPLETED" || item.orderStatus == "CANCELLED") ? */}
             <View style={[styles.bannerMessage,{
                   backgroundColor:
@@ -33,7 +45,9 @@ class OrdersContainer extends Component {
               <Text style={styles.bannerText}>{`${item.orderStatus}`}</Text>
             </View> 
              {/* : null} */}
-          <View style={styles.detailsContainer}>
+             <View style = {{flex:.58}}>
+               <Text>Drop off</Text>
+             <View style={styles.detailsContainer}>
             {item && item.user.avatarUrl ?
               <Image
                 source={{ uri: item.user.avatarUrl }}
@@ -47,6 +61,8 @@ class OrdersContainer extends Component {
               <Text style={styles.userName}>{item.user && item.user.name || 'Name Here'}</Text>
             </View>
           </View>
+             </View>
+     
           <View style={styles.orderDetails}>
             <Text style={styles.userInfo}>Order Id: {item.id}</Text>
             <Text style={styles.userInfo}>
@@ -56,7 +72,17 @@ class OrdersContainer extends Component {
         </View>
 
         {isDelivery && item.collectingRestaurant ?
-          <View style={styles.restaurantContainer}>
+          <View style={[styles.restaurantContainer,{
+            backgroundColor:
+              item.orderStatus === 'PENDING' ?
+                'rgb(85,176,252)' 
+                : item.orderStatus === 'COMPLETED' ? 
+                  '#d9f1ff' 
+                  : item.orderStatus === 'CANCELLED' ?
+                    '#d9f1ff' 
+                    : item.orderStatus === 'CONFIRMED' ?
+                      '#d9f1ff' : null
+          }]}>
             <Text style={{ textAlign: 'left', fontSize: 16, fontWeight: '500' }}>
               Restaurant: <Text style={{ fontSize: 16, paddingLeft: 20, fontWeight: '400' }}>
                 {item.collectingRestaurant.name}
@@ -78,7 +104,17 @@ class OrdersContainer extends Component {
           </View> : null}
 
         {!isDelivery && item.deliveringRestaurant ?
-          <View style={styles.restaurantContainer}>
+            <View style={[styles.restaurantContainer,{
+              backgroundColor:
+                item.orderStatus === 'PENDING' ?
+                  'rgb(85,176,252)' 
+                  : item.orderStatus === 'COMPLETED' ? 
+                    '#d9f1ff' 
+                    : item.orderStatus === 'CANCELLED' ?
+                      '#d9f1ff' 
+                      : item.orderStatus === 'CONFIRMED' ?
+                        '#d9f1ff' : null
+            }]}>
             <View style={{ position: 'relative', marginRight: 40 }}>
               <Text style={{ textAlign: 'left', fontSize: 16, fontWeight: '500' }}>
                 Restaurant: <Text style={{ fontSize: 16, fontWeight: '400' }}>

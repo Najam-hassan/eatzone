@@ -1,4 +1,4 @@
-package com.food_all_in_one;
+package com.foodallinonerestaurant;
 
 import android.app.Application;
 

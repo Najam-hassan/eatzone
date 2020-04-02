@@ -15,7 +15,9 @@ class MainApp extends Component {
     this.verifyUser();
     OneSignal.setLogLevel(7, 0);
     OneSignal.setRequiresUserPrivacyConsent(false);
-    OneSignal.init("f63350e4-f498-494f-9a3d-6d691518b83c");
+    // OneSignal.init("f63350e4-f498-494f-9a3d-6d691518b83c");
+        OneSignal.init("cd34aa1f-542a-453c-a076-654f70d0b670");
+
   }
 
   async componentDidMount() {

@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "571785180074",
-    "firebase_url": "https://allin1food.firebaseio.com",
-    "project_id": "allin1food",
-    "storage_bucket": "allin1food.appspot.com"
+    "project_number": "1009221909036",
+    "firebase_url": "https://food-aio-resturant.firebaseio.com",
+    "project_id": "food-aio-resturant",
+    "storage_bucket": "food-aio-resturant.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:571785180074:android:109893b28d7d65c4",
+        "mobilesdk_app_id": "1:1009221909036:android:3f3acb494874a698dc2f89",
         "android_client_info": {
-          "package_name": "com.food_all_in_one"
+          "package_name": "com.foodallinonerestaurant"
         }
       },
       "oauth_client": [
         {
-          "client_id": "571785180074-vqu2d7vgcevp747b2g706hm8kmf2bpdv.apps.googleusercontent.com",
+          "client_id": "1009221909036-ra338jumk0iiem7a3rmg294n7jub9de0.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCQ-Q2cwYqz7PJFpzlgwDmUgnOfkyw00Mc"
+          "current_key": "AIzaSyB2QtGUvekaJJBXvezyx0yoXOTzv0Ffods"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "571785180074-vqu2d7vgcevp747b2g706hm8kmf2bpdv.apps.googleusercontent.com",
+              "client_id": "1009221909036-ra338jumk0iiem7a3rmg294n7jub9de0.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

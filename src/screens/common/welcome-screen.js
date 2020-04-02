@@ -34,17 +34,15 @@ class WelcomeScreen extends Component {
                         </View>
                         <View>
                             <View style={{ marginBottom: 50 }}>
-                                <Button
-                                    title="My Dine-in Options"
-                                    onPress={() => {
-                                        AsyncStorage.setItem('user_type', 'user');
-                                        this.props.navigation.navigate('SignInScreen', {
-                                            type: 'user'
-                                        });
-                                    }}
-                                    style={{ /* some styles for button */ }}
-                                    textStyle={{ /* styles for button title */ }}
-                                />
+                                    {/* <Button
+                                        title="My Dine-in Options"
+                                        onPress={() => {
+                                            AsyncStorage.setItem('user_type', 'user');
+                                            this.props.navigation.navigate('SignInScreen', {
+                                                type: 'user'
+                                            });
+                                        }}
+                                    /> */}  
                                 <Button
                                     title= "Restaurant Management" //"Restaurant Owner"
                                     onPress={() => {

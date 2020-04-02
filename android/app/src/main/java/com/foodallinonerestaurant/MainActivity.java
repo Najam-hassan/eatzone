@@ -1,5 +1,4 @@
-package com.food_all_in_one;
-
+package com.foodallinonerestaurant;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
 import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
