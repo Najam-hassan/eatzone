@@ -8,16 +8,42 @@ import Icon from 'react-native-vector-icons/Feather';
 import { calculateCostSub2 } from '../../utils/misc';
 import Button from '../../components/common/button';
 // calculateCostSub2(item.orderItinerary.items, item.orderItinerary.deliveryServiceCharges, item.orderItinerary.collectingServiceCharge)
-class OrdersContainer extends Component {
+let dineInDeliver = false
+let orderingDeliver = false
 
+class OrdersContainer extends Component {
   renderOrderCard = ( item, index ) => {
-    const { isDelivery } = this.props;
+    const { isDelivery,isCollecting,deliveryStatus } = this.props;
+    const {collectingRestaurant,deliveringRestaurant,transportResponsibility} = item
+    if(transportResponsibility == collectingRestaurant.id){
+      console.log("Dine in will do delivery" ,item )
+      dineInDeliver = true //pickup
+    }
+    else if(transportResponsibility != null && transportResponsibility == deliveringRestaurant.id){
+      console.log("Ordering will do delivery",item)
+      orderingDeliver = true // drop off
+
+    }
+    else {
+      console.log("This stomi is null ",item)
+
+    }
     return (
       <View
         key={`order-item-${index}`}
         style={styles.container}
       >
-        <Text>Pickup</Text>
+        {!isDelivery && item.deliveringRestaurant && orderingDeliver? //ordering resturnst
+                        <Text style = {styles.pickupText}>Pick up</Text>
+:
+(isDelivery && item.collectingRestaurant && dineInDeliver?
+  <Text style = {styles.pickupText}>Drop off</Text>
+:
+null
+  )
+
+
+      }
         <View style={[styles.orderCardContainer,{
                   backgroundColor:
                     item.orderStatus === 'PENDING' ?
@@ -46,7 +72,6 @@ class OrdersContainer extends Component {
             </View> 
              {/* : null} */}
              <View style = {{flex:.58}}>
-               <Text>Drop off</Text>
              <View style={styles.detailsContainer}>
             {item && item.user.avatarUrl ?
               <Image
@@ -58,14 +83,14 @@ class OrdersContainer extends Component {
                 style={{ height: 60, width: 60, borderRadius: 30 }}
               />}
             <View style={styles.nameContainer}>
-              <Text style={styles.userName}>{item.user && item.user.name || 'Name Here'}</Text>
+              <Text style={item.orderStatus === 'PENDING' ? styles.userNamePending:styles.userName}>{item.user && item.user.name || 'Name Here'}</Text>
             </View>
           </View>
              </View>
      
           <View style={styles.orderDetails}>
-            <Text style={styles.userInfo}>Order Id: {item.id}</Text>
-            <Text style={styles.userInfo}>
+            <Text style={item.orderStatus === 'PENDING' ?styles.userInfoPending:styles.userInfo}>Order Id: {item.id}</Text>
+            <Text style={item.orderStatus === 'PENDING' ?styles.userInfoPending:styles.userInfo}>
               Total:   ${item.billAmount ? (item.billAmount).toFixed(2) : null}
             </Text>
           </View>
@@ -116,7 +141,7 @@ class OrdersContainer extends Component {
                         '#d9f1ff' : null
             }]}>
             <View style={{ position: 'relative', marginRight: 40 }}>
-              <Text style={{ textAlign: 'left', fontSize: 16, fontWeight: '500' }}>
+              <Text style={{ textAlign: 'left', fontSize: 16, fontWeight: '500',color:item.orderStatus === 'PENDING' ? "#fff":null}}>
                 Restaurant: <Text style={{ fontSize: 16, fontWeight: '400' }}>
                   {item.deliveringRestaurant.name} </Text>
               </Text>
@@ -142,14 +167,14 @@ class OrdersContainer extends Component {
                 <Icon name="phone-call" size={18} color="#000" />
               </TouchableOpacity>
             </View>
-            <Text style={{ textAlign: 'left', fontSize: 16, fontWeight: '500', marginTop: 10 }}>
+            <Text style={{ textAlign: 'left', fontSize: 16, fontWeight: '500', marginTop: 10,color:item.orderStatus === 'PENDING' ? "#fff":null }}>
               Address: <Text style={{ fontSize: 16, paddingLeft: 20, fontWeight: '400' }}>
                 {item.deliveringRestaurant.address}
               </Text>
             </Text>
             {
               item.deliveringRestaurant.addressDetails.length > 0 ?
-                <Text style={{ textAlign: 'left', fontSize: 16, fontWeight: '500', marginTop: 10 }}>
+                <Text style={{ textAlign: 'left', fontSize: 16, fontWeight: '500', marginTop: 10,color:item.orderStatus === 'PENDING' ? "#fff":null }}>
                   Address Details: <Text style={{ fontSize: 16, paddingRight: 20, paddingLeft: 20, fontWeight: '400' }}>
                     {item.deliveringRestaurant.addressDetails}
                   </Text>
@@ -309,6 +334,11 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#000',
   },
+  userNamePending: {
+    fontSize: 17,
+    fontWeight: '500',
+    color: '#fff',
+  },
   userContact: {
     fontSize: 14,
     fontWeight: '400',
@@ -330,6 +360,14 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     lineHeight: 20,
   },
+  userInfoPending: {
+    fontSize: 14,
+    fontWeight: '400',
+    color: '#fff',
+    textAlign: 'right',
+    lineHeight: 20,
+  },
+
   actionContainer: {
     width: '100%',
     paddingVertical: 12,
@@ -386,8 +424,14 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     position: 'absolute',
     backgroundColor: '#00a0ff',
-  }
+  },
+  pickupText:{
+    fontWeight:'800',
+    fontSize:15,
+    padding:'3%'
+
+  } 
 });
 
 
-export default OrdersContainer;
+export default OrdersContainer;``
