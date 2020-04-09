@@ -1,49 +1,36 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import {
-  View, Text, StyleSheet, TouchableOpacity, FlatList, Image, Linking, Platform, RefreshControl, ScrollView
+  View, Text, StyleSheet, TouchableOpacity, FlatList, Image, Linking, Platform, RefreshControl, ScrollView,AsyncStorage
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Feather';
 import { calculateCostSub2 } from '../../utils/misc';
 import Button from '../../components/common/button';
 // calculateCostSub2(item.orderItinerary.items, item.orderItinerary.deliveryServiceCharges, item.orderItinerary.collectingServiceCharge)
-let dineInDeliver = false
-let orderingDeliver = false
+// let dineInDeliver = false
+// let orderingDeliver = false
 
 class OrdersContainer extends Component {
   renderOrderCard = ( item, index ) => {
     const { isDelivery,isCollecting,deliveryStatus } = this.props;
     const {collectingRestaurant,deliveringRestaurant,transportResponsibility} = item
-    if(transportResponsibility == collectingRestaurant.id){
-      console.log("Dine in will do delivery" ,item )
-      dineInDeliver = true //pickup
-    }
-    else if(transportResponsibility != null && transportResponsibility == deliveringRestaurant.id){
-      console.log("Ordering will do delivery",item)
-      orderingDeliver = true // drop off
+  
 
-    }
-    else {
-      console.log("This stomi is null ",item)
-
-    }
     return (
       <View
         key={`order-item-${index}`}
         style={styles.container}
       >
-        {!isDelivery && item.deliveringRestaurant && orderingDeliver? //ordering resturnst
-                        <Text style = {styles.pickupText}>Pick up</Text>
+         {isDelivery && item.dropOff? //ordering resturnst
+                        <Text style = {styles.pickupText}>Drop Off</Text>
 :
-(isDelivery && item.collectingRestaurant && dineInDeliver?
-  <Text style = {styles.pickupText}>Drop off</Text>
+(!isDelivery && item.pickUp ?
+  <Text style = {styles.pickupText}>Pick Up</Text>
 :
 null
   )
-
-
-      }
+      } 
         <View style={[styles.orderCardContainer,{
                   backgroundColor:
                     item.orderStatus === 'PENDING' ?

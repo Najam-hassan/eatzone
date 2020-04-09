@@ -30,16 +30,16 @@ class RecentOrdersScreen extends Component {
   }
 
   async componentDidMount() {
-    setInterval(async ()=>{
-      await this.props.fetchList();
-      await this._retrieveData();
-    },120000)
+    // setInterval(async ()=>{
+    //   await this.props.fetchList();
+    //   await this._retrieveData();
+    // },120000)
 
     await this.props.fetchList();
     await this._retrieveData();
     console.log('OrdersDelivered===========>>>>',this.props.deliveries,'Dine-in=====>>>>',this.props.collections);
   }
-
+ 
   async componentWillMount() {
     let { params } = this.props.navigation.state;
     // console.warn('nextProps',params);
@@ -78,6 +78,7 @@ class RecentOrdersScreen extends Component {
 
   render() {
     const { loading, collections, deliveries } = this.props;
+    console.log("[recent-orders.js] showing collections array ",collections)
     if (loading) {
       return (
         <View style={{ flex: 1, backgroundColor: '#e4e4e4' }}>
@@ -128,8 +129,8 @@ class RecentOrdersScreen extends Component {
                 navigation={this.props.navigation}
                 fetchList={() => this.props.fetchList()}
                 list={deliveries && deliveries.filter(row => (
-                  (row.orderStatus === 'CONFIRMED' || row.orderStatus === 'PENDING') && row.currentOrderStep !== '0'
-                ))}
+                  (row.orderStatus === 'CONFIRMED' || row.orderStatus === 'PENDING') && row.currentOrderStep !== '0')
+                )}
               />
             ),
             second: () => (

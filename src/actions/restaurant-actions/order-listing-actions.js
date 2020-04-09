@@ -32,7 +32,20 @@ export function fetchOrdersAction() {
         dispatch(fetchOrderRrquest());
         return axios.get(`/restaurant/get-orders`)
             .then(response => {
-                // console.log('Recent Orders=====>>',response.data);
+                console.log('Recent Orders=====>>',response.data);
+                response.data.deliveries.forEach(item => {
+                    item.dropOff = false
+                    if (item.deliveringRestaurant.id === item.transportResponsibility) {
+                        item.dropOff = true
+                    }
+                })
+                response.data.collections.forEach(item => {
+                    item.pickUp = false
+                    if (item.collectingRestaurant.id === item.transportResponsibility) {
+                        item.pickUp = true
+                    }
+                })
+
                 dispatch(fetchOrderSuccess(response.data));
             })
             .catch(error => {
