@@ -95,19 +95,19 @@ null
                     : item.orderStatus === 'CONFIRMED' ?
                       '#d9f1ff' : null
           }]}>
-            <Text style={{ textAlign: 'left', fontSize: 16, fontWeight: '500' }}>
+            <Text style={{ textAlign: 'left', fontSize: 16, fontWeight: '500',color:item.orderStatus === 'PENDING' ? "#fff":null }}>
               Restaurant: <Text style={{ fontSize: 16, paddingLeft: 20, fontWeight: '400' }}>
                 {item.collectingRestaurant.name}
               </Text>
             </Text>
-            <Text style={{ textAlign: 'left', fontSize: 16, fontWeight: '500', marginTop: 10 }}>
+            <Text style={{ textAlign: 'left', fontSize: 16, fontWeight: '500', marginTop: 10,color:item.orderStatus === 'PENDING' ? "#fff":null }}>
               Address: <Text style={{ fontSize: 16, paddingLeft: 20, fontWeight: '400' }}>
                 {item.collectingRestaurant.address}
               </Text>
             </Text>
             {
               item.collectingRestaurant.addressDetails.length > 0 ?
-                <Text style={{ textAlign: 'left', fontSize: 16, fontWeight: '500', marginTop: 10 }}>
+                <Text style={{ textAlign: 'left', fontSize: 16, fontWeight: '500', marginTop: 10,color:item.orderStatus === 'PENDING' ? "#fff":null }}>
                   Address Details: <Text style={{ fontSize: 16, paddingRight: 20, paddingLeft: 20, fontWeight: '400' }}>
                     {item.collectingRestaurant.addressDetails}
                   </Text>
