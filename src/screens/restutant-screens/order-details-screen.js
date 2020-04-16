@@ -75,6 +75,8 @@ class OrderDetailsScreen extends Component {
 
   componentWillReceiveProps(nextProps, prevProps) {
     const { params } = this.props.navigation.state;
+    console.log("showing params here for order Cancelling",params)
+
     if (params.details.orderStatus === 'PENDING') {
       this.props.navigation.state.params.dineIn = false;
     }
@@ -178,6 +180,7 @@ class OrderDetailsScreen extends Component {
 
   renderOrderCard = () => {
     const { params } = this.props.navigation.state;
+    console.log("showing passed params",params)
     const pendingNotification = params.details ?
       params.details.orderStatus === 'PENDING' ? 'show' : 'hide'
       : false;
@@ -381,7 +384,7 @@ class OrderDetailsScreen extends Component {
                           : null
                   }
                   {
-                     params.details.currentOrderStep === '1' ?
+                     params.details.currentOrderStep === '1' && !this.state.isCanceled  ?
                       <Button
                         title={'Order Accepted!'}
                         // onPress={() => {
@@ -427,6 +430,7 @@ class OrderDetailsScreen extends Component {
             const { params } = this.props.navigation;
             console.log(params, 'params');
             console.log(payload, '-=-=-=-=-=-=');
+       
           }}
         />
         {

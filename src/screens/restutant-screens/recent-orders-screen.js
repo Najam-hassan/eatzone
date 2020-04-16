@@ -30,10 +30,9 @@ class RecentOrdersScreen extends Component {
   }
 
   async componentDidMount() {
-    // setInterval(async ()=>{
-    //   await this.props.fetchList();
-    //   await this._retrieveData();
-    // },120000)
+    setInterval(async ()=>{
+      await this.props.fetchList();
+    },120000)
 
     await this.props.fetchList();
     await this._retrieveData();

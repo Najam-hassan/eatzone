@@ -16,5 +16,7 @@ const getAuthToken = async () => {
 //https://tranquil-anchorage-35603.herokuapp.com/api/v1
 // export const baseURL = 'https://tranquil-anchorage-35603.herokuapp.com/api/v1';
 const devTesting = false;
-export const baseURL =  devTesting === true ? 'https://tranquil-anchorage-35603.herokuapp.com/api/v1' : 'https://foodallinone.com/api/v1';
+// export const baseURL =  devTesting === true ? 'https://tranquil-anchorage-35603.herokuapp.com/api/v1' : 'https://foodallinone.com/api/v1';
+export const baseURL = 'https://85642533.ngrok.io/api/v1';
+
 export const token = getAuthToken();
