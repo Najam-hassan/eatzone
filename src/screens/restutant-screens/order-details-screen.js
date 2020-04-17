@@ -114,6 +114,7 @@ class OrderDetailsScreen extends Component {
           // console.log('naviggggggg: ', nextProps);
           this.props.resetState();
           if (!params.dineIn) {
+            this.props.resetState();
             this.props.navigation.replace('RecentOrdersScreen',{nextProps: nextProps, dineIn :params.dineIn });
           } else {
             this.props.navigation.replace('CompletedOrdersScreen');
@@ -284,7 +285,10 @@ class OrderDetailsScreen extends Component {
                           await this.props.updateOrder(
                             `/restaurant/cancel-order/${details.id}`, 'canceled'
                           );
-                          this.setState({ isCanceled: true, showModal: true })
+                          this.setState({ 
+                            isCanceled: true, 
+                            showModal: true 
+                          })
                         }}
                         style={[styles.button, {
                           borderWidth: 1,
@@ -352,11 +356,7 @@ class OrderDetailsScreen extends Component {
                           await this.setState({ 
                             isCanceled: true, 
                             showModal: true 
-                          },()=>{
-                            console.log('Dine-in cancel order============:', showModal);
                           })
-                          console.warn('isCanceled',this.state.isCanceled);
-                          
                         }}
                         style={[styles.button, {
                           borderWidth: 1,
@@ -460,7 +460,9 @@ class OrderDetailsScreen extends Component {
                     : null  
                   }
             closeModal={() => {
-              this.setState({ showModal: false });
+              this.setState({ 
+                showModal: false
+              });
             }}
           /> : null
         }
