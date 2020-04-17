@@ -54,8 +54,9 @@ class OrderDetailsScreen extends Component {
     }
   };
 
-  componentDidMount() {
+  componentWillMount() {
     const { params } = this.props.navigation.state;
+    console.log('[componentDidMount]================:params', params);
     if (params.details.orderItinerary !== null) {
       const subTotal = params.details.orderItinerary.items.reduce((sum, item) => (
         sum + (item.itemQuantity * item.itemPrice)
@@ -81,6 +82,7 @@ class OrderDetailsScreen extends Component {
       this.props.navigation.state.params.dineIn = false;
     }
     if (!params.dineIn) {
+      console.log('======================================:',nextProps);
       if (nextProps.confirmed && !nextProps.canceled) {
         this.props.navigation.state.params.details.orderStatus = 'CONFIRMED';
         if (!this.state.completed) {
@@ -93,12 +95,13 @@ class OrderDetailsScreen extends Component {
         // this.props.resetState();
       } else {
         //new added
-        this.props.navigation.state.params.details.orderStatus = 'CANCELED';
+        console.log('============================================================================================================');
+        // this.props.navigation.state.params.details.orderStatus = 'CANCELED';
         if (!this.state.completed) {
           this.setState({
             completed: false,
             confirmed: false,
-            showModal: true
+            // showModal: true
           });
         }
       }
@@ -118,7 +121,6 @@ class OrderDetailsScreen extends Component {
         }
       }
     }
-
   }
 
   renderOrderItems = (item, index) => {
@@ -247,7 +249,7 @@ class OrderDetailsScreen extends Component {
             </View>
             {
               params.userRes.id === params.details.deliveringRestaurant.id ?
-                < View style={[styles.actionContainer, { paddingBottom: 0 }]} >
+                <View style={[styles.actionContainer, { paddingBottom: 0 }]}>
                   {
                     params.orderConfirmed ?
                       <Button
@@ -279,10 +281,10 @@ class OrderDetailsScreen extends Component {
                         title={'Cancel Order'}
                         onPress={async() => {
                           const { details } = params;
-                          this.setState({ isCanceled: true })
                           await this.props.updateOrder(
                             `/restaurant/cancel-order/${details.id}`, 'canceled'
                           );
+                          this.setState({ isCanceled: true, showModal: true })
                         }}
                         style={[styles.button, {
                           borderWidth: 1,
@@ -333,9 +335,9 @@ class OrderDetailsScreen extends Component {
                         textStyle={{ color: '#17820c', fontSize: 14, fontWeight: '400', }}
                       /> : null
                   }
-                </View >
+                </View>
                 :
-                < View style={[styles.actionContainer, { paddingBottom: 0 }]} >
+                <View style={[styles.actionContainer, { paddingBottom: 0 }]} >
                   {
                     loading || params.details.currentOrderStep === '1'  ?
                       null :
@@ -344,10 +346,15 @@ class OrderDetailsScreen extends Component {
                         title={'Cancel Order'}
                         onPress={async() => {
                           const { details } = params;
-                          await this.setState({ isCanceled: true })
                           await this.props.updateOrder(
                             `/restaurant/cancel-order/${details.id}`, 'canceled'
                           );
+                          await this.setState({ 
+                            isCanceled: true, 
+                            showModal: true 
+                          },()=>{
+                            console.log('Dine-in cancel order============:', showModal);
+                          })
                           console.warn('isCanceled',this.state.isCanceled);
                           
                         }}
@@ -384,7 +391,7 @@ class OrderDetailsScreen extends Component {
                           : null
                   }
                   {
-                     params.details.currentOrderStep === '1' && !this.state.isCanceled  ?
+                     params.details.currentOrderStep === '1' ?
                       <Button
                         title={'Order Accepted!'}
                         // onPress={() => {
