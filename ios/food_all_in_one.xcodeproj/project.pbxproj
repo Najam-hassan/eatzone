@@ -1386,7 +1386,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.foodallinone.foodallinone.resturant;
 				PRODUCT_NAME = "Food - all in one";
-				PROVISIONING_PROFILE_SPECIFIER = "Production-food-aio";
+				PROVISIONING_PROFILE_SPECIFIER = "Food-aio-resturant-production";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1415,7 +1415,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.foodallinone.foodallinone.resturant;
 				PRODUCT_NAME = "Food - all in one";
-				PROVISIONING_PROFILE_SPECIFIER = "Production-food-aio";
+				PROVISIONING_PROFILE_SPECIFIER = "Food-aio-resturant-production";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1450,7 +1450,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.foodallinone.foodallinone.resturant;
 				PRODUCT_NAME = "Food-All-In-One-Restaurant";
-				PROVISIONING_PROFILE_SPECIFIER = "Production-food-aio";
+				PROVISIONING_PROFILE_SPECIFIER = "Food-aio-resturant-production";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1484,7 +1484,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.foodallinone.foodallinone.resturant;
 				PRODUCT_NAME = "Food-All-In-One-Restaurant";
-				PROVISIONING_PROFILE_SPECIFIER = "Production-food-aio";
+				PROVISIONING_PROFILE_SPECIFIER = "Food-aio-resturant-production";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};

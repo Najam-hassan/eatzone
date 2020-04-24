@@ -337,7 +337,7 @@ class ProfileForm extends Component {
               key: 'AIzaSyBJX4U1PDcgBCoR6gL4mCVedWFApQ8MWTs',
               language: 'en',
               // components: 'country:us' //us, pk
-              components: 'country:pk' //us, pk
+              components: 'country:us' //us, pk
 
             }}
             styles={{

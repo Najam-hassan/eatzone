@@ -21,16 +21,16 @@ class WelcomeScreen extends Component {
                         <View></View>
                         <View>
                             <View>
-                                <Text style={styles.textStyle}>FOOD</Text>
-                                <Text style={styles.textStyle}>TRAVELLED</Text>
-                                <Text style={styles.textStyle}>FOR YOU.</Text>
+                                <Text style={styles.textStyle}>Collaboration with your neighbors!</Text>
+                                {/* <Text style={styles.textStyle}>TRAVELLED</Text>
+                                <Text style={styles.textStyle}>FOR YOU.</Text> */}
                             </View>
-                            <View style={{ marginTop: 30 }}>
+                            {/* <View style={{ marginTop: 30 }}>
                                 <Text style={styles.description}>
                                     Different cuisine’s food at your
                                 </Text>
                                 <Text style={styles.description}>dine-in restaurant table</Text>
-                            </View>
+                            </View> */}
                         </View>
                         <View>
                             <View style={{ marginBottom: 50 }}>

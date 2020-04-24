@@ -415,7 +415,8 @@ const styles = StyleSheet.create({
   pickupText:{
     fontWeight:'800',
     fontSize:15,
-    padding:'3%'
+    padding:'3%',
+    color:"#000"
 
   } 
 });

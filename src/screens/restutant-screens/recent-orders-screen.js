@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import React, { Component } from 'react';
+import React, { Component,PureComponent } from 'react';
 import { NavigationEvents } from 'react-navigation';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import {
@@ -13,7 +13,7 @@ import * as selectors from '../../selectors/restaurant-selectors/order-list-sele
 
 import OrdersContainer from '../../containers/restaurant-containers/my-orders-container';
 
-class RecentOrdersScreen extends Component {
+class RecentOrdersScreen extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,7 +32,7 @@ class RecentOrdersScreen extends Component {
   async componentDidMount() {
     setInterval(async ()=>{
       await this.props.fetchList();
-    },120000)
+    },180000)
     await this.props.fetchList();
     await this._retrieveData();
     console.log('OrdersDelivered===========>>>>',this.props.deliveries,'Dine-in=====>>>>',this.props.collections);
@@ -77,23 +77,23 @@ class RecentOrdersScreen extends Component {
   render() {
     const { loading, collections, deliveries } = this.props;
     console.log("[recent-orders.js] showing collections array ",collections, 'delivery==:',deliveries)
-    if (loading) {
-      return (
-        <View style={{ flex: 1, backgroundColor: '#e4e4e4' }}>
-          <StatusBar hidden={false} />
-          <Header
-            navigation={this.props.navigation}
-            title={'Recent Orders'}
-          />
-          <NavigationEvents
-            onWillFocus={payload => {
-              this.props.fetchList();
-            }}
-          />
-          <ActivityIndicator size={'large'} color={'#1BA2FC'} />
-        </View>
-      )
-    }
+    // if (loading) {
+    //   return (
+    //     <View style={{ flex: 1, backgroundColor: '#e4e4e4' }}>
+    //       <StatusBar hidden={false} />
+    //       <Header
+    //         navigation={this.props.navigation}
+    //         title={'Recent Orders'}
+    //       />
+    //       <NavigationEvents
+    //         onWillFocus={payload => {
+    //           this.props.fetchList();
+    //         }}
+    //       />
+    //       <ActivityIndicator size={'large'} color={'#1BA2FC'} />
+    //     </View>
+    //   )
+    // }
 
     return (
       <View style={{ flex: 1, backgroundColor: '#e4e4e4', }}>
