@@ -4,6 +4,7 @@ import OneSignal from 'react-native-onesignal';
 import { View, ActivityIndicator, AsyncStorage } from 'react-native';
 import Switcher from './Switcher'
 import * as constants from './actions/constants';
+import * as actions from './actions/restaurant-actions/order-listing-actions';
 
 class MainApp extends Component {
 
@@ -77,6 +78,12 @@ class MainApp extends Component {
         <ActivityIndicator />
       </View>
     );
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchList: () => dispatch(actions.fetchOrdersAction()),
   }
 }
 

@@ -28,6 +28,12 @@ class OrderDetailsScreen extends Component {
   }
 
   async componentWillMount() {
+    
+    try {
+      console.log("[order-detail-sceen] , try test",this.props.navigation.state)
+    } catch (error) {
+      
+    }
     await this._retrieveData()
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
   }
@@ -54,9 +60,19 @@ class OrderDetailsScreen extends Component {
     }
   };
 
-  componentWillMount() {
+  async componentWillMount() {
     const { params } = this.props.navigation.state;
-    console.log('[componentDidMount]================:params', params);
+    console.log("[order-detail-sceen] , try test",this.props.navigation.state)
+    try {
+      if(params.isNotif){
+        await this.props.fetchList();
+      }
+      else {
+      }
+    } catch (error) {
+      
+    }
+
     if (params.details.orderItinerary !== null) {
       const subTotal = params.details.orderItinerary.items.reduce((sum, item) => (
         sum + (item.itemQuantity * item.itemPrice)
@@ -77,7 +93,31 @@ class OrderDetailsScreen extends Component {
   componentWillReceiveProps(nextProps, prevProps) {
     const { params } = this.props.navigation.state;
     console.log("showing params here for order Cancelling",params)
+    //notifications  handler
+    try {
+      if (params.isNotif) {
+        console.log("===============================================>>>>yes it notification")
+        if(params.userRes.id === params.details.collectingRestaurant.id){
+          //dineIn Needs to be searched
+          nextProps.collections.forEach(item => {
+            if (params.details.id === item.id) {
+              params.details.currentOrderStep = item.currentOrderStep; 
+            }
+          })          
+        }else if(params.userRes.id === params.details.deliveringRestaurant.id){
+          nextProps.deliveries.forEach(item => {
+            if (params.details.id === item.id) {
+              params.details.currentOrderStep = item.currentOrderStep; 
+            }
+          })
+        }
+        console.log("Filtering arrays ================:",nextProps.collections,nextProps.deliveries)
+      }
+    } catch (error) {
+      
+    }
 
+    //====================================
     if (params.details.orderStatus === 'PENDING') {
       this.props.navigation.state.params.dineIn = false;
     }
@@ -642,7 +682,9 @@ const mapStateToProps = state => ({
   completed: selectors.makeSelectCompleted()(state),
   canceled: selectors.makeSelectCanceled()(state),
   orders: selectors.makeSelectGetOrders()(state),
-  auth: authSelectors.makeSelectData()(state)
+  auth: authSelectors.makeSelectData()(state),
+  collections: selectors.makeSelectCollectionOrderList()(state),
+  deliveries: selectors.makeSelectDeliveryOrderList()(state),
 });
 
 const mapDispatchToProps = dispatch => {
@@ -651,6 +693,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(actions.updateOrderStatusAction(url, orderStatus));
       // dispatch(actions.updateLocally(type));
     },
+    fetchList: () => dispatch(actions.fetchOrdersAction()),
     resetState: () => dispatch(actions.resetOrderState())
   }
 }

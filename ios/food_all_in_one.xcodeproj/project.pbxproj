@@ -1449,7 +1449,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.foodallinone.foodallinone.resturant;
-				PRODUCT_NAME = "Food-All-In-One-Restaurant";
+				PRODUCT_NAME = "EatZone Partners";
 				PROVISIONING_PROFILE_SPECIFIER = "Food-aio-resturant-production";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1483,7 +1483,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.foodallinone.foodallinone.resturant;
-				PRODUCT_NAME = "Food-All-In-One-Restaurant";
+				PRODUCT_NAME = "EatZone Partners";
 				PROVISIONING_PROFILE_SPECIFIER = "Food-aio-resturant-production";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
