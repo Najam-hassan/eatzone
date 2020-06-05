@@ -7,13 +7,24 @@ function fetchOrderRrquest() {
     }
 }
 
-function fetchOrderSuccess(data) {
+function fetchOrderSuccessDeliveries(data) {
     return {
-        type: constants.FETCH_RESTAURANT_ORDERS_SUCCESS,
+        type: constants.FETCH_RESTAURANT_DELIVERIES_ORDERS_SUCCESS,
         data,
     }
 }
-
+function fetchOrderSuccessCollections(data) {
+    return {
+        type: constants.FETCH_RESTAURANT_COLLECTION_ORDERS_SUCCESS,
+        data,
+    }
+}
+function fetchCompleteOrderSuccess (data){
+    return {
+        type: constants.FETCH_COMPLETED_ORDERS,
+        data,
+    }   
+}
 function fetchOrderFailure(error) {
     return {
         type: constants.FETCH_RESTAURANT_ORDERS_FAILURE,
@@ -27,26 +38,76 @@ export function resetOrderState() {
     }
 }
 
-export function fetchOrdersAction() {
+export function fetchOrdersAction(offset) {
+    console.log("showing offset is it displaying",offset)
     return dispatch => {
         dispatch(fetchOrderRrquest());
-        return axios.get(`/restaurant/get-orders`)
+        return axios.get(`/restaurant/get-orders-deliveries?offset=${offset}&limit=10`)
             .then(response => {
                 console.log('Recent Orders=====>>',response.data);
-                response.data.deliveries.forEach(item => {
+                response.data.rows.forEach(item => {
                     item.dropOff = false
                     if (item.deliveringRestaurant.id === item.transportResponsibility) {
                         item.dropOff = true
                     }
                 })
-                response.data.collections.forEach(item => {
+                // response.data.collections.rows.forEach(item => {
+                //     item.pickUp = false
+                //     if (item.collectingRestaurant.id === item.transportResponsibility) {
+                //         item.pickUp = true
+                //     }
+                // })
+
+                dispatch(fetchOrderSuccessDeliveries(response.data));
+            })
+            .catch(error => {
+                dispatch(fetchOrderFailure(error))
+            })
+    }
+}
+export function fetchOrdersActionCollections(offset) {
+    return dispatch => {
+        dispatch(fetchOrderRrquest());
+        return axios.get(`/restaurant/get-orders-collections?offset=${offset}&limit=10`)
+            .then(response => {
+                console.log('Recent Orders=====>>',response.data);
+                
+                response.data.rows.forEach(item => {
                     item.pickUp = false
                     if (item.collectingRestaurant.id === item.transportResponsibility) {
                         item.pickUp = true
                     }
                 })
 
-                dispatch(fetchOrderSuccess(response.data));
+                dispatch(fetchOrderSuccessCollections(response.data));
+            })
+            .catch(error => {
+                dispatch(fetchOrderFailure(error))
+            })
+    }
+}
+export function fetchCompleteOrdersAction(offset) {
+    return dispatch => {
+        dispatch(fetchOrderRrquest());
+        return axios.get(`/restaurant/get-completed-orders?offset=${offset}&limit=10`)
+            .then(response => {
+                console.log('[order listings actions.js] showing completed orders',response.data);
+                // response.data.deliveries.rows.forEach(item => {
+                //     item.dropOff = false
+                //     if (item.deliveringRestaurant.id === item.transportResponsibility) {
+                //         item.dropOff = true
+                //     }
+                // })
+                // response.data.collections.rows.forEach(item => {
+                //     item.pickUp = false
+                //     if (item.collectingRestaurant.id === item.transportResponsibility) {
+                //         item.pickUp = true
+                //     }
+                // })
+                if(response.data.rows.length > 0) {
+                    dispatch(fetchCompleteOrderSuccess(response.data));
+                }
+
             })
             .catch(error => {
                 dispatch(fetchOrderFailure(error))
@@ -57,6 +118,21 @@ export function fetchOrdersAction() {
 function updateOrderRequest() {
     return {
         type: constants.UPDATE_RESTAURANT_ORDERS_REQUEST,
+    }
+}
+export function resetCompleteOrders(){
+    return{
+        type:constants.RESET_COMPLETED_ORDERS
+    }
+}
+export function resetMyOrders(){
+    return{
+        type:constants.RESET_MY_ORDERS
+    }
+}
+export function resetDineInOrders(){
+    return{
+        type:constants.RESET_DINEIN_ORDERS
     }
 }
 

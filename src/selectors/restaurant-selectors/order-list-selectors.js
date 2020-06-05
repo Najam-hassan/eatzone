@@ -10,7 +10,9 @@ const makeSelectOrderListLoading = () => createSelector(
 const makeSelectDeliveryOrderList = () => createSelector(
     selectOrderListState, state => state.getIn(['orders', 'deliveries']).toJS()
 );
-
+const makeCompletedOrderList= () => createSelector(
+    selectOrderListState, state => state.getIn(['orders', 'completedOrders']).toJS()
+);
 const makeSelectCollectionOrderList = () => createSelector(
     selectOrderListState, state => state.getIn(['orders', 'collections']).toJS()
 );
@@ -55,4 +57,5 @@ export {
     makeSelectOrderListLoading,
     makeSelectDeliveryOrderList,
     makeSelectCollectionOrderList,
+    makeCompletedOrderList,
 };

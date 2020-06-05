@@ -216,51 +216,81 @@ null
   }
   render() {
     const { list, isDelivery } = this.props;  
+    console.log("showing list in case of my orders ",list)
     return (
       <View style={[styles.scene]}>
         {list && list.length ?
-          <ScrollView
-            contentContainerStyle={{ paddingBottom: 15 }}
-            refreshControl={
-              <RefreshControl
-                onRefresh={() => this.props.fetchList()}
-                progressBackgroundColor='#FFFFFF'
-                tintColor="#1BA2FC"
-                colors={["#1BA2FC", "#1BA2FC"]}
-              />
-            }
-          >
-            <FlatList
+          // <ScrollView
+          //   contentContainerStyle={{ paddingBottom: 15 }}
+          //   refreshControl={
+          //     <RefreshControl
+          //       onRefresh={() => this.props.fetchList()}
+          //       progressBackgroundColor='#FFFFFF'
+          //       tintColor="#1BA2FC"
+          //       colors={["#1BA2FC", "#1BA2FC"]}
+          //     />
+          //   }
+          // >
+          //   <FlatList
+          //     data={list}
+          //     initialNumToRender={list.length}
+          //     extraData={this.state}
+          //     keyExtractor={(item, index) => index.toString()}
+          //     // renderItem={this.renderOrderCard}
+          //     renderItem={({ item, index }) => 
+          //       isDelivery ?
+          //         item.currentOrderStep !== '0' ? 
+          //           this.renderOrderCard(item,index) : null 
+          //         : this.renderOrderCard(item,index)
+          //     }
+          //   />
+          // </ScrollView> :
+          // <ScrollView
+          //   contentContainerStyle={{ paddingBottom: 15, justifyContent: 'center', flex: 1 }}
+          //   refreshControl={
+          //     <RefreshControl
+          //       onRefresh={() => this.props.fetchList()}
+          //       progressBackgroundColor='#FFFFFF'
+          //       tintColor="#1BA2FC"
+          //       colors={["#1BA2FC", "#1BA2FC"]}
+          //     />
+          //   }
+          // >
+          //   <View style={styles.message}>
+          //     <Text style={[styles.title, { fontWeight: '400' }]}>
+          //       Don't have any order yet.
+          //     </Text>
+          //   </View>
+          // </ScrollView>
+                <FlatList
               data={list}
               initialNumToRender={list.length}
               extraData={this.state}
               keyExtractor={(item, index) => index.toString()}
               // renderItem={this.renderOrderCard}
+              onEndReached={this.props.onEndReached}
+              onEndReachedThreshold = {this.props.onEndReachedThreshold}
               renderItem={({ item, index }) => 
                 isDelivery ?
                   item.currentOrderStep !== '0' ? 
                     this.renderOrderCard(item,index) : null 
                   : this.renderOrderCard(item,index)
               }
-            />
-          </ScrollView> :
-          <ScrollView
-            contentContainerStyle={{ paddingBottom: 15, justifyContent: 'center', flex: 1 }}
-            refreshControl={
-              <RefreshControl
-                onRefresh={() => this.props.fetchList()}
-                progressBackgroundColor='#FFFFFF'
-                tintColor="#1BA2FC"
-                colors={["#1BA2FC", "#1BA2FC"]}
-              />
-            }
-          >
-            <View style={styles.message}>
+              refreshControl={
+                <RefreshControl
+                  refreshing={false}
+                  onRefresh={this.props.refresher}
+                  progressBackgroundColor='#FFFFFF'
+                  tintColor="#1BA2FC"
+                  colors={["#1BA2FC", "#1BA2FC"]}
+                />
+              }
+            /> :
+              <View style={styles.message}>
               <Text style={[styles.title, { fontWeight: '400' }]}>
                 Don't have any order yet.
               </Text>
             </View>
-          </ScrollView>
         }
       </View>
     )

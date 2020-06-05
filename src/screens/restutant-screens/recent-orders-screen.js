@@ -3,7 +3,7 @@ import React, { Component,PureComponent } from 'react';
 import { NavigationEvents } from 'react-navigation';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import {
-  View, StatusBar, ActivityIndicator, Dimensions, BackHandler, AsyncStorage
+  View, StatusBar, ActivityIndicator, Dimensions, BackHandler, AsyncStorage,Platform
 } from 'react-native';
 
 import { Header } from '../../components/common/header';
@@ -19,6 +19,8 @@ class RecentOrdersScreen extends PureComponent {
     this.state = {
       user: null,
       index: 0,
+      offset:1,
+      offsetCollections:1,
       routes: [
         { key: 'first', title: 'My Orders' },
         { key: 'second', title: 'Dine In Orders' },
@@ -31,12 +33,37 @@ class RecentOrdersScreen extends PureComponent {
 
   async componentDidMount() {
     setInterval(async ()=>{
-      await this.props.fetchList();
-    },180000)
-    await this.props.fetchList();
-    await this._retrieveData();
+      await this.myOrderRefresher()
+      await this.dineInRefresher()
+
+    },120000)
+    await this._retrieveData()
+    const {offset,offsetCollections} = this.state
+    this.props.fetchList(0);
+    this.props.fetchListCollections(0)
+    this.setState({offset:offset+1})
+    this.setState({offsetCollections:offsetCollections+1})
+
     console.log('OrdersDelivered===========>>>>',this.props.deliveries,'Dine-in=====>>>>',this.props.collections);
   }
+  handleLoadMoreDeliveries =() =>{
+    // alert('called Delivert ')
+          // if(this.props.deliveries.length > 0){
+          //   const {offset} = this.state
+          //   let pagination = (offset - 1)*10
+          //   this.props.fetchList(pagination);
+          //   this.setState({offset:offset+1})
+          // }
+      };
+      handleLoadMoreCollections = () => {
+        // alert('called')
+            if(this.props.collections.length > 0){
+              const {offsetCollections} = this.state
+              let pagination = (offsetCollections - 1)*10
+              this.props.fetchListCollections(pagination);
+              this.setState({offsetCollections:offsetCollections+1})
+            }
+          };
  
   async componentWillMount() {
     let { params } = this.props.navigation.state;
@@ -73,6 +100,15 @@ class RecentOrdersScreen extends PureComponent {
     }
   };
 
+  myOrderRefresher = ()=>{
+    this.props.resetMyorders()
+    this.props.fetchList(0);
+  }
+  dineInRefresher = ()=>{
+    this.props.resetDineinorders()
+    this.props.fetchListCollections(0)
+
+  }
 
   render() {
     const { loading, collections, deliveries } = this.props;
@@ -104,7 +140,7 @@ class RecentOrdersScreen extends PureComponent {
         />
         <NavigationEvents
           onWillFocus={payload => {
-            this.props.fetchList();
+            // this.props.fetchList();
           }}
         />
         <TabView
@@ -125,10 +161,15 @@ class RecentOrdersScreen extends PureComponent {
                 isDelivery={true}
                 userRes= {this.state.user}
                 navigation={this.props.navigation}
-                fetchList={() => this.props.fetchList()}
-                list={deliveries && deliveries.filter(row => (
-                  (row.orderStatus === 'CONFIRMED' || row.orderStatus === 'PENDING') && row.currentOrderStep !== '0')
-                )}
+                // fetchList={() => this.props.fetchList(this.state.offset)}
+                // list={deliveries && deliveries.filter(row => (
+                //   (row.orderStatus === 'CONFIRMED' || row.orderStatus === 'PENDING') && row.currentOrderStep !== '0')
+                // )}
+                list={deliveries}
+                // onEndReached={this.handleLoadMoreDeliveries}
+                // onEndReachedThreshold = {Platform.OS === 'ios' ? 0 :1}
+                refresher = {this.myOrderRefresher}
+
               />
             ),
             second: () => (
@@ -139,7 +180,10 @@ class RecentOrdersScreen extends PureComponent {
                 isCollecting={true}
                 userRes= {this.state.user}
                 navigation={this.props.navigation}
-                fetchList={() => this.props.fetchList()}
+                // fetchList={() => this.props.fetchListCollections(this.state.offsetCollections)}
+                onEndReached={this.handleLoadMoreCollections}
+                onEndReachedThreshold = {Platform.OS === 'ios' ? 0 :1}
+                refresher = {this.dineInRefresher}
               />
             ),
           })}
@@ -162,7 +206,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchList: () => dispatch(actions.fetchOrdersAction()),
+    fetchList: (param) => dispatch(actions.fetchOrdersAction(param)),
+    fetchListCollections: (param) => dispatch(actions.fetchOrdersActionCollections(param)),
+    resetMyorders : () =>dispatch(actions.resetMyOrders()),
+    resetDineinorders : () =>dispatch(actions.resetDineInOrders())
   }
 }
 

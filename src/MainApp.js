@@ -17,7 +17,9 @@ class MainApp extends Component {
     OneSignal.setLogLevel(7, 0);
     OneSignal.setRequiresUserPrivacyConsent(false);
     // OneSignal.init("f63350e4-f498-494f-9a3d-6d691518b83c");
-        OneSignal.init("cd34aa1f-542a-453c-a076-654f70d0b670");
+        // OneSignal.init("cd34aa1f-542a-453c-a076-654f70d0b670");
+    OneSignal.init("6322a551-5f85-4a3c-a05d-02ccfab21bba");
+
 
   }
 
@@ -31,6 +33,7 @@ class MainApp extends Component {
   componentWillUnmount() {
     OneSignal.removeEventListener("opened", this.onOpened);
     OneSignal.removeEventListener("ids", this.onIds);
+    OneSignal.clearOneSignalNotifications()
   }
 
   async onOpened(openResult) {
@@ -83,7 +86,7 @@ class MainApp extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchList: () => dispatch(actions.fetchOrdersAction()),
+    fetchList: () => dispatch(actions.fetchOrdersAction(0)),
   }
 }
 

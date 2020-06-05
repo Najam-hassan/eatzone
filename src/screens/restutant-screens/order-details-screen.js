@@ -431,7 +431,7 @@ class OrderDetailsScreen extends Component {
                           : null
                   }
                   {
-                     params.details.currentOrderStep === '1' ?
+                     params.details.currentOrderStep === '1' && params.details.orderStatus !== "CANCELLED" ?
                       <Button
                         title={'Order Accepted!'}
                         // onPress={() => {
@@ -693,7 +693,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(actions.updateOrderStatusAction(url, orderStatus));
       // dispatch(actions.updateLocally(type));
     },
-    fetchList: () => dispatch(actions.fetchOrdersAction()),
+    fetchList: () => dispatch(actions.fetchOrdersAction(0)),
     resetState: () => dispatch(actions.resetOrderState())
   }
 }
