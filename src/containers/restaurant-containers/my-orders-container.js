@@ -201,6 +201,7 @@ null
                 details: item,
                 dineIn: this.props.isCollecting || false,
                 navScreen: navScreen,
+                
               });
             }}
             style={[styles.button, {
@@ -263,6 +264,7 @@ null
           //   </View>
           // </ScrollView>
                 <FlatList
+                contentContainerStyle = {{paddingBottom:50}}
               data={list}
               initialNumToRender={list.length}
               extraData={this.state}

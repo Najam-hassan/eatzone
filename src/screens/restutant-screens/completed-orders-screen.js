@@ -9,7 +9,7 @@ import * as actions from '../../actions/restaurant-actions/order-listing-actions
 import * as selectors from '../../selectors/restaurant-selectors/order-list-selectors';
 
 import OrdersContainer from '../../containers/restaurant-containers/my-orders-container';
-
+let offsetVar = 1
 class CompletedOrdersScreen extends Component {
   constructor(props) {
     super(props);
@@ -24,9 +24,8 @@ class CompletedOrdersScreen extends Component {
   // }
   async componentDidMount() {
         await this._retrieveData()
-    const {offset} = this.state
     this.props.fetchList(0);
-    this.setState({offset:offset+1})
+    offsetVar = offsetVar + 1
   }
 
   componentWillMount() {
@@ -44,10 +43,13 @@ class CompletedOrdersScreen extends Component {
   handleLoadMore = () => {
     // alert('called')
         if(this.props.completedOrders.length > 0){
-          const {offset} = this.state
-          let pagination = (offset - 1)*10
-          this.props.fetchList(pagination);
-          this.setState({offset:offset+1})
+          if(this.props.completedOrders.length != this.props.completedOrders[0].arraysCount) {
+            let pagination = (offsetVar - 1)*10
+            this.props.fetchList(pagination);
+            offsetVar = offsetVar + 1
+          }
+          else{
+          }
         }
       };
   _retrieveData = async () => {
@@ -63,8 +65,10 @@ class CompletedOrdersScreen extends Component {
     }
   };
   refresher = ()=>{
+    offsetVar = 1
     this.props.restCompletedOrders()
     this.props.fetchList(0);
+    offsetVar = offsetVar + 1
 
   }
   render() {
@@ -106,6 +110,11 @@ class CompletedOrdersScreen extends Component {
           onEndReachedThreshold = {Platform.OS === 'ios' ? 0 :1}
           refresher = {this.refresher}
         />
+        {loading ?
+        <ActivityIndicator size={'large'} color={'#1BA2FC'} />
+        :
+        null
+       }
       </View>
     )
   }

@@ -99,7 +99,8 @@ const OrderDetailHeader = ({ navigation, title, isCartScreen, id, phone, navScre
             if (isNotif) {
               navigation.replace('RecentOrdersScreen');
             } else {
-              navigation.replace(navScreen);
+              // navigation.replace(navScreen);
+              navigation.pop()
             }
             // navigation.replace(navScreen);
           }}

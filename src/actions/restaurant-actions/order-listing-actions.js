@@ -47,6 +47,7 @@ export function fetchOrdersAction(offset) {
                 console.log('Recent Orders=====>>',response.data);
                 response.data.rows.forEach(item => {
                     item.dropOff = false
+                    item.arraysCount = response.data.count
                     if (item.deliveringRestaurant.id === item.transportResponsibility) {
                         item.dropOff = true
                     }
@@ -73,6 +74,7 @@ export function fetchOrdersActionCollections(offset) {
                 console.log('Recent Orders=====>>',response.data);
                 
                 response.data.rows.forEach(item => {
+                    item.arraysCount = response.data.count
                     item.pickUp = false
                     if (item.collectingRestaurant.id === item.transportResponsibility) {
                         item.pickUp = true
@@ -87,6 +89,7 @@ export function fetchOrdersActionCollections(offset) {
     }
 }
 export function fetchCompleteOrdersAction(offset) {
+    console.log('showing offset completed orders',offset)
     return dispatch => {
         dispatch(fetchOrderRrquest());
         return axios.get(`/restaurant/get-completed-orders?offset=${offset}&limit=10`)
@@ -104,6 +107,9 @@ export function fetchCompleteOrdersAction(offset) {
                 //         item.pickUp = true
                 //     }
                 // })
+                response.data.rows.forEach(item => {
+                    item.arraysCount = response.data.count
+                })
                 if(response.data.rows.length > 0) {
                     dispatch(fetchCompleteOrderSuccess(response.data));
                 }

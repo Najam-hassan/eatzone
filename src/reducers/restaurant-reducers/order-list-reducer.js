@@ -48,7 +48,6 @@ export default function orderListReducer (state = initialState, action) {
             console.log('showing array ',orderArray)
             if(orderArray.length == action.data.count){
                 payload = orderArray
-
             }
             else{
                 payload = orderArray.concat(action.data.rows)
@@ -87,7 +86,6 @@ export default function orderListReducer (state = initialState, action) {
             console.log('showing array ',orderArray)
             if(orderArray.length == action.data.count){
                 payload = orderArray
-
             }
             else{
                 payload = orderArray.concat(action.data.rows)

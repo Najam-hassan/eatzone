@@ -460,7 +460,7 @@ class OrderDetailsScreen extends Component {
 
   render() {
     const { params } = this.props.navigation.state;
-    // console.log('paramsss=====>>>>>',params);
+    console.log('paramsss=====>>>>>',params);
     
     return (
       <View style={{ flex: 1, backgroundColor: '#e4e4e4' }}>
@@ -471,6 +471,7 @@ class OrderDetailsScreen extends Component {
           navNotif={this.handleBackButtonClick}
           navigation={this.props.navigation}
           title={'Order Details'}
+          navBack = {params.dineIn}
         />
         <NavigationEvents
           onWillFocus={(payload) => {

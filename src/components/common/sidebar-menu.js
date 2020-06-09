@@ -156,11 +156,23 @@ class SidebarMenu extends Component {
                 style={styles.menuText}
                 onPress={() => {
                   navigation.dispatch(DrawerActions.closeDrawer());
-                  navigation.navigate('RecentOrdersScreen')
+                  navigation.navigate('RecentOrdersScreen',{dineIn:true})
                 }}
               >
                 <Text style={{ color: '#333333', textTransform: 'uppercase' }}>
-                  Recent Orders
+                Dine In Orders
+                             </Text>
+                <Text style={styles.borderBottom}></Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.menuText}
+                onPress={() => {
+                  navigation.dispatch(DrawerActions.closeDrawer());
+                  navigation.navigate('RecentOrdersScreen',{dineIn:false})
+                }}
+              >
+                <Text style={{ color: '#333333', textTransform: 'uppercase' }}>
+                My Orders
                              </Text>
                 <Text style={styles.borderBottom}></Text>
               </TouchableOpacity>
