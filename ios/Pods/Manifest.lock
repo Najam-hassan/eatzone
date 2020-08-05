@@ -20,7 +20,7 @@ PODS:
   - GoogleMaps/Base (2.5.0)
   - GoogleMaps/Maps (2.5.0):
     - GoogleMaps/Base
-  - OneSignal (2.11.2)
+  - OneSignal (2.14.3)
   - React (0.59.8):
     - React/Core (= 0.59.8)
   - react-native-geolocation (1.4.2):
@@ -35,8 +35,8 @@ PODS:
     - React
   - react-native-maps (0.24.2):
     - React
-  - react-native-onesignal (3.5.0):
-    - OneSignal (= 2.11.2)
+  - react-native-onesignal (3.9.0):
+    - OneSignal (= 2.14.3)
     - React (< 1.0.0, >= 0.13.0)
   - React/Core (0.59.8):
     - yoga (= 0.59.8.React)
@@ -79,10 +79,10 @@ PODS:
     - React
   - RNVectorIcons (6.5.0):
     - React
-  - Stripe (14.0.0)
-  - tipsi-stripe (7.5.1):
+  - Stripe (14.0.1)
+  - tipsi-stripe (7.5.3):
     - React
-    - Stripe (~> 14.0.0)
+    - Stripe (~> 14.0.1)
   - yoga (0.59.8.React)
 
 DEPENDENCIES:
@@ -117,7 +117,7 @@ DEPENDENCIES:
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - Google-Maps-iOS-Utils
     - GoogleMaps
     - OneSignal
@@ -156,23 +156,23 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Google-Maps-iOS-Utils: c32891ff472eaaa1fca032beedafa1a013af7875
   GoogleMaps: c087b8e5dfe87ca6ebf59adb9b4894a4146bec4f
-  OneSignal: 4e3e68bb6c29975286a2fa910cb49132bc6e20bb
+  OneSignal: 7dfe466265c05f02b95a274b9c997a0619ad2117
   React: 76e6aa2b87d05eb6cccb6926d72685c9a07df152
   react-native-geolocation: 79c743ad7a2e86617811ef23f49308824e92520c
   react-native-google-maps: 568cb03d0eae7fef93626f65d05be55642404ed4
   react-native-image-picker: 3693786b3d5958c8f71deed66ec068b323565e0d
   react-native-image-resizer: ecae22b577b0425cd7803eb8145243038dd4b6bd
   react-native-maps: 0316ed017dbb64b33b227751fa810e2454fcfa39
-  react-native-onesignal: 50f5a70d2b8a94e0eda8c4e1b9ba0b82dec29a7a
+  react-native-onesignal: 3cb529f99353f5765ca3ce305c9e8c583fd54c81
   ReactNativePermissions: f0aec11433d43d45953c678b6982921d83ad94c8
   RNCAsyncStorage: 621bad7a889b5bf1583a52547f2dcd3a4d1ff15e
   RNFS: c9bbde46b0d59619f8e7b735991c60e0f73d22c1
   RNReanimated: 7a52c90473b5e81c13408d40d797b98387eaddde
   RNVectorIcons: f6cf608dee5b2cb5726ff3b629a5258586d5677b
-  Stripe: db29ad197c74aca6fb981e4e8355cf7ebd0fca5a
-  tipsi-stripe: 3e0073c7eec0b2bfd1d1d5736d843c22e3024485
+  Stripe: 4305b646743612854819fb5d5cf67aaeb93577c0
+  tipsi-stripe: 41299d30e9b906413315eeb1b94607aaac9b6781
   yoga: 92b2102c3d373d1a790db4ab761d2b0ffc634f64
 
-PODFILE CHECKSUM: 87319a0e9791f303d3bbbbf769cb774279abb9bc
+PODFILE CHECKSUM: 9c9b369d1f50b939890147549844498de07bd65a
 
-COCOAPODS: 1.7.5
+COCOAPODS: 1.9.3
