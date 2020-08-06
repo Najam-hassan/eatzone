@@ -5,7 +5,8 @@
   "scripts": {
     "postinstall": "./node_modules/react-native-maps/enable-google-maps ios/",
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios'"
   },
   "dependencies": {
     "@ptomasroos/react-native-multi-slider": "1.0.0",
@@ -44,6 +45,7 @@
     "react-navigation": "3.11.0",
     "react-redux": "7.0.3",
     "redux": "4.0.1",
+    "redux-devtools-extension": "^2.13.8",
     "redux-form": "8.2.3",
     "redux-immutable": "4.0.0",
     "redux-thunk": "2.3.0",
@@ -56,8 +58,7 @@
     "babel-jest": "^24.9.0",
     "jest": "^24.9.0",
     "metro-react-native-babel-preset": "^0.54.1",
-    "react-test-renderer": "16.8.3",
-    "redux-devtools-extension": "^2.13.8"
+    "react-test-renderer": "16.8.3"
   },
   "jest": {
     "preset": "react-native"
